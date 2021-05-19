@@ -7,9 +7,9 @@ import {
   Paper,
   TextField,
   Typography,
+  Link,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { uefaLogo, visibilityOffIcon, visibilityOnIcon } from "../../assets";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../../constants/regex";
 

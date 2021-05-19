@@ -1,6 +1,7 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
 import RegisterForm from "../../components/RegisterForm/RegisterForm";
+import "./styles.css";
 
 class RegisterPage extends React.Component {
   handleRegiser = () => {};
