@@ -6,6 +6,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import ForgotPasswordPage from "./containers/ForgotPasswordPage/ForgotPasswordPage";
 import LoginPage from "./containers/LoginPage/LoginPage";
 import RegisterPage from "./containers/RegisterPage/RegisterPage";
 import ResetPasswordPage from "./containers/ResetPasswordPage/ResetPasswordPage";
@@ -22,6 +23,9 @@ function App() {
             <RegisterPage />
           </Route>
           <Route exact path="/forgot-password">
+            <ForgotPasswordPage />
+          </Route>
+          <Route exact path="/reset-password">
             <ResetPasswordPage />
           </Route>
           <Route>
