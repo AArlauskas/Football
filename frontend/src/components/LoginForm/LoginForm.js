@@ -2,18 +2,21 @@ import {
   Button,
   CardContent,
   Grid,
+  IconButton,
+  InputAdornment,
   Paper,
   TextField,
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { uefaLogo } from "../../assets";
+import { uefaLogo, visibilityOffIcon, visibilityOnIcon } from "../../assets";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../../constants/regex";
 
 export default function LoginForm({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [showError, setShowError] = useState({
     errorEmail: false,
     errorPassword: false,
@@ -27,6 +30,10 @@ export default function LoginForm({ onLogin }) {
     setPassword(event.target.value);
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!EMAIL_REGEX.test(email)) {
@@ -37,7 +44,7 @@ export default function LoginForm({ onLogin }) {
       setShowError({ ...showError, errorPassword: true });
       return;
     }
-    onLogin();
+    onLogin(email, password);
   };
 
   return (
@@ -76,10 +83,33 @@ export default function LoginForm({ onLogin }) {
                       : ""
                   }
                   variant="outlined"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   label="Password"
                   placeholder="***********"
                   onChange={handlePasswordChange}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleClickShowPassword}>
+                          {showPassword ? (
+                            <img
+                              src={visibilityOnIcon}
+                              alt="Password visibility icon"
+                              width={24}
+                              height={24}
+                            />
+                          ) : (
+                            <img
+                              src={visibilityOffIcon}
+                              alt="Password visibility off icon"
+                              width={24}
+                              height={24}
+                            />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </Grid>
             </Grid>

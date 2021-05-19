@@ -7,6 +7,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import LoginPage from "./containers/LoginPage/LoginPage";
+import RegisterPage from "./containers/RegisterPage/RegisterPage";
 
 function App() {
   return (
@@ -15,6 +16,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <LoginPage />
+          </Route>
+          <Route exact path="/register">
+            <RegisterPage />
           </Route>
           <Route>
             <Redirect>
