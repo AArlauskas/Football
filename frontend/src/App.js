@@ -10,6 +10,7 @@ import ForgotPasswordPage from "./containers/ForgotPasswordPage/ForgotPasswordPa
 import LoginPage from "./containers/LoginPage/LoginPage";
 import RegisterPage from "./containers/RegisterPage/RegisterPage";
 import ResetPasswordPage from "./containers/ResetPasswordPage/ResetPasswordPage";
+import RulesPage from "./containers/RulesPage/RulesPage";
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
           </Route>
           <Route exact path="/reset-password">
             <ResetPasswordPage />
+          </Route>
+          <Route exact path="/rules">
+            <RulesPage />
           </Route>
           <Route>
             <Redirect>
