@@ -11,6 +11,7 @@ import LoginPage from "./containers/LoginPage/LoginPage";
 import RegisterPage from "./containers/RegisterPage/RegisterPage";
 import ResetPasswordPage from "./containers/ResetPasswordPage/ResetPasswordPage";
 import RulesPage from "./containers/RulesPage/RulesPage";
+import VerifyAccountPage from "./containers/VerifyAccountPage/VerifyAccountPage";
 
 function App() {
   return (
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <Route exact path="/rules">
             <RulesPage />
+          </Route>
+          <Route exact path="/verify/:id">
+            <VerifyAccountPage />
           </Route>
           <Route>
             <Redirect>
