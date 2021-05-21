@@ -13,6 +13,7 @@ import ResetPasswordPage from "./containers/ResetPasswordPage/ResetPasswordPage"
 import RulesPage from "./containers/RulesPage/RulesPage";
 import VerifyAccountPage from "./containers/VerifyAccountPage/VerifyAccountPage";
 import ConfirmEmailPage from "./containers/ConfirmEmailPage/ConfirmEmailPage";
+import HomePage from "./containers/HomePage/HomePage";
 
 function App() {
   return (
@@ -39,6 +40,9 @@ function App() {
           </Route>
           <Route exact path="/confirm-email">
             <ConfirmEmailPage />
+          </Route>
+          <Route exact path="/home">
+            <HomePage />
           </Route>
           <Route>
             <Redirect>
