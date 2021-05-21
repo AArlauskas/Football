@@ -81,12 +81,12 @@ const GameCard = ({
   return (
     <Card elevation={5}>
       <CardContent>
-        <Grid item container spacing={1}>
+        <Grid item container spacing={1} xs={12}>
           <Grid item xs={12} style={{ textAlign: "center" }}>
             <Typography variant="h6">{time}</Typography>
             <Divider />
           </Grid>
-          <Grid item xs={5} justify="center" alignContent="center">
+          <Grid item xs={5}>
             <Typography variant="h6" style={{ textAlign: "center" }}>
               {team1Name}
             </Typography>
@@ -100,17 +100,12 @@ const GameCard = ({
             <Typography variant="h6">{team2Name}</Typography>
           </Grid>
         </Grid>
-        <Grid item container spacing={1}>
+        <Grid item container spacing={1} xs={12}>
           <Grid item xs={12} style={{ textAlign: "center" }}>
             <Typography variant="subtitle1">Spėjimas</Typography>
             <Divider />
           </Grid>
-          <Grid
-            item
-            xs={5}
-            style={{ textAlign: "center" }}
-            alignContent="center"
-          >
+          <Grid item xs={5} style={{ textAlign: "center" }}>
             <TextField
               inputProps={{ style: { textAlign: "center" } }}
               fullWidth

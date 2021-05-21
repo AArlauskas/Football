@@ -45,9 +45,7 @@ function App() {
             <HomePage />
           </Route>
           <Route>
-            <Redirect>
-              <LoginPage />
-            </Redirect>
+            <Redirect to="/" />
           </Route>
         </Switch>
       </CssBaseline>

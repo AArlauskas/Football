@@ -5,7 +5,9 @@ import GameCard from "../GameCard/GameCard";
 const MatchesByDate = ({ matches, date }) => (
   <Grid item container direction="column">
     <Grid item>
-      <Typography variant="h6">{date}</Typography>
+      <Typography style={{ paddingTop: 10 }} variant="h6">
+        {date}
+      </Typography>
       <Divider style={{ marginBottom: 20 }} />
     </Grid>
     <Grid item container direction="row" spacing={3}>
