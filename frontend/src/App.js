@@ -14,6 +14,7 @@ import RulesPage from "./containers/RulesPage/RulesPage";
 import VerifyAccountPage from "./containers/VerifyAccountPage/VerifyAccountPage";
 import ConfirmEmailPage from "./containers/ConfirmEmailPage/ConfirmEmailPage";
 import HomePage from "./containers/HomePage/HomePage";
+import MatchPage from "./containers/MatchPage/MatchPage";
 
 function App() {
   return (
@@ -44,6 +45,12 @@ function App() {
           <Route exact path="/home">
             <HomePage />
           </Route>
+          <Route exact path="/match">
+            <MatchPage />
+          </Route>
+          {/* <Route exact path="/profile">
+            <ProfilePage />
+          </Route> */}
           <Route>
             <Redirect to="/" />
           </Route>
