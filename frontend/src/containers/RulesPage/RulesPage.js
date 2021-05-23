@@ -7,12 +7,20 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { uefaLogo } from "../../assets";
+import TopBar from "../../components/TopBar/TopBar";
 
 class RulesPage extends React.Component {
   render() {
     return (
       <Grid container direction="column" alignItems="center" justify="center">
-        <Grid item xs={11} sm={10}>
+        <TopBar
+          darkMode
+          points={420}
+          showAvatarAndLogout
+          firstName="Aurimas"
+          lastName="Arlauskas"
+        />
+        <Grid item xs={11} sm={10} style={{ paddingTop: 20 }}>
           <Paper elevation={5}>
             <CardContent direction="column">
               <Grid

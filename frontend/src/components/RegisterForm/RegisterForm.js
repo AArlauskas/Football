@@ -87,7 +87,7 @@ export default function RegisterForm({ onRegister }) {
       <CardContent direction="column" align="center" justify="center">
         <img src={uefaLogo} alt="uefa-2020 logo" width={75} height={75} />
         <Typography gutterBottom variant="h4">
-          Register
+          Registracija
         </Typography>
         <form noValidate onSubmit={handleSubmit}>
           <Grid item container spacing={3} xs={12}>
@@ -98,11 +98,13 @@ export default function RegisterForm({ onRegister }) {
                   fullWidth
                   error={showError.errorFirstname}
                   helperText={
-                    showError.errorFirstname ? "Please enter a valid name" : ""
+                    showError.errorFirstname
+                      ? "Prašome įvesti teisingą vardą"
+                      : ""
                   }
                   variant="outlined"
                   type="text"
-                  label="Firstname"
+                  label="Vardas"
                   placeholder="Gandalf"
                   onChange={handleFirstnameChange}
                 />
@@ -114,12 +116,12 @@ export default function RegisterForm({ onRegister }) {
                   error={showError.errorLastname}
                   helperText={
                     showError.errorLastname
-                      ? "Please enter a valid surname"
+                      ? "Prašome įvesti teisingą pavardę"
                       : ""
                   }
                   variant="outlined"
                   type="text"
-                  label="Lastname"
+                  label="Pavardė"
                   placeholder="The Grey"
                   onChange={handleLastnameChange}
                 />
@@ -130,11 +132,13 @@ export default function RegisterForm({ onRegister }) {
                   fullWidth
                   error={showError.errorEmail}
                   helperText={
-                    showError.errorEmail ? "Please enter a valid email" : ""
+                    showError.errorEmail
+                      ? "Prašome įvesti teisingą el. paštą"
+                      : ""
                   }
                   variant="outlined"
                   type="email"
-                  label="Email"
+                  label="El. paštas"
                   placeholder="john@doe.com"
                   onChange={handleEmailChange}
                 />
@@ -146,15 +150,16 @@ export default function RegisterForm({ onRegister }) {
                   error={showError.errorPassword}
                   helperText={
                     showError.errorPassword
-                      ? "Password must have at least 8 symbols with at least one capital letter and at least one number"
+                      ? "Slaptažodis turi turėti bent jau 8 simbolius su vienu skaitmeniu ir viena didžiąja raide"
                       : ""
                   }
                   variant="outlined"
                   type={showPassword ? "text" : "password"}
-                  label="Password"
+                  label="Slaptažodis"
                   placeholder="***********"
                   onChange={handlePasswordChange}
                   InputProps={{
+                    autocomplete: "new-password",
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton onClick={handleClickShowPassword}>
@@ -183,18 +188,20 @@ export default function RegisterForm({ onRegister }) {
                 <TextField
                   required
                   fullWidth
+                  autoComplete="off"
                   error={showError.errorConfirmPassword}
                   helperText={
                     showError.errorConfirmPassword
-                      ? "Password must have at least 8 symbols with at least one capital letter and at least one number and match previous password"
+                      ? "Slaptažodis turi turėti bent jau 8 simbolius su vienu skaitmeniu ir viena didžiąja raide. Slaptažodžiai turi sutapti"
                       : ""
                   }
                   variant="outlined"
                   type={showPassword ? "text" : "password"}
-                  label="Password"
+                  label="Patvirtinti slaptažodį"
                   placeholder="***********"
                   onChange={handleConfirmPasswordChange}
                   InputProps={{
+                    autocomplete: "new-password",
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton onClick={handleClickShowConfirmPassword}>
@@ -220,19 +227,14 @@ export default function RegisterForm({ onRegister }) {
                 />
               </Grid>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
               >
-                Login
-              </Button>
-            </Grid>
-            <Grid item xs={6}>
-              <Button fullWidth variant="outlined" href="/">
-                Back to login
+                Registruotis
               </Button>
             </Grid>
           </Grid>

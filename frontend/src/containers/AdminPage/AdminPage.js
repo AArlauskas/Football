@@ -29,7 +29,7 @@ class AdminPage extends React.Component {
         <Grid item>
           <TopBar
             darkMode
-            title="Admin's panel"
+            points={420}
             showAvatarAndLogout
             firstName="Aurimas"
             lastName="Arlauskas"

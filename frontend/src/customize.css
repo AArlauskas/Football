@@ -1,0 +1,13 @@
+.MuiButton-outlinedPrimary {
+  color: #f1c40f !important;
+  border: 1px solid rgba(241, 196, 15, 0.3) !important;
+}
+
+.MuiListItem-root.Mui-selected {
+  background-color: rgba(241, 196, 15, 0.25) !important;
+}
+
+.MuiButton-containedPrimary {
+  color: #000 !important;
+  background-color: #f1c40f !important;
+}

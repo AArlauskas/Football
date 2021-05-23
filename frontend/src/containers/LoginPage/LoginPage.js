@@ -20,7 +20,7 @@ class LoginPage extends React.Component {
               <img src={loginPageDrawing} alt="two people watching football" />
             </Grid>
           </Hidden>
-          <Grid item xs={10} sm={8} md={4} lg={3}>
+          <Grid item xs={11} sm={8} md={4} lg={3}>
             <LoginForm />
           </Grid>
         </Grid>

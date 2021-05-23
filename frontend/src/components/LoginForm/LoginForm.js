@@ -52,7 +52,7 @@ export default function LoginForm({ onLogin }) {
       <CardContent direction="column" align="center" justify="center">
         <img src={uefaLogo} alt="uefa-2020 logo" width={75} height={75} />
         <Typography gutterBottom variant="h4">
-          Login
+          Prisijungti
         </Typography>
         <form noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -63,11 +63,13 @@ export default function LoginForm({ onLogin }) {
                   fullWidth
                   error={showError.errorEmail}
                   helperText={
-                    showError.errorEmail ? "Please enter a valid email" : ""
+                    showError.errorEmail
+                      ? "Prašome įvesti teisingą el. paštą"
+                      : ""
                   }
                   variant="outlined"
                   type="email"
-                  label="Email address"
+                  label="El. paštas"
                   placeholder="john@doe.com"
                   onChange={handleEmailChange}
                 />
@@ -79,12 +81,12 @@ export default function LoginForm({ onLogin }) {
                   error={showError.errorPassword}
                   helperText={
                     showError.errorPassword
-                      ? "Password must have at least 8 symbols with at least one capital letter and at least one number"
+                      ? "Slaptažodis turi turėti bent jau 8 simbolius su vienu skaitmeniu ir viena didžiąja raide"
                       : ""
                   }
                   variant="outlined"
                   type={showPassword ? "text" : "password"}
-                  label="Password"
+                  label="Slaptažodis"
                   placeholder="***********"
                   onChange={handlePasswordChange}
                   InputProps={{
@@ -116,7 +118,7 @@ export default function LoginForm({ onLogin }) {
             <Grid item xs={12}>
               <Typography align="left">
                 <Link href="/forgot-password" variant="body2">
-                  Forgot your password?
+                  Pamiršote slaptažodį?
                 </Link>
               </Typography>
             </Grid>
@@ -127,12 +129,12 @@ export default function LoginForm({ onLogin }) {
                 variant="contained"
                 color="primary"
               >
-                Login
+                Prisijungti
               </Button>
             </Grid>
             <Grid item xs={6}>
               <Button variant="outlined" fullWidth href="/register">
-                Register
+                Registracija
               </Button>
             </Grid>
           </Grid>

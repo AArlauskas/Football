@@ -88,7 +88,11 @@ const GameCard = ({
             <Divider />
           </Grid>
           <Grid item xs={5}>
-            <Typography variant="h6" style={{ textAlign: "center" }}>
+            <Typography
+              variant="h6"
+              className="link"
+              style={{ textAlign: "center" }}
+            >
               {teams[team1]}
             </Typography>
           </Grid>
@@ -97,7 +101,7 @@ const GameCard = ({
               {score1 && score2 ? `${score1}:${score2}` : ""}
             </Typography>
           </Grid>
-          <Grid item xs={5} style={{ textAlign: "center" }}>
+          <Grid className="link" item xs={5} style={{ textAlign: "center" }}>
             <Typography variant="h6">{teams[team2]}</Typography>
           </Grid>
         </Grid>
@@ -152,13 +156,13 @@ const GameCard = ({
                   color="secondary"
                   onClick={handleCancel}
                 >
-                  Cancel
+                  Atšaukti
                 </Button>
               </Grid>
               <Grid item xs={2} />
               <Grid item xs={5}>
                 <Button fullWidth variant="contained" color="primary">
-                  Submit
+                  Patvirtinti
                 </Button>
               </Grid>
               <Grid item xs={12} />

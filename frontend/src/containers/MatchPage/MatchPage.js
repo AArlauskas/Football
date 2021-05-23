@@ -7,6 +7,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 import React from "react";
@@ -40,11 +41,15 @@ class MatchPage extends React.Component {
         <Grid container direction="row">
           <Grid item xs={12}>
             <TopBar
-              title={title}
+              darkMode
+              points={420}
               showAvatarAndLogout
               firstName="Aurimas"
               lastName="Arlauskas"
             />
+            <Grid item xs={12} style={{ textAlign: "center", paddingTop: 20 }}>
+              <Typography variant="h5">{title}</Typography>
+            </Grid>
             <Grid item xs={12} style={{ padding: 20 }}>
               <TableContainer component={Paper}>
                 <Table style={{ tableLayout: "fixed" }}>
