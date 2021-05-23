@@ -8,12 +8,13 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { teams } from "../../constants/teams";
 
 const GameCard = ({
   match: {
     time,
-    team1Name,
-    team2Name,
+    team1,
+    team2,
     score1,
     score2,
     guess1,
@@ -88,7 +89,7 @@ const GameCard = ({
           </Grid>
           <Grid item xs={5}>
             <Typography variant="h6" style={{ textAlign: "center" }}>
-              {team1Name}
+              {teams[team1]}
             </Typography>
           </Grid>
           <Grid item xs={2}>
@@ -97,7 +98,7 @@ const GameCard = ({
             </Typography>
           </Grid>
           <Grid item xs={5} style={{ textAlign: "center" }}>
-            <Typography variant="h6">{team2Name}</Typography>
+            <Typography variant="h6">{teams[team2]}</Typography>
           </Grid>
         </Grid>
         <Grid item container spacing={1} xs={12}>
