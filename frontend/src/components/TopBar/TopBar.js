@@ -18,11 +18,7 @@ export default function TopBar({
   points,
   darkMode,
   showArrow,
-  onActionIconClick, // For arrow back or navigation drawer icons
-  iconsToShow = [], // Array of Icon Components(like in DownloadIcon.js). These icons will be shown on right side of TopBar
-  onIconsClick = [], // Array of on click callbacks for each icon in iconsToShow. NOTE: order of callbacks must match order of icons
-  showAvatarAndLogout,
-  disableIcons,
+  onActionIconClick,
 }) {
   const backgroundColor = darkMode ? GRAY_1 : GRAY_6;
   const iconFillColor = darkMode ? GRAY_5 : GRAY_1;
@@ -34,26 +30,6 @@ export default function TopBar({
   const onLogout = () => {
     window.sessionStorage.clear();
     window.location.reload();
-  };
-
-  const renderIcons = () => {
-    const iconItems = iconsToShow.map((Icon, index) => (
-      <Grid item key={index.toString()}>
-        <IconButton
-          onClick={onIconsClick[index]}
-          edge="end"
-          disabled={disableIcons}
-        >
-          <Icon fill={iconFillColor} />
-        </IconButton>
-      </Grid>
-    ));
-
-    return (
-      <Grid container alignItems="center" spacing={1}>
-        {iconItems}
-      </Grid>
-    );
   };
 
   return (
@@ -123,7 +99,7 @@ export default function TopBar({
                     item
                     xs={3}
                     onClick={() => {
-                      window.location.href = "/guesses";
+                      window.location.href = "/player";
                     }}
                   >
                     <Typography
@@ -179,29 +155,27 @@ export default function TopBar({
                 </Grid>
               </Hidden>
             </Grid>
-            <Grid item>{renderIcons()}</Grid>
-            {showAvatarAndLogout && (
-              <Grid item>
-                <Grid container spacing={2} alignItems="center">
-                  <Grid item>
-                    <IconButton edge="end" href="/profile">
-                      <Avatar style={{ backgroundColor: SUNFLOWER }}>
-                        {points || "AA"}
-                      </Avatar>
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={onLogout}
-                    >
-                      Atsijungti
-                    </Button>
-                  </Grid>
+            <Grid item>
+              <Grid container alignItems="center">
+                <Grid item>
+                  <IconButton edge="end" href="/profile">
+                    <Avatar style={{ backgroundColor: SUNFLOWER }}>
+                      {points || "AA"}
+                    </Avatar>
+                  </IconButton>
+                </Grid>
+                <Grid item style={{ marginLeft: 15 }}>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color="primary"
+                    onClick={onLogout}
+                  >
+                    Atsijungti
+                  </Button>
                 </Grid>
               </Grid>
-            )}
+            </Grid>
           </Grid>
         </Toolbar>
       </AppBar>

@@ -69,6 +69,14 @@ const GameCard = ({
     setGuess2Value(guess2 || "");
   };
 
+  const handleMatchRedirect = () => {
+    if (started) window.location.href = "/match";
+  };
+
+  const handleTeamRedirect = () => {
+    if (started) window.location.href = "/rules";
+  };
+
   const getColor = () => {
     if (variant === "good")
       return { textAlign: "center", backgroundColor: "rgba(0,255,0,0.3)" };
@@ -80,14 +88,14 @@ const GameCard = ({
   };
 
   return (
-    <Card elevation={5}>
+    <Card elevation={5} style={started ? { cursor: "pointer" } : null}>
       <CardContent>
         <Grid item container spacing={1} xs={12}>
           <Grid item xs={12} style={{ textAlign: "center" }}>
             <Typography variant="h6">{time}</Typography>
             <Divider />
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={5} onClick={handleTeamRedirect}>
             <Typography
               variant="h6"
               className="link"
@@ -96,16 +104,22 @@ const GameCard = ({
               {teams[team1]}
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} onClick={handleMatchRedirect}>
             <Typography variant="h5" style={{ textAlign: "center" }}>
-              {score1 && score2 ? `${score1}:${score2}` : ""}
+              {score1 && score2 ? `${score1} : ${score2}` : ""}
             </Typography>
           </Grid>
-          <Grid className="link" item xs={5} style={{ textAlign: "center" }}>
+          <Grid
+            className="link"
+            item
+            xs={5}
+            onClick={handleTeamRedirect}
+            style={{ textAlign: "center" }}
+          >
             <Typography variant="h6">{teams[team2]}</Typography>
           </Grid>
         </Grid>
-        <Grid item container spacing={1} xs={12}>
+        <Grid item container spacing={1} xs={12} onClick={handleMatchRedirect}>
           <Grid item xs={12} style={{ textAlign: "center" }}>
             <Typography variant="subtitle1">Spėjimas</Typography>
             <Divider />

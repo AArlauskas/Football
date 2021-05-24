@@ -18,7 +18,7 @@ const mockedPersonalData = [
     date: "2020-05-12",
     time: "19:00",
     team1: 14,
-    team2: 12,
+    team2: 8,
     score1: 1,
     score2: 2,
     guess1: 5,
@@ -119,7 +119,7 @@ const mockedHomeData = [
     date: "2020-05-12",
     time: "19:00",
     team1: 3,
-    team2: 2,
+    team2: 8,
     score1: null,
     score2: null,
     guess1: 5,
@@ -216,10 +216,10 @@ const mockedHomeData = [
 
 const MockedMatch = {
   date: "2021-04-20",
-  team1: "Lithuania",
-  team2: "Belgium",
-  score1: 1,
-  score2: 3,
+  team1: 1,
+  team2: 16,
+  score1: null,
+  score2: null,
   results: [
     {
       firstname: "Aurimas",

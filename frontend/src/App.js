@@ -12,6 +12,7 @@ import RulesPage from "./containers/RulesPage/RulesPage";
 import HomePage from "./containers/HomePage/HomePage";
 import MatchPage from "./containers/MatchPage/MatchPage";
 import AdminPage from "./containers/AdminPage/AdminPage";
+import GuessesPage from "./containers/GuessesPage/GuessesPage";
 
 function App() {
   return (
@@ -47,6 +48,9 @@ function App() {
           </Route>
           <Route exact path="/admin">
             <AdminPage />
+          </Route>
+          <Route exact path="/player">
+            <GuessesPage />
           </Route>
           {/* <Route exact path="/profile">
             <ProfilePage />

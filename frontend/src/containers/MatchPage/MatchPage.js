@@ -13,6 +13,7 @@ import { Clear } from "@material-ui/icons";
 import React from "react";
 import TopBar from "../../components/TopBar/TopBar";
 import { MockedMatch } from "../../constants/mocked";
+import { teams } from "../../constants/teams";
 
 const getColor = (variant) => {
   if (variant === "good") return { backgroundColor: "rgba(0,255,0,0.3)" };
@@ -26,16 +27,26 @@ class MatchPage extends React.Component {
     super(props);
     this.state = {
       title: "",
+      matchData: null,
     };
   }
 
   componentDidMount() {
-    const title = `${MockedMatch.team1} ${MockedMatch.score1} : ${MockedMatch.score2} ${MockedMatch.team2}`;
-    this.setState({ title });
+    const response = MockedMatch;
+    let title = "";
+    if (response.score1 && response.score2) {
+      title = `${teams[response.team1]} ${response.score1} : ${
+        response.score2
+      } ${teams[response.team2]}`;
+    } else {
+      title = `${teams[response.team1]} :  ${teams[response.team2]}`;
+    }
+    this.setState({ title, matchData: response });
   }
 
   render() {
-    const { title } = this.state;
+    const { title, matchData } = this.state;
+    if (matchData === null) return null;
     return (
       <>
         <Grid container direction="row">
@@ -61,7 +72,7 @@ class MatchPage extends React.Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {MockedMatch.results.map((match) => (
+                    {matchData.results.map((match) => (
                       <TableRow
                         hover
                         style={{ cursor: "pointer" }}

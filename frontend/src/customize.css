@@ -11,3 +11,11 @@
   color: #000 !important;
   background-color: #f1c40f !important;
 }
+
+.PrivateTabIndicator-colorSecondary-3 {
+  background-color: #f1c40f !important;
+}
+
+.MuiTouchRipple-root {
+  color: #f1c40f !important;
+}
