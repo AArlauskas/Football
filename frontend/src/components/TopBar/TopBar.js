@@ -9,6 +9,7 @@ import {
   Avatar,
   Hidden,
 } from "@material-ui/core";
+import { useHistory } from "react-router";
 import { ArrowBackIcon, MenuIcon, uefaLogo as productIcon } from "../../assets";
 import { GRAY_1, GRAY_5, GRAY_6, SUNFLOWER } from "../../constants";
 import "./styles.css";
@@ -24,6 +25,8 @@ export default function TopBar({
   const iconFillColor = darkMode ? GRAY_5 : GRAY_1;
   const fontColor = darkMode ? GRAY_5 : GRAY_1;
   const [showNavDrawer, setShowNavDrawer] = useState(false);
+
+  const history = useHistory();
 
   const toggleNavDrawer = () => setShowNavDrawer(!showNavDrawer);
 
@@ -63,7 +66,7 @@ export default function TopBar({
             )}
             {!showArrow && (
               <Grid item>
-                <IconButton edge="start" href="/">
+                <IconButton edge="start" onClick={() => history.push("/home")}>
                   <img
                     src={productIcon}
                     alt="Product icon"
@@ -80,7 +83,7 @@ export default function TopBar({
                     item
                     xs={3}
                     onClick={() => {
-                      window.location.href = "/home";
+                      history.push("/home");
                     }}
                   >
                     <Typography
@@ -99,7 +102,7 @@ export default function TopBar({
                     item
                     xs={3}
                     onClick={() => {
-                      window.location.href = "/player";
+                      history.push("/player");
                     }}
                   >
                     <Typography
@@ -118,7 +121,7 @@ export default function TopBar({
                     item
                     xs={3}
                     onClick={() => {
-                      window.location.href = "/results";
+                      history.push("/results");
                     }}
                   >
                     <Typography
@@ -137,7 +140,7 @@ export default function TopBar({
                     item
                     xs={3}
                     onClick={() => {
-                      window.location.href = "/rules";
+                      history.push("/rules");
                     }}
                   >
                     <Typography
@@ -158,7 +161,7 @@ export default function TopBar({
             <Grid item>
               <Grid container alignItems="center">
                 <Grid item>
-                  <IconButton edge="end" href="/profile">
+                  <IconButton edge="end">
                     <Avatar style={{ backgroundColor: SUNFLOWER }}>
                       {points || "AA"}
                     </Avatar>

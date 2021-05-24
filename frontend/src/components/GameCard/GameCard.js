@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import { teams } from "../../constants/teams";
 
 const GameCard = ({
@@ -31,6 +32,7 @@ const GameCard = ({
     ? useState(guess2)
     : useState("");
   const [wasChanged, setWasChanged] = useState(false);
+  const history = useHistory();
 
   const handleGuess1Change = (event) => {
     const { value } = event.target;
@@ -70,11 +72,11 @@ const GameCard = ({
   };
 
   const handleMatchRedirect = () => {
-    if (started) window.location.href = "/match";
+    if (started) history.push("/match");
   };
 
   const handleTeamRedirect = () => {
-    if (started) window.location.href = "/rules";
+    if (started) history.push("/rules");
   };
 
   const getColor = () => {

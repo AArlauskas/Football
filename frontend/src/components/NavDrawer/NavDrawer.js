@@ -7,8 +7,10 @@ import {
   SwipeableDrawer,
 } from "@material-ui/core";
 import { Assignment, Gavel, Poll, SportsSoccer } from "@material-ui/icons";
+import { useHistory } from "react-router";
 
 export default function NavDrawer({ open, onOpen, onClose }) {
+  const history = useHistory();
   const tabs = useRef(
     new Map([
       ["Varžybos", { icon: <SportsSoccer />, href: "/home" }],
@@ -32,7 +34,8 @@ export default function NavDrawer({ open, onOpen, onClose }) {
 
   const handleTabClick = (key) => () => {
     setSelectedTabKey(key);
-    window.location.href = tabs.current.get(key).href;
+    const { href } = tabs.current.get(key);
+    history.push(href);
   };
 
   const renderTabListItems = () => {

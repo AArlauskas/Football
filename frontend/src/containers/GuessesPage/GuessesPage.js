@@ -113,6 +113,7 @@ class GuessesPage extends React.Component {
           </Grid>
           <Grid item lg={8} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
             <Tabs
+              TabIndicatorProps={{ style: { background: "#f1c40f" } }}
               value={tab}
               variant="fullWidth"
               onChange={(e, newValue) => {

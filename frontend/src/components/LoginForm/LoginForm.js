@@ -10,10 +10,12 @@ import {
   Link,
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import { uefaLogo, visibilityOffIcon, visibilityOnIcon } from "../../assets";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../../constants/regex";
 
 export default function LoginForm({ onLogin }) {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -133,7 +135,11 @@ export default function LoginForm({ onLogin }) {
               </Button>
             </Grid>
             <Grid item xs={6}>
-              <Button variant="outlined" fullWidth href="/register">
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => history.push("/register")}
+              >
                 Registracija
               </Button>
             </Grid>

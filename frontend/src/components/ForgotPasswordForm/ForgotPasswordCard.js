@@ -76,7 +76,7 @@ const ForgotPasswordForm = ({ onSend, requestInProgress }) => {
                 </Button>
               </Grid>
               <Grid xs={6} item>
-                <Button variant="outlined" fullWidth href="/">
+                <Button variant="outlined" onClick={() => history.push("/")}>
                   Back to login
                 </Button>
               </Grid>
