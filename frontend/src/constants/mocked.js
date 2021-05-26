@@ -336,6 +336,35 @@ const MockedMatch = {
   ],
 };
 
+// const temp = {
+//   games = [
+//     {
+//       id: 0,
+//       score1,
+//       score2
+//     },
+//     {
+
+//     }
+//   ],
+//   users = [
+//     {
+//       id,
+//       name,
+//       score,
+//       guesses = [
+//         {
+//           gameId = 0,
+//           guess1,
+//           guess2,
+//           score,
+//           variant?
+//         }
+//       ]
+//     }
+//   ]
+// }
+
 /* eslint-disable import/prefer-default-export */
 export { mockedHomeData };
 export { mockedPersonalData };

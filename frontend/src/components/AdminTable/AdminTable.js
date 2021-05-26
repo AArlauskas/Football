@@ -1,6 +1,13 @@
+import { Flag, NotListedLocation, Lock } from "@material-ui/icons";
 import MaterialTable from "material-table";
 import React from "react";
 import { teams } from "../../constants/teams";
+
+const stateLookup = {
+  open: "Open",
+  closed: "Closed",
+  finished: "Finished",
+};
 
 const columns = [
   {
@@ -17,11 +24,46 @@ const columns = [
     dateSetting: { locale: "lt-LT" },
     align: "left",
   },
-  { title: "Team 1", field: "team1", lookup: teams, align: "center" },
-  { title: "Team 2", field: "team2", lookup: teams, align: "center" },
-  { title: "Score 1", field: "score1", type: "numeric", align: "center" },
-  { title: "Score 2", field: "score2", type: "numeric", align: "center" },
-  { title: "Started", field: "started", type: "boolean", align: "center" },
+  {
+    title: "Team 1",
+    field: "team1",
+    lookup: teams,
+    align: "center",
+    render: (rowData) => rowData.team1.name,
+  },
+  {
+    title: "Team 2",
+    field: "team2",
+    lookup: teams,
+    align: "center",
+    render: (rowData) => rowData.team2.name,
+  },
+  {
+    title: "Goals 1",
+    field: "goals1",
+    type: "numeric",
+    align: "center",
+    render: (rowData) => rowData.result && rowData.result.goals1,
+  },
+  {
+    title: "Goals 2",
+    field: "goals2",
+    type: "numeric",
+    align: "center",
+    render: (rowData) => rowData.result && rowData.result.goals2,
+  },
+  {
+    title: "State",
+    field: "state",
+    lookup: stateLookup,
+    render: (rowData) => {
+      const { state } = rowData;
+      if (state === "open") return <NotListedLocation />;
+      if (state === "closed") return <Lock />;
+      if (state === "finished") return <Flag />;
+      return null;
+    },
+  },
 ];
 
 export default function AdminTable({ data, onAdd }) {

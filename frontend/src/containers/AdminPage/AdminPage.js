@@ -1,8 +1,8 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
+import { getAllGames } from "../../api/Api";
 import AdminTable from "../../components/AdminTable/AdminTable";
 import TopBar from "../../components/TopBar/TopBar";
-import { mockedPersonalData } from "../../constants/mocked";
 
 class AdminPage extends React.Component {
   constructor(props) {
@@ -13,7 +13,12 @@ class AdminPage extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ data: mockedPersonalData });
+    getAllGames()
+      .then((response) => {
+        this.setState({ data: response.data });
+        console.log(response.data);
+      })
+      .catch(() => console.log("error has occured"));
   }
 
   handleAdd = (newData) => {
@@ -24,6 +29,7 @@ class AdminPage extends React.Component {
 
   render() {
     const { data } = this.state;
+    if (data === null) return null;
     return (
       <Grid container direction="column">
         <Grid item>
