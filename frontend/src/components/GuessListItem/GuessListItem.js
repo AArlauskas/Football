@@ -7,12 +7,14 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import { teams } from "../../constants/teams";
 
 const GuessListItem = ({ match }) => {
   const [guess1, setGuess1] = useState(match.guess1 || "");
   const [guess2, setGuess2] = useState(match.guess2 || "");
   const [wasChanged, setWasChanged] = useState(false);
+  const history = useHistory();
 
   const handleGuess1Change = (event) => {
     const { value } = event.target;
@@ -45,6 +47,10 @@ const GuessListItem = ({ match }) => {
     }
   };
 
+  const handleTeamRedirect = () => {
+    history.push("/team");
+  };
+
   return (
     <ListItem
       style={{ padding: 10, border: "1px solid rgba(0,0,0,0.3)" }}
@@ -55,7 +61,7 @@ const GuessListItem = ({ match }) => {
           <Typography style={{ textAlign: "center" }}>{match.time}</Typography>
           <Divider />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={3} onClick={handleTeamRedirect}>
           <Typography
             variant="subtitle2"
             className="link"
@@ -87,7 +93,7 @@ const GuessListItem = ({ match }) => {
             />
           </Grid>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={3} onClick={handleTeamRedirect}>
           <Typography
             variant="subtitle2"
             className="link"

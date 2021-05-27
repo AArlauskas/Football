@@ -76,7 +76,7 @@ const GameCard = ({
   };
 
   const handleTeamRedirect = () => {
-    if (started) history.push("/rules");
+    if (started) history.push("/team");
   };
 
   const getColor = () => {

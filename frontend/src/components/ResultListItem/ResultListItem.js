@@ -1,7 +1,9 @@
 import { Divider, Grid, ListItem, Typography } from "@material-ui/core";
 import React from "react";
+import { useHistory } from "react-router";
 import { teams } from "../../constants/teams";
 
+const history = useHistory();
 const getColor = (variant) => {
   if (variant === "good")
     return { textAlign: "center", backgroundColor: "rgba(0,255,0,0.3)" };
@@ -10,6 +12,10 @@ const getColor = (variant) => {
   if (variant === "bad")
     return { textAlign: "center", backgroundColor: "rgba(255,0,0,0.3)" };
   return null;
+};
+
+const handleTeamRedirect = () => {
+  history.push("/team");
 };
 
 const ResultListItem = ({ match }) => (
@@ -28,7 +34,7 @@ const ResultListItem = ({ match }) => (
             {match.score1}
           </Typography>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={3} onCLick={handleTeamRedirect}>
           <Typography
             variant="subtitle2"
             className="link"
@@ -42,7 +48,7 @@ const ResultListItem = ({ match }) => (
             {match.score1} : {match.score2}
           </Typography>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={3} onCLick={handleTeamRedirect}>
           <Typography
             variant="subtitle2"
             className="link"

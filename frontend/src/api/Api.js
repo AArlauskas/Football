@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUri = "https:/grybeliai.eu/api/";
+const baseUri = "https:/grybeliai.eu/api";
 
 const Axios = axios.create({
   baseURL: baseUri,
