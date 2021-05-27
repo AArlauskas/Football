@@ -107,7 +107,7 @@ export default function TopBar({
                   >
                     <Typography
                       className={
-                        window.location.pathname === "/guesses"
+                        window.location.pathname === "/player"
                           ? "navigation-current"
                           : "navigation"
                       }
