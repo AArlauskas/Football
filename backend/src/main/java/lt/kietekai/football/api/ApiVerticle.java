@@ -39,7 +39,10 @@ public class ApiVerticle extends AbstractVerticle {
         server.listen(port, host)
                 .onSuccess(ev -> log.info("Server started"))
                 .onSuccess(ev -> startPromise.complete())
-                .onFailure(startPromise::fail);
+                .onFailure(cause -> {
+                    log.error("Server didn't start", cause);
+                    startPromise.fail(cause);
+                });
     }
 
     private void handleVersion(RoutingContext ctx) {
