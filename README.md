@@ -15,3 +15,42 @@ Requested Endpoints:
 
 Known issue that is similar to ours:
 https://stackoverflow.com/questions/62654250/react-and-nginx-messing-up-urls-when-using-axios-incorrect-api-calls
+
+
+Dokumentacijos nespėjau atnaujinti, bet pavyzdžiai:
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+"email":  "someone@admin.lt",
+"password": "hunter2"
+}
+
+###
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+"email": "someone@admin.lt",
+"password": "hunter2",
+"firstName": "Aivaras",
+"lastName": "Saulius"
+}
+
+###
+GET http://localhost:8080/api/games
+Accept: application/json
+
+
+###
+POST localhost:8080/api/games
+Content-Type: application/json
+
+{
+"team1": "DNK",
+"team2": "ENG",
+"date": "2021-06-02",
+"time": "19:00"
+}
+

@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
+import io.vertx.ext.auth.VertxContextPRNG;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import lt.kietekai.football.api.models.UserDetails;
@@ -11,6 +12,12 @@ import lt.kietekai.football.api.models.UserPrototype;
 import lt.kietekai.football.storage.models.NewUser;
 import lt.kietekai.football.storage.models.UserWithPoints;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Optional;
 
 public class AuthApi {
@@ -68,11 +75,39 @@ public class AuthApi {
     }
 
     private Future<String> hashPassword(String plaintext) {
-        return Future.succeededFuture(plaintext);
+        return hashPassword(plaintext, VertxContextPRNG.current().nextString(8));
+    }
+
+    private Future<String> hashPassword(String plaintext, String salt) {
+        return vertx.executeBlocking(promise -> {
+            MessageDigest sha256;
+            try {
+                sha256 = MessageDigest.getInstance("SHA256");
+            } catch (NoSuchAlgorithmException e) {
+                throw new IllegalStateException("No sha256", e);
+            }
+            var srcSink = new ByteArrayOutputStream();
+            try {
+                srcSink.write(salt.getBytes(StandardCharsets.UTF_8));
+                srcSink.write(plaintext.getBytes(StandardCharsets.UTF_8));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            var hash = srcSink.toByteArray();
+            for (int i = 0; i < 1000; i++) {
+                hash = sha256.digest(hash);
+            }
+            promise.complete(salt + "|" + Base64.getEncoder().encodeToString(hash));
+        });
     }
 
     private Future<Boolean> validatePassword(String plaintext, String hash) {
-        return Future.succeededFuture(plaintext.equals(hash));
+        var parts = hash.split("\\|");
+        if (parts.length != 2) {
+            return Future.succeededFuture(false);
+        }
+        return hashPassword(plaintext, parts[0])
+                .map(calculatedHash -> calculatedHash.equals(hash));
     }
 
 }
