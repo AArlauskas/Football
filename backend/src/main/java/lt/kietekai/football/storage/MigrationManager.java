@@ -37,6 +37,7 @@ public class MigrationManager {
         addMigration("003_game_create.sql");
         addMigration("004_guess_create.sql");
         addMigration("005_points_create.sql");
+        addMigration("006_auth_user_add_names.sql");
 
     }
 
@@ -50,7 +51,7 @@ public class MigrationManager {
         return ensureTable()
                 .compose(unused -> connection.prepare("SELECT id, name, hash from meta_migrations order by id"))
                 .compose(st -> st.query().mapping(Migration::fromRow).execute())
-                .map(new RowCollector<>());
+                .map(RowCollectors::toList);
     }
 
     private Future<Void> ensureTable() {

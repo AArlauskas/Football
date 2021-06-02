@@ -1,0 +1,1 @@
+alter table auth_user add column firstName varchar(64), add column lastName varchar(64);

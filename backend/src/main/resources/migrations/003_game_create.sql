@@ -7,5 +7,5 @@ create table game(
     game_ended timestamp null,
     result1 int null,
     result2 int null,
-    game_type varchar not null default 'regular'
+    game_type varchar(64) not null default 'regular'
 )
