@@ -1,6 +1,6 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
-import { getAllGames } from "../../api/Api";
+import { addGame, getAllGames } from "../../api/Api";
 import AdminTable from "../../components/AdminTable/AdminTable";
 import TopBar from "../../components/TopBar/TopBar";
 
@@ -22,6 +22,8 @@ class AdminPage extends React.Component {
   }
 
   handleAdd = (newData) => {
+    addGame(newData);
+    console.log(newData);
     const { data } = this.state;
     data.push(newData);
     this.setState({ data });

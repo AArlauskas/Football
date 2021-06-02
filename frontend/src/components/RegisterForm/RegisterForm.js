@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { uefaLogo, visibilityOffIcon, visibilityOnIcon } from "../../assets";
-import { NAME_REGEX, PASSWORD_REGEX } from "../../constants/regex";
+import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from "../../constants/regex";
 
 export default function RegisterForm({ onRegister }) {
   const [firstname, setFirstname] = useState("");

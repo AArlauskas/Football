@@ -43,6 +43,7 @@ const columns = [
     field: "goals1",
     type: "numeric",
     align: "center",
+    editable: "onUpdate",
     render: (rowData) => rowData.result && rowData.result.goals1,
   },
   {
@@ -50,12 +51,14 @@ const columns = [
     field: "goals2",
     type: "numeric",
     align: "center",
+    editable: "onUpdate",
     render: (rowData) => rowData.result && rowData.result.goals2,
   },
   {
     title: "State",
     field: "state",
     lookup: stateLookup,
+    editable: "onUpdate",
     render: (rowData) => {
       const { state } = rowData;
       if (state === "open") return <NotListedLocation />;
@@ -86,12 +89,14 @@ export default function AdminTable({ data, onAdd }) {
         onRowAdd: (newData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              if (validateEntry(newData)) {
-                onAdd(newData);
-                resolve();
-              } else {
-                reject();
-              }
+              // if (validateEntry(newData)) {
+              //   onAdd(newData);
+              //   resolve();
+              // } else {
+              //   reject();
+              // }
+              onAdd(newData);
+              resolve();
             }, 1000);
           }),
       }}

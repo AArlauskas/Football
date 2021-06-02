@@ -14,6 +14,7 @@ import { ArrowBackIcon, MenuIcon, uefaLogo as productIcon } from "../../assets";
 import { GRAY_1, GRAY_5, GRAY_6, SUNFLOWER } from "../../constants";
 import "./styles.css";
 import NavDrawer from "../NavDrawer/NavDrawer";
+import { logout } from "../../api/Api";
 
 export default function TopBar({
   points,
@@ -31,8 +32,10 @@ export default function TopBar({
   const toggleNavDrawer = () => setShowNavDrawer(!showNavDrawer);
 
   const onLogout = () => {
-    window.sessionStorage.clear();
-    window.location.reload();
+    logout().finally(() => {
+      window.localStorage.clear();
+      window.location.reload();
+    });
   };
 
   return (
