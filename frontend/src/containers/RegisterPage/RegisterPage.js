@@ -15,10 +15,10 @@ class RegisterPage extends React.Component {
     };
   }
 
-  handleRegiser = (firstname, lastname, email, password) => {
+  handleRegiser = (firstName, lastName, email, password) => {
     const data = {
-      firstname,
-      lastname,
+      firstName,
+      lastName,
       email,
       password,
     };
