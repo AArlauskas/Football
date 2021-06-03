@@ -1,6 +1,7 @@
 import { Grid } from "@material-ui/core";
+import moment from "moment";
 import React from "react";
-import { addGame, getAllGames } from "../../api/Api";
+import { addGame, getAllGames, getAllTeams } from "../../api/Api";
 import AdminTable from "../../components/AdminTable/AdminTable";
 import TopBar from "../../components/TopBar/TopBar";
 
@@ -8,30 +9,49 @@ class AdminPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
+      teams: null,
+      games: null,
     };
   }
 
   componentDidMount() {
-    getAllGames()
-      .then((response) => {
-        this.setState({ data: response.data });
-        console.log(response.data);
-      })
-      .catch(() => console.log("error has occured"));
+    getAllTeams().then((teamsResponse) => {
+      const teams = this.mapTeams(teamsResponse.data);
+      this.setState({ teams });
+      this.getGames();
+    });
   }
 
+  getGames = () => {
+    getAllGames().then((response) => {
+      this.setState({ games: response.data });
+    });
+  };
+
+  mapTeams = (teamData) => {
+    const result = {};
+    teamData.forEach((team) => {
+      result[team.code] = team.name;
+    });
+    return result;
+  };
+
   handleAdd = (newData) => {
-    addGame(newData);
-    console.log(newData);
-    const { data } = this.state;
-    data.push(newData);
-    this.setState({ data });
+    const { date, time } = newData;
+    const adjustedDate = moment(date).format("YYYY-MM-DD");
+    const adjustedTime = moment(time).format("HH:mm");
+    const data = {
+      team1: newData.team1,
+      team2: newData.team2,
+      date: adjustedDate,
+      time: adjustedTime,
+    };
+    addGame(data).then(() => this.getGames());
   };
 
   render() {
-    const { data } = this.state;
-    if (data === null) return null;
+    const { games, teams } = this.state;
+    if (games === null || teams === null) return null;
     return (
       <Grid container direction="column">
         <Grid item>
@@ -44,7 +64,7 @@ class AdminPage extends React.Component {
           />
         </Grid>
         <div style={{ margin: 20 }}>
-          <AdminTable data={data} onAdd={this.handleAdd} />
+          <AdminTable teams={teams} data={games} onAdd={this.handleAdd} />
         </div>
       </Grid>
     );

@@ -23,11 +23,12 @@ class RegisterPage extends React.Component {
       password,
     };
     register(data)
-      .then((response) => {
+      .then(() => {
         this.setState({ showRegisterSuccess: true });
-        console.log(response.data);
-        const { history } = this.props;
-        history.push("/");
+        setTimeout(() => {
+          const { history } = this.props;
+          history.push("/");
+        }, 3000);
       })
       .catch(() => this.setState({ showRegisterError: true }));
   };

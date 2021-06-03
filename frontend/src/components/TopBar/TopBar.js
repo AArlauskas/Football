@@ -164,7 +164,7 @@ export default function TopBar({
             <Grid item>
               <Grid container alignItems="center">
                 <Grid item>
-                  <IconButton edge="end">
+                  <IconButton edge="end" onClick={() => history.push("/admin")}>
                     <Avatar style={{ backgroundColor: SUNFLOWER }}>
                       {points || "AA"}
                     </Avatar>

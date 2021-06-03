@@ -22,13 +22,11 @@ class LoginPage extends React.Component {
     };
     login(data)
       .then((response) => {
-        console.log(response.data);
-        const { history } = this.props;
-        history.push("/home");
+        localStorage.setItem("id", response.data.id);
+        window.location.reload();
       })
       .catch((ex) => {
         if (ex.response === undefined) {
-          this.setState({ showLoginGeneralError: true });
           return;
         }
         const { status } = ex.response;
