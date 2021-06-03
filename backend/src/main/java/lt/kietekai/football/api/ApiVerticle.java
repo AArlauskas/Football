@@ -2,9 +2,11 @@ package lt.kietekai.football.api;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.sstore.SessionStore;
 import lt.kietekai.football.api.models.Version;
@@ -27,10 +29,22 @@ public class ApiVerticle extends AbstractVerticle {
         rootRouter.route("/api/*").handler(SessionHandler.create(SessionStore.create(vertx)));
         rootRouter.route("/api/*").handler(BodyHandler.create(false));
         rootRouter.route("/api/*").failureHandler(this::handleFailure);
+        rootRouter.route().handler(CorsHandler.create(".*.")
+                .allowedMethod(HttpMethod.GET)
+                .allowedMethod(HttpMethod.POST)
+                .allowedMethod(HttpMethod.OPTIONS)
+                .allowedMethod(HttpMethod.DELETE)
+                .allowedMethod(HttpMethod.PUT)
+                .allowedHeader("Access-Control-Request-Method")
+                .allowedHeader("Access-Control-Allow-Credentials")
+                .allowedHeader("Access-Control-Allow-Origin")
+                .allowedHeader("Access-Control-Allow-Headers")
+                .allowedHeader("Content-Type"));
 
         rootRouter.get("/api/version").handler(this::getVersion);
         rootRouter.mountSubRouter("/api/auth", new AuthApi(vertx).mount(Router.router(vertx)));
         rootRouter.mountSubRouter("/api/games", new GamesApi(vertx).mount(Router.router(vertx)));
+        rootRouter.mountSubRouter("/api/teams", new TeamsApi(vertx).mount(Router.router(vertx)));
 
         rootRouter.errorHandler(500, e -> log.error("Error while handing request", e.failure()));
 
