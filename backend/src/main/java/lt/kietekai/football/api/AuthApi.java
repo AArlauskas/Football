@@ -53,6 +53,7 @@ public class AuthApi {
                     if (message.body().isEmpty()) {
                         ctx.response().setStatusCode(400).end();
                     } else {
+                        var user = message.body().get();
                         validatePassword(plaintext, message.body().get().password())
                                 .onFailure(ctx::fail)
                                 .onSuccess(authenticated -> {
@@ -60,8 +61,8 @@ public class AuthApi {
                                         ctx.clearUser();
                                         ctx.response().setStatusCode(400).end();
                                     } else {
-                                        ctx.setUser(User.create(new JsonObject().put("id", message.body().get().id())));
-                                        ctx.response().end();
+                                        ctx.setUser(User.create(new JsonObject().put("id", user.id())));
+                                        ctx.json(ctx.user().principal());
                                     }
                                 });
                     }
@@ -71,7 +72,7 @@ public class AuthApi {
 
     private void logout(RoutingContext ctx) {
         ctx.clearUser();
-        ctx.response().end();
+        ctx.json(new JsonObject());
     }
 
     private Future<String> hashPassword(String plaintext) {
