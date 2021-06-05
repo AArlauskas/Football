@@ -31,12 +31,12 @@ paths:
           required: false
           schema:
             type: string
-            enum: [all, today, done]
+            enum: [all, today, closed]
             description: >
               How to filter the games (not yet implemented):
                 * `all` - Return all known games (default)
                 * `today` - Return all games from today (and newer). Returned games can be upcoming, locked or already done
-                * `done` - Return games that already finished
+                * `closed` - Return games that already finished or are closed
       responses:
         '200':
           description: A list of games ordered from oldest to youngest. Depending on the status of the game the outcome might be present

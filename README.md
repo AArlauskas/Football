@@ -17,7 +17,20 @@ Known issue that is similar to ours:
 https://stackoverflow.com/questions/62654250/react-and-nginx-messing-up-urls-when-using-axios-incorrect-api-calls
 
 
+
 Dokumentacijos nespėjau atnaujinti, bet pavyzdžiai:
+
+
+POST http://localhost:8080/api/guesses
+Content-Type: application/json
+
+{
+"gameId": 1,
+"result": {
+"goals1": 2,
+"goals2": 1
+}
+}
 
 
 GET http://localhost:8080/api/teams
