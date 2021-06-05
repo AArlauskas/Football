@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Button,
@@ -14,18 +14,16 @@ import { ArrowBackIcon, MenuIcon, uefaLogo as productIcon } from "../../assets";
 import { GRAY_1, GRAY_5, GRAY_6, SUNFLOWER } from "../../constants";
 import "./styles.css";
 import NavDrawer from "../NavDrawer/NavDrawer";
-import { logout } from "../../api/Api";
+import { getPersonalPoints, logout } from "../../api/Api";
 
-export default function TopBar({
-  points,
-  darkMode,
-  showArrow,
-  onActionIconClick,
-}) {
+export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
   const backgroundColor = darkMode ? GRAY_1 : GRAY_6;
   const iconFillColor = darkMode ? GRAY_5 : GRAY_1;
   const fontColor = darkMode ? GRAY_5 : GRAY_1;
   const [showNavDrawer, setShowNavDrawer] = useState(false);
+  const [points, setPoints] = useState(
+    window.localStorage.getItem("points") || 0
+  );
 
   const history = useHistory();
 
@@ -37,6 +35,17 @@ export default function TopBar({
       window.location.reload();
     });
   };
+
+  const setPersonalPoints = () => {
+    getPersonalPoints().then((response) => {
+      window.localStorage.setItem("points", response.data.total);
+      setPoints(response.data.total);
+    });
+  };
+
+  useEffect(() => {
+    setPersonalPoints();
+  }, []);
 
   return (
     <>
@@ -166,7 +175,7 @@ export default function TopBar({
                 <Grid item>
                   <IconButton edge="end" onClick={() => history.push("/admin")}>
                     <Avatar style={{ backgroundColor: SUNFLOWER }}>
-                      {points || "AA"}
+                      {points}
                     </Avatar>
                   </IconButton>
                 </Grid>
