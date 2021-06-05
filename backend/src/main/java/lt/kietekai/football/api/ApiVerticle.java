@@ -45,6 +45,7 @@ public class ApiVerticle extends AbstractVerticle {
         rootRouter.mountSubRouter("/api/auth", new AuthApi(vertx).mount(Router.router(vertx)));
         rootRouter.mountSubRouter("/api/games", new GamesApi(vertx).mount(Router.router(vertx)));
         rootRouter.mountSubRouter("/api/teams", new TeamsApi(vertx).mount(Router.router(vertx)));
+        rootRouter.mountSubRouter("/api/guesses", new GuessesApi(vertx).mount(Router.router(vertx)));
 
         rootRouter.errorHandler(500, e -> log.error("Error while handing request", e.failure()));
 

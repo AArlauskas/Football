@@ -40,12 +40,14 @@ public class StorageVerticle extends AbstractVerticle {
         vertx.eventBus().registerDefaultCodec(Optional.class, new SimpleCodec<>());
         vertx.eventBus().registerDefaultCodec(NewGame.class, new SimpleCodec<>());
         vertx.eventBus().registerDefaultCodec(NewUser.class, new SimpleCodec<>());
+        vertx.eventBus().registerDefaultCodec(NewGuess.class, new SimpleCodec<>());
 
         vertx.eventBus().consumer("storage/teams", this::getTeams);
         vertx.eventBus().consumer("storage/player/games", this::getPlayerGames);
         vertx.eventBus().consumer("storage/games/create", this::createGame);
         vertx.eventBus().consumer("storage/users/create", this::createUser);
         vertx.eventBus().consumer("storage/users/findByEmail", this::findUserByEmail);
+        vertx.eventBus().consumer("storage/guesses/make", this::makeGuess);
 
 
         var options = PgConnectOptions.fromUri(System.getenv("PG_URI"))
@@ -134,6 +136,12 @@ public class StorageVerticle extends AbstractVerticle {
                 .onComplete(new MessageAsHandler<>(message));
     }
 
+    private void makeGuess(Message<NewGuess> message) {
+        client.getConnection()
+                .compose(connection -> new CrudGames(connection).makeGuess(message.body().userId(), message.body().gameId(), message.body().guess()).onComplete(event -> connection.close()))
+                .onComplete(new MessageAsHandler<>(message));
+    }
+
     private Future<Integer> createTeams(SqlConnection connection) {
         Future<Integer> fut = Future.succeededFuture(0);
         List<Team> teams = teams();
@@ -171,6 +179,5 @@ public class StorageVerticle extends AbstractVerticle {
         } catch (IOException e) {
             throw new IllegalStateException("Can't close resource stream to teams list");
         }
-
     }
 }

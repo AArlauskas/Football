@@ -38,6 +38,8 @@ public class MigrationManager {
         addMigration("004_guess_create.sql");
         addMigration("005_points_create.sql");
         addMigration("006_auth_user_add_names.sql");
+        addMigration("007_guess_unique.sql");
+        addMigration("008_points_correct_outcomes.sql");
 
     }
 
