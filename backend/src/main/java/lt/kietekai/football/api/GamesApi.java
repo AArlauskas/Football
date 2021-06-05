@@ -5,7 +5,9 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import lt.kietekai.football.api.converters.GameWithGuessConverter;
 import lt.kietekai.football.api.models.GamePrototype;
+import lt.kietekai.football.api.models.GamesFilter;
 import lt.kietekai.football.storage.models.GameWithGuess;
+import lt.kietekai.football.storage.models.GamesQuery;
 import lt.kietekai.football.storage.models.NewGame;
 
 import java.time.Instant;
@@ -28,8 +30,12 @@ public class GamesApi {
     }
 
     private void getGames(RoutingContext ctx) {
-        var converter = new GameWithGuessConverter(false, Instant.now());
-        vertx.eventBus().<List<GameWithGuess>>request("storage/player/games", -1L)
+        Long userId = ctx.user().get("id");
+        // If no specific user's guesses are requested return their own
+        Long queryUser = Optional.ofNullable(ctx.request().getParam("user")).map(Long::valueOf).orElse(userId);
+        GamesFilter queryType = Optional.ofNullable(ctx.request().getParam("filter")).map(GamesFilter::parse).orElse(GamesFilter.ALL);
+        var converter = new GameWithGuessConverter(userId.equals(queryUser), Instant.now());
+        vertx.eventBus().<List<GameWithGuess>>request("storage/player/games", new GamesQuery(userId, queryType==GamesFilter.TODAY, queryType==GamesFilter.ALL))
                 .map(listMessage -> listMessage.body().stream().map(converter).collect(Collectors.toList()))
                 .onSuccess(ctx::json)
                 .onFailure(ctx::fail);

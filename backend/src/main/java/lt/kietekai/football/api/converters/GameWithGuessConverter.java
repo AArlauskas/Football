@@ -2,6 +2,7 @@ package lt.kietekai.football.api.converters;
 
 import lt.kietekai.football.api.models.Game;
 import lt.kietekai.football.api.models.GameState;
+import lt.kietekai.football.api.models.GamesFilter;
 import lt.kietekai.football.api.models.Result;
 import lt.kietekai.football.storage.models.GameWithGuess;
 
@@ -37,7 +38,9 @@ public class GameWithGuessConverter implements Function<GameWithGuess, Game> {
 
     @Override
     public Game apply(GameWithGuess g) {
-        // TODO: Don't show other users guesses on non closed games
+        if (g.closed() == null && !own) {
+            return new Game(g.gameId(), teamConverter.apply(g.t1()), teamConverter.apply(g.t2()), g.date(), state(g), result(g.outcome()), null);
+        }
         return new Game(g.gameId(), teamConverter.apply(g.t1()), teamConverter.apply(g.t2()), g.date(), state(g), result(g.outcome()), result(g.guess()));
     }
 }

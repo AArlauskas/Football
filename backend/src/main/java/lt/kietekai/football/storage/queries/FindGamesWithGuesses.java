@@ -6,10 +6,15 @@ import io.vertx.sqlclient.SqlConnection;
 import io.vertx.sqlclient.Tuple;
 import lt.kietekai.football.storage.RowCollectors;
 import lt.kietekai.football.storage.models.GameWithGuess;
+import lt.kietekai.football.storage.models.GamesQuery;
 import lt.kietekai.football.storage.models.Result;
 import lt.kietekai.football.storage.models.Team;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class FindGamesWithGuesses {
     private final SqlConnection connection;
@@ -30,7 +35,7 @@ public class FindGamesWithGuesses {
         );
     }
 
-    public Future<List<GameWithGuess>> findByUser(long userId) {
+    public Future<List<GameWithGuess>> findByUser(GamesQuery q) {
         return connection.preparedQuery("SELECT " +
                 "g.id, " +
                 "t1.id, t1.code_short, t1.code_long, t1.name, " +
@@ -42,9 +47,10 @@ public class FindGamesWithGuesses {
                 "inner join team t2 on g.team2 = t2.id " +
                 "left join guess gs on g.id = gs.game  and gs.author = $1 " +
                 "where gs is null or gs.author = $1 " +
+                "and (($2 and g.game_date > $4) or ($3 and g.game_closed is null) or (not $2 and $3)) " +
                 "order by g.game_date")
                 .mapping(FindGamesWithGuesses::mapRow)
-                .execute(Tuple.of(userId))
+                .execute(Tuple.of(q.userId(), q.includeToday(), q.includeOpen(), LocalDateTime.now().truncatedTo(ChronoUnit.DAYS)))
                 .map(RowCollectors::toList);
     }
 
