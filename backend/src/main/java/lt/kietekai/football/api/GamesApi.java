@@ -23,7 +23,7 @@ public class GamesApi {
     }
 
     public Router mount(Router router) {
-
+        router.route().handler(new RestrictedHandler());
         router.get("/").handler(this::getGames);
         router.post("/").handler(this::createGame);
         return router;

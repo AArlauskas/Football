@@ -42,6 +42,7 @@ public class StorageVerticle extends AbstractVerticle {
         vertx.eventBus().registerDefaultCodec(NewUser.class, new SimpleCodec<>());
         vertx.eventBus().registerDefaultCodec(NewGuess.class, new SimpleCodec<>());
         vertx.eventBus().registerDefaultCodec(GamesQuery.class, new SimpleCodec<>());
+        vertx.eventBus().registerDefaultCodec(Points.class, new SimpleCodec<>());
 
         vertx.eventBus().consumer("storage/teams", this::getTeams);
         vertx.eventBus().consumer("storage/player/games", this::getPlayerGames);
@@ -49,6 +50,7 @@ public class StorageVerticle extends AbstractVerticle {
         vertx.eventBus().consumer("storage/users/create", this::createUser);
         vertx.eventBus().consumer("storage/users/findByEmail", this::findUserByEmail);
         vertx.eventBus().consumer("storage/guesses/make", this::makeGuess);
+        vertx.eventBus().consumer("storage/points/users", this::usersPoints);
 
 
         var options = PgConnectOptions.fromUri(System.getenv("PG_URI"))
@@ -77,6 +79,12 @@ public class StorageVerticle extends AbstractVerticle {
                     log.error("Migration failed", cause);
                     startPromise.fail(cause);
                 });
+    }
+
+    private void usersPoints(Message<Long> message) {
+        client.getConnection()
+                .compose(connection -> new CrudUsers(connection).points(message.body()).onComplete(event -> connection.close()))
+                .onComplete(new MessageAsHandler<>(message));
     }
 
     private void getTeams(Message<Void> message) {

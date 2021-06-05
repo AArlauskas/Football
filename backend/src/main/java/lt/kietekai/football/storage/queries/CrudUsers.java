@@ -26,6 +26,10 @@ public class CrudUsers {
                 row.getLong(0), row.getString(1), row.getString(2), row.getString(3), row.getString(4), new Points(row.getInteger(5), row.getInteger(6), row.getInteger(7))
         );
     }
+    private static Points mapPoints(Row row) {
+        return new Points(row.getInteger(0), row.getInteger(1), row.getInteger(2));
+    }
+
 
     public Future<Long> create(NewUser user) {
         return connection.preparedQuery("INSERT INTO auth_user(email, search_email, password, firstName, lastName) VALUES ($1, $2, $3, $4, $5) returning id")
@@ -42,5 +46,14 @@ public class CrudUsers {
                 .mapping(CrudUsers::map)
                 .execute(Tuple.of(email.toUpperCase()))
                 .map(RowCollectors::toFirst);
+    }
+
+    public Future<Points> points(Long userId) {
+        return connection.preparedQuery("SELECT p.points, p.correct_guesses, p.correct_outcomes from points p where p.id = $1")
+                .mapping(CrudUsers::mapPoints)
+                .execute(Tuple.of(userId))
+                .map(RowCollectors::toFirst)
+                .map(o -> o.orElse(new Points(0, 0, 0)));
+
     }
 }

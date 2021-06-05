@@ -9,6 +9,8 @@ import lt.kietekai.football.storage.models.Result;
 
 public record GuessesApi(Vertx vertx) {
     public Router mount(Router router) {
+        router.route().handler(new RestrictedHandler());
+
         router.post("/").handler(this::makeGuess);
 
         return router;

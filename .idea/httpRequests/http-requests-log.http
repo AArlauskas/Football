@@ -1,3 +1,104 @@
+GET http://localhost:8080/api/points?user=5
+Accept: application/json
+
+<> 2021-06-05T201517.200.json
+
+###
+
+GET http://localhost:8080/api/points
+Accept: application/json
+
+<> 2021-06-05T201509.200.json
+
+###
+
+GET http://localhost:8080/api/points?user=2
+Accept: application/json
+
+<> 2021-06-05T201505.200.json
+
+###
+
+GET http://localhost:8080/api/points?user=1
+Accept: application/json
+
+<> 2021-06-05T201501.200.json
+
+###
+
+GET http://localhost:8080/api/points?user=1
+Accept: application/json
+
+<> 2021-06-05T201453.200.json
+
+###
+
+GET http://localhost:8080/api/points?user=4
+Accept: application/json
+
+<> 2021-06-05T201450.200.json
+
+###
+
+GET http://localhost:8080/api/points?user=4
+Accept: application/json
+
+<> 2021-06-05T201358.200.json
+
+###
+
+GET http://localhost:8080/api/points
+Accept: application/json
+
+<> 2021-06-05T201349.200.json
+
+###
+
+POST http://localhost:8080/api/guesses
+Content-Type: application/json
+
+{
+  "gameId": 1,
+  "result": {
+    "goals1": 2,
+    "goals2": 1
+  }
+}
+
+###
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+"email":  "someone@admin.lt",
+"password": "hunter2"
+}
+
+<> 2021-06-05T201324.200.json
+
+###
+
+GET http://localhost:8080/api/games?user=2&filter=all
+Accept: application/json
+
+###
+
+GET http://localhost:8080/api/games?user=2&filter=all
+Accept: application/json
+
+###
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+"email":  "someone@admin.lt",
+"password": "hunter2"
+}
+
+###
+
 GET http://localhost:8080/api/games?user=2&filter=all
 Accept: application/json
 
@@ -345,136 +446,6 @@ Content-Type: application/json
 }
 
 <> 2021-06-02T222655.200.json
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
 
 ###
 

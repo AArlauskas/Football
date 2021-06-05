@@ -20,6 +20,9 @@ https://stackoverflow.com/questions/62654250/react-and-nginx-messing-up-urls-whe
 
 Dokumentacijos nespėjau atnaujinti, bet pavyzdžiai:
 
+GET http://localhost:8080/api/points?user=5
+Accept: application/json
+
 
 POST http://localhost:8080/api/guesses
 Content-Type: application/json
