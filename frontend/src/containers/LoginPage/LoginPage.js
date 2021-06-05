@@ -23,6 +23,8 @@ class LoginPage extends React.Component {
     login(data)
       .then((response) => {
         localStorage.setItem("id", response.data.id);
+        localStorage.setItem("firstName", response.data.firstName);
+        localStorage.setItem("lastName", response.data.lastName);
         window.location.reload();
       })
       .catch((ex) => {
