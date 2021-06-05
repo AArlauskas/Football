@@ -13,6 +13,7 @@ import { teams } from "../../constants/teams";
 
 const GameCard = ({
   match: {
+    id,
     time,
     team1,
     team2,
@@ -69,6 +70,10 @@ const GameCard = ({
     setWasChanged(false);
     setGuess1Value(guess1 || "");
     setGuess2Value(guess2 || "");
+  };
+
+  const handleSumbit = () => {
+    console.log(id);
   };
 
   const handleMatchRedirect = () => {
@@ -177,7 +182,12 @@ const GameCard = ({
               </Grid>
               <Grid item xs={2} />
               <Grid item xs={5}>
-                <Button fullWidth variant="contained" color="primary">
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSumbit}
+                >
                   Patvirtinti
                 </Button>
               </Grid>

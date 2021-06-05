@@ -61,9 +61,9 @@ export default function AdminTable({ teams, data, onAdd }) {
       editable: "onUpdate",
       render: (rowData) => {
         const { state } = rowData;
-        if (state === "open") return <NotListedLocation />;
-        if (state === "closed") return <Lock />;
-        if (state === "finished") return <Flag />;
+        if (state === "Open") return <NotListedLocation />;
+        if (state === "Closed") return <Lock />;
+        if (state === "Finished") return <Flag />;
         return null;
       },
     },
@@ -77,9 +77,24 @@ export default function AdminTable({ teams, data, onAdd }) {
       options={{
         filtering: true,
         pageSize: 10,
+        actionsColumnIndex: -1,
       }}
       editable={{
         onRowAdd: (newData) =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              onAdd(newData);
+              resolve();
+            }, 1000);
+          }),
+        onRowUpdate: (newData) =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              onAdd(newData);
+              resolve();
+            }, 1000);
+          }),
+        onRowDelete: (newData) =>
           new Promise((resolve) => {
             setTimeout(() => {
               onAdd(newData);
