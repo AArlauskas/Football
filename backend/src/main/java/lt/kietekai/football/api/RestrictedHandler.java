@@ -8,6 +8,7 @@ public class RestrictedHandler implements Handler<RoutingContext> {
     public void handle(RoutingContext ctx) {
         if (ctx.user() == null || ctx.user().get("id") == null) {
             ctx.fail(401);
+            ctx.end();
         } else {
             ctx.next();
         }
