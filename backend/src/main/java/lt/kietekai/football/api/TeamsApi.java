@@ -19,6 +19,7 @@ public class TeamsApi {
     }
 
     public Router mount(Router router) {
+        router.route().handler(new RestrictedHandler());
 
         router.get("/").handler(this::getTeams);
         return router;

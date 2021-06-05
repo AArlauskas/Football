@@ -7,6 +7,7 @@ import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.VertxContextPRNG;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import lt.kietekai.football.api.models.Points;
 import lt.kietekai.football.api.models.UserDetails;
 import lt.kietekai.football.api.models.UserPrototype;
 import lt.kietekai.football.storage.models.NewUser;
@@ -40,7 +41,7 @@ public class AuthApi {
                 .map(hashedPassword -> new NewUser(prototype.email(), prototype.firstName(), prototype.lastName(), hashedPassword))
                 .compose(newUser -> vertx.eventBus().<Optional<UserWithPoints>>request("storage/users/create", newUser))
                 .onFailure(ctx::fail)
-                .onSuccess(message -> message.body().map(u -> new UserDetails(u.id(), u.email(), u.firstName(), u.lastName(), u.points().points(), u.points().correct()))
+                .onSuccess(message -> message.body().map(u -> new UserDetails(u.id(), u.email(), u.firstName(), u.lastName(),  new Points(u.points().points(),u.points().correct(), u.points().outcomes())))
                         .ifPresentOrElse(ctx::json, () -> ctx.response().setStatusCode(409).end()));
     }
 
@@ -62,7 +63,7 @@ public class AuthApi {
                                         ctx.response().setStatusCode(400).end();
                                     } else {
                                         ctx.setUser(User.create(new JsonObject().put("id", user.id())));
-                                        ctx.json(ctx.user().principal());
+                                        ctx.json(user);
                                     }
                                 });
                     }
