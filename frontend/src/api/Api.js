@@ -21,3 +21,5 @@ export const logout = () => Axios.post("/auth/logout");
 export const addGame = (data) => Axios.post("/games", data);
 
 export const getAllTeams = () => Axios.get("/teams");
+
+export const addGuess = (data) => Axios.post("/guesses", data);

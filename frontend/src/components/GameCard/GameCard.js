@@ -12,6 +12,7 @@ import { useHistory } from "react-router";
 import { teams } from "../../constants/teams";
 
 const GameCard = ({
+  onSubmit,
   match: {
     id,
     time,
@@ -73,7 +74,14 @@ const GameCard = ({
   };
 
   const handleSumbit = () => {
-    console.log(id);
+    const guess = {
+      gameId: id,
+      result: {
+        goals1: guess1Value,
+        goals2: guess2Value,
+      },
+    };
+    onSubmit(guess);
   };
 
   const handleMatchRedirect = () => {

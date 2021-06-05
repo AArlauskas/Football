@@ -4,6 +4,8 @@ import MatchesByDate from "../../components/MatchesByDate/MatchesByDate";
 import "./styles.css";
 import { mockedHomeData } from "../../constants/mocked";
 import TopBar from "../../components/TopBar/TopBar";
+import { addGuess } from "../../api/Api";
+import CustomSnackbar from "../../components/CustomSnackbar/CustomSnackbar";
 
 const transformMatches = (cards) => {
   const transformedMatches = cards.reduce((acc, val) => {
@@ -31,6 +33,8 @@ class HomePage extends React.Component {
     this.state = {
       matches: [],
       sortedMatchDates: [],
+      showGuessSuccess: false,
+      showGuessFail: false,
     };
   }
 
@@ -44,9 +48,36 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { matches, sortedMatchDates } = this.state;
+    const { matches, sortedMatchDates, showGuessSuccess, showGuessFail } =
+      this.state;
+
+    const onGuessSubmit = (guess) => {
+      addGuess(guess)
+        .then(() => this.setState({ showGuessSuccess: true }))
+        .catch(() => this.setState({ showGuessFail: true }));
+    };
+
+    const hideSnackabar = () =>
+      this.setState({ showGuessSuccess: false, showGuessFail: false });
+
     return (
       <>
+        {showGuessSuccess && (
+          <CustomSnackbar
+            topCenter
+            message="Spėjimas pateiktas sėkmingai"
+            onClose={hideSnackabar}
+            severity="success"
+          />
+        )}
+        {showGuessFail && (
+          <CustomSnackbar
+            topCenter
+            message="Įvyko klaida, prašome pabandyti vėliau"
+            onClose={hideSnackabar}
+            severity="error"
+          />
+        )}
         <Grid container direction="column" className="home">
           <Grid item>
             <TopBar
@@ -59,7 +90,11 @@ class HomePage extends React.Component {
           </Grid>
           {sortedMatchDates.map((date) => (
             <Grid item container direction="column" spacing={5} key={date}>
-              <MatchesByDate matches={matches[date]} date={date} />
+              <MatchesByDate
+                onSubmit={onGuessSubmit}
+                matches={matches[date]}
+                date={date}
+              />
             </Grid>
           ))}
         </Grid>
