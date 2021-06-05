@@ -28,6 +28,8 @@ export const logout = () => Axios.post("/auth/logout");
 
 export const getPersonalPoints = () => Axios.get("/points");
 
+export const getPoints = (id) => Axios.get(`/points/${id}`);
+
 export const addGame = (data) => Axios.post("/games", data);
 
 export const getAllTeams = () => Axios.get("/teams");

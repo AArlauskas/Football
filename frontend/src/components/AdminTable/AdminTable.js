@@ -8,7 +8,7 @@ const stateLookup = {
   finished: "finished",
 };
 
-export default function AdminTable({ teams, data, onAdd }) {
+export default function AdminTable({ teams, data, onAdd, onUpdate, onDelete }) {
   const columns = [
     {
       title: "Date",
@@ -61,9 +61,9 @@ export default function AdminTable({ teams, data, onAdd }) {
       editable: "onUpdate",
       render: (rowData) => {
         const { state } = rowData;
-        if (state === "Open") return <NotListedLocation />;
-        if (state === "Closed") return <Lock />;
-        if (state === "Finished") return <Flag />;
+        if (state === "open") return <NotListedLocation />;
+        if (state === "closed") return <Lock />;
+        if (state === "finished") return <Flag />;
         return null;
       },
     },
@@ -90,14 +90,14 @@ export default function AdminTable({ teams, data, onAdd }) {
         onRowUpdate: (newData) =>
           new Promise((resolve) => {
             setTimeout(() => {
-              onAdd(newData);
+              onUpdate(newData);
               resolve();
             }, 1000);
           }),
         onRowDelete: (newData) =>
           new Promise((resolve) => {
             setTimeout(() => {
-              onAdd(newData);
+              onDelete(newData);
               resolve();
             }, 1000);
           }),
