@@ -2,9 +2,8 @@ import { Grid } from "@material-ui/core";
 import React from "react";
 import MatchesByDate from "../../components/MatchesByDate/MatchesByDate";
 import "./styles.css";
-import { mockedHomeData } from "../../constants/mocked";
 import TopBar from "../../components/TopBar/TopBar";
-import { addGuess } from "../../api/Api";
+import { addGuess, getTodayGames } from "../../api/Api";
 import CustomSnackbar from "../../components/CustomSnackbar/CustomSnackbar";
 
 const transformMatches = (cards) => {
@@ -39,11 +38,13 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    const { transformedMatches } = transformMatches(mockedHomeData);
-    const dates = sortMatchDates(transformedMatches);
-    this.setState({
-      matches: transformedMatches,
-      sortedMatchDates: dates,
+    getTodayGames().then((response) => {
+      const { transformedMatches } = transformMatches(response.data);
+      const dates = sortMatchDates(transformedMatches);
+      this.setState({
+        matches: transformedMatches,
+        sortedMatchDates: dates,
+      });
     });
   }
 

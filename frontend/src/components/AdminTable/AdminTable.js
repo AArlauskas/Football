@@ -3,9 +3,9 @@ import MaterialTable from "material-table";
 import React from "react";
 
 const stateLookup = {
-  open: "Open",
-  closed: "Closed",
-  finished: "Finished",
+  open: "open",
+  closed: "closed",
+  finished: "finished",
 };
 
 export default function AdminTable({ teams, data, onAdd }) {

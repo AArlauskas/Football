@@ -1,16 +1,24 @@
 import axios from "axios";
 
-const baseUri = "https://grybeliai.eu/api";
-
+const getBaseUri = () => {
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+    return "http://localhost:9000/api";
+  }
+  return "https://grybeliai.eu/api";
+};
 const Axios = axios.create({
-  baseURL: baseUri,
+  baseURL: getBaseUri(),
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 // eslint-disable-next-line
-export const getAllGames = () => Axios.get("/games");
+export const getAllGames = () =>
+  Axios.get("/games/", { params: { filter: "all" } });
+
+export const getTodayGames = () =>
+  Axios.get("/games/", { params: { filter: "today" } });
 
 export const register = (data) => Axios.post("/auth/register", data);
 

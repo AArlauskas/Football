@@ -11,11 +11,29 @@ const MatchesByDate = ({ matches, date, onSubmit }) => (
       <Divider style={{ marginBottom: 20 }} />
     </Grid>
     <Grid item container direction="row" spacing={3}>
-      {matches.map((match) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={match.id}>
-          <GameCard onSubmit={onSubmit} match={match} />
-        </Grid>
-      ))}
+      {matches.map((match) => {
+        const adaptedMatch = {
+          id: match.id,
+          date: match.date,
+          time: match.time,
+          team1: match.team1.name,
+          team2: match.team2.name,
+          started: match.state !== "open",
+        };
+        if (match.result !== null) {
+          adaptedMatch.score1 = match.result.goals1;
+          adaptedMatch.score2 = match.result.goals2;
+        }
+        if (match.guess !== undefined) {
+          adaptedMatch.guess1 = match.guess.goals1;
+          adaptedMatch.guess2 = match.guess.goals2;
+        }
+        return (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={match.id}>
+            <GameCard onSubmit={onSubmit} match={adaptedMatch} />
+          </Grid>
+        );
+      })}
     </Grid>
   </Grid>
 );

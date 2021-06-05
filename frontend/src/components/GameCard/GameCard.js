@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import { teams } from "../../constants/teams";
 
 const GameCard = ({
   onSubmit,
@@ -110,16 +109,16 @@ const GameCard = ({
             <Typography variant="h6">{time}</Typography>
             <Divider />
           </Grid>
-          <Grid item xs={5} onClick={handleTeamRedirect}>
+          <Grid item xs={4} onClick={handleTeamRedirect}>
             <Typography
               variant="h6"
               className="link"
               style={{ textAlign: "center" }}
             >
-              {teams[team1]}
+              {team1}
             </Typography>
           </Grid>
-          <Grid item xs={2} onClick={handleMatchRedirect}>
+          <Grid item xs={4} onClick={handleMatchRedirect}>
             <Typography variant="h5" style={{ textAlign: "center" }}>
               {score1 && score2 ? `${score1} : ${score2}` : ""}
             </Typography>
@@ -127,11 +126,11 @@ const GameCard = ({
           <Grid
             className="link"
             item
-            xs={5}
+            xs={4}
             onClick={handleTeamRedirect}
             style={{ textAlign: "center" }}
           >
-            <Typography variant="h6">{teams[team2]}</Typography>
+            <Typography variant="h6">{team2}</Typography>
           </Grid>
         </Grid>
         <Grid item container spacing={1} xs={12} onClick={handleMatchRedirect}>
