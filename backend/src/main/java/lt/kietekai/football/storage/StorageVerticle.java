@@ -123,7 +123,7 @@ public class StorageVerticle extends AbstractVerticle {
         }
         client.getConnection()
                 .compose(connection -> new CrudUsers(connection).create(message.body()).onComplete(event -> connection.close()))
-                .map(userId -> Optional.of(new UserWithPoints(userId, message.body().email(), message.body().firstName(), message.body().lastName(), message.body().password(), new Points(0, 0))))
+                .map(userId -> Optional.of(new UserWithPoints(userId, message.body().email(), message.body().firstName(), message.body().lastName(), message.body().password(), new Points(0, 0, 0))))
                 .otherwise(cause -> {
                     log.error("Failed to create a user", cause);
                     return Optional.empty();

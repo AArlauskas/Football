@@ -22,9 +22,8 @@ public class CrudUsers {
     }
 
     private static UserWithPoints map(Row row) {
-        log.info("Mapping user");
         return new UserWithPoints(
-                row.getLong(0), row.getString(1), row.getString(2), row.getString(3), row.getString(4), new Points(row.getInteger(5), row.getInteger(6))
+                row.getLong(0), row.getString(1), row.getString(2), row.getString(3), row.getString(4), new Points(row.getInteger(5), row.getInteger(6), row.getInteger(7))
         );
     }
 
@@ -39,7 +38,7 @@ public class CrudUsers {
 
     public Future<Optional<UserWithPoints>> findByEmail(String email) {
         log.info("Looking for user {}", email);
-        return connection.preparedQuery("SELECT au.id, au.email, au.firstname, au.lastname, au.password, p.points, p.correct_guesses from auth_user au inner join points p on au.id = p.id where au.search_email = $1")
+        return connection.preparedQuery("SELECT au.id, au.email, au.firstname, au.lastname, au.password, p.points, p.correct_guesses, p.correct_outcomes from auth_user au inner join points p on au.id = p.id where au.search_email = $1")
                 .mapping(CrudUsers::map)
                 .execute(Tuple.of(email.toUpperCase()))
                 .map(RowCollectors::toFirst);
