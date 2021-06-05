@@ -1,3 +1,122 @@
+GET http://localhost:8080/api/games?user=2&filter=all
+Accept: application/json
+
+<> 2021-06-05T183324.200.json
+
+###
+
+GET http://localhost:8080/api/games?user=2&filter=today
+Accept: application/json
+
+<> 2021-06-05T183317.200.json
+
+###
+
+GET http://localhost:8080/api/games?user=2&filter=closed
+Accept: application/json
+
+<> 2021-06-05T183312.200.json
+
+###
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+"email":  "someone@admin.lt",
+"password": "hunter2"
+}
+
+<> 2021-06-05T183307.200.json
+
+###
+
+GET http://localhost:8080/api/games?user=2&filter=closed
+Accept: application/json
+
+<> 2021-06-05T183227.200.json
+
+###
+
+GET http://localhost:8080/api/games?user=2&filter=closed
+Accept: application/json
+
+<> 2021-06-05T183123.200.json
+
+###
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+"email":  "someone@admin.lt",
+"password": "hunter2"
+}
+
+<> 2021-06-05T183113.200.json
+
+###
+
+GET http://localhost:8080/api/games?user=2&filter=closed
+Accept: application/json
+
+<> 2021-06-05T183033.200.json
+
+###
+
+GET http://localhost:8080/api/games?user=1
+Accept: application/json
+
+<> 2021-06-05T183003.200.json
+
+###
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+"email":  "someone@admin.lt",
+"password": "hunter2"
+}
+
+<> 2021-06-05T182959.200.json
+
+###
+
+GET http://localhost:8080/api/games?user=1
+Accept: application/json
+
+###
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+"email":  "aivaras@admin.lt",
+"password": "hunter2"
+}
+
+###
+
+GET http://localhost:8080/api/games
+Accept: application/json
+
+<> 2021-06-05T182912.200.json
+
+###
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+"email":  "someone@admin.lt",
+"password": "hunter2"
+}
+
+<> 2021-06-05T182904.200.json
+
+###
+
 POST http://localhost:8080/api/guesses
 Content-Type: application/json
 
@@ -376,149 +495,6 @@ Content-Type: application/json
 "email":  "aivaras@admin.lt",
 "password": "hunter2"
 }
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admint.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admint.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admint.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter3"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter3"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter2"
-}
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "aivaras@admin.lt",
-"password": "hunter3"}
-
-###
-
-POST http://localhost:8080/api/auth/register
-Content-Type: application/json
-
-{
-"email": "aivaras@admin.lt",
-  "password": "hunter2",
-  "firstName": "Aivaras",
-  "lastName": "Saulius"
-}
-
-<> 2021-06-02T215812.200.json
 
 ###
 

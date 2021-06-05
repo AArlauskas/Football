@@ -41,6 +41,7 @@ public class StorageVerticle extends AbstractVerticle {
         vertx.eventBus().registerDefaultCodec(NewGame.class, new SimpleCodec<>());
         vertx.eventBus().registerDefaultCodec(NewUser.class, new SimpleCodec<>());
         vertx.eventBus().registerDefaultCodec(NewGuess.class, new SimpleCodec<>());
+        vertx.eventBus().registerDefaultCodec(GamesQuery.class, new SimpleCodec<>());
 
         vertx.eventBus().consumer("storage/teams", this::getTeams);
         vertx.eventBus().consumer("storage/player/games", this::getPlayerGames);
@@ -85,7 +86,7 @@ public class StorageVerticle extends AbstractVerticle {
                 .onComplete(new MessageAsHandler<>(message));
     }
 
-    private void getPlayerGames(Message<Long> message) {
+    private void getPlayerGames(Message<GamesQuery> message) {
         if (message.body() == null) {
             message.reply(new GameWithGuess[0]);
             return;
