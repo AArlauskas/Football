@@ -1,1 +1,0 @@
-alter table points add correct_outcomes int default 0;

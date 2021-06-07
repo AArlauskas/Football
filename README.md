@@ -18,11 +18,58 @@ https://stackoverflow.com/questions/62654250/react-and-nginx-messing-up-urls-whe
 
 
 
-Dokumentacijos nespėjau atnaujinti, bet pavyzdžiai:
+Dokumentacijos nespėjau atnaujinti, bet pavyzdžiai (pilna eiga, po zaidimu pabaigimo taskai nera perskaiciuojami):
 
-GET http://localhost:8080/api/points?user=5
+GET http://localhost:8080/api/version
 Accept: application/json
 
+<> 2021-06-07T230712.200.json
+###
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+"email": "someone@admin.lt",
+"password": "hunter2",
+"firstName": "Aivaras",
+"lastName": "Saulius"
+}
+
+<> 2021-06-07T230718.200.json
+###
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+"email":  "someone@admin.lt",
+"password": "hunter2"
+}
+
+<> 2021-06-07T230721.200.json
+
+###
+GET http://localhost:8080/api/teams
+Accept: application/json
+
+<> 2021-06-07T230725.200.json
+###
+POST localhost:8080/api/games
+Content-Type: application/json
+
+{
+"t1": {"code":  "DNK"},
+"t2": {"code":  "ENG"},
+"date": "2021-06-02",
+"time": "19:00"
+}
+
+###
+GET http://localhost:8080/api/games
+Accept: application/json
+
+<> 2021-06-07T231111.200.json
+<> 2021-06-07T230856.200.json
+###
 
 POST http://localhost:8080/api/guesses
 Content-Type: application/json
@@ -35,44 +82,59 @@ Content-Type: application/json
 }
 }
 
+<> 2021-06-07T230904.200.json
 
-GET http://localhost:8080/api/teams
+###
+GET http://localhost:8080/api/games/guessed?user=1&filter=all
 Accept: application/json
 
 ###
 
-POST http://localhost:8080/api/auth/login
+PUT http://localhost:8080/api/games
 Content-Type: application/json
 
 {
-"email":  "someone@admin.lt",
-"password": "hunter2"
-}
-
-###
-POST http://localhost:8080/api/auth/register
-Content-Type: application/json
-
-{
-"email": "someone@admin.lt",
-"password": "hunter2",
-"firstName": "Aivaras",
-"lastName": "Saulius"
-}
-
-###
-GET http://localhost:8080/api/games
-Accept: application/json
-
-
-###
-POST localhost:8080/api/games
-Content-Type: application/json
-
-{
-"team1": "DNK",
-"team2": "ENG",
+"id": 1,
+"t1": {
+"code": "DNK"
+},
+"t2": {
+"code": "ENG"
+},
 "date": "2021-06-02",
-"time": "19:00"
+"time": "19:00",
+"state": "closed",
+"result": null
 }
+
+<> 2021-06-07T231139.200.json
+
+###
+PUT http://localhost:8080/api/games
+Content-Type: application/json
+
+{
+"id": 1,
+"t1": {
+"code": "DNK"
+},
+"t2": {
+"code": "ENG"
+},
+"date": "2021-06-02",
+"time": "19:00",
+"state": "finished",
+"result": {
+"goals1": 2,
+"goals2": 1
+}
+}
+
+<> 2021-06-07T231202.500.json
+
+###
+GET http://localhost:8080/api/points
+Accept: application/json
+
+<> 2021-06-07T231034.200.json
 

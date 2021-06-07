@@ -1,1 +1,0 @@
-alter table guess add constraint guess_unique_game_author UNIQUE(game, author);
