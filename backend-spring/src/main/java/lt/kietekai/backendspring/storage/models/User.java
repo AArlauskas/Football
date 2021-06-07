@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 @Getter
 @Setter
 @Entity
+@Table(name = "auth_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
