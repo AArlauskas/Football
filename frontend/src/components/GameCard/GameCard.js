@@ -84,12 +84,12 @@ const GameCard = ({
     setWasChanged(false);
   };
 
-  const handleMatchRedirect = () => {
-    if (started) history.push("/match");
+  const handleMatchRedirect = (matchId) => {
+    if (started) history.push(`/match/${matchId}`);
   };
 
-  const handleTeamRedirect = () => {
-    if (started) history.push("/team");
+  const handleTeamRedirect = (code) => {
+    history.push(`/team/${code}`);
   };
 
   const getColor = () => {
@@ -110,13 +110,13 @@ const GameCard = ({
             <Typography variant="h6">{time}</Typography>
             <Divider />
           </Grid>
-          <Grid item xs={4} onClick={handleTeamRedirect}>
+          <Grid item xs={4} onClick={() => handleTeamRedirect(team1.code)}>
             <Typography
               variant="h6"
               className="link"
               style={{ textAlign: "center" }}
             >
-              {team1}
+              {team1.name}
             </Typography>
           </Grid>
           <Grid item xs={4} onClick={handleMatchRedirect}>
@@ -124,14 +124,14 @@ const GameCard = ({
               {score1 && score2 ? `${score1} : ${score2}` : ""}
             </Typography>
           </Grid>
-          <Grid
-            className="link"
-            item
-            xs={4}
-            onClick={handleTeamRedirect}
-            style={{ textAlign: "center" }}
-          >
-            <Typography variant="h6">{team2}</Typography>
+          <Grid item xs={4} onClick={() => handleTeamRedirect(team2.code)}>
+            <Typography
+              style={{ textAlign: "center" }}
+              className="link"
+              variant="h6"
+            >
+              {team2.name}
+            </Typography>
           </Grid>
         </Grid>
         <Grid item container spacing={1} xs={12} onClick={handleMatchRedirect}>

@@ -1,11 +1,26 @@
 import axios from "axios";
 
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const { status } = error.response;
+    if (status === 401) {
+      dispatch(() => {
+        window.localStorage.clear();
+        window.location.reload();
+      });
+    }
+    return Promise.reject(error);
+  }
+);
+
 const getBaseUri = () => {
   if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
     return "http://localhost:9000/api";
   }
   return "https://grybeliai.eu/api";
 };
+
 const Axios = axios.create({
   baseURL: getBaseUri(),
   headers: {

@@ -50,7 +50,7 @@ function App() {
               <Route exact path="/player">
                 <GuessesPage />
               </Route>
-              <Route exact path="/team">
+              <Route path="/team/:teamId">
                 <TeamPage />
               </Route>
               <Route>

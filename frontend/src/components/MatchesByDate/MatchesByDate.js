@@ -16,8 +16,8 @@ const MatchesByDate = ({ matches, date, onSubmit }) => (
           id: match.id,
           date: match.date,
           time: match.time,
-          team1: match.team1.name,
-          team2: match.team2.name,
+          team1: match.team1,
+          team2: match.team2,
           started: match.state !== "open",
         };
         if (match.result !== null) {
