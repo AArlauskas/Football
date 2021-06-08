@@ -37,6 +37,9 @@ public class Converters {
     }
 
     public static Guess guess(lt.kietekai.backendspring.storage.models.Guess guess) {
+        if (guess == null) {
+            return null;
+        }
         return new Guess(guess.getResult1() == null ? null : new Result(guess.getResult1(), guess.getResult2()), guess.getPoints(), outcome(guess.getOutcome()));
     }
 
@@ -57,6 +60,7 @@ public class Converters {
             case OUTCOME_INCORRECT -> {
                 return GuessOutcome.OUTCOME_INCORRECT;
             }
+            case NOT_GIVEN -> {return GuessOutcome.NOT_GIVEN;}
         }
         throw new IllegalStateException();
     }

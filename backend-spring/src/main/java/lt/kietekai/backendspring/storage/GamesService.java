@@ -88,7 +88,10 @@ public class GamesService {
         } else {
             int countCorrect = 0;
             for (Guess g : guesses) {
-                if (g.getResult1().equals(game.getResult1()) && g.getResult2().equals(game.getResult2())) {
+                if (g.getResult1() == null || g.getResult2() == null) {
+                    g.setOutcome(GuessOutcome.NOT_GIVEN);
+                    g.setPoints(0);
+                } else if (g.getResult1().equals(game.getResult1()) && g.getResult2().equals(game.getResult2())) {
                     g.setPoints(-3);
                     g.setOutcome(GuessOutcome.CORRECT);
                     countCorrect++;
@@ -101,6 +104,12 @@ public class GamesService {
                         g.setOutcome(GuessOutcome.OUTCOME_INCORRECT);
                     }
                     g.setPoints(g.getPoints() + Math.abs(g.getResult1() - game.getResult1()) + Math.abs(g.getResult2() - game.getResult2()));
+                }
+            }
+            int maxPoints = guesses.stream().filter(g -> g.getOutcome() != GuessOutcome.NOT_GIVEN).map(Guess::getPoints).reduce(0, Integer::sum);
+            for (Guess g : guesses) {
+                if (g.getOutcome() == GuessOutcome.NOT_GIVEN) {
+                    g.setPoints(maxPoints);
                 }
             }
             if (countCorrect == 1) {

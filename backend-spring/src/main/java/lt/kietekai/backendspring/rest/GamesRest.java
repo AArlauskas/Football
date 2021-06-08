@@ -41,7 +41,7 @@ public class GamesRest {
         long id = Optional.ofNullable(user).orElse(userDetails.getUser().getId());
         boolean own = id == userDetails.getUser().getId();
 
-        return queryGamesWithGuesses(queryFilter, user).stream()
+        return queryGamesWithGuesses(queryFilter, id).stream()
                 .map(Converters::gameWithGuess)
                 .map(g -> {
                     if (!own && g.game().state() == GameState.OPEN) {
