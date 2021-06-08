@@ -6,5 +6,6 @@ public enum GuessOutcome {
     CORRECT_ALONE,
     CORRECT,
     OUTCOME_ONLY,
-    OUTCOME_INCORRECT
+    OUTCOME_INCORRECT,
+    NOT_GIVEN
 }

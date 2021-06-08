@@ -1,6 +1,7 @@
 package lt.kietekai.backendspring.rest;
 
 import lt.kietekai.backendspring.rest.models.*;
+import lt.kietekai.backendspring.storage.models.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +15,7 @@ public class Converters {
     public static Date parseDateFromParts(String date, String time) throws ParseException {
         return dateWithTimeFormatter.get().parse(date + " " + time);
     }
+
     public static Game game(lt.kietekai.backendspring.storage.models.Game game) {
         return new Game(game.getId(), team(game.getTeam1()), team(game.getTeam2()), dateFormatter.get().format(game.getGameDate()), timeFormatter.get().format(game.getGameDate()), state(game), game.getResult1() == null ? null : new Result(game.getResult1(), game.getResult2()));
     }
@@ -37,6 +39,9 @@ public class Converters {
     }
 
     public static Guess guess(lt.kietekai.backendspring.storage.models.Guess guess) {
+        if (guess == null) {
+            return null;
+        }
         return new Guess(guess.getResult1() == null ? null : new Result(guess.getResult1(), guess.getResult2()), guess.getPoints(), outcome(guess.getOutcome()));
     }
 
@@ -57,7 +62,26 @@ public class Converters {
             case OUTCOME_INCORRECT -> {
                 return GuessOutcome.OUTCOME_INCORRECT;
             }
+            case NOT_GIVEN -> {
+                return GuessOutcome.NOT_GIVEN;
+            }
         }
         throw new IllegalStateException();
+    }
+
+    public static UserDetails usersPoints(lt.kietekai.backendspring.storage.models.Points points) {
+        return new UserDetails(
+                points.getUser().getId(), points.getUser().getEmail(), points.getUser().getFirstName(), points.getUser().getLastName(),
+                new Points(points.getTotal(), points.getCorrect(), points.getOutcomes()), points.getUser().roles()
+        );
+    }
+
+    public static UserDetails user(User u) {
+        return new UserDetails(u.getId(), u.getEmail(), u.getFirstName(), u.getLastName(), new Points(u.getPoints().getTotal(), u.getPoints().getCorrect(), u.getPoints().getOutcomes()), u.roles());
+
+    }
+
+    public static GuessWithUser guessWithUser(lt.kietekai.backendspring.storage.models.Guess guess) {
+        return new GuessWithUser(guess(guess), user(guess.getUser()));
     }
 }

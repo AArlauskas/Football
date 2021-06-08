@@ -10,5 +10,7 @@ public enum GuessOutcome {
     @JsonProperty("outcome_only")
     OUTCOME_ONLY,
     @JsonProperty("outcome_incorrect")
-    OUTCOME_INCORRECT
+    OUTCOME_INCORRECT,
+    @JsonProperty("not_given")
+    NOT_GIVEN
 }

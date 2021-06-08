@@ -20,4 +20,9 @@ public class Advices {
     public void handleBadRequest() {
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({ResourceNotFoundException.class})
+    public void handleNotFound() {
+    }
+
 }

@@ -17,8 +17,7 @@ Known issue that is similar to ours:
 https://stackoverflow.com/questions/62654250/react-and-nginx-messing-up-urls-when-using-axios-incorrect-api-calls
 
 
-
-Dokumentacijos nespėjau atnaujinti, bet pavyzdžiai (pilna eiga, po zaidimu pabaigimo taskai nera perskaiciuojami):
+2021-06-08: new apis to get player score table (ordered) and game guesses with points
 
 GET http://localhost:8080/api/version
 Accept: application/json
@@ -137,4 +136,13 @@ GET http://localhost:8080/api/points
 Accept: application/json
 
 <> 2021-06-07T231034.200.json
+
+###
+GET http://localhost:8080/api/points/totals
+Accept: application/json
+
+
+###
+GET http://localhost:8080/api/games/results?game=1
+Accept: application/json
 

@@ -1,3 +1,24 @@
+GET http://localhost:8080/api/games/results?game=1
+Accept: application/json
+
+<> 2021-06-08T194451-3.200.json
+
+###
+
+GET http://localhost:8080/api/points/totals
+Accept: application/json
+
+<> 2021-06-08T194451-2.200.json
+
+###
+
+GET http://localhost:8080/api/points
+Accept: application/json
+
+<> 2021-06-08T194451-1.200.json
+
+###
+
 PUT http://localhost:8080/api/games
 Content-Type: application/json
 
@@ -18,7 +39,7 @@ Content-Type: application/json
   }
 }
 
-<> 2021-06-07T231202.500.json
+<> 2021-06-08T194451.200.json
 
 ###
 
@@ -39,35 +60,14 @@ Content-Type: application/json
   "result": null
 }
 
-<> 2021-06-07T231139.200.json
-
-###
-
-GET http://localhost:8080/api/games
-Accept: application/json
-
-<> 2021-06-07T231111.200.json
-
-###
-
-GET http://localhost:8080/api/points
-Accept: application/json
-
-<> 2021-06-07T231034.200.json
+<> 2021-06-08T194450-5.200.json
 
 ###
 
 GET http://localhost:8080/api/games/guessed?user=1&filter=all
 Accept: application/json
 
-<> 2021-06-07T230957.500.json
-
-###
-
-GET http://localhost:8080/api/games?user=1&filter=all
-Accept: application/json
-
-<> 2021-06-07T230911.200.json
+<> 2021-06-08T194450-4.200.json
 
 ###
 
@@ -82,14 +82,14 @@ Content-Type: application/json
   }
 }
 
-<> 2021-06-07T230904.200.json
+<> 2021-06-08T194450-3.200.json
 
 ###
 
 GET http://localhost:8080/api/games
 Accept: application/json
 
-<> 2021-06-07T230856.200.json
+<> 2021-06-08T194450-2.200.json
 
 ###
 
@@ -103,28 +103,14 @@ Content-Type: application/json
   "time": "19:00"
 }
 
-<> 2021-06-07T230845.200.json
-
-###
-
-POST http://localhost:8080/api/games
-Content-Type: application/json
-
-{
-  "team1": "DNK",
-  "team2": "ENG",
-  "date": "2021-06-02",
-  "time": "19:00"
-}
-
-<> 2021-06-07T230730.500.json
+<> 2021-06-08T194450-1.200.json
 
 ###
 
 GET http://localhost:8080/api/teams
 Accept: application/json
 
-<> 2021-06-07T230725.200.json
+<> 2021-06-08T194450.200.json
 
 ###
 
@@ -136,7 +122,7 @@ Content-Type: application/json
   "password": "hunter2"
 }
 
-<> 2021-06-07T230721.200.json
+<> 2021-06-08T194449-2.200.json
 
 ###
 
@@ -150,21 +136,95 @@ Content-Type: application/json
   "lastName": "Saulius"
 }
 
-<> 2021-06-07T230718.200.json
+<> 2021-06-08T194449-1.200.json
 
 ###
 
 GET http://localhost:8080/api/version
 Accept: application/json
 
-<> 2021-06-07T230712.200.json
+<> 2021-06-08T194449.200.json
 
 ###
 
-GET http://localhost:8080/api/teams
+GET http://localhost:8080/api/points
 Accept: application/json
 
-<> 2021-06-07T211209.200.json
+<> 2021-06-08T192412-3.200.json
+
+###
+
+PUT http://localhost:8080/api/games
+Content-Type: application/json
+
+{
+  "id": 1,
+  "t1": {
+    "code": "DNK"
+  },
+  "t2": {
+    "code": "ENG"
+  },
+  "date": "2021-06-02",
+  "time": "19:00",
+  "state": "finished",
+  "result": {
+    "goals1": 2,
+    "goals2": 1
+  }
+}
+
+<> 2021-06-08T192412-2.200.json
+
+###
+
+PUT http://localhost:8080/api/games
+Content-Type: application/json
+
+{
+  "id": 1,
+  "t1": {
+    "code": "DNK"
+  },
+  "t2": {
+    "code": "ENG"
+  },
+  "date": "2021-06-02",
+  "time": "19:00",
+  "state": "closed",
+  "result": null
+}
+
+<> 2021-06-08T192412-1.200.json
+
+###
+
+GET http://localhost:8080/api/games/guessed?user=1&filter=all
+Accept: application/json
+
+<> 2021-06-08T192412.200.json
+
+###
+
+POST http://localhost:8080/api/guesses
+Content-Type: application/json
+
+{
+  "gameId": 1,
+  "result": {
+    "goals1": 2,
+    "goals2": 1
+  }
+}
+
+<> 2021-06-08T192411-4.200.json
+
+###
+
+GET http://localhost:8080/api/games
+Accept: application/json
+
+<> 2021-06-08T192411-3.200.json
 
 ###
 
@@ -172,13 +232,103 @@ POST http://localhost:8080/api/games
 Content-Type: application/json
 
 {
-  "team1": "DNK",
-  "team2": "ENG",
+  "t1": {"code":  "DNK"},
+  "t2": {"code":  "ENG"},
   "date": "2021-06-02",
   "time": "19:00"
 }
 
-<> 2021-06-07T211151.404.json
+<> 2021-06-08T192411-2.200.json
+
+###
+
+GET http://localhost:8080/api/teams
+Accept: application/json
+
+<> 2021-06-08T192411-1.200.json
+
+###
+
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email":  "someone@admin.lt",
+  "password": "hunter2"
+}
+
+<> 2021-06-08T192411.200.json
+
+###
+
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "someone@admin.lt",
+  "password": "hunter2",
+  "firstName": "Aivaras",
+  "lastName": "Saulius"
+}
+
+<> 2021-06-08T192410-1.200.json
+
+###
+
+GET http://localhost:8080/api/version
+Accept: application/json
+
+<> 2021-06-08T192410.200.json
+
+###
+
+PUT http://localhost:8080/api/games
+Content-Type: application/json
+
+{
+  "id": 1,
+  "t1": {
+    "code": "DNK"
+  },
+  "t2": {
+    "code": "ENG"
+  },
+  "date": "2021-06-02",
+  "time": "19:00",
+  "state": "closed",
+  "result": null
+}
+
+<> 2021-06-08T192324-3.200.json
+
+###
+
+GET http://localhost:8080/api/games/guessed?user=1&filter=all
+Accept: application/json
+
+<> 2021-06-08T192324-2.200.json
+
+###
+
+POST http://localhost:8080/api/guesses
+Content-Type: application/json
+
+{
+  "gameId": 1,
+  "result": {
+    "goals1": 2,
+    "goals2": 1
+  }
+}
+
+<> 2021-06-08T192324-1.200.json
+
+###
+
+GET http://localhost:8080/api/games
+Accept: application/json
+
+<> 2021-06-08T192324.200.json
 
 ###
 
@@ -186,74 +336,20 @@ POST http://localhost:8080/api/games
 Content-Type: application/json
 
 {
-  "team1": "DNK",
-  "team2": "ENG",
+  "t1": {"code":  "DNK"},
+  "t2": {"code":  "ENG"},
   "date": "2021-06-02",
   "time": "19:00"
 }
 
-<> 2021-06-07T211140.404.json
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-  "email":  "someone@admin.lt",
-  "password": "hunter2"
-}
-
-<> 2021-06-07T211127.200.json
-
-###
-
-POST http://localhost:8080/api/auth/register
-Content-Type: application/json
-
-{
-  "email": "someone@admin.lt",
-  "password": "hunter2",
-  "firstName": "Aivaras",
-  "lastName": "Saulius"
-}
-
-<> 2021-06-07T211118.200.json
-
-###
-
-POST http://localhost:8080/api/auth/register
-Content-Type: application/json
-
-{
-  "email": "someone@admin.lt",
-  "password": "hunter2",
-  "firstName": "Aivaras",
-  "lastName": "Saulius"
-}
-
-<> 2021-06-07T210949.500.json
-
-###
-
-POST http://localhost:8080/api/auth/register
-Content-Type: application/json
-
-{
-  "email": "someone@admin.lt",
-  "password": "hunter2",
-  "firstName": "Aivaras",
-  "lastName": "Saulius"
-}
-
-<> 2021-06-07T210814.500.json
+<> 2021-06-08T192323-3.200.json
 
 ###
 
 GET http://localhost:8080/api/teams
 Accept: application/json
 
-<> 2021-06-07T204408.200.json
+<> 2021-06-08T192323-2.200.json
 
 ###
 
@@ -265,7 +361,7 @@ Content-Type: application/json
   "password": "hunter2"
 }
 
-<> 2021-06-07T204401.200.json
+<> 2021-06-08T192323-1.200.json
 
 ###
 
@@ -279,22 +375,116 @@ Content-Type: application/json
   "lastName": "Saulius"
 }
 
-<> 2021-06-07T204359.200.json
+<> 2021-06-08T192323.200.json
+
+###
+
+GET http://localhost:8080/api/version
+Accept: application/json
+
+<> 2021-06-08T192322.200.json
+
+###
+
+GET http://localhost:8080/api/points
+Accept: application/json
+
+<> 2021-06-08T192203-1.200.json
+
+###
+
+PUT http://localhost:8080/api/games
+Content-Type: application/json
+
+{
+  "id": 1,
+  "t1": {
+    "code": "DNK"
+  },
+  "t2": {
+    "code": "ENG"
+  },
+  "date": "2021-06-02",
+  "time": "19:00",
+  "state": "finished",
+  "result": {
+    "goals1": 2,
+    "goals2": 1
+  }
+}
+
+<> 2021-06-08T192203.200.json
+
+###
+
+PUT http://localhost:8080/api/games
+Content-Type: application/json
+
+{
+  "id": 1,
+  "t1": {
+    "code": "DNK"
+  },
+  "t2": {
+    "code": "ENG"
+  },
+  "date": "2021-06-02",
+  "time": "19:00",
+  "state": "closed",
+  "result": null
+}
+
+<> 2021-06-08T192202-5.200.json
+
+###
+
+GET http://localhost:8080/api/games/guessed?user=1&filter=all
+Accept: application/json
+
+<> 2021-06-08T192202-4.200.json
+
+###
+
+POST http://localhost:8080/api/guesses
+Content-Type: application/json
+
+{
+  "gameId": 1,
+  "result": {
+    "goals1": 2,
+    "goals2": 1
+  }
+}
+
+<> 2021-06-08T192202-3.200.json
+
+###
+
+GET http://localhost:8080/api/games
+Accept: application/json
+
+<> 2021-06-08T192202-2.200.json
+
+###
+
+POST http://localhost:8080/api/games
+Content-Type: application/json
+
+{
+  "t1": {"code":  "DNK"},
+  "t2": {"code":  "ENG"},
+  "date": "2021-06-02",
+  "time": "19:00"
+}
+
+<> 2021-06-08T192202-1.200.json
 
 ###
 
 GET http://localhost:8080/api/teams
 Accept: application/json
 
-<> 2021-06-07T204315.500.json
-
-###
-
-GET http://localhost:8080/api/teams
-Accept: application/json
-<> 2021-06-07T195527.403.json:
-
-<> 2021-06-07T204240.400.html
+<> 2021-06-08T192202.200.json
 
 ###
 
@@ -306,7 +496,7 @@ Content-Type: application/json
   "password": "hunter2"
 }
 
-<> 2021-06-07T204237.200.json
+<> 2021-06-08T192201-2.200.json
 
 ###
 
@@ -320,243 +510,95 @@ Content-Type: application/json
   "lastName": "Saulius"
 }
 
-<> 2021-06-07T204234.200.json
+<> 2021-06-08T192201-1.200.json
+
+###
+
+GET http://localhost:8080/api/version
+Accept: application/json
+
+<> 2021-06-08T192201.200.json
 
 ###
 
 GET http://localhost:8080/api/points
 Accept: application/json
 
-<> 2021-06-07T200246-1.200.json
+<> 2021-06-08T192120-1.200.json
 
 ###
 
-POST http://localhost:8080/api/auth/login
+PUT http://localhost:8080/api/games
 Content-Type: application/json
 
 {
-  "email":  "someone@admin.lt",
-  "password": "hunter2"
+  "id": 1,
+  "t1": {
+    "code": "DNK"
+  },
+  "t2": {
+    "code": "ENG"
+  },
+  "date": "2021-06-02",
+  "time": "19:00",
+  "state": "finished",
+  "result": {
+    "goals1": 2,
+    "goals2": 1
+  }
 }
 
-<> 2021-06-07T200246.200.json
+<> 2021-06-08T192120.500.json
 
 ###
 
-POST http://localhost:8080/api/auth/register
+PUT http://localhost:8080/api/games
 Content-Type: application/json
 
 {
-  "email": "someone@admin.lt",
-  "password": "hunter2",
-  "firstName": "Aivaras",
-  "lastName": "Saulius"
+  "id": 1,
+  "t1": {
+    "code": "DNK"
+  },
+  "t2": {
+    "code": "ENG"
+  },
+  "date": "2021-06-02",
+  "time": "19:00",
+  "state": "closed",
+  "result": null
 }
 
-<> 2021-06-07T200245.200.json
+<> 2021-06-08T192120.200.json
 
 ###
 
-GET http://localhost:8080/api/points
+GET http://localhost:8080/api/games/guessed?user=1&filter=all
 Accept: application/json
 
-<> 2021-06-07T200211.404.json
+<> 2021-06-08T192119-4.200.json
 
 ###
 
-POST http://localhost:8080/api/auth/login
+POST http://localhost:8080/api/guesses
 Content-Type: application/json
 
 {
-  "email":  "someone@admin.lt",
-  "password": "hunter2"
+  "gameId": 1,
+  "result": {
+    "goals1": 2,
+    "goals2": 1
+  }
 }
 
-<> 2021-06-07T200211.200.json
+<> 2021-06-08T192119-3.200.json
 
 ###
 
-POST http://localhost:8080/api/auth/register
-Content-Type: application/json
-
-{
-  "email": "someone@admin.lt",
-  "password": "hunter2",
-  "firstName": "Aivaras",
-  "lastName": "Saulius"
-}
-
-<> 2021-06-07T200210.200.json
-
-###
-
-GET http://localhost:8080/api/points
+GET http://localhost:8080/api/games
 Accept: application/json
 
-<> 2021-06-07T200058.403.json
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-  "email":  "someone@admin.lt",
-  "password": "hunter2"
-}
-
-<> 2021-06-07T200057-1.200.json
-
-###
-
-POST http://localhost:8080/api/auth/register
-Content-Type: application/json
-
-{
-  "email": "someone@admin.lt",
-  "password": "hunter2",
-  "firstName": "Aivaras",
-  "lastName": "Saulius"
-}
-
-<> 2021-06-07T200057.200.json
-
-###
-
-GET http://localhost:8080/api/points
-Accept: application/json
-
-<> 2021-06-07T195527.403.json
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-  "email":  "someone@admin.lt",
-  "password": "hunter2"
-}
-
-<> 2021-06-07T195527.200.json
-
-###
-
-POST http://localhost:8080/api/auth/register
-Content-Type: application/json
-
-{
-  "email": "someone@admin.lt",
-  "password": "hunter2",
-  "firstName": "Aivaras",
-  "lastName": "Saulius"
-}
-
-###
-
-GET http://localhost:8080/api/points
-Accept: application/json
-
-<> 2021-06-07T195247.403.json
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "someone@admin.lt",
-"password": "hunter2"
-}
-
-<> 2021-06-07T195242.200.json
-
-###
-
-POST http://localhost:8080/api/auth/register
-Content-Type: application/json
-
-{
-"email": "someone@admin.lt",
-  "password": "hunter2",
-  "firstName": "Aivaras",
-  "lastName": "Saulius"
-}
-
-<> 2021-06-07T195238.200.json
-
-###
-
-GET http://localhost:8080/api/points
-Accept: application/json
-
-<> 2021-06-07T195045.403.json
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "someone@admin.lt",
-"password": "hunter2"
-}
-
-<> 2021-06-07T195041.200.json
-
-###
-
-POST http://localhost:8080/api/auth/register
-Content-Type: application/json
-
-{
-"email": "someone@admin.lt",
-  "password": "hunter2",
-  "firstName": "Aivaras",
-  "lastName": "Saulius"
-}
-
-<> 2021-06-07T195037.200.json
-
-###
-
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
-
-{
-"email":  "someone@admin.lt",
-"password": "hunter2"
-}
-
-<> 2021-06-07T194813.200.json
-
-###
-
-POST http://localhost:8080/api/auth/register
-Content-Type: application/json
-
-{
-"email": "someone@admin.lt",
-  "password": "hunter2",
-  "firstName": "Aivaras",
-  "lastName": "Saulius"
-}
-
-<> 2021-06-07T194742.200.json
-
-###
-
-GET http://localhost:8080/api/points
-Accept: application/json
-
-<> 2021-06-07T194617.403.json
-
-###
-
-GET http://localhost:8080/api/points?user=5
-Accept: application/json
-
-<> 2021-06-07T194608.403.json
+<> 2021-06-08T192119-2.200.json
 
 ###
 
