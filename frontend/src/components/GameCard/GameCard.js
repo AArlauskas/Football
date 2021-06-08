@@ -81,7 +81,6 @@ const GameCard = ({
       },
     };
     onSubmit(guess);
-    setWasChanged(false);
   };
 
   const handleMatchRedirect = () => {

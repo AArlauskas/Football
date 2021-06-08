@@ -35,6 +35,9 @@ export const getAllGames = () =>
 export const getTodayGames = () =>
   Axios.get("/games/guessed", { params: { filter: "today" } });
 
+export const getAllPersonalGames = () =>
+  Axios.get("/games/guessed", { params: { filter: "all" } });
+
 export const register = (data) => Axios.post("/auth/register", data);
 
 export const login = (data) => Axios.post("/auth/login", data);

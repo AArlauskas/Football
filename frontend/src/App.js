@@ -12,8 +12,8 @@ import RulesPage from "./containers/RulesPage/RulesPage";
 import HomePage from "./containers/HomePage/HomePage";
 import MatchPage from "./containers/MatchPage/MatchPage";
 import AdminPage from "./containers/AdminPage/AdminPage";
-import GuessesPage from "./containers/GuessesPage/GuessesPage";
 import TeamPage from "./containers/TeamPage/TeamPage";
+import PersonalPage from "./containers/PersonalPage/PersonalPage";
 
 function App() {
   const id = window.localStorage.getItem("id");
@@ -47,9 +47,12 @@ function App() {
               <Route exact path="/admin">
                 <AdminPage />
               </Route>
-              <Route exact path="/player">
-                <GuessesPage />
+              <Route exact path="/personal">
+                <PersonalPage />
               </Route>
+              {/* <Route exact path="/player/:userId">
+                <GuessesPage />
+              </Route> */}
               <Route path="/team/:teamId">
                 <TeamPage />
               </Route>

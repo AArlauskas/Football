@@ -8,11 +8,10 @@ import {
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import { teams } from "../../constants/teams";
 
-const GuessListItem = ({ match }) => {
-  const [guess1, setGuess1] = useState(match.guess1 || "");
-  const [guess2, setGuess2] = useState(match.guess2 || "");
+const GuessListItem = ({ match, handleGuess }) => {
+  const [guess1, setGuess1] = useState(match.guess?.result?.goals1 || "");
+  const [guess2, setGuess2] = useState(match.guess?.result?.goals2 || "");
   const [wasChanged, setWasChanged] = useState(false);
   const history = useHistory();
 
@@ -47,8 +46,20 @@ const GuessListItem = ({ match }) => {
     }
   };
 
-  const handleTeamRedirect = () => {
-    history.push("/team");
+  const handleTeamRedirect = (code) => {
+    history.push(`/team/${code}`);
+  };
+
+  const onGuess = () => {
+    setWasChanged(false);
+    const guess = {
+      gameId: match.game.id,
+      result: {
+        goals1: guess1,
+        goals2: guess2,
+      },
+    };
+    handleGuess(guess);
   };
 
   return (
@@ -58,22 +69,29 @@ const GuessListItem = ({ match }) => {
     >
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={12}>
-          <Typography style={{ textAlign: "center" }}>{match.time}</Typography>
+          <Typography style={{ textAlign: "center" }}>
+            {match.game.time}
+          </Typography>
           <Divider />
         </Grid>
-        <Grid item xs={3} onClick={handleTeamRedirect}>
+        <Grid
+          item
+          xs={3}
+          onClick={() => handleTeamRedirect(match.game.t1.code)}
+        >
           <Typography
             variant="subtitle2"
             className="link"
             style={{ textAlign: "center" }}
           >
-            {teams[match.team1]}
+            {match.game.t1.name}
           </Typography>
         </Grid>
         <Grid item xs={6} container>
           <Grid item xs={5}>
             <TextField
               type="number"
+              disabled={match.game.state === "closed"}
               inputProps={{ style: { textAlign: "center" } }}
               fullWidth
               value={guess1}
@@ -86,6 +104,7 @@ const GuessListItem = ({ match }) => {
           <Grid item xs={5}>
             <TextField
               type="number"
+              disabled={match.game.state === "closed"}
               inputProps={{ style: { textAlign: "center" } }}
               fullWidth
               value={guess2}
@@ -93,18 +112,27 @@ const GuessListItem = ({ match }) => {
             />
           </Grid>
         </Grid>
-        <Grid item xs={3} onClick={handleTeamRedirect}>
+        <Grid
+          item
+          xs={3}
+          onClick={() => handleTeamRedirect(match.game.t1.code)}
+        >
           <Typography
             variant="subtitle2"
             className="link"
             style={{ textAlign: "center" }}
           >
-            {teams[match.team2]}
+            {match.game.t2.name}
           </Typography>
         </Grid>
         {wasChanged && (
           <Grid item xs={12}>
-            <Button fullWidth variant="outlined" color="primary">
+            <Button
+              fullWidth
+              variant="outlined"
+              color="primary"
+              onClick={onGuess}
+            >
               Patvirtinti
             </Button>
           </Grid>

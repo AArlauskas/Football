@@ -1,6 +1,8 @@
 import { CardContent, Grid, Grow, Paper, Typography } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { PieChart } from "react-minimal-pie-chart";
+
+let pieData = [];
 
 const UserCard = ({
   firstname,
@@ -12,15 +14,28 @@ const UserCard = ({
   ranking,
   outOf,
 }) => {
-  const pieData = [
-    {
-      title: "Good",
-      value: good,
-      color: "rgba(0,255,0,0.3)",
-    },
-    { title: "Average", value: average, color: "rgba(255,255,0,0.3)" },
-    { title: "Bad", value: bad, color: "rgba(255,0,0,0.3)" },
-  ];
+  useEffect(() => {
+    pieData = [];
+    if (good) {
+      pieData.push({
+        title: "Good",
+        value: good,
+        color: "rgba(0,255,0,0.3)",
+      });
+    }
+
+    if (average) {
+      pieData.push({
+        title: "Average",
+        value: average,
+        color: "rgba(255,255,0,0.3)",
+      });
+    }
+
+    if (bad) {
+      pieData.push({ title: "Bad", value: bad, color: "rgba(255,0,0,0.3)" });
+    }
+  }, []);
   return (
     <Paper elevation={5}>
       <CardContent direction="column">

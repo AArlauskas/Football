@@ -12,14 +12,19 @@ import ResultListItem from "../../components/ResultListItem/ResultListItem";
 import GuessListItem from "../../components/GuessListItem/GuessListItem";
 import TopBar from "../../components/TopBar/TopBar";
 import UserCard from "../../components/UserCard/UserCard";
-import { mockedPersonalData } from "../../constants/mocked";
+import {
+  addGuess,
+  getAllPersonalGames,
+  getPersonalPoints,
+} from "../../api/Api";
+import CustomSnackbar from "../../components/CustomSnackbar/CustomSnackbar";
 
 const transformMatches = (cards) => {
   const transformedMatches = cards.reduce((acc, val) => {
-    if (!acc[val.date]) {
-      acc[val.date] = [];
+    if (!acc[val.game.date]) {
+      acc[val.game.date] = [];
     }
-    acc[val.date].push(val);
+    acc[val.game.date].push(val);
     return acc;
   }, {});
   return { transformedMatches };
@@ -34,55 +39,112 @@ const sortMatchDates = (cards) =>
     return 1;
   });
 
-const countResults = (response) => {
-  const good = response.filter((match) => match.variant === "good").length;
-  const average = response.filter(
-    (match) => match.variant === "average"
-  ).length;
-  const bad = response.filter((match) => match.variant === "bad").length;
-  const results = {
-    good,
-    average,
-    bad,
-  };
-  return results;
-};
-
 let reactSwipeEl;
 
-class GuessesPage extends React.Component {
+class PersonalPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      results: null,
-      matches: [],
-      sortedMatchDates: [],
+      stats: null,
+      openMatches: null,
+      sortedOpenMatchDates: [],
+      previousMatches: null,
+      sortedPreviousMatchDates: [],
       tab: 0,
+      showGuessSuccess: false,
+      showGuessFail: false,
     };
   }
 
   componentDidMount() {
-    const response = mockedPersonalData;
-    const results = countResults(response);
-    const { transformedMatches } = transformMatches(response);
-    const dates = sortMatchDates(transformedMatches);
-    this.setState({
-      results,
-      matches: transformedMatches,
-      sortedMatchDates: dates,
+    getPersonalPoints().then((responseStats) => {
+      const stats = {
+        good: responseStats.data.correctGuesses,
+        average: responseStats.data.correctOutcomes,
+        bad: 5,
+        points: responseStats.data.total,
+        rank: 1,
+        outOf: 12,
+      };
+      getAllPersonalGames().then((response) => {
+        this.transformOpenMatches(response);
+        this.transformPreviousMatches(response);
+        this.setState({
+          stats,
+        });
+      });
     });
   }
+
+  transformOpenMatches = (response) => {
+    const { transformedMatches } = transformMatches(
+      response.data.filter((game) => game.game.state === "open")
+    );
+    const openDates = sortMatchDates(transformedMatches);
+    this.setState({
+      openMatches: transformedMatches,
+      sortedOpenMatchDates: openDates,
+    });
+  };
+
+  transformPreviousMatches = (response) => {
+    const { transformedMatches } = transformMatches(
+      response.data.filter((game) => game.game.state !== "open")
+    );
+    const previousDates = sortMatchDates(transformedMatches);
+
+    this.setState({
+      previousMatches: transformedMatches,
+      sortedPreviousMatchDates: previousDates,
+    });
+  };
 
   handleSwipe = (index) => {
     if (index) this.setState({ tab: 1 });
     else this.setState({ tab: 0 });
   };
 
+  handleGuess = (data) => {
+    addGuess(data)
+      .then(() => this.setState({ showGuessSuccess: true }))
+      .catch(() => this.setState({ showGuessFail: true }));
+  };
+
+  hideSnackabar = () => {
+    this.setState({ showGuessFail: false, showGuessSuccess: false });
+  };
+
   render() {
-    const { results, matches, sortedMatchDates, tab } = this.state;
-    if (results === null) return null;
+    const {
+      stats,
+      openMatches,
+      sortedOpenMatchDates,
+      previousMatches,
+      sortedPreviousMatchDates,
+      tab,
+      showGuessSuccess,
+      showGuessFail,
+    } = this.state;
+    if (stats === null || openMatches === null || previousMatches === null)
+      return null;
     return (
       <>
+        {showGuessSuccess && (
+          <CustomSnackbar
+            topCenter
+            message="Spėjimas pateiktas sėkmingai"
+            onClose={this.hideSnackabar}
+            severity="success"
+          />
+        )}
+        {showGuessFail && (
+          <CustomSnackbar
+            topCenter
+            message="Įvyko klaida, prašome pabandyti vėliau"
+            onClose={this.hideSnackabar}
+            severity="error"
+          />
+        )}
         <Grid
           container
           direction="column"
@@ -101,14 +163,14 @@ class GuessesPage extends React.Component {
           </Grid>
           <Grid item lg={4} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
             <UserCard
-              firstname="Aurimas"
-              lastname="Arlauskas"
-              points={420}
-              ranking={1}
-              outOf={12}
-              good={results.good}
-              bad={results.bad}
-              average={results.average}
+              firstname={window.localStorage.getItem("firstName")}
+              lastname={window.localStorage.getItem("lastName")}
+              points={stats.points}
+              ranking={stats.rank}
+              outOf={stats.outOf}
+              good={stats.good}
+              bad={stats.bad}
+              average={stats.average}
             />
           </Grid>
           <Grid item lg={8} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
@@ -135,7 +197,7 @@ class GuessesPage extends React.Component {
               }}
             >
               <List>
-                {sortedMatchDates.map((date) => (
+                {sortedOpenMatchDates.map((date) => (
                   <>
                     <ListSubheader
                       disableSticky
@@ -145,15 +207,18 @@ class GuessesPage extends React.Component {
                       <Typography style={{ textAlign: "center" }}>
                         {date}
                       </Typography>
-                      {matches[date].map((match) => (
-                        <GuessListItem match={match} />
+                      {openMatches[date].map((match) => (
+                        <GuessListItem
+                          handleGuess={this.handleGuess}
+                          match={match}
+                        />
                       ))}
                     </ListSubheader>
                   </>
                 ))}
               </List>
               <List>
-                {sortedMatchDates.map((date) => (
+                {sortedPreviousMatchDates.map((date) => (
                   <>
                     <ListSubheader
                       disableSticky
@@ -163,7 +228,7 @@ class GuessesPage extends React.Component {
                       <Typography style={{ textAlign: "center" }}>
                         {date}
                       </Typography>
-                      {matches[date].map((match) => (
+                      {previousMatches[date].map((match) => (
                         <ResultListItem match={match} />
                       ))}
                     </ListSubheader>
@@ -178,4 +243,4 @@ class GuessesPage extends React.Component {
   }
 }
 
-export default GuessesPage;
+export default PersonalPage;

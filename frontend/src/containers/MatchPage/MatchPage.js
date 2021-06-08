@@ -14,7 +14,6 @@ import React from "react";
 import { withRouter } from "react-router";
 import { getMatch } from "../../api/Api";
 import TopBar from "../../components/TopBar/TopBar";
-import { teams } from "../../constants/teams";
 
 const getColor = (variant) => {
   if (variant === "correct_alone" || variant === "correct")
@@ -30,7 +29,6 @@ class MatchPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
       matchData: null,
     };
   }
@@ -40,15 +38,7 @@ class MatchPage extends React.Component {
     const { gameId } = match.params;
     getMatch(gameId).then((resp) => {
       const response = this.transformMatch(resp.data);
-      let title = "";
-      if (response.score1 && response.score2) {
-        title = `${teams[response.team1]} ${response.score1} : ${
-          response.score2
-        } ${teams[response.team2]}`;
-      } else {
-        title = `${teams[response.team1]} :  ${teams[response.team2]}`;
-      }
-      this.setState({ title, matchData: response });
+      this.setState({ matchData: response });
     });
   }
 
@@ -76,21 +66,48 @@ class MatchPage extends React.Component {
   };
 
   render() {
-    const { title, matchData } = this.state;
+    const { history } = this.props;
+    const { matchData } = this.state;
+
+    const handleTeam1Redirect = () => {
+      history.push("/team/SWE");
+    };
+
+    const handleTeam2Redirect = () => {
+      history.push("/team/ENG");
+    };
+
+    const handlePlayerRedirect = (id) => {
+      if (window.localStorage.getItem("id") === String(id))
+        history.push("/personal");
+      else history.push(`/player/${id}`);
+    };
+
     if (matchData === null) return null;
     return (
       <>
-        <Grid container direction="row">
+        <Grid container direction="row" alignItems="flex-end">
           <Grid item xs={12}>
-            <TopBar
-              darkMode
-              points={420}
-              showAvatarAndLogout
-              firstName="Aurimas"
-              lastName="Arlauskas"
-            />
-            <Grid item xs={12} style={{ textAlign: "center", paddingTop: 20 }}>
-              <Typography variant="h5">{title}</Typography>
+            <TopBar darkMode />
+            <Grid
+              item
+              container
+              xs={12}
+              style={{ textAlign: "center", paddingTop: 20 }}
+            >
+              <Grid item xs={5} onClick={handleTeam1Redirect}>
+                <Typography className="link" variant="h5">
+                  Švedija
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography variant="h5">5 : 3</Typography>
+              </Grid>
+              <Grid item xs={5} onClick={handleTeam2Redirect}>
+                <Typography className="link" variant="h5">
+                  Anglija
+                </Typography>
+              </Grid>
             </Grid>
             <Grid item xs={12} style={{ padding: 20 }}>
               <TableContainer component={Paper}>
@@ -111,7 +128,8 @@ class MatchPage extends React.Component {
                           String(match.userId)
                         }
                         style={{ cursor: "pointer" }}
-                        key={match.firstName + match.lastname}
+                        key={match.firstName + match.lastName}
+                        onClick={() => handlePlayerRedirect(match.userId)}
                       >
                         <TableCell>{`${match.firstName} ${match.lastName}`}</TableCell>
                         <TableCell>

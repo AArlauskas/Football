@@ -14,7 +14,7 @@ export default function NavDrawer({ open, onOpen, onClose }) {
   const tabs = useRef(
     new Map([
       ["Varžybos", { icon: <SportsSoccer />, href: "/home" }],
-      ["Spėjimai", { icon: <Assignment />, href: "/player" }],
+      ["Spėjimai", { icon: <Assignment />, href: "/personal" }],
       ["Rezultatai", { icon: <Poll />, href: "/results" }],
       ["Taisyklės", { icon: <Gavel />, href: "/rules" }],
     ])

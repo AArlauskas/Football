@@ -114,12 +114,12 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
                     item
                     xs={3}
                     onClick={() => {
-                      history.push("/player");
+                      history.push("/personal");
                     }}
                   >
                     <Typography
                       className={
-                        window.location.pathname === "/player"
+                        window.location.pathname === "/personal"
                           ? "navigation-current"
                           : "navigation"
                       }

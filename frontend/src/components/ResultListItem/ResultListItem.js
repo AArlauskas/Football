@@ -1,22 +1,26 @@
 import { Divider, Grid, ListItem, Typography } from "@material-ui/core";
 import React from "react";
 import { useHistory } from "react-router";
-import { teams } from "../../constants/teams";
 
 const getColor = (variant) => {
-  if (variant === "good")
+  if (variant === "correct_alone" || variant === "correct")
     return { textAlign: "center", backgroundColor: "rgba(0,255,0,0.3)" };
-  if (variant === "average")
+  if (variant === "outcome_only")
     return { textAlign: "center", backgroundColor: "rgba(255,255,0,0.3)" };
-  if (variant === "bad")
+  if (variant === "outcome_incorrect" || variant === "not_given")
     return { textAlign: "center", backgroundColor: "rgba(255,0,0,0.3)" };
   return null;
 };
 
 const ResultListItem = ({ match }) => {
   const history = useHistory();
-  const handleTeamRedirect = () => {
-    history.push("/team");
+
+  const handleTeamRedirect = (code) => {
+    history.push(`/team/${code}`);
+  };
+
+  const handleMatchRedirect = () => {
+    history.push(`/match/${match.game.id}`);
   };
 
   return (
@@ -26,51 +30,68 @@ const ResultListItem = ({ match }) => {
         key={match.id}
       >
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12}>
-            <Typography style={{ textAlign: "center" }}>
-              {match.time}
+          <Grid item xs={12} onClick={handleMatchRedirect}>
+            <Typography style={{ textAlign: "center", cursor: "pointer" }}>
+              {match.game.time}
             </Typography>
             <Divider />
           </Grid>
           <Grid item xs={1}>
             <Typography style={{ textAlign: "center" }} variant="h5">
-              {match.score1}
+              {match.game.result?.goals1}
             </Typography>
           </Grid>
-          <Grid item xs={3} onCLick={handleTeamRedirect}>
+          <Grid
+            item
+            xs={3}
+            onClick={() => handleTeamRedirect(match.game.t1.code)}
+          >
             <Typography
               variant="subtitle2"
               className="link"
               style={{ textAlign: "center" }}
             >
-              {teams[match.team1]}
+              {match.game.t1.name}
             </Typography>
           </Grid>
           <Grid item xs={4}>
             <Typography style={{ textAlign: "center" }}>
-              {match.score1} : {match.score2}
+              {match.guess.result
+                ? `${match.guess.result.goals1} : ${match.guess.result.goals2}`
+                : "-"}
             </Typography>
           </Grid>
-          <Grid item xs={3} onCLick={handleTeamRedirect}>
+          <Grid
+            item
+            xs={3}
+            onClick={() => handleTeamRedirect(match.game.t2.code)}
+          >
             <Typography
               variant="subtitle2"
               className="link"
               style={{ textAlign: "center" }}
             >
-              {teams[match.team2]}
+              {match.game.t2.name}
             </Typography>
           </Grid>
           <Grid item xs={1}>
             <Typography style={{ textAlign: "center" }} variant="h5">
-              {match.score2}
+              {match.game.result?.goals2}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Divider />
-            <Typography style={getColor(match.variant)}>
-              {match.points || "-"}
-            </Typography>
-          </Grid>
+          {match.guess && match.game.state === "finished" && (
+            <Grid
+              item
+              xs={12}
+              style={{ cursor: "pointer" }}
+              onClick={handleMatchRedirect}
+            >
+              <Divider />
+              <Typography style={getColor(match.guess.outcome)}>
+                {match.guess.points}
+              </Typography>
+            </Grid>
+          )}
         </Grid>
       </ListItem>
     </>
