@@ -39,27 +39,24 @@ class AdminPage extends React.Component {
   handleAdd = (newData) => {
     const { date, time } = newData;
     const adjustedDate = moment(date).format("YYYY-MM-DD");
-    const adjustedTime = moment(time).format("HH:mm");
     const data = {
       t1: { code: newData.team1 },
       t2: { code: newData.team2 },
       date: adjustedDate,
-      time: adjustedTime,
+      time,
     };
     addGame(data).then(() => this.getGames());
   };
 
   handleUpdate = (newData) => {
-    console.log(newData);
     const { date, time } = newData;
     const adjustedDate = moment(date).format("YYYY-MM-DD");
-    const adjustedTime = time;
     const data = {
       id: newData.id,
       t1: { code: newData.t1.code },
       t2: { code: newData.t2.code },
       date: adjustedDate,
-      time: adjustedTime,
+      time,
       state: newData.state,
     };
     if (newData.state === "finished") {

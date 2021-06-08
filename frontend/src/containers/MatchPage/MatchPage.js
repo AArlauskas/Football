@@ -11,14 +11,18 @@ import {
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 import React from "react";
+import { withRouter } from "react-router";
+import { getMatch } from "../../api/Api";
 import TopBar from "../../components/TopBar/TopBar";
-import { MockedMatch } from "../../constants/mocked";
 import { teams } from "../../constants/teams";
 
 const getColor = (variant) => {
-  if (variant === "good") return { backgroundColor: "rgba(0,255,0,0.3)" };
-  if (variant === "average") return { backgroundColor: "rgba(255,255,0,0.3)" };
-  if (variant === "bad") return { backgroundColor: "rgba(255,0,0,0.3)" };
+  if (variant === "correct_alone" || variant === "correct")
+    return { backgroundColor: "rgba(0,255,0,0.3)" };
+  if (variant === "outcome_only")
+    return { backgroundColor: "rgba(255,255,0,0.3)" };
+  if (variant === "outcome_incorrect" || variant === "not_given")
+    return { backgroundColor: "rgba(255,0,0,0.3)" };
   return null;
 };
 
@@ -32,17 +36,44 @@ class MatchPage extends React.Component {
   }
 
   componentDidMount() {
-    const response = MockedMatch;
-    let title = "";
-    if (response.score1 && response.score2) {
-      title = `${teams[response.team1]} ${response.score1} : ${
-        response.score2
-      } ${teams[response.team2]}`;
-    } else {
-      title = `${teams[response.team1]} :  ${teams[response.team2]}`;
-    }
-    this.setState({ title, matchData: response });
+    const { match } = this.props;
+    const { gameId } = match.params;
+    getMatch(gameId).then((resp) => {
+      const response = this.transformMatch(resp.data);
+      let title = "";
+      if (response.score1 && response.score2) {
+        title = `${teams[response.team1]} ${response.score1} : ${
+          response.score2
+        } ${teams[response.team2]}`;
+      } else {
+        title = `${teams[response.team1]} :  ${teams[response.team2]}`;
+      }
+      this.setState({ title, matchData: response });
+    });
   }
+
+  transformMatch = (response) => {
+    const match = {
+      results: [],
+    };
+    response.forEach((data) => {
+      const entry = {
+        userId: data.user.id,
+        firstName: data.user.firstName,
+        lastName: data.user.lastName,
+        variant: data.guess.outcome,
+        points: data.guess.points,
+        guess1: null,
+        guess2: null,
+      };
+      if (data.guess.result) {
+        entry.guess1 = data.guess.result.goals1;
+        entry.guess2 = data.guess.result.goals2;
+      }
+      match.results.push(entry);
+    });
+    return match;
+  };
 
   render() {
     const { title, matchData } = this.state;
@@ -75,10 +106,14 @@ class MatchPage extends React.Component {
                     {matchData.results.map((match) => (
                       <TableRow
                         hover
+                        selected={
+                          window.localStorage.getItem("id") ===
+                          String(match.userId)
+                        }
                         style={{ cursor: "pointer" }}
                         key={match.firstName + match.lastname}
                       >
-                        <TableCell>{`${match.firstname} ${match.lastname}`}</TableCell>
+                        <TableCell>{`${match.firstName} ${match.lastName}`}</TableCell>
                         <TableCell>
                           {match.guess1 === null || match.guess2 === null ? (
                             <Clear />
@@ -102,4 +137,4 @@ class MatchPage extends React.Component {
   }
 }
 
-export default MatchPage;
+export default withRouter(MatchPage);

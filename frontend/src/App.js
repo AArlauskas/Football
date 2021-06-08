@@ -41,7 +41,7 @@ function App() {
               <Route exact path="/home">
                 <HomePage />
               </Route>
-              <Route exact path="/match">
+              <Route path="/match/:gameId">
                 <MatchPage />
               </Route>
               <Route exact path="/admin">

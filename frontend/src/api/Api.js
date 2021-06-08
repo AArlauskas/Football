@@ -45,6 +45,9 @@ export const getPersonalPoints = () => Axios.get("/points");
 
 export const getPoints = (id) => Axios.get(`/points/${id}`);
 
+export const getMatch = (id) =>
+  Axios.get("/games/results", { params: { game: id } });
+
 export const addGame = (data) => Axios.post("/games", data);
 
 export const updateGame = (data) => Axios.put("/games", data);

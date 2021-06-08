@@ -24,9 +24,13 @@ const MatchesByDate = ({ matches, date, onSubmit }) => (
           adaptedMatch.score1 = match.game.result.goals1;
           adaptedMatch.score2 = match.game.result.goals2;
         }
-        if (match.guess !== null && match.guess.result !== null) {
-          adaptedMatch.guess1 = match.guess.result.goals1;
-          adaptedMatch.guess2 = match.guess.result.goals2;
+        if (match.guess !== null) {
+          adaptedMatch.points = match.guess.points;
+          adaptedMatch.variant = match.guess.outcome;
+          if (match.guess.result !== null) {
+            adaptedMatch.guess1 = match.guess.result.goals1;
+            adaptedMatch.guess2 = match.guess.result.goals2;
+          }
         }
         return (
           <Grid item xs={12} sm={6} md={4} lg={3} key={match.id}>

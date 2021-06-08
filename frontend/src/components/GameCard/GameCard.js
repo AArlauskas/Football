@@ -84,8 +84,8 @@ const GameCard = ({
     setWasChanged(false);
   };
 
-  const handleMatchRedirect = (matchId) => {
-    if (started) history.push(`/match/${matchId}`);
+  const handleMatchRedirect = () => {
+    if (started) history.push(`/match/${id}`);
   };
 
   const handleTeamRedirect = (code) => {
@@ -93,11 +93,11 @@ const GameCard = ({
   };
 
   const getColor = () => {
-    if (variant === "good")
+    if (variant === "correct_alone" || variant === "correct")
       return { textAlign: "center", backgroundColor: "rgba(0,255,0,0.3)" };
-    if (variant === "average")
+    if (variant === "outcome_only")
       return { textAlign: "center", backgroundColor: "rgba(255,255,0,0.3)" };
-    if (variant === "bad")
+    if (variant === "outcome_incorrect" || variant === "not_given")
       return { textAlign: "center", backgroundColor: "rgba(255,0,0,0.3)" };
     return null;
   };
@@ -105,7 +105,7 @@ const GameCard = ({
   return (
     <Card elevation={5} style={started ? { cursor: "pointer" } : null}>
       <CardContent>
-        <Grid item container spacing={1} xs={12}>
+        <Grid item container spacing={1} xs={12} onClick={handleMatchRedirect}>
           <Grid item xs={12} style={{ textAlign: "center" }}>
             <Typography variant="h6">{time}</Typography>
             <Divider />
@@ -164,7 +164,7 @@ const GameCard = ({
               onChange={handleGuess2Change}
             />
           </Grid>
-          {points ? (
+          {points || variant === "not_given" ? (
             <>
               <Grid xs={12}>
                 <Typography style={{ textAlign: "center" }} variant="subtitle1">
@@ -172,7 +172,7 @@ const GameCard = ({
                 </Typography>
                 <Divider />
                 <Typography style={getColor()} variant="h6">
-                  {points}
+                  {variant === "not_given" ? "-" : points}
                 </Typography>
               </Grid>
             </>

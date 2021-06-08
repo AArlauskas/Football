@@ -1,42 +1,28 @@
 [
   {
-    "game": {
-      "id": 1,
-      "t1": { "code": "ENG", "name": "Anglija" },
-      "t2": { "code": "ITA", "name": "Italija" },
-      "date": "2021-06-10",
-      "time": "00:12",
-      "state": "open",
-      "result": null
-    },
     "guess": {
-      "result": { "goals1": 1, "goals2": 5 },
-      "points": null,
-      "outcome": null
+      "result": { "goals1": 2, "goals2": 5 },
+      "points": 7,
+      "outcome": "outcome_incorrect"
+    },
+    "user": {
+      "id": 2,
+      "email": "auruxxas.ar@gmail.com",
+      "firstName": "Aurimas",
+      "lastName": "Arlauskas",
+      "points": { "total": 0, "correctGuesses": 1, "correctOutcomes": 0 },
+      "roles": ["player"]
     }
   },
   {
-    "game": {
-      "id": 2,
-      "t1": { "code": "DEU", "name": "Vokietija" },
-      "t2": { "code": "FRA", "name": "Prancūzija" },
-      "date": "2021-06-11",
-      "time": "21:30",
-      "state": "open",
-      "result": null
-    },
-    "guess": null
-  },
-  {
-    "game": {
-      "id": 4,
-      "t1": { "code": "HRV", "name": "Kroatija" },
-      "t2": { "code": "SVK", "name": "Slovakija" },
-      "date": "2021-06-18",
-      "time": "09:45",
-      "state": "finished",
-      "result": { "goals1": 7, "goals2": 7 }
-    },
-    "guess": { "result": null, "points": null, "outcome": null }
+    "guess": { "result": null, "points": 7, "outcome": "not_given" },
+    "user": {
+      "id": 1,
+      "email": "aivaras.saulius@gmail.com",
+      "firstName": "Aivaras",
+      "lastName": "Saulius",
+      "points": { "total": 4, "correctGuesses": 1, "correctOutcomes": 0 },
+      "roles": ["player"]
+    }
   }
 ]
