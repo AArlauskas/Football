@@ -1,16 +1,13 @@
 package lt.kietekai.backendspring.rest;
 
 import lombok.RequiredArgsConstructor;
-import lt.kietekai.backendspring.rest.models.Game;
-import lt.kietekai.backendspring.rest.models.GameState;
-import lt.kietekai.backendspring.rest.models.GameWithGuess;
-import lt.kietekai.backendspring.rest.models.GamesFilter;
+import lt.kietekai.backendspring.rest.models.*;
 import lt.kietekai.backendspring.storage.FullUserDetails;
 import lt.kietekai.backendspring.storage.GamesService;
 import lt.kietekai.backendspring.storage.repositories.GameRepository;
+import lt.kietekai.backendspring.storage.repositories.GuessRepository;
 import lt.kietekai.backendspring.storage.repositories.TeamRepository;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +23,7 @@ import java.util.stream.Collectors;
 public class GamesRest {
     private final GameRepository gameRepository;
     private final TeamRepository teamRepository;
+    private final GuessRepository guessRepository;
     private final GamesService gamesService;
 
     @GetMapping
@@ -52,6 +50,23 @@ public class GamesRest {
                 })
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("/results")
+    public List<GuessWithUser> results(@RequestParam Long game, @AuthenticationPrincipal FullUserDetails userDetails) {
+        lt.kietekai.backendspring.storage.models.Game gameE = gameRepository.findById(game).orElseThrow(ResourceNotFoundException::new);
+        List<lt.kietekai.backendspring.storage.models.Guess> guesses = guessRepository.findAllByGame(gameE, Sort.by(Sort.Order.asc("points"), Sort.Order.asc("id")));
+        return guesses.stream()
+                .map(Converters::guessWithUser)
+                .map(g -> {
+                    boolean own = g.user().id() == userDetails.getUser().getId();
+                    if (!own && gameE.getClosed() == null) {
+                        return new GuessWithUser(null, g.user());
+                    } else {
+                        return g;
+                    }
+                }).collect(Collectors.toList());
+    }
+
 
     private List<lt.kietekai.backendspring.storage.models.synthetic.GameWithGuess> queryGamesWithGuesses(GamesFilter filter, Long userId) {
         switch (filter) {

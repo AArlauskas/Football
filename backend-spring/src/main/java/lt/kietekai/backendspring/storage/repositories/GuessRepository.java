@@ -3,6 +3,7 @@ package lt.kietekai.backendspring.storage.repositories;
 import lt.kietekai.backendspring.storage.models.Game;
 import lt.kietekai.backendspring.storage.models.Guess;
 import lt.kietekai.backendspring.storage.models.User;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,7 @@ public interface GuessRepository extends JpaRepository<Guess, Long> {
     void createMissingGuesses();
 
     List<Guess> findAllByGame(Game game);
+    List<Guess> findAllByGame(Game game, Sort sort);
 
     Optional<Guess> findByUserAndGame(User user, Game game);
 }
