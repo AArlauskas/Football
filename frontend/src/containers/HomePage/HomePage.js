@@ -8,10 +8,10 @@ import CustomSnackbar from "../../components/CustomSnackbar/CustomSnackbar";
 
 const transformMatches = (cards) => {
   const transformedMatches = cards.reduce((acc, val) => {
-    if (!acc[val.date]) {
-      acc[val.date] = [];
+    if (!acc[val.game.date]) {
+      acc[val.game.date] = [];
     }
-    acc[val.date].push(val);
+    acc[val.game.date].push(val);
     return acc;
   }, {});
   return { transformedMatches };

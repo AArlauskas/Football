@@ -33,7 +33,7 @@ export const getAllGames = () =>
   Axios.get("/games/", { params: { filter: "all" } });
 
 export const getTodayGames = () =>
-  Axios.get("/games/", { params: { filter: "today" } });
+  Axios.get("/games/guessed", { params: { filter: "today" } });
 
 export const register = (data) => Axios.post("/auth/register", data);
 
@@ -46,6 +46,8 @@ export const getPersonalPoints = () => Axios.get("/points");
 export const getPoints = (id) => Axios.get(`/points/${id}`);
 
 export const addGame = (data) => Axios.post("/games", data);
+
+export const updateGame = (data) => Axios.put("/games", data);
 
 export const getAllTeams = () => Axios.get("/teams");
 

@@ -13,20 +13,20 @@ const MatchesByDate = ({ matches, date, onSubmit }) => (
     <Grid item container direction="row" spacing={3}>
       {matches.map((match) => {
         const adaptedMatch = {
-          id: match.id,
-          date: match.date,
-          time: match.time,
-          team1: match.team1,
-          team2: match.team2,
-          started: match.state !== "open",
+          id: match.game.id,
+          date: match.game.date,
+          time: match.game.time,
+          team1: match.game.t1,
+          team2: match.game.t2,
+          started: match.game.state !== "open",
         };
-        if (match.result !== null) {
-          adaptedMatch.score1 = match.result.goals1;
-          adaptedMatch.score2 = match.result.goals2;
+        if (match.game.result !== null) {
+          adaptedMatch.score1 = match.game.result.goals1;
+          adaptedMatch.score2 = match.game.result.goals2;
         }
-        if (match.guess !== undefined) {
-          adaptedMatch.guess1 = match.guess.goals1;
-          adaptedMatch.guess2 = match.guess.goals2;
+        if (match.guess !== null && match.guess.result !== null) {
+          adaptedMatch.guess1 = match.guess.result.goals1;
+          adaptedMatch.guess2 = match.guess.result.goals2;
         }
         return (
           <Grid item xs={12} sm={6} md={4} lg={3} key={match.id}>

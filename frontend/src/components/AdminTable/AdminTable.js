@@ -20,8 +20,6 @@ export default function AdminTable({ teams, data, onAdd, onUpdate, onDelete }) {
     {
       title: "Time",
       field: "time",
-      type: "time",
-      dateSetting: { locale: "lt-LT" },
       align: "left",
     },
     {
@@ -29,14 +27,14 @@ export default function AdminTable({ teams, data, onAdd, onUpdate, onDelete }) {
       field: "team1",
       lookup: teams,
       align: "center",
-      render: (rowData) => rowData.team1.name,
+      render: (rowData) => rowData.t1.name,
     },
     {
       title: "Team 2",
       field: "team2",
       lookup: teams,
       align: "center",
-      render: (rowData) => rowData.team2.name,
+      render: (rowData) => rowData.t2.name,
     },
     {
       title: "Goals 1",
