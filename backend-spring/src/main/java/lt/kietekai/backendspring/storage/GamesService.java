@@ -122,8 +122,7 @@ public class GamesService {
             }
         }
         guessRepository.saveAllAndFlush(guesses);
-        // TODO
-        //pointsRepository.recalculateTotals();
+        pointsRepository.recalculateTotals();
     }
 
     private enum GameOutcome {

@@ -106,7 +106,7 @@ public class GamesRest {
                 throw new IllegalArgumentException("Only finished games can have result");
             }
             stored.setResult1(game.result().goals1());
-            stored.setResult2(game.result().goals1());
+            stored.setResult2(game.result().goals2());
         }
         if (game.state() == GameState.OPEN) {
             return Converters.game(gamesService.openGame(stored));
