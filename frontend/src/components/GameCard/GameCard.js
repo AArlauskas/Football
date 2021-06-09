@@ -81,6 +81,7 @@ const GameCard = ({
       },
     };
     onSubmit(guess);
+    handleCancel();
   };
 
   const handleMatchRedirect = () => {
@@ -140,7 +141,7 @@ const GameCard = ({
           </Grid>
           {variant === "not_given" ? (
             <Grid item xs={12}>
-              <Typography style={{ textAlign: "center" }}>
+              <Typography style={{ textAlign: "center", paddingBottom: 30 }}>
                 Nepateikta
               </Typography>
             </Grid>
@@ -170,7 +171,7 @@ const GameCard = ({
                   value={guess2Value}
                   onChange={handleGuess2Change}
                 />
-              </Grid>{" "}
+              </Grid>
             </>
           )}
 

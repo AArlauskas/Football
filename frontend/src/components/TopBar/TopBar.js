@@ -173,7 +173,13 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
             <Grid item>
               <Grid container alignItems="center">
                 <Grid item>
-                  <IconButton edge="end" onClick={() => history.push("/admin")}>
+                  <IconButton
+                    edge="end"
+                    onClick={() => {
+                      if (localStorage.getItem("isAdmin") === "true")
+                        history.push("/admin");
+                    }}
+                  >
                     <Avatar style={{ backgroundColor: SUNFLOWER }}>
                       {points}
                     </Avatar>

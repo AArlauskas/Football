@@ -12,11 +12,7 @@ import ResultListItem from "../../components/ResultListItem/ResultListItem";
 import GuessListItem from "../../components/GuessListItem/GuessListItem";
 import TopBar from "../../components/TopBar/TopBar";
 import UserCard from "../../components/UserCard/UserCard";
-import {
-  addGuess,
-  getAllPersonalGames,
-  getPersonalPoints,
-} from "../../api/Api";
+import { addGuess, getAllPersonalGames, getPersonalUser } from "../../api/Api";
 import CustomSnackbar from "../../components/CustomSnackbar/CustomSnackbar";
 
 const transformMatches = (cards) => {
@@ -57,14 +53,16 @@ class PersonalPage extends React.Component {
   }
 
   componentDidMount() {
-    getPersonalPoints().then((responseStats) => {
+    getPersonalUser().then((responseStats) => {
+      const user = responseStats.data;
       const stats = {
-        good: responseStats.data.correctGuesses,
-        average: responseStats.data.correctOutcomes,
-        bad: 5,
-        points: responseStats.data.total,
-        rank: 1,
-        outOf: 12,
+        firstname: user.firstName,
+        lastName: user.lastName,
+        good: user.points.correctAlone + user.points.correctGuesses,
+        average: user.points.correctOutcomes,
+        bad: user.points.incorrect + user.points.notGiven,
+        points: user.points.total,
+        rank: user.points.place || "Nėra",
       };
       getAllPersonalGames().then((response) => {
         this.transformOpenMatches(response);
@@ -157,11 +155,10 @@ class PersonalPage extends React.Component {
           </Grid>
           <Grid item lg={4} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
             <UserCard
-              firstname={window.localStorage.getItem("firstName")}
-              lastname={window.localStorage.getItem("lastName")}
+              firstname={stats.firstName}
+              lastname={stats.lastName}
               points={stats.points}
               ranking={stats.rank}
-              outOf={stats.outOf}
               good={stats.good}
               bad={stats.bad}
               average={stats.average}

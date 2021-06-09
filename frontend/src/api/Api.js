@@ -51,6 +51,10 @@ export const getPersonalPoints = () => Axios.get("/points");
 
 export const getPoints = (id) => Axios.get(`/points/${id}`);
 
+export const getPersonalUser = () => Axios.get("/users");
+
+export const getUser = (id) => Axios.get("/users", { params: { user: id } });
+
 export const getMatch = (id) =>
   Axios.get("/games/results", { params: { game: id } });
 

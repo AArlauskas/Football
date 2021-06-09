@@ -22,6 +22,8 @@ class LoginPage extends React.Component {
     };
     login(data)
       .then((response) => {
+        const isAdmin = response.data.roles.includes("admin");
+        localStorage.setItem("isAdmin", isAdmin);
         localStorage.setItem("id", response.data.id);
         localStorage.setItem("firstName", response.data.firstName);
         localStorage.setItem("lastName", response.data.lastName);
