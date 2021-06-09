@@ -26,6 +26,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Query(value = "update Game g set g.closed=current_timestamp where g.gameDate < :cutoff")
     void closeStartingBefore(Date cutoff);
 
-    @Query("select g from Game g where g.team1=:team or g.team2=:team and g.finished is not null order by g.gameDate")
+    @Query("select g from Game g where (g.team1=:team or g.team2=:team) and g.finished is not null order by g.gameDate")
     List<Game> getFinishedWithTeam(Team team);
 }
