@@ -122,7 +122,12 @@ public class GamesService {
             }
         }
         guessRepository.saveAllAndFlush(guesses);
+        recalculatePoints();
+    }
+
+    public void recalculatePoints() {
         pointsRepository.recalculateTotals();
+        pointsRepository.recalculatePlaces();
     }
 
     private enum GameOutcome {

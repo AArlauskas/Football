@@ -69,15 +69,19 @@ public class Converters {
         throw new IllegalStateException();
     }
 
+    public static Points points(lt.kietekai.backendspring.storage.models.Points points) {
+        return new Points(points.getTotal(), points.getCorrectAlone(), points.getCorrect(), points.getOutcomes(), points.getIncorrect(), points.getNotGiven(), points.getPlace());
+    }
+
     public static UserDetails usersPoints(lt.kietekai.backendspring.storage.models.Points points) {
         return new UserDetails(
                 points.getUser().getId(), points.getUser().getEmail(), points.getUser().getFirstName(), points.getUser().getLastName(),
-                new Points(points.getTotal(), points.getCorrect(), points.getOutcomes()), points.getUser().roles()
+                points(points), points.getUser().roles()
         );
     }
 
     public static UserDetails user(User u) {
-        return new UserDetails(u.getId(), u.getEmail(), u.getFirstName(), u.getLastName(), new Points(u.getPoints().getTotal(), u.getPoints().getCorrect(), u.getPoints().getOutcomes()), u.roles());
+        return new UserDetails(u.getId(), u.getEmail(), u.getFirstName(), u.getLastName(), points(u.getPoints()), u.roles());
 
     }
 
