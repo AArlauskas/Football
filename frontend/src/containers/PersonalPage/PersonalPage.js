@@ -153,13 +153,7 @@ class PersonalPage extends React.Component {
           justify="center"
         >
           <Grid item xs={12}>
-            <TopBar
-              darkMode
-              points={420}
-              showAvatarAndLogout
-              firstName="Aurimas"
-              lastName="Arlauskas"
-            />
+            <TopBar darkMode />
           </Grid>
           <Grid item lg={4} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
             <UserCard
@@ -173,7 +167,7 @@ class PersonalPage extends React.Component {
               average={stats.average}
             />
           </Grid>
-          <Grid item lg={8} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
+          <Grid item lg={8} md={6} sm={4} xs={11} style={{ marginTop: 30 }}>
             <Tabs
               TabIndicatorProps={{ style: { background: "#f1c40f" } }}
               value={tab}
@@ -207,13 +201,14 @@ class PersonalPage extends React.Component {
                       <Typography style={{ textAlign: "center" }}>
                         {date}
                       </Typography>
-                      {openMatches[date].map((match) => (
-                        <GuessListItem
-                          handleGuess={this.handleGuess}
-                          match={match}
-                        />
-                      ))}
                     </ListSubheader>
+                    {openMatches[date].map((match) => (
+                      <GuessListItem
+                        handleGuess={this.handleGuess}
+                        match={match}
+                        key={match.game.id}
+                      />
+                    ))}
                   </>
                 ))}
               </List>
@@ -228,10 +223,10 @@ class PersonalPage extends React.Component {
                       <Typography style={{ textAlign: "center" }}>
                         {date}
                       </Typography>
-                      {previousMatches[date].map((match) => (
-                        <ResultListItem match={match} />
-                      ))}
                     </ListSubheader>
+                    {previousMatches[date].map((match) => (
+                      <ResultListItem match={match} />
+                    ))}
                   </>
                 ))}
               </List>

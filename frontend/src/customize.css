@@ -3,7 +3,9 @@
   border: 1px solid rgba(241, 196, 15, 0.3) !important;
 }
 
-.MuiListItem-root.Mui-selected {
+.MuiListItem-root.Mui-selected,
+.MuiTableRow-root.Mui-selected,
+.MuiTableRow-root.Mui-selected:hover {
   background-color: rgba(241, 196, 15, 0.25) !important;
 }
 

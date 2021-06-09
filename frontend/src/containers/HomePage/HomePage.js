@@ -38,14 +38,19 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    getTodayGames().then((response) => {
-      const { transformedMatches } = transformMatches(response.data);
-      const dates = sortMatchDates(transformedMatches);
-      this.setState({
-        matches: transformedMatches,
-        sortedMatchDates: dates,
+    getTodayGames()
+      .then((response) => {
+        const { transformedMatches } = transformMatches(response.data);
+        const dates = sortMatchDates(transformedMatches);
+        this.setState({
+          matches: transformedMatches,
+          sortedMatchDates: dates,
+        });
+      })
+      .catch(() => {
+        window.localStorage.clear();
+        window.location.reload();
       });
-    });
   }
 
   render() {

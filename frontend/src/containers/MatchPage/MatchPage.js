@@ -127,11 +127,12 @@ class MatchPage extends React.Component {
                           window.localStorage.getItem("id") ===
                           String(match.userId)
                         }
-                        style={{ cursor: "pointer" }}
                         key={match.firstName + match.lastName}
-                        onClick={() => handlePlayerRedirect(match.userId)}
                       >
-                        <TableCell>{`${match.firstName} ${match.lastName}`}</TableCell>
+                        <TableCell
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handlePlayerRedirect(match.userId)}
+                        >{`${match.firstName} ${match.lastName}`}</TableCell>
                         <TableCell>
                           {match.guess1 === null || match.guess2 === null ? (
                             <Clear />

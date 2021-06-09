@@ -143,7 +143,7 @@ const GameCard = ({
               inputProps={{ style: { textAlign: "center" } }}
               fullWidth
               disabled={started}
-              variant="outlined"
+              variant={started ? "filled" : "outlined"}
               value={guess1Value}
               onChange={handleGuess1Change}
             />
@@ -158,14 +158,14 @@ const GameCard = ({
               inputProps={{ style: { textAlign: "center" } }}
               fullWidth
               disabled={started}
-              variant="outlined"
+              variant={started ? "filled" : "outlined"}
               value={guess2Value}
               onChange={handleGuess2Change}
             />
           </Grid>
           {points || variant === "not_given" ? (
             <>
-              <Grid xs={12}>
+              <Grid item xs={12}>
                 <Typography style={{ textAlign: "center" }} variant="subtitle1">
                   Taškai
                 </Typography>

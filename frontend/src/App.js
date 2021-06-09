@@ -14,54 +14,58 @@ import MatchPage from "./containers/MatchPage/MatchPage";
 import AdminPage from "./containers/AdminPage/AdminPage";
 import TeamPage from "./containers/TeamPage/TeamPage";
 import PersonalPage from "./containers/PersonalPage/PersonalPage";
+import PlayerPage from "./containers/PlayerPage/PlayerPage";
+import ResultsPage from "./containers/ResultsPage/ResultsPage";
+
+const id = window.localStorage.getItem("id");
 
 function App() {
-  const id = window.localStorage.getItem("id");
   return (
     <Router>
       <CssBaseline>
-        <Switch>
-          {id === null ? (
-            <>
-              <Route exact path="/">
-                <LoginPage />
-              </Route>
-              <Route exact path="/register">
-                <RegisterPage />
-              </Route>
-              <Route>
-                <Redirect to="/" />
-              </Route>
-            </>
-          ) : (
-            <>
-              <Route exact path="/rules">
-                <RulesPage />
-              </Route>
-              <Route exact path="/home">
-                <HomePage />
-              </Route>
-              <Route path="/match/:gameId">
-                <MatchPage />
-              </Route>
-              <Route exact path="/admin">
-                <AdminPage />
-              </Route>
-              <Route exact path="/personal">
-                <PersonalPage />
-              </Route>
-              {/* <Route exact path="/player/:userId">
-                <GuessesPage />
-              </Route> */}
-              <Route path="/team/:teamId">
-                <TeamPage />
-              </Route>
-              <Route>
-                <Redirect to="/home" />
-              </Route>
-            </>
-          )}
-        </Switch>
+        {id === null ? (
+          <Switch>
+            <Route exact path="/">
+              <LoginPage />
+            </Route>
+            <Route exact path="/register">
+              <RegisterPage />
+            </Route>
+            <Route>
+              <Redirect to="/" />
+            </Route>
+          </Switch>
+        ) : (
+          <Switch>
+            <Route exact path="/rules">
+              <RulesPage />
+            </Route>
+            <Route exact path="/home">
+              <HomePage />
+            </Route>
+            <Route path="/match/:gameId">
+              <MatchPage />
+            </Route>
+            <Route exact path="/admin">
+              <AdminPage />
+            </Route>
+            <Route exact path="/personal">
+              <PersonalPage />
+            </Route>
+            <Route path="/player/:userId">
+              <PlayerPage />
+            </Route>
+            <Route path="/team/:teamId">
+              <TeamPage />
+            </Route>
+            <Route exact path="/results">
+              <ResultsPage />
+            </Route>
+            <Route>
+              <Redirect to="/home" />
+            </Route>
+          </Switch>
+        )}
       </CssBaseline>
     </Router>
   );
