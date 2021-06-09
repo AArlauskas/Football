@@ -6,6 +6,7 @@ import {
   Tabs,
   Typography,
 } from "@material-ui/core";
+import { withRouter } from "react-router";
 import React from "react";
 import ReactSwipe from "react-swipe";
 import ResultListItem from "../../components/ResultListItem/ResultListItem";
@@ -35,6 +36,15 @@ const sortMatchDates = (cards) =>
     return 1;
   });
 
+const sortMatchDatesDesc = (cards) =>
+  Object.keys(cards).sort((a, b) => {
+    const dateA = new Date(a);
+    const dateB = new Date(b);
+    if (dateA.getTime() < dateB.getTime()) return 1;
+    if (dateA.getTime() === dateB.getTime()) return 0;
+    return -1;
+  });
+
 let reactSwipeEl;
 
 class PersonalPage extends React.Component {
@@ -53,25 +63,30 @@ class PersonalPage extends React.Component {
   }
 
   componentDidMount() {
-    getPersonalUser().then((responseStats) => {
-      const user = responseStats.data;
-      const stats = {
-        firstname: user.firstName,
-        lastName: user.lastName,
-        good: user.points.correctAlone + user.points.correctGuesses,
-        average: user.points.correctOutcomes,
-        bad: user.points.incorrect + user.points.notGiven,
-        points: user.points.total,
-        rank: user.points.place || "Nėra",
-      };
-      getAllPersonalGames().then((response) => {
-        this.transformOpenMatches(response);
-        this.transformPreviousMatches(response);
+    const { history } = this.props;
+    getPersonalUser()
+      .then((responseStats) => {
+        const user = responseStats.data;
+        const stats = {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          good: user.points.correctAlone + user.points.correctGuesses,
+          average: user.points.correctOutcomes,
+          bad: user.points.incorrect + user.points.notGiven,
+          points: user.points.total,
+          rank: user.points.place || "Nėra",
+        };
         this.setState({
           stats,
         });
-      });
-    });
+        getAllPersonalGames()
+          .then((response) => {
+            this.transformOpenMatches(response);
+            this.transformPreviousMatches(response);
+          })
+          .catch(() => history.push("/home"));
+      })
+      .catch(() => history.push("/home"));
   }
 
   transformOpenMatches = (response) => {
@@ -89,7 +104,7 @@ class PersonalPage extends React.Component {
     const { transformedMatches } = transformMatches(
       response.data.filter((game) => game.game.state !== "open")
     );
-    const previousDates = sortMatchDates(transformedMatches);
+    const previousDates = sortMatchDatesDesc(transformedMatches);
 
     this.setState({
       previousMatches: transformedMatches,
@@ -153,17 +168,19 @@ class PersonalPage extends React.Component {
           <Grid item xs={12}>
             <TopBar darkMode />
           </Grid>
-          <Grid item lg={4} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
-            <UserCard
-              firstname={stats.firstName}
-              lastname={stats.lastName}
-              points={stats.points}
-              ranking={stats.rank}
-              good={stats.good}
-              bad={stats.bad}
-              average={stats.average}
-            />
-          </Grid>
+          {stats && (
+            <Grid item lg={4} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
+              <UserCard
+                firstname={stats.firstName}
+                lastname={stats.lastName}
+                points={stats.points}
+                ranking={stats.rank}
+                good={stats.good}
+                bad={stats.bad}
+                average={stats.average}
+              />
+            </Grid>
+          )}
           <Grid item lg={8} md={6} sm={4} xs={11} style={{ marginTop: 30 }}>
             <Tabs
               TabIndicatorProps={{ style: { background: "#f1c40f" } }}
@@ -235,4 +252,4 @@ class PersonalPage extends React.Component {
   }
 }
 
-export default PersonalPage;
+export default withRouter(PersonalPage);

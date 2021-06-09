@@ -1,14 +1,18 @@
+import { Grid, List, ListSubheader, Typography } from "@material-ui/core";
 import React from "react";
 import { withRouter } from "react-router";
-import { getAllPlayerGames, getPoints } from "../../api/Api";
+import { getAllPlayerGames, getUser } from "../../api/Api";
+import ResultListItem from "../../components/ResultListItem/ResultListItem";
+import TopBar from "../../components/TopBar/TopBar";
+import UserCard from "../../components/UserCard/UserCard";
 
-const sortMatchDates = (cards) =>
+const sortMatchDatesDesc = (cards) =>
   Object.keys(cards).sort((a, b) => {
     const dateA = new Date(a);
     const dateB = new Date(b);
-    if (dateA.getTime() < dateB.getTime()) return -1;
+    if (dateA.getTime() < dateB.getTime()) return 1;
     if (dateA.getTime() === dateB.getTime()) return 0;
-    return 1;
+    return -1;
   });
 
 const transformMatches = (cards) => {
@@ -35,24 +39,32 @@ class PlayerPage extends React.Component {
   componentDidMount() {
     const { match } = this.props;
     const { userId } = match.params;
-    getPoints(userId).then((responseStats) => {
-      const stats = {
-        good: responseStats.data.correctGuesses,
-        average: responseStats.data.correctOutcomes,
-        bad: 5,
-        points: responseStats.data.total,
-        rank: 1,
-      };
-      getAllPlayerGames(userId).then((responseGames) => {
-        const { transformedMatches } = transformMatches(responseGames.data);
-        const sortedDates = sortMatchDates(transformedMatches);
-        this.setState({
-          matches: transformedMatches,
-          sortedDates,
-          stats,
-        });
-      });
-    });
+    const { history } = this.props;
+    getUser(userId)
+      .then((responseStats) => {
+        const user = responseStats.data;
+        const stats = {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          good: user.points.correctAlone + user.points.correctGuesses,
+          average: user.points.correctOutcomes,
+          bad: user.points.incorrect + user.points.notGiven,
+          points: user.points.total,
+          rank: user.points.place || "Nėra",
+        };
+        getAllPlayerGames(userId)
+          .then((responseGames) => {
+            const { transformedMatches } = transformMatches(responseGames.data);
+            const sortedDates = sortMatchDatesDesc(transformedMatches);
+            this.setState({
+              matches: transformedMatches,
+              sortedDates,
+              stats,
+            });
+          })
+          .catch(() => history.push("/home"));
+      })
+      .catch(() => history.push("/home"));
   }
 
   render() {
@@ -60,7 +72,54 @@ class PlayerPage extends React.Component {
     if (!stats || !matches || !sortedDates) return null;
     return (
       <>
-        <div>labas</div>
+        <Grid
+          container
+          direction="column"
+          alignItems="stretch"
+          alignContent="center"
+          justify="center"
+        >
+          <Grid item xs={12}>
+            <TopBar darkMode />
+          </Grid>
+          {stats && (
+            <Grid item lg={4} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
+              <UserCard
+                firstname={stats.firstName}
+                lastname={stats.lastName}
+                points={stats.points}
+                ranking={stats.rank}
+                good={stats.good}
+                bad={stats.bad}
+                average={stats.average}
+              />
+            </Grid>
+          )}
+          <Grid item lg={4} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
+            <List>
+              {sortedDates.map((date) => (
+                <>
+                  <ListSubheader
+                    disableSticky
+                    style={{ paddingTop: 20 }}
+                    key={date}
+                  >
+                    <Typography style={{ textAlign: "center" }}>
+                      {date}
+                    </Typography>
+                  </ListSubheader>
+                  {matches[date].map((match) => (
+                    <ResultListItem
+                      handleGuess={this.handleGuess}
+                      match={match}
+                      key={match.game.id}
+                    />
+                  ))}
+                </>
+              ))}
+            </List>
+          </Grid>
+        </Grid>
       </>
     );
   }

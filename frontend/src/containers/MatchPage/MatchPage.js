@@ -70,12 +70,8 @@ class MatchPage extends React.Component {
     const { history } = this.props;
     const { guessData, game } = this.state;
 
-    const handleTeam1Redirect = () => {
-      history.push("/team/SWE");
-    };
-
-    const handleTeam2Redirect = () => {
-      history.push("/team/ENG");
+    const handleTeamRedirect = (code) => {
+      history.push(`/team/${code}`);
     };
 
     const handlePlayerRedirect = (id) => {
@@ -88,7 +84,7 @@ class MatchPage extends React.Component {
     return (
       <>
         <Grid container direction="row" justify="center">
-          <Grid item xs={11} sm={10} md={9} lg={7}>
+          <Grid item xs={12} sm={10} md={9} lg={7}>
             <TopBar darkMode />
             <Grid
               item
@@ -102,7 +98,11 @@ class MatchPage extends React.Component {
               <Grid item xs={12} style={{ paddingBottom: 20 }}>
                 <Typography variant="subtitle2">{game.time}</Typography>
               </Grid>
-              <Grid item xs={5} onClick={handleTeam1Redirect}>
+              <Grid
+                item
+                xs={5}
+                onClick={() => handleTeamRedirect(game.t1.code)}
+              >
                 <Typography className="link" variant="h5">
                   {game.t1.name}
                 </Typography>
@@ -113,7 +113,11 @@ class MatchPage extends React.Component {
                     `${game.result.goals1} : ${game.result.goals2}`}
                 </Typography>
               </Grid>
-              <Grid item xs={5} onClick={handleTeam2Redirect}>
+              <Grid
+                item
+                xs={5}
+                onClick={() => handleTeamRedirect(game.t2.code)}
+              >
                 <Typography className="link" variant="h5">
                   {game.t2.name}
                 </Typography>

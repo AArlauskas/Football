@@ -1,6 +1,7 @@
 import { Grid } from "@material-ui/core";
 import moment from "moment";
 import React from "react";
+import { withRouter } from "react-router";
 import { addGame, getAllGames, getAllTeams, updateGame } from "../../api/Api";
 import AdminTable from "../../components/AdminTable/AdminTable";
 import TopBar from "../../components/TopBar/TopBar";
@@ -15,17 +16,23 @@ class AdminPage extends React.Component {
   }
 
   componentDidMount() {
-    getAllTeams().then((teamsResponse) => {
-      const teams = this.mapTeams(teamsResponse.data);
-      this.setState({ teams });
-      this.getGames();
-    });
+    const { history } = this.props;
+    getAllTeams()
+      .then((teamsResponse) => {
+        const teams = this.mapTeams(teamsResponse.data);
+        this.setState({ teams });
+        this.getGames();
+      })
+      .catch(() => history.push("/home"));
   }
 
   getGames = () => {
-    getAllGames().then((response) => {
-      this.setState({ games: response.data });
-    });
+    const { history } = this.props;
+    getAllGames()
+      .then((response) => {
+        this.setState({ games: response.data });
+      })
+      .catch(() => history.push("/home"));
   };
 
   mapTeams = (teamData) => {
@@ -95,4 +102,4 @@ class AdminPage extends React.Component {
   }
 }
 
-export default AdminPage;
+export default withRouter(AdminPage);

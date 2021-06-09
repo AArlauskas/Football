@@ -81,7 +81,7 @@ const GameCard = ({
       },
     };
     onSubmit(guess);
-    handleCancel();
+    setWasChanged(false);
   };
 
   const handleMatchRedirect = () => {
@@ -103,10 +103,19 @@ const GameCard = ({
   };
 
   return (
-    <Card elevation={5} style={started ? { cursor: "pointer" } : null}>
+    <Card elevation={5}>
       <CardContent>
-        <Grid item container spacing={1} xs={12} onClick={handleMatchRedirect}>
-          <Grid item xs={12} style={{ textAlign: "center" }}>
+        <Grid item container spacing={1} xs={12}>
+          <Grid
+            item
+            xs={12}
+            style={
+              started
+                ? { cursor: "pointer", textAlign: "center" }
+                : { textAlign: "center" }
+            }
+            onClick={handleMatchRedirect}
+          >
             <Typography variant="h6">{time}</Typography>
             <Divider />
           </Grid>
@@ -119,7 +128,12 @@ const GameCard = ({
               {team1.name}
             </Typography>
           </Grid>
-          <Grid item xs={4} onClick={handleMatchRedirect}>
+          <Grid
+            item
+            xs={4}
+            onClick={handleMatchRedirect}
+            style={started ? { cursor: "pointer" } : null}
+          >
             <Typography variant="h5" style={{ textAlign: "center" }}>
               {score1 && score2 ? `${score1} : ${score2}` : ""}
             </Typography>
@@ -177,7 +191,12 @@ const GameCard = ({
 
           {points || variant === "not_given" ? (
             <>
-              <Grid item xs={12}>
+              <Grid
+                item
+                xs={12}
+                onClick={handleMatchRedirect}
+                style={started ? { cursor: "pointer" } : null}
+              >
                 <Typography style={{ textAlign: "center" }} variant="subtitle1">
                   Taškai
                 </Typography>

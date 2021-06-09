@@ -1,10 +1,10 @@
 import { Grid, List, ListSubheader, Typography } from "@material-ui/core";
 import React from "react";
 import { withRouter } from "react-router";
-import ResultListItem from "../../components/ResultListItem/ResultListItem";
+import { getTeam } from "../../api/Api";
 import TeamCard from "../../components/TeamCard/TeamCard";
+import TeamListItem from "../../components/TeamListItem/TeamListItem";
 import TopBar from "../../components/TopBar/TopBar";
-import { mockedPersonalData } from "../../constants/mocked";
 import { teams } from "../../constants/teams";
 
 const transformMatches = (cards) => {
@@ -31,57 +31,46 @@ class TeamPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: null,
+      team: null,
       matches: null,
       sortedMatchDates: null,
     };
   }
 
   componentDidMount() {
-    const response = mockedPersonalData.filter(
-      (match) => match.team1 === 8 || match.team2 === 8
-    );
-    const { transformedMatches } = transformMatches(response);
-    const dates = sortMatchDates(transformedMatches);
     const { match } = this.props;
     const { teamId } = match.params;
-    const url = teams[teamId];
-    if (url === undefined) {
-      const { history } = this.props;
-      history.push("/home");
-    }
-    this.setState({
-      matches: transformedMatches,
-      sortedMatchDates: dates,
-      url: teams[teamId],
-    });
+    const { history } = this.props;
+    getTeam(teamId)
+      .then((response) => {
+        const { transformedMatches } = transformMatches(response.data);
+        const dates = sortMatchDates(transformedMatches);
+        const url = teams[teamId];
+        if (url === undefined) {
+          history.push("/home");
+        }
+        this.setState({
+          matches: transformedMatches,
+          sortedMatchDates: dates,
+          team: teams[teamId],
+        });
+      })
+      .catch(() => history.push("/home"));
   }
 
   render() {
-    const { matches, sortedMatchDates, url } = this.state;
+    const { matches, sortedMatchDates, team } = this.state;
     if (matches === null || sortedMatchDates === null) return null;
     return (
       <>
-        <Grid
-          container
-          direction="column"
-          alignItems="stretch"
-          alignContent="center"
-          justify="center"
-        >
+        <Grid container justify="center">
           <Grid item xs={12}>
-            <TopBar
-              darkMode
-              points={420}
-              showAvatarAndLogout
-              firstName="Aurimas"
-              lastName="Arlauskas"
-            />
+            <TopBar darkMode />
           </Grid>
-          <Grid item lg={4} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
-            <TeamCard name="Belgija" won={5} tie={3} lost={1} flagUrl={url} />
+          <Grid item xs={11} sm={10} md={8} lg={7} style={{ marginTop: 30 }}>
+            <TeamCard name={team.name} flagUrl={team.url} />
           </Grid>
-          <Grid item lg={4} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
+          <Grid item xs={11} sm={10} md={8} lg={7} style={{ marginTop: 30 }}>
             <List>
               {sortedMatchDates.map((date) => (
                 <>
@@ -93,10 +82,10 @@ class TeamPage extends React.Component {
                     <Typography style={{ textAlign: "center" }}>
                       {date}
                     </Typography>
-                    {matches[date].map((match) => (
-                      <ResultListItem match={match} />
-                    ))}
                   </ListSubheader>
+                  {matches[date].map((match) => (
+                    <TeamListItem key={match.id} match={match} />
+                  ))}
                 </>
               ))}
             </List>

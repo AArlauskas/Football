@@ -56,7 +56,7 @@ const ResultListItem = ({ match }) => {
           </Grid>
           <Grid item xs={4}>
             <Typography style={{ textAlign: "center" }}>
-              {match.guess.result
+              {match.guess?.result
                 ? `${match.guess.result.goals1} : ${match.guess.result.goals2}`
                 : "-"}
             </Typography>

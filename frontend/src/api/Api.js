@@ -18,7 +18,7 @@ const getBaseUri = () => {
   if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
     return "http://localhost:9000/api";
   }
-  return "https://grybeliai.eu/api";
+  return `${window.location.origin}/api`;
 };
 
 const Axios = axios.create({
@@ -67,3 +67,6 @@ export const updateGame = (data) => Axios.put("/games", data);
 export const getAllTeams = () => Axios.get("/teams");
 
 export const addGuess = (data) => Axios.post("/guesses", data);
+
+export const getTeam = (teamId) =>
+  Axios.get("/teams/games", { params: { code: teamId } });

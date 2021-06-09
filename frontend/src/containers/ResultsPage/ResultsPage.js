@@ -23,9 +23,12 @@ class ResultsPage extends React.Component {
   }
 
   componentDidMount() {
-    getResults().then((response) => {
-      this.setState({ results: response.data });
-    });
+    const { history } = this.props;
+    getResults()
+      .then((response) => {
+        this.setState({ results: response.data });
+      })
+      .catch(() => history.push("/home"));
   }
 
   handlePlayerRedirect = (id) => {

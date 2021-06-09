@@ -39,8 +39,8 @@ class RulesPage extends React.Component {
                 <Grid item container direction="column" spacing={1}>
                   <Grid item xs={12}>
                     <Typography>
-                      1. Varžybų spėjimai turi būti pateikti likus 5 min. iki
-                      rungtynių pradžios.
+                      1. Varžybų spėjimai turi būti pateikti iki rungtynių
+                      pradžios.
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>

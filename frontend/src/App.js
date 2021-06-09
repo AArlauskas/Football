@@ -18,6 +18,7 @@ import PlayerPage from "./containers/PlayerPage/PlayerPage";
 import ResultsPage from "./containers/ResultsPage/ResultsPage";
 
 const id = window.localStorage.getItem("id");
+const isAdmin = window.localStorage.getItem("isAdmin") === "true";
 
 function App() {
   return (
@@ -46,9 +47,6 @@ function App() {
             <Route path="/match/:gameId">
               <MatchPage />
             </Route>
-            <Route exact path="/admin">
-              <AdminPage />
-            </Route>
             <Route exact path="/personal">
               <PersonalPage />
             </Route>
@@ -61,6 +59,11 @@ function App() {
             <Route exact path="/results">
               <ResultsPage />
             </Route>
+            {isAdmin && (
+              <Route exact path="/admin">
+                <AdminPage />
+              </Route>
+            )}
             <Route>
               <Redirect to="/home" />
             </Route>
