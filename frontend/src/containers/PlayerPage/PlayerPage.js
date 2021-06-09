@@ -42,7 +42,6 @@ class PlayerPage extends React.Component {
         bad: 5,
         points: responseStats.data.total,
         rank: 1,
-        outOf: 12,
       };
       getAllPlayerGames(userId).then((responseGames) => {
         const { transformedMatches } = transformMatches(responseGames.data);

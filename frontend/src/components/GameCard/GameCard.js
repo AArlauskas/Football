@@ -138,31 +138,42 @@ const GameCard = ({
             <Typography variant="subtitle1">Spėjimas</Typography>
             <Divider />
           </Grid>
-          <Grid item xs={5} style={{ textAlign: "center" }}>
-            <TextField
-              inputProps={{ style: { textAlign: "center" } }}
-              fullWidth
-              disabled={started}
-              variant={started ? "filled" : "outlined"}
-              value={guess1Value}
-              onChange={handleGuess1Change}
-            />
-          </Grid>
-          <Grid item xs={2}>
-            <Typography variant="h4" style={{ textAlign: "center" }}>
-              :
-            </Typography>
-          </Grid>
-          <Grid item xs={5}>
-            <TextField
-              inputProps={{ style: { textAlign: "center" } }}
-              fullWidth
-              disabled={started}
-              variant={started ? "filled" : "outlined"}
-              value={guess2Value}
-              onChange={handleGuess2Change}
-            />
-          </Grid>
+          {variant === "not_given" ? (
+            <Grid item xs={12}>
+              <Typography style={{ textAlign: "center" }}>
+                Nepateikta
+              </Typography>
+            </Grid>
+          ) : (
+            <>
+              <Grid item xs={5} style={{ textAlign: "center" }}>
+                <TextField
+                  inputProps={{ style: { textAlign: "center" } }}
+                  fullWidth
+                  disabled={started}
+                  variant="outlined"
+                  value={guess1Value}
+                  onChange={handleGuess1Change}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Typography variant="h4" style={{ textAlign: "center" }}>
+                  :
+                </Typography>
+              </Grid>
+              <Grid item xs={5}>
+                <TextField
+                  inputProps={{ style: { textAlign: "center" } }}
+                  fullWidth
+                  disabled={started}
+                  variant="outlined"
+                  value={guess2Value}
+                  onChange={handleGuess2Change}
+                />
+              </Grid>{" "}
+            </>
+          )}
+
           {points || variant === "not_given" ? (
             <>
               <Grid item xs={12}>
@@ -171,7 +182,7 @@ const GameCard = ({
                 </Typography>
                 <Divider />
                 <Typography style={getColor()} variant="h6">
-                  {variant === "not_given" ? "-" : points}
+                  {points}
                 </Typography>
               </Grid>
             </>

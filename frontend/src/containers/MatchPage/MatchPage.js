@@ -29,7 +29,8 @@ class MatchPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      matchData: null,
+      guessData: null,
+      game: null,
     };
   }
 
@@ -37,8 +38,8 @@ class MatchPage extends React.Component {
     const { match } = this.props;
     const { gameId } = match.params;
     getMatch(gameId).then((resp) => {
-      const response = this.transformMatch(resp.data);
-      this.setState({ matchData: response });
+      const guesses = this.transformMatch(resp.data.guess);
+      this.setState({ guessData: guesses, game: resp.data.game });
     });
   }
 
@@ -67,7 +68,7 @@ class MatchPage extends React.Component {
 
   render() {
     const { history } = this.props;
-    const { matchData } = this.state;
+    const { guessData, game } = this.state;
 
     const handleTeam1Redirect = () => {
       history.push("/team/SWE");
@@ -83,11 +84,11 @@ class MatchPage extends React.Component {
       else history.push(`/player/${id}`);
     };
 
-    if (matchData === null) return null;
+    if (guessData === null) return null;
     return (
       <>
-        <Grid container direction="row" alignItems="flex-end">
-          <Grid item xs={12}>
+        <Grid container direction="row" justify="center">
+          <Grid item xs={11} sm={10} md={9} lg={7}>
             <TopBar darkMode />
             <Grid
               item
@@ -95,17 +96,26 @@ class MatchPage extends React.Component {
               xs={12}
               style={{ textAlign: "center", paddingTop: 20 }}
             >
+              <Grid item xs={12}>
+                <Typography variant="subtitle1">{game.date}</Typography>
+              </Grid>
+              <Grid item xs={12} style={{ paddingBottom: 20 }}>
+                <Typography variant="subtitle2">{game.time}</Typography>
+              </Grid>
               <Grid item xs={5} onClick={handleTeam1Redirect}>
                 <Typography className="link" variant="h5">
-                  Švedija
+                  {game.t1.name}
                 </Typography>
               </Grid>
               <Grid item xs={2}>
-                <Typography variant="h5">5 : 3</Typography>
+                <Typography variant="h5">
+                  {game.result &&
+                    `${game.result.goals1} : ${game.result.goals2}`}
+                </Typography>
               </Grid>
               <Grid item xs={5} onClick={handleTeam2Redirect}>
                 <Typography className="link" variant="h5">
-                  Anglija
+                  {game.t2.name}
                 </Typography>
               </Grid>
             </Grid>
@@ -120,7 +130,7 @@ class MatchPage extends React.Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {matchData.results.map((match) => (
+                    {guessData.results.map((match) => (
                       <TableRow
                         hover
                         selected={

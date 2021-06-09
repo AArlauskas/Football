@@ -12,7 +12,6 @@ const UserCard = ({
   bad,
   average,
   ranking,
-  outOf,
 }) => {
   useEffect(() => {
     pieData = [];
@@ -49,9 +48,7 @@ const UserCard = ({
             <Typography>Taškai: {points}</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography>
-              Vieta: {ranking}/{outOf}
-            </Typography>
+            <Typography>Vieta: {ranking}</Typography>
           </Grid>
           <Grow in timeout={3000}>
             <Grid item xs={12}>

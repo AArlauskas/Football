@@ -7,7 +7,6 @@ import {
   Paper,
   TextField,
   Typography,
-  Link,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
@@ -116,13 +115,6 @@ export default function LoginForm({ onLogin }) {
                   }}
                 />
               </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography align="left">
-                <Link href="/forgot-password" variant="body2">
-                  Pamiršote slaptažodį?
-                </Link>
-              </Typography>
             </Grid>
             <Grid item xs={6}>
               <Button
