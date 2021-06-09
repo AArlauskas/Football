@@ -23,7 +23,7 @@ public interface PointsRepository extends JpaRepository<Points, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "update points set place = (select row_number() over (order by total , correct desc, id) from points)" , nativeQuery = true)
+    @Query(value = "update points p set place = (select ss.num from (select id as u_id, row_number()  over (order by total , correct desc, id) as num from points) as ss where ss.u_id=p.id)" , nativeQuery = true)
     void recalculatePlaces();
 
 }
