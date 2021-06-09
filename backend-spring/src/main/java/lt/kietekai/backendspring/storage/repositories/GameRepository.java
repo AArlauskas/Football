@@ -1,6 +1,7 @@
 package lt.kietekai.backendspring.storage.repositories;
 
 import lt.kietekai.backendspring.storage.models.Game;
+import lt.kietekai.backendspring.storage.models.Team;
 import lt.kietekai.backendspring.storage.models.synthetic.GameWithGuess;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +25,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Modifying
     @Query(value = "update Game g set g.closed=current_timestamp where g.gameDate < :cutoff")
     void closeStartingBefore(Date cutoff);
+
+    @Query("select g from Game g where g.team1=:team or g.team2=:team and g.finished is not null order by g.gameDate")
+    List<Game> getFinishedWithTeam(Team team);
 }
