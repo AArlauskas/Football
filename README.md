@@ -146,3 +146,6 @@ Accept: application/json
 GET http://localhost:8080/api/games/results?game=1
 Accept: application/json
 
+###
+GET http://localhost:8080/api/users?user=1
+Accept: application/json

@@ -19,8 +19,8 @@ public class UserRest {
     private final PointsRepository pointsRepository;
 
     @GetMapping
-    public UserDetails get(@RequestParam(required = false) Long userId, @AuthenticationPrincipal FullUserDetails userDetails) {
-        long id = Optional.ofNullable(userId).orElse(userDetails.getUser().getId());
+    public UserDetails get(@RequestParam(required = false) Long user, @AuthenticationPrincipal FullUserDetails userDetails) {
+        long id = Optional.ofNullable(user).orElse(userDetails.getUser().getId());
         lt.kietekai.backendspring.storage.models.Points p = pointsRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         return Converters.usersPoints(p);
     }
