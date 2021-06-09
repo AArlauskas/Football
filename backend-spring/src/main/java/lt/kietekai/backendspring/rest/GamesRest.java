@@ -8,6 +8,7 @@ import lt.kietekai.backendspring.storage.repositories.GameRepository;
 import lt.kietekai.backendspring.storage.repositories.GuessRepository;
 import lt.kietekai.backendspring.storage.repositories.TeamRepository;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ public class GamesRest {
     private final GuessRepository guessRepository;
     private final GamesService gamesService;
 
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping
     public List<Game> allGames() {
         return gameRepository.findAll(Sort.by("gameDate", "id")).stream()
@@ -88,6 +90,7 @@ public class GamesRest {
         throw new IllegalArgumentException();
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping
     public Game createGame(@RequestBody Game game) throws ParseException {
         if (game.id() != null) {
@@ -107,6 +110,7 @@ public class GamesRest {
         return Converters.game(gameRepository.save(g));
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PutMapping
     public Game updateGame(@RequestBody Game game) throws ParseException {
         lt.kietekai.backendspring.storage.models.Game stored = gameRepository.findById(game.id()).orElseThrow(ResourceNotFoundException::new);

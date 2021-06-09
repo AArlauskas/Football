@@ -149,3 +149,7 @@ Accept: application/json
 ###
 GET http://localhost:8080/api/users?user=1
 Accept: application/json
+
+###
+GET http://localhost:8080/api/teams/games?code=LTU
+Accept: application/json
