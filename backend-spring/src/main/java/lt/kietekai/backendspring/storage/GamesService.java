@@ -130,6 +130,11 @@ public class GamesService {
         pointsRepository.recalculatePlaces();
     }
 
+    public void autoClose(Date cutoff) {
+        gameRepository.closeStartingBefore(cutoff);
+        guessRepository.createMissingGuesses();
+    }
+
     private enum GameOutcome {
         EQ, T1, T2
     }
