@@ -52,10 +52,10 @@ public class GamesRest {
     }
 
     @GetMapping("/results")
-    public List<GuessWithUser> results(@RequestParam Long game, @AuthenticationPrincipal FullUserDetails userDetails) {
+    public GameResults results(@RequestParam Long game, @AuthenticationPrincipal FullUserDetails userDetails) {
         lt.kietekai.backendspring.storage.models.Game gameE = gameRepository.findById(game).orElseThrow(ResourceNotFoundException::new);
         List<lt.kietekai.backendspring.storage.models.Guess> guesses = guessRepository.findAllByGame(gameE, Sort.by(Sort.Order.asc("points"), Sort.Order.asc("id")));
-        return guesses.stream()
+        return new GameResults(Converters.game(gameE), guesses.stream()
                 .map(Converters::guessWithUser)
                 .map(g -> {
                     boolean own = g.user().id() == userDetails.getUser().getId();
@@ -64,7 +64,7 @@ public class GamesRest {
                     } else {
                         return g;
                     }
-                }).collect(Collectors.toList());
+                }).collect(Collectors.toList()));
     }
 
 
