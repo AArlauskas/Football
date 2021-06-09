@@ -52,9 +52,10 @@ public class AuthRest {
         pointsRepository.save(points);
 
         gamesService.createMissingGuesses();
+        gamesService.recalculatePoints();
 
         u = userRepository.findById(u.getId()).orElseThrow();
-        return new UserDetails(u.getId(), u.getEmail(), u.getFirstName(), u.getLastName(), new Points(u.getPoints().getTotal(), u.getPoints().getCorrect(), u.getPoints().getOutcomes()), u.roles());
+        return Converters.user(u);
     }
 
     @PostMapping("login")
@@ -70,6 +71,6 @@ public class AuthRest {
         HttpSession session = request.getSession(true);
         session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
-        return new UserDetails(u.getId(), u.getEmail(), u.getFirstName(), u.getLastName(), new Points(u.getPoints().getTotal(), u.getPoints().getCorrect(), u.getPoints().getOutcomes()), u.roles());
+        return Converters.user(u);
     }
 }
