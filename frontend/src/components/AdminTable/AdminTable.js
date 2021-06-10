@@ -56,6 +56,7 @@ export default function AdminTable({ teams, data, onAdd, onUpdate, onDelete }) {
       title: "State",
       field: "state",
       lookup: stateLookup,
+      defaultSort: "asc",
       editable: "onUpdate",
       render: (rowData) => {
         const { state } = rowData;
@@ -76,6 +77,7 @@ export default function AdminTable({ teams, data, onAdd, onUpdate, onDelete }) {
         filtering: true,
         pageSize: 10,
         actionsColumnIndex: -1,
+        addRowPosition: "first",
       }}
       editable={{
         onRowAdd: (newData) =>
