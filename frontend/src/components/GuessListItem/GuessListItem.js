@@ -10,8 +10,14 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 
 const GuessListItem = ({ match, handleGuess }) => {
-  const [guess1, setGuess1] = useState(match.guess?.result?.goals1 || "");
-  const [guess2, setGuess2] = useState(match.guess?.result?.goals2 || "");
+  const [guess1, setGuess1] =
+    match.guess?.result?.goals1 || match.guess?.result?.goals1 === 0
+      ? useState(match.guess?.result?.goals1)
+      : useState("");
+  const [guess2, setGuess2] =
+    match.guess?.result?.goals2 || match.guess?.result?.goals2 === 0
+      ? useState(match.guess?.result?.goals2)
+      : useState("");
   const [wasChanged, setWasChanged] = useState(false);
   const history = useHistory();
 

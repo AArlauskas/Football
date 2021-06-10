@@ -26,12 +26,10 @@ const GameCard = ({
     variant,
   },
 }) => {
-  const [guess1Value, setGuess1Value] = guess1
-    ? useState(guess1)
-    : useState("");
-  const [guess2Value, setGuess2Value] = guess2
-    ? useState(guess2)
-    : useState("");
+  const [guess1Value, setGuess1Value] =
+    guess1 || guess1 === 0 ? useState(guess1) : useState("");
+  const [guess2Value, setGuess2Value] =
+    guess2 || guess2 === 0 ? useState(guess2) : useState("");
   const [wasChanged, setWasChanged] = useState(false);
   const history = useHistory();
 
@@ -135,7 +133,9 @@ const GameCard = ({
             style={started ? { cursor: "pointer" } : null}
           >
             <Typography variant="h5" style={{ textAlign: "center" }}>
-              {score1 && score2 ? `${score1} : ${score2}` : ""}
+              {(score1 || score1 === 0) && (score2 || score2 === 0)
+                ? `${score1} : ${score2}`
+                : ""}
             </Typography>
           </Grid>
           <Grid item xs={4} onClick={() => handleTeamRedirect(team2.code)}>
