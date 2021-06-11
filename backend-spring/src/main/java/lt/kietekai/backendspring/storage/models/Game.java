@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -34,4 +35,7 @@ public class Game {
     private Integer result2;
 
     private GameType gameType = GameType.REGULAR;
+
+    @OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
+    private Set<Guess> guesses;
 }

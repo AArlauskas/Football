@@ -77,6 +77,7 @@ public class GamesRest {
             }
             case TODAY -> {
                 Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.HOUR_OF_DAY, 3);
                 cal.set(Calendar.HOUR_OF_DAY, 0);
                 cal.set(Calendar.MINUTE, 0);
                 cal.set(Calendar.SECOND, 0);
