@@ -14,12 +14,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
@@ -32,6 +34,7 @@ public class AuthRest {
     private final GamesService gamesService;
 
     private final PasswordEncoder passwordEncoder;
+    private final PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
 
     @PostMapping("register")
     public UserDetails register(@RequestBody UserPrototype userPrototype) {
@@ -59,7 +62,7 @@ public class AuthRest {
     }
 
     @PostMapping("login")
-    public UserDetails login(HttpServletRequest request, @RequestBody LoginDetails loginDetails) {
+    public UserDetails login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginDetails loginDetails) {
         User u = userRepository.findByEmailSearch(loginDetails.email().toUpperCase()).orElseThrow(IllegalArgumentException::new);
         if (!passwordEncoder.matches(loginDetails.password(), u.getPassword())) {
             throw new IllegalArgumentException();
@@ -71,6 +74,7 @@ public class AuthRest {
         HttpSession session = request.getSession(true);
         session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
+        persistentTokenBasedRememberMeServices.loginSuccess(request, response, token);
         return Converters.user(u);
     }
 }

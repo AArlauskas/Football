@@ -86,7 +86,7 @@ public class GamesService {
                 g.setOutcome(null);
             }
         } else {
-            int countCorrect = 0;
+            int countOutcome = 0;
             for (Guess g : guesses) {
                 if (g.getResult1() == null || g.getResult2() == null) {
                     g.setOutcome(GuessOutcome.NOT_GIVEN);
@@ -94,11 +94,12 @@ public class GamesService {
                 } else if (g.getResult1().equals(game.getResult1()) && g.getResult2().equals(game.getResult2())) {
                     g.setPoints(-3);
                     g.setOutcome(GuessOutcome.CORRECT);
-                    countCorrect++;
+                    countOutcome++;
                 } else {
                     if (outcomeOf(g.getResult1(), g.getResult2()) == outcomeOf(game.getResult1(), game.getResult2())) {
                         g.setPoints(0);
                         g.setOutcome(GuessOutcome.OUTCOME_ONLY);
+                        countOutcome++;
                     } else {
                         g.setPoints(3);
                         g.setOutcome(GuessOutcome.OUTCOME_INCORRECT);
@@ -106,13 +107,13 @@ public class GamesService {
                     g.setPoints(g.getPoints() + Math.abs(g.getResult1() - game.getResult1()) + Math.abs(g.getResult2() - game.getResult2()));
                 }
             }
-            int maxPoints = guesses.stream().filter(g -> g.getOutcome() != GuessOutcome.NOT_GIVEN).map(Guess::getPoints).reduce(0, Integer::sum);
+            int maxPoints = guesses.stream().filter(g -> g.getOutcome() != GuessOutcome.NOT_GIVEN).map(Guess::getPoints).reduce(0, Integer::max);
             for (Guess g : guesses) {
                 if (g.getOutcome() == GuessOutcome.NOT_GIVEN) {
                     g.setPoints(maxPoints);
                 }
             }
-            if (countCorrect == 1) {
+            if (countOutcome == 1) {
                 for (Guess g : guesses) {
                     if (g.getOutcome() == GuessOutcome.CORRECT) {
                         g.setOutcome(GuessOutcome.CORRECT_ALONE);

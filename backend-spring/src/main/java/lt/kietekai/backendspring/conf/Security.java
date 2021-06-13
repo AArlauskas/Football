@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 
 @Configuration
@@ -26,17 +29,15 @@ public class Security extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        return new InMemoryTokenRepositoryImpl();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsProvider).passwordEncoder(passwordEncoder());
     }
-
-    /*@Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring().antMatchers("/api/auth/**");
-    }*/
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -44,11 +45,24 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**", "/api/version").permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .rememberMe()
+                .rememberMeCookieName("rememberme")
+                .key("football2020")
+                .tokenValiditySeconds(60 * 60 * 24 * 14)
+                .alwaysRemember(true)
+                .and()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .csrf().disable()
-                .cors().disable();
+                .cors().disable()
         ;
+    }
+
+    @Bean
+    public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
+        PersistentTokenBasedRememberMeServices persistenceTokenBasedservice = new PersistentTokenBasedRememberMeServices("rememberme", userDetailsProvider, persistentTokenRepository());
+        persistenceTokenBasedservice.setAlwaysRemember(true);
+        return persistenceTokenBasedservice;
     }
 
 }

@@ -70,7 +70,7 @@ public class Converters {
     }
 
     public static Points points(lt.kietekai.backendspring.storage.models.Points points) {
-        return new Points(points.getTotal(), points.getCorrectAlone(), points.getCorrect(), points.getOutcomes(), points.getIncorrect(), points.getNotGiven(), points.getPlace());
+        return new Points(points.getTotal(), points.getCorrectAlone(), points.getCorrect()+points.getCorrectAlone(), points.getOutcomes(), points.getIncorrect(), points.getNotGiven(), points.getPlace());
     }
 
     public static UserDetails usersPoints(lt.kietekai.backendspring.storage.models.Points points) {
