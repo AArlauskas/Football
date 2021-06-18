@@ -57,24 +57,15 @@ export default function RegisterForm({ onRegister }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    if (!NAME_REGEX.test(firstname)) {
-      setShowError({ ...showError, errorFirstname: true });
-      return;
-    }
-    if (!NAME_REGEX.test(lastname)) {
-      setShowError({ ...showError, errorLastname: true });
-      return;
-    }
     if (!EMAIL_REGEX.test(email)) {
       setShowError({ ...showError, errorEmail: true });
       return;
     }
-    if (!PASSWORD_REGEX.test(password)) {
+    if (password.length < 6) {
       setShowError({ ...showError, errorPassword: true });
       return;
     }
-    if (!PASSWORD_REGEX.test(confirmPassword)) {
+    if (password !== confirmPassword) {
       setShowError({ ...showError, errorConfirmPassword: true });
       return;
     }
@@ -150,7 +141,7 @@ export default function RegisterForm({ onRegister }) {
                   error={showError.errorPassword}
                   helperText={
                     showError.errorPassword
-                      ? "Slaptažodis turi turėti bent jau 8 simbolius su vienu skaitmeniu ir viena didžiąja raide"
+                      ? "Slaptažodis turi būti ne trumpesnis negu 6 simboliai"
                       : ""
                   }
                   variant="outlined"
@@ -192,7 +183,7 @@ export default function RegisterForm({ onRegister }) {
                   error={showError.errorConfirmPassword}
                   helperText={
                     showError.errorConfirmPassword
-                      ? "Slaptažodis turi turėti bent jau 8 simbolius su vienu skaitmeniu ir viena didžiąja raide. Slaptažodžiai turi sutapti"
+                      ? "Slaptažodžiai turi sutapti"
                       : ""
                   }
                   variant="outlined"

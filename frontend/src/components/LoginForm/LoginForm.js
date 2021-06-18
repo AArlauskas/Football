@@ -9,12 +9,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
 import { uefaLogo, visibilityOffIcon, visibilityOnIcon } from "../../assets";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../../constants/regex";
 
 export default function LoginForm({ onLogin }) {
-  const history = useHistory();
+  // const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -41,7 +41,7 @@ export default function LoginForm({ onLogin }) {
       setShowError({ ...showError, errorEmail: true });
       return;
     }
-    if (!PASSWORD_REGEX.test(password)) {
+    if (password.length < 6) {
       setShowError({ ...showError, errorPassword: true });
       return;
     }
@@ -49,7 +49,7 @@ export default function LoginForm({ onLogin }) {
   };
 
   return (
-    <Paper elevation={5}>
+    <Paper>
       <CardContent direction="column" align="center" justify="center">
         <img src={uefaLogo} alt="uefa-2020 logo" width={75} height={75} />
         <Typography gutterBottom variant="h4">
@@ -82,7 +82,7 @@ export default function LoginForm({ onLogin }) {
                   error={showError.errorPassword}
                   helperText={
                     showError.errorPassword
-                      ? "Slaptažodis turi turėti bent jau 8 simbolius su vienu skaitmeniu ir viena didžiąja raide"
+                      ? "Slaptažodis turi būti ne trumpesnis negu 6 simboliai"
                       : ""
                   }
                   variant="outlined"
@@ -116,7 +116,7 @@ export default function LoginForm({ onLogin }) {
                 />
               </Grid>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <Button
                 type="submit"
                 fullWidth
@@ -126,7 +126,7 @@ export default function LoginForm({ onLogin }) {
                 Prisijungti
               </Button>
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <Button
                 variant="outlined"
                 fullWidth
@@ -134,7 +134,7 @@ export default function LoginForm({ onLogin }) {
               >
                 Registracija
               </Button>
-            </Grid>
+            </Grid> */}
           </Grid>
         </form>
       </CardContent>

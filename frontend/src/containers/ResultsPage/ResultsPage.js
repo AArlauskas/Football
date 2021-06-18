@@ -59,8 +59,8 @@ class ResultsPage extends React.Component {
                     <TableCell>Vieta</TableCell>
                     <TableCell>Vardas Pavardė</TableCell>
                     <TableCell align="center">Taškai</TableCell>
+                    <TableCell align="center">Atspėtas rezultatas</TableCell>
                     <TableCell align="center">Atspėta baigtis</TableCell>
-                    <TableCell align="center">Atspėtas laimėtojas</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

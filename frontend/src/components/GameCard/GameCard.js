@@ -31,6 +31,7 @@ const GameCard = ({
   const [guess2Value, setGuess2Value] =
     guess2 || guess2 === 0 ? useState(guess2) : useState("");
   const [wasChanged, setWasChanged] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const history = useHistory();
 
   const handleGuess1Change = (event) => {
@@ -101,7 +102,11 @@ const GameCard = ({
   };
 
   return (
-    <Card elevation={5}>
+    <Card
+      elevation={isHovered ? 10 : 3}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <CardContent>
         <Grid item container spacing={1} xs={12}>
           <Grid
