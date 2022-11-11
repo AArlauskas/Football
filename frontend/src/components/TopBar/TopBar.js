@@ -30,7 +30,7 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
 
   const onLogout = () => {
     window.localStorage.clear();
-    window.location.reload();
+    window.location = "/";
     logout().finally(() => {});
   };
 
