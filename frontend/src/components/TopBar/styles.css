@@ -1,11 +1,11 @@
 .navigation {
   cursor: pointer;
-  border-bottom: 2px solid #333333;
+  border-bottom: 2px solid #8b1638;
 }
 
 .navigation-current {
   cursor: pointer;
-  border-bottom: 2px solid #f1c40f;
+  border-bottom: 2px solid rgba(241, 196, 15, 0.8);
 }
 
 .link {
@@ -15,6 +15,6 @@
 
 .navigation:hover,
 .link:hover {
-  border-bottom: 2px solid #f1c40f;
+  border-bottom: 2px solid rgba(241, 196, 15, 0.8);
   transition: border-bottom-color 0.3s ease-in;
 }

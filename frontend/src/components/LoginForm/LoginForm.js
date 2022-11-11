@@ -9,12 +9,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
-// import { useHistory } from "react-router";
+import { useHistory } from "react-router";
 import { uefaLogo, visibilityOffIcon, visibilityOnIcon } from "../../assets";
-import { EMAIL_REGEX, PASSWORD_REGEX } from "../../constants/regex";
+import { EMAIL_REGEX } from "../../constants/regex";
 
 export default function LoginForm({ onLogin }) {
-  // const history = useHistory();
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -116,7 +116,7 @@ export default function LoginForm({ onLogin }) {
                 />
               </Grid>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <Button
                 type="submit"
                 fullWidth
@@ -126,7 +126,7 @@ export default function LoginForm({ onLogin }) {
                 Prisijungti
               </Button>
             </Grid>
-            {/* <Grid item xs={6}>
+            <Grid item xs={6}>
               <Button
                 variant="outlined"
                 fullWidth
@@ -134,7 +134,7 @@ export default function LoginForm({ onLogin }) {
               >
                 Registracija
               </Button>
-            </Grid> */}
+            </Grid>
           </Grid>
         </form>
       </CardContent>

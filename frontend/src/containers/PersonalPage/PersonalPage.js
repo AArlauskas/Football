@@ -183,7 +183,7 @@ class PersonalPage extends React.Component {
           )}
           <Grid item lg={8} md={6} sm={4} xs={11} style={{ marginTop: 30 }}>
             <Tabs
-              TabIndicatorProps={{ style: { background: "#f1c40f" } }}
+              TabIndicatorProps={{ style: { background: "#EDEEE4" } }}
               value={tab}
               variant="fullWidth"
               onChange={(e, newValue) => {

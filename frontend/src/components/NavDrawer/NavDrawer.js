@@ -44,7 +44,7 @@ export default function NavDrawer({ open, onOpen, onClose }) {
       listItems.push(
         <ListItem
           button
-          key={key.toString()}
+          // key={key.toString()}
           onClick={handleTabClick(key)}
           selected={selectedTabKey === key}
         >

@@ -16,7 +16,7 @@ axios.interceptors.response.use(
 
 const getBaseUri = () => {
   if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-    return "http://localhost:9000/api";
+    return "http://localhost:80/api";
   }
   return `${window.location.origin}/api`;
 };

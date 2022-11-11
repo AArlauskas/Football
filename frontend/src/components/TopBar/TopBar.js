@@ -11,15 +11,14 @@ import {
 } from "@material-ui/core";
 import { useHistory } from "react-router";
 import { ArrowBackIcon, MenuIcon, uefaLogo as productIcon } from "../../assets";
-import { GRAY_1, GRAY_5, GRAY_6, SUNFLOWER } from "../../constants";
+import { GRAY_1, GRAY_5, SUNFLOWER } from "../../constants";
 import "./styles.css";
 import NavDrawer from "../NavDrawer/NavDrawer";
 import { getPersonalPoints, logout } from "../../api/Api";
 
 export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
-  const backgroundColor = darkMode ? GRAY_1 : GRAY_6;
   const iconFillColor = darkMode ? GRAY_5 : GRAY_1;
-  const fontColor = darkMode ? GRAY_5 : GRAY_1;
+  const fontColor = "#fff";
   const [showNavDrawer, setShowNavDrawer] = useState(false);
   const [points, setPoints] = useState(
     window.localStorage.getItem("points") || 0
@@ -30,10 +29,9 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
   const toggleNavDrawer = () => setShowNavDrawer(!showNavDrawer);
 
   const onLogout = () => {
-    logout().finally(() => {
-      window.localStorage.clear();
-      window.location.reload();
-    });
+    window.localStorage.clear();
+    window.location.reload();
+    logout().finally(() => {});
   };
 
   const setPersonalPoints = () => {
@@ -54,11 +52,7 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
         onOpen={toggleNavDrawer}
         onClose={toggleNavDrawer}
       />
-      <AppBar
-        style={{ background: backgroundColor }}
-        position="fixed"
-        elevation={1}
-      >
+      <AppBar position="fixed" elevation={1}>
         <Toolbar>
           <Grid container alignItems="center" spacing={1}>
             {showArrow ? (
@@ -80,10 +74,11 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
               <Grid item>
                 <IconButton edge="start" onClick={() => history.push("/home")}>
                   <img
+                    style={{ marginTop: 10 }}
                     src={productIcon}
                     alt="Product icon"
-                    width={36}
-                    height={36}
+                    width={45}
+                    height={45}
                   />
                 </IconButton>
               </Grid>
@@ -189,7 +184,7 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
                   <Button
                     size="small"
                     variant="outlined"
-                    color="primary"
+                    color="secondary"
                     onClick={onLogout}
                   >
                     Atsijungti
