@@ -1,0 +1,14 @@
+[Unit]
+Description=Football
+Wants=network-online.target
+After=postgresql.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5
+WorkingDirectory=/root/football
+ExecStart=java -jar backend-spring-0.0.1-SNAPSHOT.jar
+
+[Install]
+WantedBy=multi-user.target
