@@ -23,8 +23,8 @@ public class GameAutoCloser {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.setTimeZone(TimeZone.getDefault());
-        cal.setTimeZone(TimeZone.getTimeZone("GMT+3"));
-        cal.add(Calendar.HOUR_OF_DAY, 3);
+        cal.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+        cal.add(Calendar.HOUR_OF_DAY, 2);
         cal.add(Calendar.MINUTE, 2);
 
         log.info("Auto close cutoff is {} (LTU time)", cal.getTime());
