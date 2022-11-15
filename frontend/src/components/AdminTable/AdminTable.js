@@ -8,7 +8,7 @@ const stateLookup = {
   finished: "finished",
 };
 
-export default function AdminTable({ teams, data, onAdd, onUpdate, onDelete }) {
+export default function AdminTable({ teams, data, onAdd, onUpdate }) {
   const columns = [
     {
       title: "Date",
@@ -91,13 +91,6 @@ export default function AdminTable({ teams, data, onAdd, onUpdate, onDelete }) {
           new Promise((resolve) => {
             setTimeout(() => {
               onUpdate(newData);
-              resolve();
-            }, 1000);
-          }),
-        onRowDelete: (newData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              onDelete(newData);
               resolve();
             }, 1000);
           }),

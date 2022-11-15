@@ -48,7 +48,7 @@ const ResultListItem = ({ match }) => {
           >
             <Typography
               variant="subtitle2"
-              className="link"
+              className="link primary"
               style={{ textAlign: "center" }}
             >
               {match.game.t1.name}
@@ -68,7 +68,7 @@ const ResultListItem = ({ match }) => {
           >
             <Typography
               variant="subtitle2"
-              className="link"
+              className="link primary"
               style={{ textAlign: "center" }}
             >
               {match.game.t2.name}

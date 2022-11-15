@@ -60,8 +60,8 @@ class AdminPage extends React.Component {
     const adjustedDate = moment(date).format("YYYY-MM-DD");
     const data = {
       id: newData.id,
-      t1: { code: newData.t1.code },
-      t2: { code: newData.t2.code },
+      t1: { code: newData.team1 },
+      t2: { code: newData.team2 },
       date: adjustedDate,
       time,
       state: newData.state,

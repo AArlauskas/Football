@@ -34,7 +34,7 @@ const TeamListItem = ({ match }) => {
         <Grid item xs={5} onClick={() => handleTeamRedirect(match.t1.code)}>
           <Typography
             variant="subtitle2"
-            className="link"
+            className="link primary"
             style={{ textAlign: "center" }}
           >
             {match.t1.name}
@@ -43,7 +43,7 @@ const TeamListItem = ({ match }) => {
         <Grid item xs={5} onClick={() => handleTeamRedirect(match.t2.code)}>
           <Typography
             variant="subtitle2"
-            className="link"
+            className="link primary"
             style={{ textAlign: "center" }}
           >
             {match.t2.name}

@@ -106,6 +106,7 @@ const GameCard = ({
       elevation={isHovered ? 10 : 3}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      style={{ height: "100%" }}
     >
       <CardContent>
         <Grid item container spacing={1} xs={12}>
@@ -125,7 +126,7 @@ const GameCard = ({
           <Grid item xs={4} onClick={() => handleTeamRedirect(team1.code)}>
             <Typography
               variant="h6"
-              className="link"
+              className="link primary"
               style={{ textAlign: "center" }}
             >
               {team1.name}
@@ -146,7 +147,7 @@ const GameCard = ({
           <Grid item xs={4} onClick={() => handleTeamRedirect(team2.code)}>
             <Typography
               style={{ textAlign: "center" }}
-              className="link"
+              className="link primary"
               variant="h6"
             >
               {team2.name}

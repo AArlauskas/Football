@@ -103,7 +103,7 @@ class MatchPage extends React.Component {
                 xs={5}
                 onClick={() => handleTeamRedirect(game.t1.code)}
               >
-                <Typography className="link" variant="h5">
+                <Typography className="link primary" variant="h5">
                   {game.t1.name}
                 </Typography>
               </Grid>
@@ -118,7 +118,7 @@ class MatchPage extends React.Component {
                 xs={5}
                 onClick={() => handleTeamRedirect(game.t2.code)}
               >
-                <Typography className="link" variant="h5">
+                <Typography className="link primary" variant="h5">
                   {game.t2.name}
                 </Typography>
               </Grid>

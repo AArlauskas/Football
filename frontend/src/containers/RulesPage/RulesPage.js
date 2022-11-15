@@ -101,7 +101,7 @@ class RulesPage extends React.Component {
                   <Grid item xs={12}>
                     <Typography>
                       9. Jeigu keli dalyviai turi tiek pat taškų, aukštesnę
-                      vietą užema daugiau rezultatų atspėjęs dalyvis.
+                      vietą užima daugiau rezultatų atspėjęs dalyvis.
                     </Typography>
                   </Grid>
                 </Grid>
