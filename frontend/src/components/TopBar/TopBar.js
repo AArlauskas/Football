@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import {
   AppBar,
   Button,
@@ -10,11 +11,15 @@ import {
   Hidden,
 } from "@material-ui/core";
 import { useHistory } from "react-router";
+import LanguageFlagLT from "../../assets/Generic/LanguageFlagLT";
 import { ArrowBackIcon, MenuIcon, uefaLogo as productIcon } from "../../assets";
 import { GRAY_1, GRAY_5, SUNFLOWER } from "../../constants";
 import "./styles.css";
 import NavDrawer from "../NavDrawer/NavDrawer";
 import { getPersonalPoints, logout } from "../../api/Api";
+import LanguageFlagEN from "../../assets/Generic/LanguageFlagEN";
+import LocalizationContext from "../TranslationsProvider/TranslationContext";
+import LOCALES from "../../translations/locales";
 
 export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
   const iconFillColor = darkMode ? GRAY_5 : GRAY_1;
@@ -25,6 +30,7 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
   );
 
   const history = useHistory();
+  const [language, setLanguage] = useContext(LocalizationContext);
 
   const toggleNavDrawer = () => setShowNavDrawer(!showNavDrawer);
 
@@ -102,7 +108,7 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
                       style={{ color: fontColor }}
                       variant="overline"
                     >
-                      Varžybos
+                      <FormattedMessage id="GAMES" />
                     </Typography>
                   </Grid>
                   <Grid
@@ -121,7 +127,7 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
                       style={{ color: fontColor }}
                       variant="overline"
                     >
-                      Spėjimai
+                      <FormattedMessage id="GUESSES" />
                     </Typography>
                   </Grid>
                   <Grid
@@ -140,7 +146,7 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
                       style={{ color: fontColor }}
                       variant="overline"
                     >
-                      Rezultatai
+                      <FormattedMessage id="RESULTS" />
                     </Typography>
                   </Grid>
                   <Grid
@@ -159,7 +165,7 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
                       style={{ color: fontColor, cursor: "pointer" }}
                       variant="overline"
                     >
-                      Taisyklės
+                      <FormattedMessage id="RULES" />
                     </Typography>
                   </Grid>
                 </Grid>
@@ -187,8 +193,25 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
                     color="secondary"
                     onClick={onLogout}
                   >
-                    Atsijungti
+                    <FormattedMessage id="LOG_OUT" />
                   </Button>
+                </Grid>
+                <Grid item>
+                  {language === LOCALES.LITHUANIAN ? (
+                    <Button
+                      style={{ borderRadius: "50%" }}
+                      onClick={() => setLanguage(LOCALES.ENGLISH)}
+                    >
+                      <LanguageFlagLT />
+                    </Button>
+                  ) : (
+                    <Button
+                      style={{ borderRadius: "50%" }}
+                      onClick={() => setLanguage(LOCALES.LITHUANIAN)}
+                    >
+                      <LanguageFlagEN />
+                    </Button>
+                  )}
                 </Grid>
               </Grid>
             </Grid>

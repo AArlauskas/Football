@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router";
 
 const GuessListItem = ({ match, handleGuess }) => {
@@ -90,7 +91,7 @@ const GuessListItem = ({ match, handleGuess }) => {
             className="link primary"
             style={{ textAlign: "center" }}
           >
-            {match.game.t1.name}
+            <FormattedMessage id={match.game.t1.code} />
           </Typography>
         </Grid>
         <Grid item xs={6} container>
@@ -121,14 +122,14 @@ const GuessListItem = ({ match, handleGuess }) => {
         <Grid
           item
           xs={3}
-          onClick={() => handleTeamRedirect(match.game.t1.code)}
+          onClick={() => handleTeamRedirect(match.game.t2.code)}
         >
           <Typography
             variant="subtitle2"
             className="link primary"
             style={{ textAlign: "center" }}
           >
-            {match.game.t2.name}
+            <FormattedMessage id={match.game.t2.code} />
           </Typography>
         </Grid>
         {wasChanged && (
@@ -139,7 +140,7 @@ const GuessListItem = ({ match, handleGuess }) => {
               color="primary"
               onClick={onGuess}
             >
-              Patvirtinti
+              <FormattedMessage id="CONFIRM" />
             </Button>
           </Grid>
         )}

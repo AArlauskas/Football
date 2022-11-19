@@ -1,10 +1,14 @@
 import React from "react";
-import { Grid, Hidden } from "@material-ui/core";
+import { Button, Grid, Hidden } from "@material-ui/core";
 import { loginPageDrawing } from "../../assets";
 import "./styles.css";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import { login } from "../../api/Api";
 import CustomSnackbar from "../../components/CustomSnackbar/CustomSnackbar";
+import LOCALES from "../../translations/locales";
+import LanguageFlagLT from "../../assets/Generic/LanguageFlagLT";
+import LanguageFlagEN from "../../assets/Generic/LanguageFlagEN";
+import LocalizationContext from "../../components/TranslationsProvider/TranslationContext";
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -48,12 +52,14 @@ class LoginPage extends React.Component {
 
   render() {
     const { showLoginAuthError, showLoginGeneralError } = this.state;
+    const [language, setLanguage] = this.context;
+
     return (
       <>
         {showLoginGeneralError && (
           <CustomSnackbar
             topCenter
-            message="Įvyko klaida, prašome pabandyti vėliau"
+            messageIntl="GENERAL_ERROR"
             onClose={this.hideSnackabar}
             severity="error"
           />
@@ -61,11 +67,28 @@ class LoginPage extends React.Component {
         {showLoginAuthError && (
           <CustomSnackbar
             topCenter
-            message="Netinkamas prisijungimo vardas arba slaptazodis"
+            messageIntl="INVALID_CREDENTIALS"
             onClose={this.hideSnackabar}
             severity="error"
           />
         )}
+        <div className="languageTopBar">
+          {language === LOCALES.LITHUANIAN ? (
+            <Button
+              style={{ borderRadius: "50%" }}
+              onClick={() => setLanguage(LOCALES.ENGLISH)}
+            >
+              <LanguageFlagLT />
+            </Button>
+          ) : (
+            <Button
+              style={{ borderRadius: "50%" }}
+              onClick={() => setLanguage(LOCALES.LITHUANIAN)}
+            >
+              <LanguageFlagEN />
+            </Button>
+          )}
+        </div>
         <Grid
           container
           className="root"
@@ -86,5 +109,7 @@ class LoginPage extends React.Component {
     );
   }
 }
+
+LoginPage.contextType = LocalizationContext;
 
 export default LoginPage;

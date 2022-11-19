@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router";
 import { uefaLogo, visibilityOffIcon, visibilityOnIcon } from "../../assets";
 import { EMAIL_REGEX } from "../../constants/regex";
@@ -53,7 +54,7 @@ export default function LoginForm({ onLogin }) {
       <CardContent direction="column" align="center" justify="center">
         <img src={uefaLogo} alt="uefa-2020 logo" width={75} height={75} />
         <Typography gutterBottom variant="h4">
-          Prisijungti
+          <FormattedMessage id="LOG_IN" />
         </Typography>
         <form noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -64,13 +65,15 @@ export default function LoginForm({ onLogin }) {
                   fullWidth
                   error={showError.errorEmail}
                   helperText={
-                    showError.errorEmail
-                      ? "Prašome įvesti teisingą el. paštą"
-                      : ""
+                    showError.errorEmail ? (
+                      <FormattedMessage id="INVALID_EMAIL" />
+                    ) : (
+                      ""
+                    )
                   }
                   variant="outlined"
                   type="email"
-                  label="El. paštas"
+                  label={<FormattedMessage id="EMAIL" />}
                   placeholder="john@doe.com"
                   onChange={handleEmailChange}
                 />
@@ -81,13 +84,15 @@ export default function LoginForm({ onLogin }) {
                   fullWidth
                   error={showError.errorPassword}
                   helperText={
-                    showError.errorPassword
-                      ? "Slaptažodis turi būti ne trumpesnis negu 6 simboliai"
-                      : ""
+                    showError.errorPassword ? (
+                      <FormattedMessage id="INVALID_PASSWORD" />
+                    ) : (
+                      ""
+                    )
                   }
                   variant="outlined"
                   type={showPassword ? "text" : "password"}
-                  label="Slaptažodis"
+                  label={<FormattedMessage id="PASSWORD" />}
                   placeholder="***********"
                   onChange={handlePasswordChange}
                   InputProps={{
@@ -123,7 +128,7 @@ export default function LoginForm({ onLogin }) {
                 variant="contained"
                 color="primary"
               >
-                Prisijungti
+                <FormattedMessage id="LOG_IN" />
               </Button>
             </Grid>
             <Grid item xs={6}>
@@ -132,7 +137,7 @@ export default function LoginForm({ onLogin }) {
                 fullWidth
                 onClick={() => history.push("/register")}
               >
-                Registracija
+                <FormattedMessage id="REGISTER" />
               </Button>
             </Grid>
           </Grid>

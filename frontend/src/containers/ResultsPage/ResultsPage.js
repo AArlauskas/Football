@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { withRouter } from "react-router";
 import { getResults } from "../../api/Api";
 import TopBar from "../../components/TopBar/TopBar";
@@ -48,7 +49,7 @@ class ResultsPage extends React.Component {
           </Grid>
           <Grid item xs={12} style={{ marginTop: 30, marginBottom: 30 }}>
             <Typography style={{ textAlign: "center" }} variant="h4">
-              Rezultatai
+              <FormattedMessage id="RESULTS" />
             </Typography>
           </Grid>
           <Grid item xs={12} sm={11}>
@@ -56,11 +57,21 @@ class ResultsPage extends React.Component {
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Vieta</TableCell>
-                    <TableCell>Vardas Pavardė</TableCell>
-                    <TableCell align="center">Taškai</TableCell>
-                    <TableCell align="center">Atspėtas rezultatas</TableCell>
-                    <TableCell align="center">Atspėta baigtis</TableCell>
+                    <TableCell>
+                      <FormattedMessage id="PLACE" />
+                    </TableCell>
+                    <TableCell>
+                      <FormattedMessage id="FULL_NAME" />
+                    </TableCell>
+                    <TableCell align="center">
+                      <FormattedMessage id="POINTS" />
+                    </TableCell>
+                    <TableCell align="center">
+                      <FormattedMessage id="CORRECT_GUESSES" />
+                    </TableCell>
+                    <TableCell align="center">
+                      <FormattedMessage id="CORRECT_OUTCOMES" />
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

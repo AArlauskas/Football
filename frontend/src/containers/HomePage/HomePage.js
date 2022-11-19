@@ -71,7 +71,7 @@ class HomePage extends React.Component {
         {showGuessSuccess && (
           <CustomSnackbar
             topCenter
-            message="Spėjimas pateiktas sėkmingai"
+            messageIntl="SUCESSFUL_GUESS_SUBMIT"
             onClose={hideSnackabar}
             severity="success"
           />
@@ -79,20 +79,14 @@ class HomePage extends React.Component {
         {showGuessFail && (
           <CustomSnackbar
             topCenter
-            message="Įvyko klaida, prašome pabandyti vėliau"
+            messageIntl="GENERAL_ERROR"
             onClose={hideSnackabar}
             severity="error"
           />
         )}
         <Grid container direction="column" className="home">
           <Grid item>
-            <TopBar
-              darkMode
-              points={420}
-              showAvatarAndLogout
-              firstName="Aurimas"
-              lastName="Arlauskas"
-            />
+            <TopBar darkMode />
           </Grid>
           {sortedMatchDates.map((date) => (
             <Grid item container direction="column" spacing={5} key={date}>

@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import { withRouter } from "react-router";
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import ReactSwipe from "react-swipe";
 import ResultListItem from "../../components/ResultListItem/ResultListItem";
 import GuessListItem from "../../components/GuessListItem/GuessListItem";
@@ -145,7 +146,7 @@ class PersonalPage extends React.Component {
         {showGuessSuccess && (
           <CustomSnackbar
             topCenter
-            message="Spėjimas pateiktas sėkmingai"
+            messageIntl="SUCESSFUL_GUESS_SUBMIT"
             onClose={this.hideSnackabar}
             severity="success"
           />
@@ -153,7 +154,7 @@ class PersonalPage extends React.Component {
         {showGuessFail && (
           <CustomSnackbar
             topCenter
-            message="Įvyko klaida, prašome pabandyti vėliau"
+            messageIntl="GENERAL_ERROR"
             onClose={this.hideSnackabar}
             severity="error"
           />
@@ -193,8 +194,8 @@ class PersonalPage extends React.Component {
                 } else reactSwipeEl.prev();
               }}
             >
-              <Tab label="Ateinančios varžybos" value={0} />
-              <Tab label="Praėjusios varžybos" value={1} />
+              <Tab label={<FormattedMessage id="UPCOMING_GAMES" />} value={0} />
+              <Tab label={<FormattedMessage id="PAST_GAMES" />} value={1} />
             </Tabs>
           </Grid>
           <Grid item lg={4} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>

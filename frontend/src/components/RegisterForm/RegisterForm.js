@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { uefaLogo, visibilityOffIcon, visibilityOnIcon } from "../../assets";
 import { EMAIL_REGEX } from "../../constants/regex";
 
@@ -78,7 +79,7 @@ export default function RegisterForm({ onRegister }) {
       <CardContent direction="column" align="center" justify="center">
         <img src={uefaLogo} alt="uefa-2020 logo" width={75} height={75} />
         <Typography gutterBottom variant="h4">
-          Registracija
+          <FormattedMessage id="SIGN_UP" />
         </Typography>
         <form noValidate onSubmit={handleSubmit}>
           <Grid item container spacing={3} xs={12}>
@@ -89,13 +90,15 @@ export default function RegisterForm({ onRegister }) {
                   fullWidth
                   error={showError.errorFirstname}
                   helperText={
-                    showError.errorFirstname
-                      ? "Prašome įvesti teisingą vardą"
-                      : ""
+                    showError.errorFirstname ? (
+                      <FormattedMessage id="INVALID_FIRST_NAME" />
+                    ) : (
+                      ""
+                    )
                   }
                   variant="outlined"
                   type="text"
-                  label="Vardas"
+                  label={<FormattedMessage id="FIRST_NAME" />}
                   placeholder="Gandalf"
                   onChange={handleFirstnameChange}
                 />
@@ -106,13 +109,15 @@ export default function RegisterForm({ onRegister }) {
                   fullWidth
                   error={showError.errorLastname}
                   helperText={
-                    showError.errorLastname
-                      ? "Prašome įvesti teisingą pavardę"
-                      : ""
+                    showError.errorLastname ? (
+                      <FormattedMessage id="INVALID_LAST_NAME" />
+                    ) : (
+                      ""
+                    )
                   }
                   variant="outlined"
                   type="text"
-                  label="Pavardė"
+                  label={<FormattedMessage id="LAST_NAME" />}
                   placeholder="The Grey"
                   onChange={handleLastnameChange}
                 />
@@ -123,13 +128,15 @@ export default function RegisterForm({ onRegister }) {
                   fullWidth
                   error={showError.errorEmail}
                   helperText={
-                    showError.errorEmail
-                      ? "Prašome įvesti teisingą el. paštą"
-                      : ""
+                    showError.errorEmail ? (
+                      <FormattedMessage id="INVALID_EMAIL" />
+                    ) : (
+                      ""
+                    )
                   }
                   variant="outlined"
                   type="email"
-                  label="El. paštas"
+                  label={<FormattedMessage id="EMAIL" />}
                   placeholder="john@doe.com"
                   onChange={handleEmailChange}
                 />
@@ -140,13 +147,15 @@ export default function RegisterForm({ onRegister }) {
                   fullWidth
                   error={showError.errorPassword}
                   helperText={
-                    showError.errorPassword
-                      ? "Slaptažodis turi būti ne trumpesnis negu 6 simboliai"
-                      : ""
+                    showError.errorPassword ? (
+                      <FormattedMessage id="INVALID_PASSWORD" />
+                    ) : (
+                      ""
+                    )
                   }
                   variant="outlined"
                   type={showPassword ? "text" : "password"}
-                  label="Slaptažodis"
+                  label={<FormattedMessage id="PASSWORD" />}
                   placeholder="***********"
                   onChange={handlePasswordChange}
                   InputProps={{
@@ -182,13 +191,15 @@ export default function RegisterForm({ onRegister }) {
                   autoComplete="off"
                   error={showError.errorConfirmPassword}
                   helperText={
-                    showError.errorConfirmPassword
-                      ? "Slaptažodžiai turi sutapti"
-                      : ""
+                    showError.errorConfirmPassword ? (
+                      <FormattedMessage id="PASSWORDS_MUST_MATCH" />
+                    ) : (
+                      ""
+                    )
                   }
                   variant="outlined"
                   type={showPassword ? "text" : "password"}
-                  label="Patvirtinti slaptažodį"
+                  label={<FormattedMessage id="CONFIRM_PASSWORD" />}
                   placeholder="***********"
                   onChange={handleConfirmPasswordChange}
                   InputProps={{
@@ -225,7 +236,7 @@ export default function RegisterForm({ onRegister }) {
                 variant="contained"
                 color="primary"
               >
-                Registruotis
+                <FormattedMessage id="REGISTER" />
               </Button>
             </Grid>
           </Grid>

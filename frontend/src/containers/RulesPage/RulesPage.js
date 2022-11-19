@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { uefaLogo } from "../../assets";
 import TopBar from "../../components/TopBar/TopBar";
 
@@ -13,13 +14,7 @@ class RulesPage extends React.Component {
   render() {
     return (
       <Grid container direction="column" alignItems="center" justify="center">
-        <TopBar
-          darkMode
-          points={420}
-          showAvatarAndLogout
-          firstName="Aurimas"
-          lastName="Arlauskas"
-        />
+        <TopBar darkMode />
         <Grid item xs={11} sm={10} style={{ paddingTop: 20 }}>
           <Paper elevation={5}>
             <CardContent direction="column">
@@ -33,24 +28,27 @@ class RulesPage extends React.Component {
                   <img src={uefaLogo} width={75} height={75} alt="uefa logo" />
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography variant="h4">Taisyklės</Typography>
+                  <Typography variant="h4">
+                    <FormattedMessage id="POINTS" />
+                  </Typography>
                   <Divider style={{ margin: 20, backgroundColor: "black" }} />
                 </Grid>
                 <Grid item container direction="column" spacing={1}>
                   <Grid item xs={12}>
                     <Typography>
-                      1. Varžybų spėjimai turi būti pateikti iki rungtynių
-                      pradžios.
+                      <FormattedMessage id="RULE_1" />
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography>
-                      2. Prasidėjus varžyboms bus matomi visų dalyvių spėjimai.
+                      <FormattedMessage id="RULE_2" />
                     </Typography>
                   </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography variant="h6">Taškų skaičiavimas</Typography>
+                  <Typography variant="h6">
+                    <FormattedMessage id="CALCULATION_OF_POINTS" />
+                  </Typography>
                   <Divider />
                 </Grid>
                 <Grid
@@ -62,52 +60,43 @@ class RulesPage extends React.Component {
                 >
                   <Grid item xs={12}>
                     <Typography>
-                      3. Už teisingai atspėtą rezultatą: <strong>-3</strong>{" "}
-                      taškai.
+                      <FormattedMessage id="RULE_3" />
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography>
-                      4. Už teisingai atspėtą rezultatą, kai niekas neatspėjo
-                      varžybų baigties: <strong>-7</strong> taškai.
+                      <FormattedMessage id="RULE_4" />
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography>
-                      5. Už įspėtą varžybų baigtį{" "}
-                      <em>
-                        (atspėta, kuri komanda laimės arba atspėtos lygiosios)
-                      </em>
-                      : <strong>0</strong> taškų.
+                      <FormattedMessage id="RULE_5" />
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography>
-                      6. Už neįspėtą varžybų baigtį: <strong>+3</strong> taškai.
+                      <FormattedMessage id="RULE_6" />
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography>
-                      7. Už kiekvieną neatspėtą įvartį: <em>papildomas</em>{" "}
-                      <strong>+1</strong> taškas.
+                      <FormattedMessage id="RULE_7" />
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography>
-                      8. Dalyvis, laiku nepateikęs spėjimo gauna tiek pat taškų
-                      kaip ir blogiausiai spėjęs dalyvis.
+                      <FormattedMessage id="RULE_8" />
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography>
-                      9. Jeigu keli dalyviai turi tiek pat taškų, aukštesnę
-                      vietą užima daugiau rezultatų atspėjęs dalyvis.
+                      <FormattedMessage id="RULE_9" />
                     </Typography>
                   </Grid>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="h6">
-                    Taškų skaičiavimo pavyzdys
+                    <FormattedMessage id="EXAMPLE_OF_SCORING" />
                   </Typography>
                   <Divider />
                 </Grid>
@@ -119,27 +108,22 @@ class RulesPage extends React.Component {
                 >
                   <Grid item xs={12}>
                     <Typography>
-                      10. Varžybos baigėsi rezultatu <strong>2:1</strong>
+                      <FormattedMessage id="RULE_10" />
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography>
-                      11. Dalyvis, spėjęs <strong>2:1</strong> gauna{" "}
-                      <strong>-3</strong> taškus <em>(už įspėtą rezultatą)</em>.
+                      <FormattedMessage id="RULE_11" />
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography>
-                      12. Dalyvis, spėjęs <strong>3:0</strong> gauna{" "}
-                      <strong>+2</strong> taškus{" "}
-                      <em>(už du neįspėtus įvarčius)</em>.
+                      <FormattedMessage id="RULE_12" />
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography>
-                      13. Dalyvis, spėjęs <strong>1:1</strong> gauna{" "}
-                      <strong>+4</strong> taškus{" "}
-                      <em>(už du neįspėtus įvarčius)</em>.
+                      <FormattedMessage id="RULE_13" />
                     </Typography>
                   </Grid>
                 </Grid>

@@ -1,5 +1,6 @@
 import { CardContent, Grid, Grow, Paper, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { PieChart } from "react-minimal-pie-chart";
 
 const UserCard = ({
@@ -46,10 +47,10 @@ const UserCard = ({
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography>Taškai: {points}</Typography>
+            <FormattedMessage id="POINTS">{points}</FormattedMessage>
           </Grid>
           <Grid item xs={6}>
-            <Typography>Vieta: {ranking}</Typography>
+            <FormattedMessage id="PLACE">{ranking}</FormattedMessage>
           </Grid>
           <Grow in timeout={3000}>
             <Grid item xs={12}>

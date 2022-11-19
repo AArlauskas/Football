@@ -44,11 +44,11 @@ class AdminPage extends React.Component {
   };
 
   handleAdd = (newData) => {
-    const { date, time } = newData;
+    const { date, time, t1, t2 } = newData;
     const adjustedDate = moment(date).format("YYYY-MM-DD");
     const data = {
-      t1: { code: newData.team1 },
-      t2: { code: newData.team2 },
+      t1,
+      t2,
       date: adjustedDate,
       time,
     };
@@ -56,12 +56,12 @@ class AdminPage extends React.Component {
   };
 
   handleUpdate = (newData) => {
-    const { date, time } = newData;
+    const { date, time, t1, t2 } = newData;
     const adjustedDate = moment(date).format("YYYY-MM-DD");
     const data = {
       id: newData.id,
-      t1: { code: newData.team1 },
-      t2: { code: newData.team2 },
+      t1,
+      t2,
       date: adjustedDate,
       time,
       state: newData.state,
@@ -81,13 +81,7 @@ class AdminPage extends React.Component {
     return (
       <Grid container direction="column">
         <Grid item>
-          <TopBar
-            darkMode
-            points={420}
-            showAvatarAndLogout
-            firstName="Aurimas"
-            lastName="Arlauskas"
-          />
+          <TopBar darkMode />
         </Grid>
         <div style={{ margin: 20 }}>
           <AdminTable

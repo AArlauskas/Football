@@ -5,7 +5,7 @@ import { getTeam } from "../../api/Api";
 import TeamCard from "../../components/TeamCard/TeamCard";
 import TeamListItem from "../../components/TeamListItem/TeamListItem";
 import TopBar from "../../components/TopBar/TopBar";
-import { teams } from "../../constants/teams";
+import { teamsFlags } from "../../constants/teamsFlags";
 
 const transformMatches = (cards) => {
   const transformedMatches = cards.reduce((acc, val) => {
@@ -45,14 +45,14 @@ class TeamPage extends React.Component {
       .then((response) => {
         const { transformedMatches } = transformMatches(response.data);
         const dates = sortMatchDates(transformedMatches);
-        const url = teams[teamId];
+        const url = teamsFlags[teamId];
         if (url === undefined) {
           history.push("/home");
         }
         this.setState({
           matches: transformedMatches,
           sortedMatchDates: dates,
-          team: teams[teamId],
+          team: { code: teamId, url: teamsFlags[teamId].url },
         });
       })
       .catch(() => history.push("/home"));
@@ -68,7 +68,7 @@ class TeamPage extends React.Component {
             <TopBar darkMode />
           </Grid>
           <Grid item xs={11} sm={10} md={8} lg={7} style={{ marginTop: 30 }}>
-            <TeamCard name={team.name} flagUrl={team.url} />
+            <TeamCard code={team.code} flagUrl={team.url} />
           </Grid>
           <Grid item xs={11} sm={10} md={8} lg={7} style={{ marginTop: 30 }}>
             <List>

@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router";
 
 const GameCard = ({
@@ -129,7 +130,7 @@ const GameCard = ({
               className="link primary"
               style={{ textAlign: "center" }}
             >
-              {team1.name}
+              <FormattedMessage id={team1.code} />
             </Typography>
           </Grid>
           <Grid
@@ -150,19 +151,21 @@ const GameCard = ({
               className="link primary"
               variant="h6"
             >
-              {team2.name}
+              <FormattedMessage id={team2.code} />
             </Typography>
           </Grid>
         </Grid>
         <Grid item container spacing={1} xs={12} onClick={handleMatchRedirect}>
           <Grid item xs={12} style={{ textAlign: "center" }}>
-            <Typography variant="subtitle1">Spėjimas</Typography>
+            <Typography variant="subtitle1">
+              <FormattedMessage id="GUESS" />
+            </Typography>
             <Divider />
           </Grid>
           {variant === "not_given" ? (
             <Grid item xs={12}>
               <Typography style={{ textAlign: "center", paddingBottom: 30 }}>
-                Nepateikta
+                <FormattedMessage id="NOT_GIVEN_GUESS" />
               </Typography>
             </Grid>
           ) : (
@@ -204,7 +207,7 @@ const GameCard = ({
                 style={started ? { cursor: "pointer" } : null}
               >
                 <Typography style={{ textAlign: "center" }} variant="subtitle1">
-                  Taškai
+                  <FormattedMessage id="POINTS" />
                 </Typography>
                 <Divider />
                 <Typography style={getColor()} variant="h6">
@@ -221,7 +224,7 @@ const GameCard = ({
                   color="secondary"
                   onClick={handleCancel}
                 >
-                  Atšaukti
+                  <FormattedMessage id="CANCEL" />
                 </Button>
               </Grid>
               <Grid item xs={2} />
@@ -232,7 +235,7 @@ const GameCard = ({
                   color="primary"
                   onClick={handleSumbit}
                 >
-                  Patvirtinti
+                  <FormattedMessage id="CONFIRM" />
                 </Button>
               </Grid>
               <Grid item xs={12} />

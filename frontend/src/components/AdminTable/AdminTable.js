@@ -1,6 +1,7 @@
 import { Flag, NotListedLocation, Lock } from "@material-ui/icons";
 import MaterialTable from "material-table";
 import React from "react";
+import { FormattedMessage } from "react-intl";
 
 const stateLookup = {
   open: "open",
@@ -24,17 +25,17 @@ export default function AdminTable({ teams, data, onAdd, onUpdate }) {
     },
     {
       title: "Team 1",
-      field: "team1",
+      field: "t1.code",
       lookup: teams,
       align: "center",
-      render: (rowData) => rowData.t1.name,
+      render: (rowData) => <FormattedMessage id={rowData.t1.code} />,
     },
     {
       title: "Team 2",
-      field: "team2",
+      field: "t2.code",
       lookup: teams,
       align: "center",
-      render: (rowData) => rowData.t2.name,
+      render: (rowData) => <FormattedMessage id={rowData.t2.code} />,
     },
     {
       title: "Goals 1",

@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -17,62 +17,82 @@ import PersonalPage from "./containers/PersonalPage/PersonalPage";
 import PlayerPage from "./containers/PlayerPage/PlayerPage";
 import ResultsPage from "./containers/ResultsPage/ResultsPage";
 import theme from "./theme";
+import TranslationsProvider from "./components/TranslationsProvider/TranslationsProvider";
+import LOCALES from "./translations/locales";
+import LocalizationContext from "./components/TranslationsProvider/TranslationContext";
 
 const id = window.localStorage.getItem("id");
 const isAdmin = window.localStorage.getItem("isAdmin") === "true";
 
 function App() {
+  const [currentLanguage, setCurrentLanguage] = useState(LOCALES.LITHUANIAN);
+
+  const onLanguageChange = (language) => {
+    setCurrentLanguage(language);
+    window.localStorage.setItem("language", language);
+  };
+
+  useEffect(() => {
+    if (window.localStorage.getItem("language")) {
+      setCurrentLanguage(window.localStorage.getItem("language"));
+    }
+  }, []);
+
   return (
     <Router>
-      <ThemeProvider theme={theme}>
-        <CssBaseline>
-          {id === null ? (
-            <Switch>
-              <Route exact path="/">
-                <LoginPage />
-              </Route>
-              <Route exact path="/register">
-                <RegisterPage />
-              </Route>
-              <Route>
-                <Redirect to="/" />
-              </Route>
-            </Switch>
-          ) : (
-            <Switch>
-              <Route exact path="/rules">
-                <RulesPage />
-              </Route>
-              <Route exact path="/home">
-                <HomePage />
-              </Route>
-              <Route path="/match/:gameId">
-                <MatchPage />
-              </Route>
-              <Route exact path="/personal">
-                <PersonalPage />
-              </Route>
-              <Route path="/player/:userId">
-                <PlayerPage />
-              </Route>
-              <Route path="/team/:teamId">
-                <TeamPage />
-              </Route>
-              <Route exact path="/results">
-                <ResultsPage />
-              </Route>
-              {isAdmin && (
-                <Route exact path="/admin">
-                  <AdminPage />
-                </Route>
+      <LocalizationContext.Provider value={[currentLanguage, onLanguageChange]}>
+        <ThemeProvider theme={theme}>
+          <TranslationsProvider locale={currentLanguage}>
+            <CssBaseline>
+              {id === null ? (
+                <Switch>
+                  <Route exact path="/">
+                    <LoginPage />
+                  </Route>
+                  <Route exact path="/register">
+                    <RegisterPage />
+                  </Route>
+                  <Route>
+                    <Redirect to="/" />
+                  </Route>
+                </Switch>
+              ) : (
+                <Switch>
+                  <Route exact path="/rules">
+                    <RulesPage />
+                  </Route>
+                  <Route exact path="/home">
+                    <HomePage />
+                  </Route>
+                  <Route path="/match/:gameId">
+                    <MatchPage />
+                  </Route>
+                  <Route exact path="/personal">
+                    <PersonalPage />
+                  </Route>
+                  <Route path="/player/:userId">
+                    <PlayerPage />
+                  </Route>
+                  <Route path="/team/:teamId">
+                    <TeamPage />
+                  </Route>
+                  <Route exact path="/results">
+                    <ResultsPage />
+                  </Route>
+                  {isAdmin && (
+                    <Route exact path="/admin">
+                      <AdminPage />
+                    </Route>
+                  )}
+                  <Route>
+                    <Redirect to="/home" />
+                  </Route>
+                </Switch>
               )}
-              <Route>
-                <Redirect to="/home" />
-              </Route>
-            </Switch>
-          )}
-        </CssBaseline>
-      </ThemeProvider>
+            </CssBaseline>
+          </TranslationsProvider>
+        </ThemeProvider>
+      </LocalizationContext.Provider>
     </Router>
   );
 }

@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { withRouter } from "react-router";
 import { getMatch } from "../../api/Api";
 import TopBar from "../../components/TopBar/TopBar";
@@ -104,7 +105,7 @@ class MatchPage extends React.Component {
                 onClick={() => handleTeamRedirect(game.t1.code)}
               >
                 <Typography className="link primary" variant="h5">
-                  {game.t1.name}
+                  <FormattedMessage id={game.t1.code} />
                 </Typography>
               </Grid>
               <Grid item xs={2}>
@@ -119,7 +120,7 @@ class MatchPage extends React.Component {
                 onClick={() => handleTeamRedirect(game.t2.code)}
               >
                 <Typography className="link primary" variant="h5">
-                  {game.t2.name}
+                  <FormattedMessage id={game.t2.code} />
                 </Typography>
               </Grid>
             </Grid>
@@ -128,9 +129,15 @@ class MatchPage extends React.Component {
                 <Table style={{ tableLayout: "fixed" }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Vardas Pavardė</TableCell>
-                      <TableCell style={{ paddingLeft: 0 }}>Spėjimas</TableCell>
-                      <TableCell style={{ paddingLeft: 0 }}>Taškai</TableCell>
+                      <TableCell>
+                        <FormattedMessage id="FULL_NAME" />
+                      </TableCell>
+                      <TableCell style={{ paddingLeft: 0 }}>
+                        <FormattedMessage id="GUESS" />
+                      </TableCell>
+                      <TableCell style={{ paddingLeft: 0 }}>
+                        <FormattedMessage id="POINTS" />
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
