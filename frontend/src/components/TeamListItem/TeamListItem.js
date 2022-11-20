@@ -37,7 +37,7 @@ const TeamListItem = ({ match }) => {
             className="link primary"
             style={{ textAlign: "center" }}
           >
-            {match.t1.name}
+            <FormattedMessage id={match.t1.code} />
           </Typography>
         </Grid>
         <Grid item xs={5} onClick={() => handleTeamRedirect(match.t2.code)}>
@@ -46,7 +46,7 @@ const TeamListItem = ({ match }) => {
             className="link primary"
             style={{ textAlign: "center" }}
           >
-            {match.t2.name}
+            <FormattedMessage id={match.t2.code} />
           </Typography>
         </Grid>
         <Grid item xs={1}>

@@ -51,7 +51,7 @@ const ResultListItem = ({ match }) => {
               className="link primary"
               style={{ textAlign: "center" }}
             >
-              {match.game.t1.name}
+              <FormattedMessage id={match.game.t1.code} />
             </Typography>
           </Grid>
           <Grid item xs={4}>
@@ -71,7 +71,7 @@ const ResultListItem = ({ match }) => {
               className="link primary"
               style={{ textAlign: "center" }}
             >
-              {match.game.t2.name}
+              <FormattedMessage id={match.game.t1.code} />
             </Typography>
           </Grid>
           <Grid item xs={1}>
