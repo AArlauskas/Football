@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router";
 import { uefaLogo, visibilityOffIcon, visibilityOnIcon } from "../../assets";
+import { IS_REGISTER_ENABLED } from "../../constants";
 import { EMAIL_REGEX } from "../../constants/regex";
 
 export default function LoginForm({ onLogin }) {
@@ -121,25 +122,42 @@ export default function LoginForm({ onLogin }) {
                 />
               </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-              >
-                <FormattedMessage id="LOG_IN" />
-              </Button>
-            </Grid>
-            <Grid item xs={6}>
-              <Button
-                variant="outlined"
-                fullWidth
-                onClick={() => history.push("/register")}
-              >
-                <FormattedMessage id="REGISTER" />
-              </Button>
-            </Grid>
+            {IS_REGISTER_ENABLED ? (
+              <>
+                <Grid item xs={6}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                  >
+                    <FormattedMessage id="LOG_IN" />
+                  </Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button
+                    variant="outlined"
+                    fullWidth
+                    onClick={() => history.push("/register")}
+                  >
+                    <FormattedMessage id="REGISTER" />
+                  </Button>
+                </Grid>
+              </>
+            ) : (
+              <>
+                <Grid item xs={12}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                  >
+                    <FormattedMessage id="LOG_IN" />
+                  </Button>
+                </Grid>
+              </>
+            )}
           </Grid>
         </form>
       </CardContent>

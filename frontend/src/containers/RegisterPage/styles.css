@@ -1,14 +1,3 @@
 .root {
   height: 100vh;
 }
-
-.languageTopBar {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.languageTopBar button {
-  margin-top: 10px;
-  margin-right: 10px;
-}

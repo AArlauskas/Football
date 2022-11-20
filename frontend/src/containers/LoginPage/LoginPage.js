@@ -55,7 +55,7 @@ class LoginPage extends React.Component {
     const [language, setLanguage] = this.context;
 
     return (
-      <>
+      <div className="root">
         {showLoginGeneralError && (
           <CustomSnackbar
             topCenter
@@ -91,10 +91,10 @@ class LoginPage extends React.Component {
         </div>
         <Grid
           container
-          className="root"
           justify="space-evenly"
           direction="row"
           alignItems="center"
+          style={{ height: "calc(100% - 47px)" }}
         >
           <Hidden smDown>
             <Grid item>
@@ -105,7 +105,7 @@ class LoginPage extends React.Component {
             <LoginForm onLogin={this.handleLogin} />
           </Grid>
         </Grid>
-      </>
+      </div>
     );
   }
 }

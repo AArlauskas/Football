@@ -45,7 +45,7 @@ class RegisterPage extends React.Component {
     const { showRegisterError, showRegisterSuccess } = this.state;
     const [language, setLanguage] = this.context;
     return (
-      <>
+      <div className="root">
         {showRegisterError && (
           <CustomSnackbar
             topCenter
@@ -81,16 +81,16 @@ class RegisterPage extends React.Component {
         </div>
         <Grid
           container
-          className="root"
           direction="column"
           alignItems="center"
           justify="center"
+          style={{ height: "calc(100% - 47px)" }}
         >
           <Grid item xs={10} sm={9} md={8} lg={5}>
             <RegisterForm onRegister={this.handleRegiser} />
           </Grid>
         </Grid>
-      </>
+      </div>
     );
   }
 }

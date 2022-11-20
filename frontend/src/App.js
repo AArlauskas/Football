@@ -20,6 +20,7 @@ import theme from "./theme";
 import TranslationsProvider from "./components/TranslationsProvider/TranslationsProvider";
 import LOCALES from "./translations/locales";
 import LocalizationContext from "./components/TranslationsProvider/TranslationContext";
+import { IS_REGISTER_ENABLED } from "./constants";
 
 const id = window.localStorage.getItem("id");
 const isAdmin = window.localStorage.getItem("isAdmin") === "true";
@@ -49,9 +50,11 @@ function App() {
                   <Route exact path="/">
                     <LoginPage />
                   </Route>
-                  <Route exact path="/register">
-                    <RegisterPage />
-                  </Route>
+                  {IS_REGISTER_ENABLED && (
+                    <Route exact path="/register">
+                      <RegisterPage />
+                    </Route>
+                  )}
                   <Route>
                     <Redirect to="/" />
                   </Route>

@@ -71,7 +71,7 @@ const GuessListItem = ({ match, handleGuess }) => {
 
   return (
     <ListItem
-      style={{ padding: 10, border: "1px solid rgba(0,0,0,0.3)" }}
+      style={{ padding: 10, border: "2px solid rgba(0,0,0,0.3)" }}
       key={match.id}
     >
       <Grid container spacing={2} alignItems="center">
