@@ -72,7 +72,7 @@ const ResultListItem = ({ match }) => {
               className="link primary"
               style={{ textAlign: "center" }}
             >
-              <FormattedMessage id={match.game.t1.code} />
+              <FormattedMessage id={match.game.t2.code} />
             </Typography>
           </Grid>
           <Grid item xs={1}>
