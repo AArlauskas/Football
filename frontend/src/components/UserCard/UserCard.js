@@ -47,10 +47,10 @@ const UserCard = ({
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <FormattedMessage id="POINTS" values={{ points }} />
+            <FormattedMessage id="POINTS_WITH_POINTS" values={{ points }} />
           </Grid>
           <Grid item xs={6}>
-            <FormattedMessage id="PLACE" values={{ ranking }} />
+            <FormattedMessage id="PLACE_WITH_RANKING" values={{ ranking }} />
           </Grid>
           <Grow in timeout={3000}>
             <Grid item xs={12}>
