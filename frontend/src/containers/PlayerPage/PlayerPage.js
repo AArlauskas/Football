@@ -54,7 +54,10 @@ class PlayerPage extends React.Component {
         };
         getAllPlayerGames(userId)
           .then((responseGames) => {
-            const { transformedMatches } = transformMatches(responseGames.data);
+            const notOpenGames = responseGames.data.filter(
+              (el) => el.game.state !== "open"
+            );
+            const { transformedMatches } = transformMatches(notOpenGames);
             const sortedDates = sortMatchDatesDesc(transformedMatches);
             this.setState({
               matches: transformedMatches,
