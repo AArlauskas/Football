@@ -1,5 +1,6 @@
 import { Divider, Grid, ListItem, Typography } from "@material-ui/core";
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router";
 
 const getColor = (variant) => {
