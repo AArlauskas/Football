@@ -1,5 +1,5 @@
 {
-  "GAMES": "varžybos",
+  "GAMES": "Varžybos",
   "UPCOMING_GAMES": "Ateinančios varžybos",
   "PAST_GAMES": "Praėjusios varžybos",
   "GUESSES": "Spėjimai",
@@ -26,7 +26,7 @@
   "SUCESSFUL_REGISTER": "Registracija atlikta sėkmingai",
   "SUCESSFUL_GUESS_SUBMIT": "Spėjimas pateiktas sėkmingai",
   "CORRECT_GUESSES": "Atspėtas rezultatas",
-  "CORRECT_OUTCOMES": "Atspėtas baigtis",
+  "CORRECT_OUTCOMES": "Atspėta baigtis",
   "NOT_GIVEN_GUESS": "Nepateikta",
   "POINTS_WITH_POINTS": "Taškai: {points}",
   "POINTS": "Taškai",

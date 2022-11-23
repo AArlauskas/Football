@@ -30,12 +30,12 @@ function App() {
 
   const onLanguageChange = (language) => {
     setCurrentLanguage(language);
-    window.localStorage.setItem("language", language);
+    window.sessionStorage.setItem("language", language);
   };
 
   useEffect(() => {
-    if (window.localStorage.getItem("language")) {
-      setCurrentLanguage(window.localStorage.getItem("language"));
+    if(window.sessionStorage.getItem("language")){
+      setCurrentLanguage(window.sessionStorage.getItem("language"));
     }
   }, []);
 
