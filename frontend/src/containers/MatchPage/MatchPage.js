@@ -15,6 +15,7 @@ import { FormattedMessage } from "react-intl";
 import { withRouter } from "react-router";
 import { getMatch } from "../../api/Api";
 import TopBar from "../../components/TopBar/TopBar";
+import BouncingBall from "../../assets/ResultsPage/bouncing-ball.gif";
 
 const getColor = (variant) => {
   if (variant === "correct_alone" || variant === "correct")
@@ -153,7 +154,22 @@ class MatchPage extends React.Component {
                         <TableCell
                           style={{ cursor: "pointer" }}
                           onClick={() => handlePlayerRedirect(match.userId)}
-                        >{`${match.firstName} ${match.lastName}`}</TableCell>
+                        >
+                          <div style={{ display: "flex" }}>
+                            <div>
+                              {match.firstName.startsWith("Evaldas") && (
+                                <img
+                                  height="20px"
+                                  width="20px"
+                                  src={BouncingBall}
+                                  alt="ball"
+                                  style={{ marginRight: "5px" }}
+                                />
+                              )}
+                            </div>
+                            <div>{`${match.firstName} ${match.lastName}`}</div>
+                          </div>
+                        </TableCell>
                         <TableCell>
                           {match.guess1 === null || match.guess2 === null ? (
                             <Clear />

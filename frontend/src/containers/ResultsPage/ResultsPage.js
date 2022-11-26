@@ -14,6 +14,7 @@ import { FormattedMessage } from "react-intl";
 import { withRouter } from "react-router";
 import { getResults } from "../../api/Api";
 import TopBar from "../../components/TopBar/TopBar";
+import BouncingBall from "../../assets/ResultsPage/bouncing-ball.gif";
 
 class ResultsPage extends React.Component {
   constructor(props) {
@@ -83,11 +84,24 @@ class ResultsPage extends React.Component {
                       }
                       key={player.id}
                     >
-                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>
+                        {index + 1}
+                        {player.firstName.startsWith("Evaldas") && (
+                          <img
+                            height="20px"
+                            width="20px"
+                            src={BouncingBall}
+                            alt="ball"
+                            style={{ marginLeft: "5px" }}
+                          />
+                        )}
+                      </TableCell>
                       <TableCell
                         style={{ cursor: "pointer" }}
                         onClick={() => this.handlePlayerRedirect(player.id)}
-                      >{`${player.firstName} ${player.lastName}`}</TableCell>
+                      >
+                        {`${player.firstName} ${player.lastName}`}
+                      </TableCell>
                       <TableCell align="center">
                         {player.points.total}
                       </TableCell>
