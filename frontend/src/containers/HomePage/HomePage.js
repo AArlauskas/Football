@@ -1,10 +1,12 @@
-import { Grid } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
+import { FormattedMessage } from "react-intl";
 import React from "react";
 import MatchesByDate from "../../components/MatchesByDate/MatchesByDate";
 import "./styles.css";
 import TopBar from "../../components/TopBar/TopBar";
 import { addGuess, getTodayGames } from "../../api/Api";
 import CustomSnackbar from "../../components/CustomSnackbar/CustomSnackbar";
+import { IS_STATISTICS_ENABLED } from "../../constants";
 
 const transformMatches = (cards) => {
   const transformedMatches = cards.reduce((acc, val) => {
@@ -88,6 +90,22 @@ class HomePage extends React.Component {
           <Grid item>
             <TopBar darkMode />
           </Grid>
+          {IS_STATISTICS_ENABLED ? (
+            <div style={{ textAlign: "center" }}>
+              <h3>
+                <FormattedMessage id="STATISTICS_HEADER_TEXT" />
+              </h3>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  window.location.href = "/statistics_2022_test.txt";
+                }}
+              >
+                <FormattedMessage id="STATISTICS_BUTTON_TEXT" />
+              </Button>
+            </div>
+          ) : null}
           {sortedMatchDates.map((date) => (
             <Grid item container direction="column" spacing={5} key={date}>
               <MatchesByDate

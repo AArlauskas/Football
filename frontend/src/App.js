@@ -20,7 +20,7 @@ import theme from "./theme";
 import TranslationsProvider from "./components/TranslationsProvider/TranslationsProvider";
 import LOCALES from "./translations/locales";
 import LocalizationContext from "./components/TranslationsProvider/TranslationContext";
-import { IS_REGISTER_ENABLED } from "./constants";
+import { IS_REGISTER_ENABLED, IS_STATISTICS_ENABLED } from "./constants";
 
 const id = window.localStorage.getItem("id");
 const isAdmin = window.localStorage.getItem("isAdmin") === "true";
@@ -34,7 +34,7 @@ function App() {
   };
 
   useEffect(() => {
-    if(window.sessionStorage.getItem("language")){
+    if (window.sessionStorage.getItem("language")) {
       setCurrentLanguage(window.sessionStorage.getItem("language"));
     }
   }, []);
@@ -86,6 +86,9 @@ function App() {
                     <Route exact path="/admin">
                       <AdminPage />
                     </Route>
+                  )}
+                  {IS_STATISTICS_ENABLED && (
+                    <Route exact path="/statistics_2022_test.txt" />
                   )}
                   <Route>
                     <Redirect to="/home" />
