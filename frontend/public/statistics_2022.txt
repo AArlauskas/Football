@@ -1,0 +1,365 @@
+ total | first_name  
+-------+-------------
+   201 | Edita
+   206 | Aurimas
+   215 | Simas
+   216 | Andrius 
+   220 | Tanja 
+   222 | Gintaras
+   223 | Vincas
+   226 | Eivys
+   233 | Daina
+   236 | Ūla_kotryna
+   240 | Tomas
+   241 | Raimondas
+   254 | Evaldas 
+   259 | Evita
+   265 | Edgaras
+   271 | Ieva
+   275 | Indrė
+   288 | Aivaras
+   323 | Irmina
+(19 rows)
+
+ total | first_name  | correct_alone 
+-------+-------------+---------------
+   201 | Edita       |             1
+   215 | Simas       |             1
+   236 | Ūla_kotryna |             1
+(3 rows)
+
+ total | first_name  | not_given 
+-------+-------------+-----------
+   288 | Aivaras     |        12
+   323 | Irmina      |         7
+   201 | Edita       |         2
+   259 | Evita       |         2
+   216 | Andrius     |         2
+   240 | Tomas       |         2
+   220 | Tanja       |         1
+   222 | Gintaras    |         1
+   271 | Ieva        |         1
+   236 | Ūla_kotryna |         1
+   275 | Indrė       |         1
+   254 | Evaldas     |         1
+(12 rows)
+
+ total | first_name  | incorrect 
+-------+-------------+-----------
+   271 | Ieva        |        37
+   275 | Indrė       |        37
+   323 | Irmina      |        37
+   265 | Edgaras     |        35
+   241 | Raimondas   |        35
+   233 | Daina       |        34
+   254 | Evaldas     |        33
+   236 | Ūla_kotryna |        32
+   222 | Gintaras    |        31
+   215 | Simas       |        30
+   220 | Tanja       |        30
+   206 | Aurimas     |        29
+   223 | Vincas      |        29
+   259 | Evita       |        29
+   216 | Andrius     |        29
+   226 | Eivys       |        28
+   240 | Tomas       |        26
+   201 | Edita       |        25
+   288 | Aivaras     |        25
+(19 rows)
+
+ total | first_name  | outcomes 
+-------+-------------+----------
+   223 | Vincas      |       30
+   226 | Eivys       |       30
+   240 | Tomas       |       30
+   259 | Evita       |       29
+   201 | Edita       |       28
+   215 | Simas       |       27
+   236 | Ūla_kotryna |       27
+   206 | Aurimas     |       26
+   216 | Andrius     |       26
+   220 | Tanja       |       26
+   254 | Evaldas     |       25
+   222 | Gintaras    |       25
+   265 | Edgaras     |       24
+   241 | Raimondas   |       23
+   288 | Aivaras     |       23
+   233 | Daina       |       22
+   271 | Ieva        |       20
+   275 | Indrė       |       19
+   323 | Irmina      |       18
+(19 rows)
+
+ long_code | goals 
+-----------+-------
+ ARG       |    70
+ FRA       |    61
+ HRV       |    49
+ MAR       |    31
+ PRT       |    25
+ BRA       |    23
+ ENG       |    22
+ NLD       |    19
+ ESP       |    18
+ JPN       |    10
+ KOR       |    10
+ DEU       |     7
+ SRB       |     7
+ CHE       |     7
+ AUS       |     6
+ POL       |     6
+ CRI       |     5
+ GHA       |     5
+ USA       |     5
+ SEN       |     5
+ ECU       |     5
+ IRN       |     4
+ SAU       |     4
+ CMR       |     4
+ CAN       |     3
+ WLS       |     2
+ MEX       |     2
+ URY       |     2
+ DNK       |     1
+ TUN       |     1
+ BEL       |     1
+ QAT       |     1
+(32 rows)
+
+     team1     |     team2     | total_given_points | game_id | result1 | result2 
+---------------+---------------+--------------------+---------+---------+---------
+ Argentina     | Prancūzija    |                189 |      65 |       7 |       5
+ Marokas       | Portugalija   |                165 |      61 |       1 |       0
+ Nyderlandai   | Argentina     |                160 |      58 |       5 |       6
+ Marokas       | Ispanija      |                146 |      55 |       3 |       0
+ Kroatija      | Brazilija     |                140 |      60 |       5 |       3
+ Argentina     | Saudo Arabija |                139 |       6 |       1 |       2
+ Kamerūnas     | Serbija       |                123 |      30 |       3 |       3
+ Belgija       | Marokas       |                120 |      27 |       0 |       2
+ Velsas        | Iranas        |                119 |      18 |       0 |       2
+ Serbija       | Šveicarija    |                114 |      48 |       2 |       3
+ Pietų Korėja  | Gana          |                112 |      31 |       2 |       3
+ Tunisas       | Prancūzija    |                112 |      38 |       1 |       0
+ Kamerūnas     | Brazilija     |                111 |      49 |       1 |       0
+ Vokietija     | Japonija      |                106 |      13 |       1 |       2
+ Pietų Korėja  | Portugalija   |                104 |      46 |       2 |       1
+ Japonija      | Kosta Rika    |                103 |      26 |       0 |       1
+ Anglija       | JAV           |                102 |      21 |       0 |       0
+ Anglija       | Iranas        |                102 |       3 |       6 |       2
+ Danija        | Tunisas       |                100 |       8 |       0 |       0
+ Kroatija      | Kanada        |                 99 |      28 |       4 |       1
+ Japonija      | Kroatija      |                 94 |      54 |       2 |       4
+ Japonija      | Ispanija      |                 93 |      44 |       2 |       1
+ Marokas       | Kroatija      |                 93 |      10 |       0 |       0
+ Portugalija   | Šveicarija    |                 92 |      57 |       6 |       1
+ Ispanija      | Kosta Rika    |                 88 |      11 |       7 |       0
+ Australija    | Danija        |                 87 |      39 |       1 |       0
+ Urugvajus     | Pietų Korėja  |                 83 |      15 |       0 |       0
+ Ekvadoras     | Senegalas     |                 78 |      34 |       1 |       2
+ Tunisas       | Australija    |                 78 |      22 |       0 |       1
+ Kosta Rika    | Vokietija     |                 78 |      45 |       2 |       4
+ Kroatija      | Belgija       |                 76 |      42 |       0 |       0
+ Meksika       | Lenkija       |                 76 |       7 |       0 |       0
+ Nyderlandai   | Ekvadoras     |                 74 |      20 |       1 |       1
+ Argentina     | Kroatija      |                 68 |      62 |       3 |       0
+ Kataras       | Senegalas     |                 60 |      19 |       1 |       3
+ Gana          | Urugvajus     |                 58 |      47 |       0 |       2
+ Kataras       | Ekvadoras     |                 57 |       2 |       0 |       2
+ Kroatija      | Marokas       |                 56 |      64 |       2 |       1
+ Brazilija     | Pietų Korėja  |                 53 |      56 |       4 |       1
+ Portugalija   | Gana          |                 51 |      16 |       3 |       2
+ Ispanija      | Vokietija     |                 50 |      29 |       1 |       1
+ Lenkija       | Saudo Arabija |                 50 |      23 |       2 |       0
+ Nyderlandai   | JAV           |                 47 |      50 |       3 |       1
+ Prancūzija    | Australija    |                 47 |       9 |       4 |       1
+ Brazilija     | Šveicarija    |                 45 |      32 |       1 |       0
+ Šveicarija    | Kamerūnas     |                 44 |      14 |       1 |       0
+ Iranas        | JAV           |                 40 |      36 |       0 |       1
+ Belgija       | Kanada        |                 39 |      12 |       1 |       0
+ Anglija       | Prancūzija    |                 39 |      59 |       1 |       2
+ Saudo Arabija | Meksika       |                 34 |      41 |       1 |       2
+ Kanada        | Marokas       |                 32 |      43 |       1 |       2
+ Lenkija       | Argentina     |                 29 |      40 |       0 |       2
+ JAV           | Velsas        |                 27 |       5 |       1 |       1
+ Anglija       | Senegalas     |                 27 |      51 |       3 |       0
+ Velsas        | Anglija       |                 25 |      37 |       0 |       3
+ Prancūzija    | Marokas       |                 23 |      63 |       2 |       0
+ Prancūzija    | Lenkija       |                 21 |      53 |       3 |       1
+ Prancūzija    | Danija        |                 12 |      24 |       2 |       1
+ Portugalija   | Urugvajus     |                  9 |      33 |       2 |       0
+ Brazilija     | Serbija       |                  9 |      17 |       2 |       0
+ Nyderlandai   | Kataras       |                  8 |      35 |       2 |       0
+ Argentina     | Meksika       |                  7 |      25 |       2 |       0
+ Argentina     | Australija    |                 -4 |      52 |       2 |       1
+ Senegalas     | Nyderlandai   |                 -5 |       4 |       0 |       2
+(64 rows)
+
+ max | first_name  
+-----+-------------
+  19 | Tomas
+  19 | Indrė
+  19 | Evita
+  19 | Aivaras
+  14 | Irmina
+  13 | Evaldas 
+  12 | Daina
+  12 | Edita
+  11 | Andrius 
+  11 | Eivys
+  11 | Ieva
+  10 | Gintaras
+  10 | Edgaras
+  10 | Ūla_kotryna
+  10 | Raimondas
+   9 | Vincas
+   9 | Aurimas
+   9 | Tanja 
+   9 | Simas
+(19 rows)
+
+ total_goals_count |     name      |     name      
+-------------------+---------------+---------------
+                12 | Argentina     | Prancūzija
+                11 | Nyderlandai   | Argentina
+                 8 | Anglija       | Iranas
+                 8 | Kroatija      | Brazilija
+                 7 | Portugalija   | Šveicarija
+                 7 | Ispanija      | Kosta Rika
+                 6 | Kosta Rika    | Vokietija
+                 6 | Japonija      | Kroatija
+                 6 | Kamerūnas     | Serbija
+                 5 | Brazilija     | Pietų Korėja
+                 5 | Prancūzija    | Australija
+                 5 | Kroatija      | Kanada
+                 5 | Pietų Korėja  | Gana
+                 5 | Portugalija   | Gana
+                 5 | Serbija       | Šveicarija
+                 4 | Prancūzija    | Lenkija
+                 4 | Kataras       | Senegalas
+                 4 | Nyderlandai   | JAV
+                 3 | Marokas       | Ispanija
+                 3 | Pietų Korėja  | Portugalija
+                 3 | Kanada        | Marokas
+                 3 | Ekvadoras     | Senegalas
+                 3 | Anglija       | Senegalas
+                 3 | Anglija       | Prancūzija
+                 3 | Argentina     | Kroatija
+                 3 | Kroatija      | Marokas
+                 3 | Saudo Arabija | Meksika
+                 3 | Japonija      | Ispanija
+                 3 | Vokietija     | Japonija
+                 3 | Velsas        | Anglija
+                 3 | Argentina     | Australija
+                 3 | Prancūzija    | Danija
+                 3 | Argentina     | Saudo Arabija
+                 2 | Prancūzija    | Marokas
+                 2 | Argentina     | Meksika
+                 2 | Velsas        | Iranas
+                 2 | Ispanija      | Vokietija
+                 2 | Nyderlandai   | Ekvadoras
+                 2 | Brazilija     | Serbija
+                 2 | Kataras       | Ekvadoras
+                 2 | Portugalija   | Urugvajus
+                 2 | JAV           | Velsas
+                 2 | Belgija       | Marokas
+                 2 | Lenkija       | Saudo Arabija
+                 2 | Lenkija       | Argentina
+                 2 | Nyderlandai   | Kataras
+                 2 | Senegalas     | Nyderlandai
+                 2 | Gana          | Urugvajus
+                 1 | Tunisas       | Australija
+                 1 | Marokas       | Portugalija
+                 1 | Iranas        | JAV
+                 1 | Tunisas       | Prancūzija
+                 1 | Šveicarija    | Kamerūnas
+                 1 | Brazilija     | Šveicarija
+                 1 | Australija    | Danija
+                 1 | Kamerūnas     | Brazilija
+                 1 | Belgija       | Kanada
+                 1 | Japonija      | Kosta Rika
+                 0 | Danija        | Tunisas
+                 0 | Urugvajus     | Pietų Korėja
+                 0 | Kroatija      | Belgija
+                 0 | Meksika       | Lenkija
+                 0 | Marokas       | Kroatija
+                 0 | Anglija       | JAV
+(64 rows)
+
+ total_guessed_goals | first_name  
+---------------------+-------------
+                 202 | Ūla_kotryna
+                 193 | Daina
+                 182 | Ieva
+                 180 | Evita
+                 176 | Aurimas
+                 172 | Irmina
+                 171 | Indrė
+                 171 | Vincas
+                 162 | Simas
+                 161 | Tanja 
+                 158 | Tomas
+                 158 | Gintaras
+                 146 | Raimondas
+                 146 | Aivaras
+                 144 | Edita
+                 143 | Edgaras
+                 136 | Andrius 
+                 123 | Evaldas 
+                 114 | Eivys
+(19 rows)
+
+ count | first_name  
+-------+-------------
+    16 | Andrius 
+    13 | Ūla_kotryna
+    13 | Daina
+    13 | Simas
+    11 | Indrė
+    10 | Aivaras
+    10 | Raimondas
+     9 | Ieva
+     9 | Vincas
+     8 | Irmina
+     8 | Evita
+     7 | Evaldas 
+     7 | Aurimas
+     7 | Tanja 
+     6 | Edgaras
+     6 | Gintaras
+     4 | Edita
+     3 | Eivys
+(18 rows)
+
+ count | first_name  
+-------+-------------
+    29 | Edita
+    29 | Gintaras
+    26 | Ieva
+    25 | Ūla_kotryna
+    25 | Tomas
+    24 | Simas
+    22 | Vincas
+    22 | Evita
+    20 | Irmina
+    19 | Daina
+    19 | Indrė
+    17 | Andrius 
+    16 | Tanja 
+    15 | Aurimas
+    14 | Raimondas
+    12 | Edgaras
+    10 | Aivaras
+     5 | Evaldas 
+     2 | Eivys
+(19 rows)
+
+          List of relations
+ Schema |   Name    | Type  | Owner  
+--------+-----------+-------+--------
+ public | auth_user | table | fooser
+ public | game      | table | fooser
+ public | guess     | table | fooser
+ public | points    | table | fooser
+ public | team      | table | fooser
+(5 rows)
+
