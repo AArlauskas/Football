@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class TeamsService {
 
     private List<Team> teams() {
         try (var is = TeamsService.class.getResourceAsStream("/teams.csv")) {
-            try (var r = new BufferedReader(new InputStreamReader(Objects.requireNonNull(is)))) {
+            try (var r = new BufferedReader(new InputStreamReader(Objects.requireNonNull(is), StandardCharsets.UTF_8))) {
                 return r.lines()
                         .filter(s -> !s.isBlank())
                         .map(s -> {
