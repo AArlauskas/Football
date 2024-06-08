@@ -77,7 +77,7 @@ export default function RegisterForm({ onRegister }) {
   return (
     <Paper elevation={2}>
       <CardContent direction="column" align="center" justify="center">
-        <img src={uefaLogo} alt="uefa-2020 logo" width={75} height={75} />
+        <img src={uefaLogo} alt="uefa-2020 logo" width={150} />
         <Typography gutterBottom variant="h4">
           <FormattedMessage id="SIGN_UP" />
         </Typography>

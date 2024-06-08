@@ -1,99 +1,75 @@
 const teamsFlags = {
-  QAT: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197618.png",
-  },
-  ECU: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197588.png",
-  },
-  SEN: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197377.png",
-  },
-  NLD: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197441.png",
-  },
-  ENG: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197374.png",
-  },
-  IRN: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197574.png",
-  },
-  USA: {
-    url: "https://cdn-icons-png.flaticon.com/512/4628/4628635.png",
-  },
-  WLS: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197620.png",
-  },
-  ARG: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197573.png",
-  },
-  SAU: {
-    url: "https://cdn-icons-png.flaticon.com/512/5111/5111777.png",
-  },
-  MEX: {
-    url: "https://cdn-icons-png.flaticon.com/512/5372/5372848.png",
-  },
-  POL: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197529.png",
-  },
-  FRA: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197560.png",
-  },
-  AUS: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197507.png",
-  },
-  DNK: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197565.png",
-  },
-  TUN: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197624.png",
-  },
-  ESP: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197593.png",
-  },
-  CRI: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197506.png",
-  },
-  DEU: {
+  GER: {
     url: "https://cdn-icons-png.flaticon.com/512/197/197571.png",
-  },
-  JPN: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197604.png",
   },
   BEL: {
     url: "https://cdn-icons-png.flaticon.com/512/197/197583.png",
   },
-  CAN: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197430.png",
+  FRA: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197583.png",
   },
-  MAR: {
-    url: "https://cdn-icons-png.flaticon.com/512/5372/5372851.png",
+  POR: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197463.png",
   },
-  HRV: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197503.png",
+  ESP: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197593.png",
   },
-  BRA: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197386.png",
+  SCO: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197601.png",
+  },
+  TUR: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197518.png",
+  },
+  AUT: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197447.png",
+  },
+  ENG: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197485.png",
+  },
+  HUN: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197584.png",
+  },
+  SVK: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197592.png",
+  },
+  ALB: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197520.png",
+  },
+  DEN: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197565.png",
+  },
+  NED: {
+    url: "https://cdn-icons-png.flaticon.com/512/323/323275.png",
+  },
+  ROU: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197587.png",
+  },
+  SUI: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197540.png",
   },
   SRB: {
     url: "https://cdn-icons-png.flaticon.com/512/197/197602.png",
   },
-  CHE: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197540.png",
+  CZE: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197576.png",
   },
-  CMR: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197531.png",
+  ITA: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197626.png",
   },
-  PRT: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197463.png",
+  SVN: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197633.png",
   },
-  GHA: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197381.png",
+  CRO: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197503.png",
   },
-  URY: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197599.png",
+  GEO: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197380.png",
   },
-  KOR: {
-    url: "https://cdn-icons-png.flaticon.com/512/197/197582.png",
+  UKR: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197572.png",
+  },
+  POL: {
+    url: "https://cdn-icons-png.flaticon.com/512/197/197529.png",
   },
 };
 

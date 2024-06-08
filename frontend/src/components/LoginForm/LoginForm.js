@@ -53,7 +53,7 @@ export default function LoginForm({ onLogin }) {
   return (
     <Paper>
       <CardContent direction="column" align="center" justify="center">
-        <img src={uefaLogo} alt="uefa-2020 logo" width={75} height={75} />
+        <img src={uefaLogo} alt="uefa-2024 logo" height={50} />
         <Typography gutterBottom variant="h4">
           <FormattedMessage id="LOG_IN" />
         </Typography>

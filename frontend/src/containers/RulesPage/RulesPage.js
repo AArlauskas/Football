@@ -25,7 +25,7 @@ class RulesPage extends React.Component {
                 spacing={1}
               >
                 <Grid item xs={12}>
-                  <img src={uefaLogo} width={75} height={75} alt="uefa logo" />
+                  <img src={uefaLogo} width={150} alt="uefa logo" />
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="h4">
@@ -93,6 +93,11 @@ class RulesPage extends React.Component {
                       <FormattedMessage id="RULE_9" />
                     </Typography>
                   </Grid>
+                  <Grid item xs={12}>
+                    <Typography>
+                      <FormattedMessage id="RULE_10" />
+                    </Typography>
+                  </Grid>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="h6">
@@ -108,11 +113,6 @@ class RulesPage extends React.Component {
                 >
                   <Grid item xs={12}>
                     <Typography>
-                      <FormattedMessage id="RULE_10" />
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>
                       <FormattedMessage id="RULE_11" />
                     </Typography>
                   </Grid>
@@ -124,6 +124,11 @@ class RulesPage extends React.Component {
                   <Grid item xs={12}>
                     <Typography>
                       <FormattedMessage id="RULE_13" />
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography>
+                      <FormattedMessage id="RULE_14" />
                     </Typography>
                   </Grid>
                 </Grid>

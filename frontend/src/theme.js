@@ -3,7 +3,7 @@ import { createTheme } from "@material-ui/core/styles";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#8B1638",
+      main: "#093E84",
     },
     secondary: {
       main: "#EDEEE4",
@@ -32,7 +32,7 @@ const theme = createTheme({
     },
     MuiTouchRipple: {
       root: {
-        color: "#8B1638",
+        color: "#093E84",
       },
     },
   },

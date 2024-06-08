@@ -1,5 +1,6 @@
 import loginPageDrawing from "./LoginPage/game-day.svg";
-import uefaLogo from "./Generic/uefa-logo.svg";
+import uefaLogo from "./Generic/uefa-logo.png";
+import uefaLogoAlt from "./Generic/uefa-logo-alt.png";
 import visibilityOffIcon from "./Generic/visibility-off.svg";
 import visibilityOnIcon from "./Generic/visibility.svg";
 import forgotPasswordDrawing from "./ResetPasswordPage/forgot-password.svg";
@@ -30,7 +31,7 @@ export {
   UploadIcon,
 };
 
-export { loginPageDrawing, uefaLogo };
+export { loginPageDrawing, uefaLogo, uefaLogoAlt };
 export { visibilityOffIcon, visibilityOnIcon };
 export { forgotPasswordDrawing };
 export { verifiedAccountDrawing };

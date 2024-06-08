@@ -12,7 +12,11 @@ import {
 } from "@material-ui/core";
 import { useHistory } from "react-router";
 import LanguageFlagLT from "../../assets/Generic/LanguageFlagLT";
-import { ArrowBackIcon, MenuIcon, uefaLogo as productIcon } from "../../assets";
+import {
+  ArrowBackIcon,
+  MenuIcon,
+  uefaLogoAlt as productIcon,
+} from "../../assets";
 import { GRAY_1, GRAY_5, SUNFLOWER } from "../../constants";
 import "./styles.css";
 import NavDrawer from "../NavDrawer/NavDrawer";
@@ -77,17 +81,16 @@ export default function TopBar({ darkMode, showArrow, onActionIconClick }) {
               </Hidden>
             )}
             {!showArrow && (
-              <Grid item>
-                <IconButton edge="start" onClick={() => history.push("/home")}>
-                  <img
-                    style={{ marginTop: 10 }}
-                    src={productIcon}
-                    alt="Product icon"
-                    width={45}
-                    height={45}
-                  />
-                </IconButton>
-              </Grid>
+              <Hidden xsDown>
+                <Grid item>
+                  <IconButton
+                    edge="start"
+                    onClick={() => history.push("/home")}
+                  >
+                    <img src={productIcon} alt="Product icon" width={75} />
+                  </IconButton>
+                </Grid>
+              </Hidden>
             )}
             <Grid item xs>
               <Hidden xsDown>

@@ -15,6 +15,8 @@ axios.interceptors.response.use(
 );
 
 const getBaseUri = () => {
+  // to develop locally you must start nginx with the config in the deployment folder
+  // after that start with `npm start` and visit the page at http://localhost:80
   if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
     return "http://localhost:80/api";
   }
