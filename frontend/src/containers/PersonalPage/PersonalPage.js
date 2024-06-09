@@ -182,7 +182,7 @@ class PersonalPage extends React.Component {
               />
             </Grid>
           )}
-          <Grid item lg={8} md={6} sm={4} xs={11} style={{ marginTop: 30 }}>
+          <Grid item lg={4} md={6} sm={8} xs={11} style={{ marginTop: 30 }}>
             <Tabs
               TabIndicatorProps={{ style: { background: "#EDEEE4" } }}
               value={tab}

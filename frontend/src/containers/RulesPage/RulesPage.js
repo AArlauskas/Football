@@ -13,7 +13,15 @@ import TopBar from "../../components/TopBar/TopBar";
 class RulesPage extends React.Component {
   render() {
     return (
-      <Grid container direction="column" alignItems="center" justify="center">
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{
+          height: "100vh",
+        }}
+      >
         <TopBar darkMode />
         <Grid item xs={11} sm={10} style={{ paddingTop: 20 }}>
           <Paper elevation={5}>

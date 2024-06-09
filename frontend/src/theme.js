@@ -17,15 +17,15 @@ const theme = createTheme({
     },
     MuiTabs: {
       indicator: {
-        background: "rgb(139,22,56) !important",
+        background: "rgb(9,62,132) !important",
       },
     },
     MuiTableRow: {
       root: {
         "&$selected": {
-          backgroundColor: "rgba(139,22,56,0.2)",
+          backgroundColor: "rgba(9,62,132,0.2)",
           "&:hover": {
-            backgroundColor: "rgba(139,22,56,0.3)",
+            backgroundColor: "rgba(9,62,132,0.3)",
           },
         },
       },
