@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
+
+import java.time.Duration;
 
 
 @Configuration
@@ -29,11 +29,6 @@ public class Security extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-        return new InMemoryTokenRepositoryImpl();
-    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsProvider).passwordEncoder(passwordEncoder());
@@ -41,28 +36,25 @@ public class Security extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
+            .authorizeRequests()
                 .antMatchers("/api/auth/**", "/api/version").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .rememberMe()
-                .rememberMeCookieName("rememberme")
-                .key("football2020")
-                .tokenValiditySeconds(60 * 60 * 24 * 14)
+            .rememberMe()
+                .rememberMeServices(rememberMeServices())
+                .tokenValiditySeconds((int) Duration.ofDays(14).toSeconds())
                 .alwaysRemember(true)
                 .and()
-                .formLogin().disable()
-                .httpBasic().disable()
-                .csrf().disable()
-                .cors().disable()
-        ;
+            .formLogin().disable()
+            .httpBasic().disable()
+            .csrf().disable()
+            .cors().disable();
     }
 
     @Bean
-    public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
-        PersistentTokenBasedRememberMeServices persistenceTokenBasedservice = new PersistentTokenBasedRememberMeServices("rememberme", userDetailsProvider, persistentTokenRepository());
-        persistenceTokenBasedservice.setAlwaysRemember(true);
-        return persistenceTokenBasedservice;
+    public RememberMeServices rememberMeServices() {
+        TokenBasedRememberMeServices s =  new TokenBasedRememberMeServices("football2020", userDetailsProvider);
+        s.setAlwaysRemember(true);
+        return s;
     }
-
 }

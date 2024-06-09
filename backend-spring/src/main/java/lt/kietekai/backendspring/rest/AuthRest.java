@@ -2,7 +2,6 @@ package lt.kietekai.backendspring.rest;
 
 import lombok.RequiredArgsConstructor;
 import lt.kietekai.backendspring.rest.models.LoginDetails;
-import lt.kietekai.backendspring.rest.models.Points;
 import lt.kietekai.backendspring.rest.models.UserDetails;
 import lt.kietekai.backendspring.rest.models.UserPrototype;
 import lt.kietekai.backendspring.storage.FullUserDetails;
@@ -14,7 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +33,7 @@ public class AuthRest {
     private final GamesService gamesService;
 
     private final PasswordEncoder passwordEncoder;
-    private final PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
+    private final RememberMeServices rememberMeServices;
 
     @PostMapping("register")
     public UserDetails register(@RequestBody UserPrototype userPrototype) {
@@ -74,7 +73,8 @@ public class AuthRest {
         HttpSession session = request.getSession(true);
         session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
-        persistentTokenBasedRememberMeServices.loginSuccess(request, response, token);
+
+        rememberMeServices.loginSuccess(request, response, new UsernamePasswordAuthenticationToken(u.getEmail(), u.getPassword()));
         return Converters.user(u);
     }
 }
