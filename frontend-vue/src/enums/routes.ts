@@ -1,0 +1,28 @@
+export const RouteName = {
+  Admin: 'admin',
+  Games: 'games',
+  Home: 'home',
+  Match: 'match',
+  Personal: 'personal',
+  Player: 'player',
+  Register: 'register',
+  Results: 'results',
+  Rules: 'rules',
+  SignIn: 'sign-in',
+  Team: 'team',
+} as const;
+
+export const RoutePath = {
+  Admin: '/admin',
+  Games: '/games',
+  Home: '/home',
+  Match: '/match/:gameId',
+  Personal: '/personal',
+  Player: '/player/:userId',
+  Register: '/register',
+  Results: '/results',
+  Root: '/',
+  Rules: '/rules',
+  SignIn: '/sign-in',
+  Team: '/team/:teamId',
+} as const;

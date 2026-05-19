@@ -1,155 +1,119 @@
-Requested Endpoints: 
-1. CRUD for /admin. Fetching all matches without user results. (GET is done)
-2. /home. Fetching user's all upcoming matches including today with possible results and game states.
-3. Getting user's current number of points.
-4. /player. For current user with all previous guesses and results and upcoming matches
-5. /player For a user visiting another user's page to see all of the made guesses and match results.
-6. /team Similar to 5, but filtered according to the team identifier.
-7. Making a guess endpoint.
-8. /match. Get results of a match that has either ended or been closed(only see guesses)
-9. Login
-10. Register
-11. ???Forgot paswword???
-12. ???Logout endpoint???
-13. /results to fetch all of the guesses and all of the matches that have been closed or finished
+# Football
 
-Known issue that is similar to ours:
-https://stackoverflow.com/questions/62654250/react-and-nginx-messing-up-urls-when-using-axios-incorrect-api-calls
+Football is a match prediction app for running a football pool. Users can register, sign in, predict match scores, follow their points, inspect other players and teams, and compare results. Admin users can create games, close games, enter final results, and manage the match schedule.
 
+## Project Structure
 
-2021-06-08: new apis to get player score table (ordered) and game guesses with points
+- `frontend-vue/` - current Vue 3 frontend built with Vite, TypeScript, Pinia, PrimeVue, and Vue Router.
+- `backend-spring/` - Spring Boot API backed by JPA and PostgreSQL.
+- `frontend/` - legacy React frontend kept in the repository for reference.
+- `deployment/` - example backend service files and nginx configuration.
+- `backup.sql` and `statistics.sql` - database helper SQL files.
 
-GET http://localhost:8080/api/version
-Accept: application/json
+## Main Features
 
-<> 2021-06-07T230712.200.json
-###
-POST http://localhost:8080/api/auth/register
-Content-Type: application/json
+- Authentication: register, sign in, sign out, and protected routes.
+- Games: upcoming matches grouped by date, score predictions, and match details.
+- Personal page: current user guesses, previous games, and points.
+- Results: standings table with player navigation.
+- Player and team pages: historical guesses and match results.
+- Admin panel: create/edit games, filter by state, close games, and submit final scores.
+- Responsive layout with desktop side navigation and mobile drawer navigation.
 
-{
-"email": "someone@admin.lt",
-"password": "hunter2",
-"firstName": "Aivaras",
-"lastName": "Saulius"
-}
+## Tech Stack
 
-<> 2021-06-07T230718.200.json
-###
-POST http://localhost:8080/api/auth/login
-Content-Type: application/json
+Frontend:
 
-{
-"email":  "someone@admin.lt",
-"password": "hunter2"
-}
+- Vue 3
+- Vite
+- TypeScript
+- Pinia
+- PrimeVue
+- Vue I18n
+- Matter.js for the small interactive football in navigation
 
-<> 2021-06-07T230721.200.json
+Backend:
 
-###
-GET http://localhost:8080/api/teams
-Accept: application/json
+- Java 16
+- Spring Boot 2.5
+- Spring Web
+- Spring Security
+- Spring Data JPA
+- PostgreSQL
+- H2 runtime dependency for local/dev alternatives
 
-<> 2021-06-07T230725.200.json
-###
-POST localhost:8080/api/games
-Content-Type: application/json
+## Prerequisites
 
-{
-"t1": {"code":  "DNK"},
-"t2": {"code":  "ENG"},
-"date": "2021-06-02",
-"time": "19:00"
-}
+- Node.js and npm
+- Java 16
+- Maven, or use the included Maven wrapper
+- PostgreSQL running locally
 
-###
-GET http://localhost:8080/api/games
-Accept: application/json
+The default backend configuration expects this database:
 
-<> 2021-06-07T231111.200.json
-<> 2021-06-07T230856.200.json
-###
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/football
+spring.datasource.username=football_user
+spring.datasource.password=football_password
+```
 
-POST http://localhost:8080/api/guesses
-Content-Type: application/json
+## Run Locally
 
-{
-"gameId": 1,
-"result": {
-"goals1": 2,
-"goals2": 1
-}
-}
+Start the backend:
 
-<> 2021-06-07T230904.200.json
+```sh
+cd backend-spring
+./mvnw spring-boot:run
+```
 
-###
-GET http://localhost:8080/api/games/guessed?user=1&filter=all
-Accept: application/json
+The API runs on `http://localhost:8080`.
 
-###
+Start the current frontend:
 
-PUT http://localhost:8080/api/games
-Content-Type: application/json
+```sh
+cd frontend-vue
+npm install
+npm run dev
+```
 
-{
-"id": 1,
-"t1": {
-"code": "DNK"
-},
-"t2": {
-"code": "ENG"
-},
-"date": "2021-06-02",
-"time": "19:00",
-"state": "closed",
-"result": null
-}
+The Vite dev server proxies `/api` requests to `http://localhost:8080`.
 
-<> 2021-06-07T231139.200.json
+## Frontend Commands
 
-###
-PUT http://localhost:8080/api/games
-Content-Type: application/json
+Run from `frontend-vue/`:
 
-{
-"id": 1,
-"t1": {
-"code": "DNK"
-},
-"t2": {
-"code": "ENG"
-},
-"date": "2021-06-02",
-"time": "19:00",
-"state": "finished",
-"result": {
-"goals1": 2,
-"goals2": 1
-}
-}
+```sh
+npm run dev      # start Vite dev server
+npm run build    # type-check and build for production
+npm run lint     # run ESLint
+npm run preview  # preview the production build
+```
 
-<> 2021-06-07T231202.500.json
+## Backend Commands
 
-###
-GET http://localhost:8080/api/points
-Accept: application/json
+Run from `backend-spring/`:
 
-<> 2021-06-07T231034.200.json
+```sh
+./mvnw spring-boot:run  # start the API
+./mvnw test             # run backend tests
+./mvnw package          # build the backend jar
+```
 
-###
-GET http://localhost:8080/api/points/totals
-Accept: application/json
+## API Areas
 
+The backend exposes endpoints under `/api`, including:
 
-###
-GET http://localhost:8080/api/games/results?game=1
-Accept: application/json
+- `/api/auth` - login and registration
+- `/api/games` - match schedule and admin game management
+- `/api/guesses` - user score predictions
+- `/api/points` - personal and total points
+- `/api/results` - standings and closed/finished match results
+- `/api/teams` - team data and team-specific games
+- `/api/users` - player profile data
+- `/api/version` - API version check
 
-###
-GET http://localhost:8080/api/users?user=1
-Accept: application/json
+## Notes
 
-###
-GET http://localhost:8080/api/teams/games?code=LTU
-Accept: application/json
+- `frontend-vue/` is the active frontend. The older `frontend/` React app is not the primary UI.
+- Frontend routing is handled client-side; production hosting should serve the Vue app fallback for non-API routes.
+- The backend uses `spring.jpa.hibernate.ddl-auto=update`, so schema changes are applied automatically in local development.
