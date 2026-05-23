@@ -55,14 +55,49 @@ cp .env.example .env
 nano .env
 ```
 
-Set different strong passwords:
+Set different strong passwords and Hostinger mailbox credentials:
 
 ```text
 FIRST_POSTGRES_PASSWORD=<strong-first-db-password>
 SECOND_POSTGRES_PASSWORD=<strong-second-db-password>
+EMAIL_USERNAME=<mailbox@your-domain>
+EMAIL_PASSWORD=<mailbox-password>
 ```
 
-## 4. Firewall
+The `.env` file must stay on the VPS and must not be committed. The committed `.env.example` only shows the required variable names.
+
+## 4. Match Reminder Email
+
+The backend sends match reminder emails automatically 30 minutes before kick-off to users who have not submitted a guess.
+
+Language is configured per instance in `docker-compose.yml`:
+
+```text
+first-backend   MATCH_REMINDER_LANGUAGE=lt
+second-backend  MATCH_REMINDER_LANGUAGE=en
+```
+
+The app URL is also configured per instance and is added to the email body:
+
+```text
+first-backend   APP_URL=https://first.ganayragana.cloud
+second-backend  APP_URL=https://second.ganayragana.cloud
+```
+
+To use Hostinger mail:
+
+```text
+EMAIL_USERNAME=notifications@your-domain.com
+EMAIL_PASSWORD=<the Hostinger mailbox password>
+HOSTINGER_MAIL_HOST=smtp.hostinger.com
+HOSTINGER_MAIL_PORT=465
+```
+
+`HOSTINGER_MAIL_HOST` and `HOSTINGER_MAIL_PORT` are optional because the Compose file defaults to `smtp.hostinger.com:465`.
+
+In Hostinger, create or choose a mailbox for the sender, for example `notifications@your-domain.com`. Use that full mailbox address as `EMAIL_USERNAME` and its mailbox password as `EMAIL_PASSWORD`.
+
+## 5. Firewall
 
 Allow only SSH, HTTP, and HTTPS publicly:
 
@@ -75,7 +110,7 @@ ufw enable
 
 PostgreSQL and backend ports are not published by this Compose file.
 
-## 5. Start
+## 6. Start
 
 From `/opt/football/deployment/hostinger`:
 
@@ -90,7 +125,7 @@ docker compose ps
 docker compose logs -f caddy
 ```
 
-## 6. Verify
+## 7. Verify
 
 ```sh
 curl -I https://first.ganayragana.cloud
@@ -101,7 +136,7 @@ curl https://second.ganayragana.cloud/api/version
 
 Creating users or games in one domain should not affect the other domain.
 
-## 7. Backups
+## 8. Backups
 
 Create database dumps from the VPS:
 
@@ -117,7 +152,7 @@ docker compose exec -T first-postgres psql -U football_user football < first-foo
 docker compose exec -T second-postgres psql -U football_user football < second-football.sql
 ```
 
-## 8. Updates
+## 9. Updates
 
 Pull new code and rebuild:
 

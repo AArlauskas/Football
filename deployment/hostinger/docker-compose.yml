@@ -39,6 +39,14 @@ services:
       SPRING_DATASOURCE_USERNAME: football_user
       SPRING_DATASOURCE_PASSWORD: ${FIRST_POSTGRES_PASSWORD:?Set FIRST_POSTGRES_PASSWORD in deployment/hostinger/.env}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      APP_URL: https://first.ganayragana.cloud
+      MATCH_REMINDER_LANGUAGE: lt
+      SPRING_MAIL_HOST: ${HOSTINGER_MAIL_HOST:-smtp.hostinger.com}
+      SPRING_MAIL_PORT: ${HOSTINGER_MAIL_PORT:-465}
+      SPRING_MAIL_USERNAME: ${EMAIL_USERNAME:?Set EMAIL_USERNAME in deployment/hostinger/.env}
+      SPRING_MAIL_PASSWORD: ${EMAIL_PASSWORD:?Set EMAIL_PASSWORD in deployment/hostinger/.env}
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_ENABLE: "true"
     depends_on:
       first-postgres:
         condition: service_healthy
@@ -78,6 +86,14 @@ services:
       SPRING_DATASOURCE_USERNAME: football_user
       SPRING_DATASOURCE_PASSWORD: ${SECOND_POSTGRES_PASSWORD:?Set SECOND_POSTGRES_PASSWORD in deployment/hostinger/.env}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      APP_URL: https://second.ganayragana.cloud
+      MATCH_REMINDER_LANGUAGE: en
+      SPRING_MAIL_HOST: ${HOSTINGER_MAIL_HOST:-smtp.hostinger.com}
+      SPRING_MAIL_PORT: ${HOSTINGER_MAIL_PORT:-465}
+      SPRING_MAIL_USERNAME: ${EMAIL_USERNAME:?Set EMAIL_USERNAME in deployment/hostinger/.env}
+      SPRING_MAIL_PASSWORD: ${EMAIL_PASSWORD:?Set EMAIL_PASSWORD in deployment/hostinger/.env}
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_ENABLE: "true"
     depends_on:
       second-postgres:
         condition: service_healthy
