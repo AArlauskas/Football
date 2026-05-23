@@ -1,0 +1,94 @@
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - first-frontend
+      - second-frontend
+
+  first-postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: football
+      POSTGRES_USER: football_user
+      POSTGRES_PASSWORD: ${FIRST_POSTGRES_PASSWORD:?Set FIRST_POSTGRES_PASSWORD in deployment/hostinger/.env}
+    volumes:
+      - first-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U football_user -d football"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  first-backend:
+    build:
+      context: ../../backend-spring
+    restart: unless-stopped
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:postgresql://first-postgres:5432/football
+      SPRING_DATASOURCE_USERNAME: football_user
+      SPRING_DATASOURCE_PASSWORD: ${FIRST_POSTGRES_PASSWORD:?Set FIRST_POSTGRES_PASSWORD in deployment/hostinger/.env}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      first-postgres:
+        condition: service_healthy
+
+  first-frontend:
+    build:
+      context: ../../frontend-vue
+    restart: unless-stopped
+    depends_on:
+      - first-backend
+
+  second-postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: football
+      POSTGRES_USER: football_user
+      POSTGRES_PASSWORD: ${SECOND_POSTGRES_PASSWORD:?Set SECOND_POSTGRES_PASSWORD in deployment/hostinger/.env}
+    volumes:
+      - second-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U football_user -d football"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  second-backend:
+    build:
+      context: ../../backend-spring
+    restart: unless-stopped
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:postgresql://second-postgres:5432/football
+      SPRING_DATASOURCE_USERNAME: football_user
+      SPRING_DATASOURCE_PASSWORD: ${SECOND_POSTGRES_PASSWORD:?Set SECOND_POSTGRES_PASSWORD in deployment/hostinger/.env}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      second-postgres:
+        condition: service_healthy
+
+  second-frontend:
+    build:
+      context: ../../frontend-vue
+    restart: unless-stopped
+    depends_on:
+      - second-backend
+
+volumes:
+  caddy-data:
+  caddy-config:
+  first-postgres-data:
+  second-postgres-data:

@@ -78,6 +78,31 @@ npm run dev
 
 The Vite dev server proxies `/api` requests to `http://localhost:8080`.
 
+## Run With Docker
+
+Start the full stack with PostgreSQL:
+
+```sh
+docker compose up --build
+```
+
+The Vue app is available at `http://localhost:3000`, and the backend API is available at `http://localhost:8080`.
+
+PostgreSQL data is stored in the `postgres-data` Docker volume. To stop the stack and remove the database volume:
+
+```sh
+docker compose down -v
+```
+
+To run two isolated instances, use different Compose project names and host ports:
+
+```sh
+COMPOSE_PROJECT_NAME=football1 FRONTEND_PORT=3000 BACKEND_PORT=8080 POSTGRES_PORT=5432 docker compose up -d --build
+COMPOSE_PROJECT_NAME=football2 FRONTEND_PORT=3001 BACKEND_PORT=8081 POSTGRES_PORT=5433 docker compose up -d --build
+```
+
+The second instance will be available at `http://localhost:3001`. Each project gets its own containers, network, and `postgres-data` volume.
+
 ## Frontend Commands
 
 Run from `frontend-vue/`:

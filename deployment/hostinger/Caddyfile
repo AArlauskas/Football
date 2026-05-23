@@ -1,0 +1,19 @@
+first.ganayragana.cloud {
+    handle /api* {
+        reverse_proxy first-backend:8080
+    }
+
+    handle {
+        reverse_proxy first-frontend:80
+    }
+}
+
+second.ganayragana.cloud {
+    handle /api* {
+        reverse_proxy second-backend:8080
+    }
+
+    handle {
+        reverse_proxy second-frontend:80
+    }
+}
