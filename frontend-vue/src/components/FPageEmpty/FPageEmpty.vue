@@ -173,7 +173,7 @@ onUnmounted(() => {
     radial-gradient(
       circle at top left,
       color-mix(in srgb, var(--p-primary-400) 24%, transparent),
-      transparent 80rem
+      transparent 34rem
     ),
     var(--p-surface-100);
   --f-page-empty-border: var(--p-surface-200);
