@@ -51,6 +51,12 @@ export const router = createRouter({
       path: RoutePath.Team,
     },
     {
+      component: () => import('@/views/TeamsStatistics/TeamsStatistics.vue'),
+      meta: { requiresAuth: true },
+      name: RouteName.TeamsStatistics,
+      path: RoutePath.TeamsStatistics,
+    },
+    {
       component: () => import('@/views/Results/Results.vue'),
       meta: { requiresAuth: true },
       name: RouteName.Results,
@@ -73,6 +79,10 @@ export const router = createRouter({
       meta: { requiresGuest: true },
       name: RouteName.Register,
       path: RoutePath.Register,
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: RoutePath.Root,
     },
   ],
 });

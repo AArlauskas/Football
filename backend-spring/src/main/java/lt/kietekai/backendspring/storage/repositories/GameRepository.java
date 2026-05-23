@@ -28,4 +28,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     @Query("select g from Game g where (g.team1=:team or g.team2=:team) and g.finished is not null order by g.gameDate")
     List<Game> getFinishedWithTeam(Team team);
+
+    @Query("select g from Game g where g.finished is not null and g.result1 is not null and g.result2 is not null order by g.gameDate")
+    List<Game> getFinishedWithResults();
 }

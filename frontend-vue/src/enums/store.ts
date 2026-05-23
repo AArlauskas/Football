@@ -7,6 +7,7 @@ export const StoreId = {
   Player: 'player',
   Results: 'results',
   Team: 'team',
+  TeamsStatistics: 'teams-statistics',
 } as const;
 
 export const StorePersistentKey = {

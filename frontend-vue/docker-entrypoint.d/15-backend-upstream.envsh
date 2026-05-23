@@ -1,0 +1,1 @@
+export BACKEND_UPSTREAM="${BACKEND_UPSTREAM:-backend:8080}"

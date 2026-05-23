@@ -6,5 +6,5 @@ export { addGuess, getPersonalGames, getPersonalUser } from '@/api/personal';
 export { getPlayer, getPlayerGames } from '@/api/player';
 export { getPersonalPoints } from '@/api/points';
 export { getResults } from '@/api/results';
-export { getTeamGames } from '@/api/team';
+export { getTeamGames, getTeamsStatistics } from '@/api/team';
 export { getGamesWithGuesses } from '@/api/games';

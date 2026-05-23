@@ -33,6 +33,13 @@ export interface Team {
   name: string;
 }
 
+export interface TeamsStatistics {
+  lost: number;
+  team: Team;
+  ties: number;
+  won: number;
+}
+
 export interface GameResult {
   goals1: number;
   goals2: number;

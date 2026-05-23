@@ -12,6 +12,7 @@ export type {
   GuessWithUser,
   GuessOutcome,
   Team,
+  TeamsStatistics,
 } from '@/models/game';
 export type { Points } from '@/models/points';
 export type { UserDetails } from '@/models/user';

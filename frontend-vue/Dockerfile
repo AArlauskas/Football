@@ -10,7 +10,9 @@ RUN npm run build
 
 FROM nginx:1.29-alpine
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/templates/default.conf.template
+COPY docker-entrypoint.d/ /docker-entrypoint.d/
+RUN chmod +x /docker-entrypoint.d/15-backend-upstream.envsh
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80

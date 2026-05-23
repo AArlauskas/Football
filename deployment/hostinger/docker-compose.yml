@@ -47,6 +47,8 @@ services:
     build:
       context: ../../frontend-vue
     restart: unless-stopped
+    environment:
+      BACKEND_UPSTREAM: first-backend:8080
     depends_on:
       - first-backend
 
@@ -84,6 +86,8 @@ services:
     build:
       context: ../../frontend-vue
     restart: unless-stopped
+    environment:
+      BACKEND_UPSTREAM: second-backend:8080
     depends_on:
       - second-backend
 

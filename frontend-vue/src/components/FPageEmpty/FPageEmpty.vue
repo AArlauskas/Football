@@ -33,6 +33,7 @@ const routeTitleMap: Partial<Record<string, TranslationKey>> = {
   [RouteName.Results]: 'v1.results',
   [RouteName.Rules]: 'v1.rules',
   [RouteName.Team]: 'v1.team',
+  [RouteName.TeamsStatistics]: 'v1.teams.statistics',
 };
 
 const navigationItems = computed(() => [
@@ -47,6 +48,12 @@ const navigationItems = computed(() => [
     label: 'v1.results' as TranslationKey,
     name: RouteName.Results,
     path: RoutePath.Results,
+  },
+  {
+    icon: 'pi pi-table',
+    label: 'v1.teams.statistics' as TranslationKey,
+    name: RouteName.TeamsStatistics,
+    path: RoutePath.TeamsStatistics,
   },
   {
     icon: 'pi pi-user',

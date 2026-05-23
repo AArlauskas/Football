@@ -122,8 +122,10 @@ export const messages = {
     'v1.team.match.history': 'Match history',
     'v1.team.no.matches': 'No matches to show',
     'v1.team.stats': 'Team stats',
+    'v1.teams.statistics': 'Teams statistics',
     'v1.team.ties': 'Ties',
     'v1.team.victories': 'Victories',
+    'v1.team.wins': 'Wins',
     'v1.upcoming.games': 'Upcoming Games',
   },
   'lt-LT': {
@@ -251,8 +253,10 @@ export const messages = {
     'v1.team.match.history': 'Varžybų istorija',
     'v1.team.no.matches': 'Nėra rodomų varžybų',
     'v1.team.stats': 'Komandos statistika',
+    'v1.teams.statistics': 'Komandų statistika',
     'v1.team.ties': 'Lygiosios',
     'v1.team.victories': 'Pergalės',
+    'v1.team.wins': 'Pergalės',
     'v1.upcoming.games': 'Ateinančios varžybos',
   },
 } as const;
