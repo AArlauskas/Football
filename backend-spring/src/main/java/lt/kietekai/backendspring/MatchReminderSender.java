@@ -83,7 +83,7 @@ public class MatchReminderSender {
             message.setFrom(from);
         }
 
-        String match = game.getTeam1().getName() + " - " + game.getTeam2().getName();
+        String match = game.getTeam1().getLongCode() + " - " + game.getTeam2().getLongCode();
         String startsAt = dateFormatter.get().format(game.getGameDate());
         if (isLithuanian()) {
             message.setSubject("Nepamiršk pateikti spėjimo");
