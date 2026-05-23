@@ -2,8 +2,8 @@
 
 This deployment runs two isolated Football instances on one Hostinger VPS:
 
-- `first.ganayragana.cloud`
-- `second.ganayragana.cloud`
+- `ltu.ganayragana.cloud` for Lithuania
+- `mkd.ganayragana.cloud` for North Macedonia
 
 Each instance has its own frontend, backend, PostgreSQL container, and database volume. Caddy is the only public entry point and automatically manages HTTPS certificates.
 
@@ -12,8 +12,8 @@ Each instance has its own frontend, backend, PostgreSQL container, and database 
 In Hostinger DNS, create these `A` records for `ganayragana.cloud`:
 
 ```text
-first   A   72.62.114.180
-second  A   72.62.114.180
+ltu   A   72.62.114.180
+mkd   A   72.62.114.180
 ```
 
 Wait until both names resolve to the VPS before starting Caddy certificate issuance.
@@ -58,8 +58,8 @@ nano .env
 Set different strong passwords and Hostinger mailbox credentials:
 
 ```text
-FIRST_POSTGRES_PASSWORD=<strong-first-db-password>
-SECOND_POSTGRES_PASSWORD=<strong-second-db-password>
+LTU_POSTGRES_PASSWORD=<strong-ltu-db-password>
+MKD_POSTGRES_PASSWORD=<strong-mkd-db-password>
 EMAIL_USERNAME=<mailbox@your-domain>
 EMAIL_PASSWORD=<mailbox-password>
 ```
@@ -73,15 +73,22 @@ The backend sends match reminder emails automatically 30 minutes before kick-off
 Language is configured per instance in `docker-compose.yml`:
 
 ```text
-first-backend   MATCH_REMINDER_LANGUAGE=lt
-second-backend  MATCH_REMINDER_LANGUAGE=en
+ltu-backend  MATCH_REMINDER_LANGUAGE=lt
+mkd-backend  MATCH_REMINDER_LANGUAGE=en
 ```
 
 The app URL is also configured per instance and is added to the email body:
 
 ```text
-first-backend   APP_URL=https://first.ganayragana.cloud
-second-backend  APP_URL=https://second.ganayragana.cloud
+ltu-backend  APP_URL=https://ltu.ganayragana.cloud
+mkd-backend  APP_URL=https://mkd.ganayragana.cloud
+```
+
+The backend timezone is configured per instance with `TZ`. Match reminder checks and displayed email times use this timezone:
+
+```text
+ltu-backend  TZ=Europe/Vilnius
+mkd-backend  TZ=Europe/Skopje
 ```
 
 To use Hostinger mail:
@@ -128,10 +135,10 @@ docker compose logs -f caddy
 ## 7. Verify
 
 ```sh
-curl -I https://first.ganayragana.cloud
-curl -I https://second.ganayragana.cloud
-curl https://first.ganayragana.cloud/api/version
-curl https://second.ganayragana.cloud/api/version
+curl -I https://ltu.ganayragana.cloud
+curl -I https://mkd.ganayragana.cloud
+curl https://ltu.ganayragana.cloud/api/version
+curl https://mkd.ganayragana.cloud/api/version
 ```
 
 Creating users or games in one domain should not affect the other domain.
@@ -141,15 +148,15 @@ Creating users or games in one domain should not affect the other domain.
 Create database dumps from the VPS:
 
 ```sh
-docker compose exec -T first-postgres pg_dump -U football_user football > first-football.sql
-docker compose exec -T second-postgres pg_dump -U football_user football > second-football.sql
+docker compose exec -T ltu-postgres pg_dump -U football_user football > ltu-football.sql
+docker compose exec -T mkd-postgres pg_dump -U football_user football > mkd-football.sql
 ```
 
 Restore a dump:
 
 ```sh
-docker compose exec -T first-postgres psql -U football_user football < first-football.sql
-docker compose exec -T second-postgres psql -U football_user football < second-football.sql
+docker compose exec -T ltu-postgres psql -U football_user football < ltu-football.sql
+docker compose exec -T mkd-postgres psql -U football_user football < mkd-football.sql
 ```
 
 ## 9. Updates

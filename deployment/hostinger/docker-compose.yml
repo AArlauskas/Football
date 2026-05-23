@@ -10,36 +10,37 @@ services:
       - caddy-data:/data
       - caddy-config:/config
     depends_on:
-      - first-frontend
-      - second-frontend
+      - ltu-frontend
+      - mkd-frontend
 
-  first-postgres:
+  ltu-postgres:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
       POSTGRES_DB: football
       POSTGRES_USER: football_user
-      POSTGRES_PASSWORD: ${FIRST_POSTGRES_PASSWORD:?Set FIRST_POSTGRES_PASSWORD in deployment/hostinger/.env}
+      POSTGRES_PASSWORD: ${LTU_POSTGRES_PASSWORD:?Set LTU_POSTGRES_PASSWORD in deployment/hostinger/.env}
     volumes:
-      - first-postgres-data:/var/lib/postgresql/data
+      - ltu-postgres-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U football_user -d football"]
       interval: 5s
       timeout: 5s
       retries: 10
 
-  first-backend:
+  ltu-backend:
     build:
       context: ../../backend-spring
     restart: unless-stopped
     environment:
       SERVER_ADDRESS: 0.0.0.0
       SERVER_PORT: 8080
-      SPRING_DATASOURCE_URL: jdbc:postgresql://first-postgres:5432/football
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ltu-postgres:5432/football
       SPRING_DATASOURCE_USERNAME: football_user
-      SPRING_DATASOURCE_PASSWORD: ${FIRST_POSTGRES_PASSWORD:?Set FIRST_POSTGRES_PASSWORD in deployment/hostinger/.env}
+      SPRING_DATASOURCE_PASSWORD: ${LTU_POSTGRES_PASSWORD:?Set LTU_POSTGRES_PASSWORD in deployment/hostinger/.env}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      APP_URL: https://first.ganayragana.cloud
+      TZ: Europe/Vilnius
+      APP_URL: https://ltu.ganayragana.cloud
       MATCH_REMINDER_LANGUAGE: lt
       SPRING_MAIL_HOST: ${HOSTINGER_MAIL_HOST:-smtp.hostinger.com}
       SPRING_MAIL_PORT: ${HOSTINGER_MAIL_PORT:-465}
@@ -48,45 +49,46 @@ services:
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_ENABLE: "true"
     depends_on:
-      first-postgres:
+      ltu-postgres:
         condition: service_healthy
 
-  first-frontend:
+  ltu-frontend:
     build:
       context: ../../frontend-vue
     restart: unless-stopped
     environment:
-      BACKEND_UPSTREAM: first-backend:8080
+      BACKEND_UPSTREAM: ltu-backend:8080
     depends_on:
-      - first-backend
+      - ltu-backend
 
-  second-postgres:
+  mkd-postgres:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
       POSTGRES_DB: football
       POSTGRES_USER: football_user
-      POSTGRES_PASSWORD: ${SECOND_POSTGRES_PASSWORD:?Set SECOND_POSTGRES_PASSWORD in deployment/hostinger/.env}
+      POSTGRES_PASSWORD: ${MKD_POSTGRES_PASSWORD:?Set MKD_POSTGRES_PASSWORD in deployment/hostinger/.env}
     volumes:
-      - second-postgres-data:/var/lib/postgresql/data
+      - mkd-postgres-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U football_user -d football"]
       interval: 5s
       timeout: 5s
       retries: 10
 
-  second-backend:
+  mkd-backend:
     build:
       context: ../../backend-spring
     restart: unless-stopped
     environment:
       SERVER_ADDRESS: 0.0.0.0
       SERVER_PORT: 8080
-      SPRING_DATASOURCE_URL: jdbc:postgresql://second-postgres:5432/football
+      SPRING_DATASOURCE_URL: jdbc:postgresql://mkd-postgres:5432/football
       SPRING_DATASOURCE_USERNAME: football_user
-      SPRING_DATASOURCE_PASSWORD: ${SECOND_POSTGRES_PASSWORD:?Set SECOND_POSTGRES_PASSWORD in deployment/hostinger/.env}
+      SPRING_DATASOURCE_PASSWORD: ${MKD_POSTGRES_PASSWORD:?Set MKD_POSTGRES_PASSWORD in deployment/hostinger/.env}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      APP_URL: https://second.ganayragana.cloud
+      TZ: Europe/Skopje
+      APP_URL: https://mkd.ganayragana.cloud
       MATCH_REMINDER_LANGUAGE: en
       SPRING_MAIL_HOST: ${HOSTINGER_MAIL_HOST:-smtp.hostinger.com}
       SPRING_MAIL_PORT: ${HOSTINGER_MAIL_PORT:-465}
@@ -95,20 +97,20 @@ services:
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_ENABLE: "true"
     depends_on:
-      second-postgres:
+      mkd-postgres:
         condition: service_healthy
 
-  second-frontend:
+  mkd-frontend:
     build:
       context: ../../frontend-vue
     restart: unless-stopped
     environment:
-      BACKEND_UPSTREAM: second-backend:8080
+      BACKEND_UPSTREAM: mkd-backend:8080
     depends_on:
-      - second-backend
+      - mkd-backend
 
 volumes:
   caddy-data:
   caddy-config:
-  first-postgres-data:
-  second-postgres-data:
+  ltu-postgres-data:
+  mkd-postgres-data:
