@@ -6,7 +6,7 @@ const getBaseUrl = () => {
   return '/api';
 };
 
-const AUTH_FAILURE_STATUSES = new Set([401, 403]);
+const AUTH_FAILURE_STATUSES = new Set([401, 403, 503]);
 
 const handleAuthFailure = () => {
   window.localStorage.clear();
