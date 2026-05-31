@@ -5,7 +5,6 @@ import lt.kietekai.backendspring.storage.models.Game;
 import lt.kietekai.backendspring.storage.models.Team;
 import lt.kietekai.backendspring.storage.repositories.GameRepository;
 import lt.kietekai.backendspring.storage.repositories.TeamRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +28,6 @@ public class GamesSeeder {
     private final GameRepository gameRepository;
     private final TeamRepository teamRepository;
 
-    @Value("${games.seed.timezone:${TZ:UTC}}")
-    private String seedTimezone;
-
     @PostConstruct
     public void createMissingGames() {
         for (Fixture fixture : fixtures()) {
@@ -51,7 +47,7 @@ public class GamesSeeder {
     }
 
     private List<Fixture> fixtures() {
-        try (var is = GamesSeeder.class.getResourceAsStream("/games-2026.csv")) {
+        try (var is = GamesSeeder.class.getResourceAsStream("/seed-games.csv")) {
             try (var r = new BufferedReader(new InputStreamReader(Objects.requireNonNull(is), StandardCharsets.UTF_8))) {
                 return r.lines()
                         .filter(s -> !s.isBlank())
@@ -79,7 +75,7 @@ public class GamesSeeder {
 
     private SimpleDateFormat dateFormatter() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        formatter.setTimeZone(TimeZone.getTimeZone(seedTimezone));
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         return formatter;
     }
 

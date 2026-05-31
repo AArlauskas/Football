@@ -1,7 +1,19 @@
 import axios from 'axios';
 
+import { RoutePath } from '@/enums';
+
 const getBaseUrl = () => {
   return '/api';
+};
+
+const AUTH_FAILURE_STATUSES = new Set([401, 403]);
+
+const handleAuthFailure = () => {
+  window.localStorage.clear();
+
+  if (window.location.pathname !== RoutePath.SignIn) {
+    window.location.assign(RoutePath.SignIn);
+  }
 };
 
 export const apiClient = axios.create({
@@ -15,9 +27,12 @@ export const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error: unknown) => {
-    if (axios.isAxiosError(error) && error.response?.status === 401) {
-      window.localStorage.clear();
-      window.location.reload();
+    if (
+      axios.isAxiosError(error) &&
+      error.response?.status &&
+      AUTH_FAILURE_STATUSES.has(error.response.status)
+    ) {
+      handleAuthFailure();
     }
 
     return Promise.reject(error);
