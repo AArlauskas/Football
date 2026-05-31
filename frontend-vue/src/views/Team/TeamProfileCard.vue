@@ -6,6 +6,7 @@ import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
 import { teamFlags } from '@/constants/teamFlags';
 import type { TranslationKey } from '@/i18n';
+import { translateTeamName } from '@/lib/teamName';
 import type { Team } from '@/models';
 
 const props = defineProps<{
@@ -21,6 +22,7 @@ const props = defineProps<{
 const { t } = useTranslations();
 
 const flagUrl = computed(() => teamFlags[props.team.code]);
+const teamName = computed(() => translateTeamName(props.team, t));
 const statCards = computed<
   Array<{
     icon: string;
@@ -59,7 +61,7 @@ const statCards = computed<
           <img
             v-if="flagUrl"
             class="team-profile-card__flag"
-            :alt="team.name"
+            :alt="teamName"
             :src="flagUrl"
           />
           <div v-else class="team-profile-card__flag-fallback">
@@ -69,7 +71,7 @@ const statCards = computed<
           <div>
             <Tag severity="success" :value="t('v1.team')" />
             <FText class="team-profile-card__name" as="h2" variant="heading-2">
-              {{ team.name }}
+              {{ teamName }}
             </FText>
           </div>
         </div>

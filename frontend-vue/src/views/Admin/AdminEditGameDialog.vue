@@ -13,19 +13,15 @@ import { computed } from 'vue';
 import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
 import type { TranslationKey } from '@/i18n';
+import { translateTeamName } from '@/lib/teamName';
 import type { GameState as GameStateType } from '@/models';
 import { GameState } from '@/models/game';
 import { useAdminStore } from '@/stores/adminStore';
 
 const { t } = useTranslations();
 const adminStore = useAdminStore();
-const {
-  editForm,
-  isEditDialogVisible,
-  isEditFormValid,
-  isSaving,
-  teamOptions,
-} = storeToRefs(adminStore);
+const { editForm, isEditDialogVisible, isEditFormValid, isSaving, teams } =
+  storeToRefs(adminStore);
 
 const stateOptions: Array<{ label: TranslationKey; value: GameStateType }> = [
   { label: 'v1.admin.state.open', value: GameState.OPEN },
@@ -36,6 +32,12 @@ const stateSelectOptions = computed(() =>
   stateOptions.map((option) => ({
     label: t(option.label),
     value: option.value,
+  })),
+);
+const teamOptions = computed(() =>
+  teams.value.map((team) => ({
+    label: translateTeamName(team, t),
+    value: team.code,
   })),
 );
 </script>

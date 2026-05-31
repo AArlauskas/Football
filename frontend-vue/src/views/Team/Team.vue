@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router';
 import FPageFeedback from '@/components/FPageFeedback.vue';
 import { usePageTitle } from '@/composables/usePageTitle';
 import { useTranslations } from '@/composables/useTranslations';
+import { translateTeamName } from '@/lib/teamName';
 import { GameState } from '@/models/game';
 import { useTeamStore } from '@/stores/teamStore';
 import TeamLoadingState from '@/views/Team/TeamLoadingState.vue';
@@ -19,7 +20,9 @@ const { games, groupedGames, isLoading, requestError, team } =
   storeToRefs(teamStore);
 
 const teamId = computed(() => String(route.params.teamId ?? ''));
-const pageTitle = computed(() => team.value?.name ?? t('v1.team'));
+const pageTitle = computed(() =>
+  team.value ? translateTeamName(team.value, t) : t('v1.team'),
+);
 const teamStats = computed(() =>
   games.value.reduce(
     (stats, game) => {

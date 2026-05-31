@@ -82,10 +82,14 @@ const handleSubmit = async () => {
       lastName: result.data.lastName,
       password: result.data.password,
     });
-    await router.push(RoutePath.SignIn);
   } catch {
     requestError.value = t('v1.general.error');
+
+    return;
   }
+
+  authStore.signOut();
+  await router.replace(RoutePath.SignIn);
 };
 
 usePageTitle(computed(() => t('v1.register')));

@@ -1,15 +1,24 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { Button, Card, DatePicker, InputText, Select } from 'primevue';
+import { computed } from 'vue';
 
 import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
+import { translateTeamName } from '@/lib/teamName';
 import { useAdminStore } from '@/stores/adminStore';
 
 const { t } = useTranslations();
 const adminStore = useAdminStore();
-const { createForm, isCreateFormValid, isLoading, isSaving, teamOptions } =
+const { createForm, isCreateFormValid, isLoading, isSaving, teams } =
   storeToRefs(adminStore);
+
+const teamOptions = computed(() =>
+  teams.value.map((team) => ({
+    label: translateTeamName(team, t),
+    value: team.code,
+  })),
+);
 </script>
 
 <template>

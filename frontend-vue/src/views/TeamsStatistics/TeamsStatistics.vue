@@ -10,6 +10,7 @@ import { usePageTitle } from '@/composables/usePageTitle';
 import { useTranslations } from '@/composables/useTranslations';
 import { teamFlags } from '@/constants/teamFlags';
 import { RouteName } from '@/enums';
+import { translateTeamName } from '@/lib/teamName';
 import type { TeamsStatistics } from '@/models/game';
 import { useTeamsStatisticsStore } from '@/stores/teamsStatisticsStore';
 
@@ -24,6 +25,7 @@ const pageTitle = computed(() => t('v1.teams.statistics'));
 const getGamesPlayed = (item: TeamsStatistics) =>
   item.won + item.lost + item.ties;
 const getFlagUrl = (teamCode: string) => teamFlags[teamCode];
+const getTeamName = (item: TeamsStatistics) => translateTeamName(item.team, t);
 
 const handleTeamSelect = async (teamId: string) => {
   await router.push({ name: RouteName.Team, params: { teamId } });
@@ -63,14 +65,14 @@ usePageTitle(pageTitle);
                 <img
                   v-if="getFlagUrl(data.team.code)"
                   class="teams-statistics-page__flag"
-                  :alt="data.team.name"
+                  :alt="getTeamName(data)"
                   :src="getFlagUrl(data.team.code)"
                 />
                 <span v-else class="teams-statistics-page__flag-fallback">
                   {{ data.team.code }}
                 </span>
                 <FText as="span" clickable variant="body-2-bold">
-                  {{ data.team.name }}
+                  {{ getTeamName(data) }}
                 </FText>
               </Button>
             </template>
@@ -134,7 +136,7 @@ usePageTitle(pageTitle);
                   <img
                     v-if="getFlagUrl(item.team.code)"
                     class="teams-statistics-page__flag"
-                    :alt="item.team.name"
+                    :alt="getTeamName(item)"
                     :src="getFlagUrl(item.team.code)"
                   />
                   <span v-else class="teams-statistics-page__flag-fallback">
@@ -147,7 +149,7 @@ usePageTitle(pageTitle);
                     @click="handleTeamSelect(item.team.code)"
                   >
                     <FText as="span" clickable variant="body-2-bold">
-                      {{ item.team.name }}
+                      {{ getTeamName(item) }}
                     </FText>
                   </Button>
                 </div>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import { RouteName, RoutePath } from '@/enums';
+import { isRegistrationOpen } from '@/lib/registration';
 import { useAuthStore } from '@/stores/authStore';
 
 export const router = createRouter({
@@ -76,7 +77,7 @@ export const router = createRouter({
     },
     {
       component: () => import('@/views/Register/Register.vue'),
-      meta: { requiresGuest: true },
+      meta: { requiresGuest: true, requiresRegistrationOpen: true },
       name: RouteName.Register,
       path: RoutePath.Register,
     },
@@ -101,5 +102,9 @@ router.beforeEach((to) => {
 
   if (to.meta.requiresGuest && isLoggedIn) {
     return RoutePath.Root;
+  }
+
+  if (to.meta.requiresRegistrationOpen && !isRegistrationOpen()) {
+    return RoutePath.SignIn;
   }
 });

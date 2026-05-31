@@ -18,6 +18,7 @@ import FText from '@/components/FText.vue';
 import { usePageTitle } from '@/composables/usePageTitle';
 import { useTranslations } from '@/composables/useTranslations';
 import { RoutePath } from '@/enums';
+import { isRegistrationOpen } from '@/lib/registration';
 import { useAuthStore } from '@/stores/authStore';
 
 const { t } = useTranslations();
@@ -29,6 +30,7 @@ const password = ref('');
 const requestError = ref('');
 
 const errors = ref<Partial<Record<'email' | 'password', string>>>({});
+const canRegister = computed(() => isRegistrationOpen());
 const signInSchema = computed(() =>
   z.object({
     email: z.string().email(t('v1.invalid.email')),
@@ -139,18 +141,20 @@ usePageTitle(computed(() => t('v1.log.in')));
             />
           </form>
 
-          <Divider />
+          <template v-if="canRegister">
+            <Divider />
 
-          <RouterLink v-slot="{ navigate }" :to="RoutePath.Register" custom>
-            <Button
-              type="button"
-              :label="t('v1.register')"
-              severity="secondary"
-              outlined
-              fluid
-              @click="navigate"
-            />
-          </RouterLink>
+            <RouterLink v-slot="{ navigate }" :to="RoutePath.Register" custom>
+              <Button
+                type="button"
+                :label="t('v1.register')"
+                severity="secondary"
+                outlined
+                fluid
+                @click="navigate"
+              />
+            </RouterLink>
+          </template>
         </template>
       </Card>
     </div>

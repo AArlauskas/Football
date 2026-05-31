@@ -89,7 +89,7 @@ export const useAuthStore = defineStore(
       clearRequestStatus();
 
       try {
-        user.value = await register(userPrototype);
+        await register(userPrototype);
       } catch (error) {
         requestStatus.value = axios.isAxiosError(error)
           ? (error.response?.status ?? null)

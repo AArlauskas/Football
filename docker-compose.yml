@@ -25,6 +25,10 @@ services:
       SPRING_DATASOURCE_USERNAME: football_user
       SPRING_DATASOURCE_PASSWORD: football_password
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_MAIL_HOST: localhost
+      SPRING_MAIL_PORT: 1025
+      TZ: Europe/Vilnius
+      GAMES_SEED_TIMEZONE: UTC
     ports:
       - "${BACKEND_PORT:-8080}:8080"
     depends_on:

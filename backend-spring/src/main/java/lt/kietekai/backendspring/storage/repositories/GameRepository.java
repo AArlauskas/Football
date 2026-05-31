@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 public interface GameRepository extends JpaRepository<Game, Long> {
+    boolean existsByTeam1AndTeam2(Team team1, Team team2);
+
     @Query("select new lt.kietekai.backendspring.storage.models.synthetic.GameWithGuess(g, gs) from Game g left join g.guesses gs with(gs.user.id=:userId) order by g.gameDate")
     List<GameWithGuess> getAllGamesWithGuesses(long userId);
 

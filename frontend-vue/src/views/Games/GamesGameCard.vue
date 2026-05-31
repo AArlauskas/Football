@@ -7,6 +7,7 @@ import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
 import { RouteName } from '@/enums';
 import type { TranslationKey } from '@/i18n';
+import { translateTeamName } from '@/lib/teamName';
 import type { GameResult, GameWithGuess, GuessOutcome } from '@/models';
 import { GameState, GuessOutcome as GuessOutcomeValue } from '@/models/game';
 
@@ -158,7 +159,7 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
             @click.stop="goToTeam(item.game.t1.code)"
           >
             <FText as="span" clickable variant="body-1-bold">
-              {{ item.game.t1.name }}
+              {{ translateTeamName(item.game.t1, t) }}
             </FText>
           </Button>
 
@@ -183,7 +184,7 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
             @click.stop="goToTeam(item.game.t2.code)"
           >
             <FText as="span" clickable variant="body-1-bold">
-              {{ item.game.t2.name }}
+              {{ translateTeamName(item.game.t2, t) }}
             </FText>
           </Button>
         </div>

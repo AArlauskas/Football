@@ -78,12 +78,6 @@ export const useAdminStore = defineStore(StoreId.Admin, () => {
   const createForm = reactive<GameForm>(createInitialForm());
   const editForm = reactive<GameForm>(createInitialForm());
 
-  const teamOptions = computed(() =>
-    teams.value.map((team) => ({
-      label: team.name,
-      value: team.code,
-    })),
-  );
   const visibleGames = computed(() =>
     [...games.value]
       .filter(
@@ -291,7 +285,6 @@ export const useAdminStore = defineStore(StoreId.Admin, () => {
     saveGame,
     stateFilter,
     successMessageKey,
-    teamOptions,
     teams,
     visibleGames,
   };

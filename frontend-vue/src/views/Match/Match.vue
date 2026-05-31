@@ -10,6 +10,7 @@ import FText from '@/components/FText.vue';
 import { usePageTitle } from '@/composables/usePageTitle';
 import { useTranslations } from '@/composables/useTranslations';
 import { RouteName } from '@/enums';
+import { translateTeamName } from '@/lib/teamName';
 import type { GameResult, GuessOutcome, GuessWithUser } from '@/models';
 import { GuessOutcome as GuessOutcomeValue } from '@/models/game';
 import { useAuthStore } from '@/stores/authStore';
@@ -24,7 +25,9 @@ const { game, guesses, isLoading, requestError } = storeToRefs(matchStore);
 
 const gameId = computed(() => Number(route.params.gameId));
 const pageTitle = computed(() =>
-  game.value ? `${game.value.t1.name} - ${game.value.t2.name}` : t('v1.match'),
+  game.value
+    ? `${translateTeamName(game.value.t1, t)} - ${translateTeamName(game.value.t2, t)}`
+    : t('v1.match'),
 );
 
 const formatScore = (result?: GameResult | null) =>
@@ -140,7 +143,7 @@ usePageTitle(pageTitle);
                 @click="goToTeam(game.t1.code)"
               >
                 <FText as="span" clickable variant="heading-3">
-                  {{ game.t1.name }}
+                  {{ translateTeamName(game.t1, t) }}
                 </FText>
               </Button>
               <FText as="span" class="match-page__score" variant="heading-2">
@@ -152,7 +155,7 @@ usePageTitle(pageTitle);
                 @click="goToTeam(game.t2.code)"
               >
                 <FText as="span" clickable variant="heading-3">
-                  {{ game.t2.name }}
+                  {{ translateTeamName(game.t2, t) }}
                 </FText>
               </Button>
             </div>

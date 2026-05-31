@@ -7,6 +7,7 @@ import FEmptyMessage from '@/components/FEmptyMessage.vue';
 import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
 import { RouteName } from '@/enums';
+import { translateTeamName } from '@/lib/teamName';
 import type { GameResult, GameWithGuess } from '@/models';
 
 const props = defineProps<{
@@ -114,7 +115,7 @@ watch(
                     @click="goToTeam(item.game.t1.code)"
                   >
                     <FText as="span" clickable variant="body-2-bold">
-                      {{ item.game.t1.name }}
+                      {{ translateTeamName(item.game.t1, t) }}
                     </FText>
                   </Button>
 
@@ -149,7 +150,7 @@ watch(
                     @click="goToTeam(item.game.t2.code)"
                   >
                     <FText as="span" clickable variant="body-2-bold">
-                      {{ item.game.t2.name }}
+                      {{ translateTeamName(item.game.t2, t) }}
                     </FText>
                   </Button>
                 </div>

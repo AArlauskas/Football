@@ -25,7 +25,7 @@ export const useTeamsStatisticsStore = defineStore(
           firstItem.lost - secondItem.lost ||
           secondItem.ties - firstItem.ties ||
           secondGamesPlayed - firstGamesPlayed ||
-          firstItem.team.name.localeCompare(secondItem.team.name)
+          firstItem.team.code.localeCompare(secondItem.team.code)
         );
       }),
     );

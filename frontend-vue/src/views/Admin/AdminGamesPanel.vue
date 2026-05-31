@@ -6,6 +6,7 @@ import { computed } from 'vue';
 import FEmptyMessage from '@/components/FEmptyMessage.vue';
 import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
+import { translateTeamName } from '@/lib/teamName';
 import type {
   GameStateFilter as GameStateFilterType,
   GameState as GameStateType,
@@ -101,12 +102,12 @@ const getStateSeverity = (state: GameStateType) => {
         />
         <Column :header="t('v1.admin.table.title.team.1')">
           <template #body="{ data }">
-            {{ data.t1.name }}
+            {{ translateTeamName(data.t1, t) }}
           </template>
         </Column>
         <Column :header="t('v1.admin.table.title.team.2')">
           <template #body="{ data }">
-            {{ data.t2.name }}
+            {{ translateTeamName(data.t2, t) }}
           </template>
         </Column>
         <Column :header="t('v1.admin.table.title.goals.1')">
@@ -165,7 +166,8 @@ const getStateSeverity = (state: GameStateType) => {
                   {{ game.date }} {{ game.time }}
                 </FText>
                 <FText as="span" color="--p-text-muted-color" variant="body-2">
-                  {{ game.t1.name }} - {{ game.t2.name }}
+                  {{ translateTeamName(game.t1, t) }} -
+                  {{ translateTeamName(game.t2, t) }}
                 </FText>
               </div>
               <Tag
