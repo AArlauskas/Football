@@ -173,7 +173,7 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
               {{
                 hasResult
                   ? `${item.game.result?.goals1} : ${item.game.result?.goals2}`
-                  : ''
+                  : '- : -'
               }}
             </FText>
           </button>

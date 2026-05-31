@@ -12,10 +12,12 @@ const isBrowser = () =>
 
 const getStoredIsDark = () => {
   if (!isBrowser()) {
-    return false;
+    return true;
   }
 
-  return window.localStorage.getItem(DARK_MODE_STORAGE_KEY) === 'true';
+  const storedValue = window.localStorage.getItem(DARK_MODE_STORAGE_KEY);
+
+  return storedValue === null ? true : storedValue === 'true';
 };
 
 const applyTheme = () => {
