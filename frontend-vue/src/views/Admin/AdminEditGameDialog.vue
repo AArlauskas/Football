@@ -53,11 +53,7 @@ const stateSelectOptions = computed(() =>
     >
       <div class="admin-edit-game-dialog__field">
         <label for="admin-edit-date">
-          <FText
-            as="span"
-            color="--p-text-muted-color"
-            variant="body-3-bold"
-          >
+          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
             {{ t('v1.admin.table.title.date') }}
           </FText>
         </label>
@@ -72,11 +68,7 @@ const stateSelectOptions = computed(() =>
 
       <div class="admin-edit-game-dialog__field">
         <label for="admin-edit-time">
-          <FText
-            as="span"
-            color="--p-text-muted-color"
-            variant="body-3-bold"
-          >
+          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
             {{ t('v1.admin.table.title.time') }}
           </FText>
         </label>
@@ -90,11 +82,7 @@ const stateSelectOptions = computed(() =>
 
       <div class="admin-edit-game-dialog__field">
         <label for="admin-edit-team-1">
-          <FText
-            as="span"
-            color="--p-text-muted-color"
-            variant="body-3-bold"
-          >
+          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
             {{ t('v1.admin.table.title.team.1') }}
           </FText>
         </label>
@@ -111,11 +99,7 @@ const stateSelectOptions = computed(() =>
 
       <div class="admin-edit-game-dialog__field">
         <label for="admin-edit-team-2">
-          <FText
-            as="span"
-            color="--p-text-muted-color"
-            variant="body-3-bold"
-          >
+          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
             {{ t('v1.admin.table.title.team.2') }}
           </FText>
         </label>
@@ -132,11 +116,7 @@ const stateSelectOptions = computed(() =>
 
       <div class="admin-edit-game-dialog__field admin-edit-game-dialog__state">
         <label for="admin-edit-state">
-          <FText
-            as="span"
-            color="--p-text-muted-color"
-            variant="body-3-bold"
-          >
+          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
             {{ t('v1.admin.table.title.state') }}
           </FText>
         </label>
@@ -153,11 +133,7 @@ const stateSelectOptions = computed(() =>
       <template v-if="editForm.state === GameState.FINISHED">
         <div class="admin-edit-game-dialog__field">
           <label for="admin-edit-goals-1">
-            <FText
-              as="span"
-              color="--p-text-muted-color"
-              variant="body-3-bold"
-            >
+            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
               {{ t('v1.admin.table.title.goals.1') }}
             </FText>
           </label>
@@ -171,11 +147,7 @@ const stateSelectOptions = computed(() =>
 
         <div class="admin-edit-game-dialog__field">
           <label for="admin-edit-goals-2">
-            <FText
-              as="span"
-              color="--p-text-muted-color"
-              variant="body-3-bold"
-            >
+            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
               {{ t('v1.admin.table.title.goals.2') }}
             </FText>
           </label>

@@ -26,11 +26,7 @@ const { createForm, isCreateFormValid, isLoading, isSaving, teamOptions } =
       >
         <div class="admin-create-game-form__field">
           <label for="admin-create-date">
-            <FText
-              as="span"
-              color="--p-text-muted-color"
-              variant="body-3-bold"
-            >
+            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
               {{ t('v1.admin.table.title.date') }}
             </FText>
           </label>
@@ -45,11 +41,7 @@ const { createForm, isCreateFormValid, isLoading, isSaving, teamOptions } =
 
         <div class="admin-create-game-form__field">
           <label for="admin-create-time">
-            <FText
-              as="span"
-              color="--p-text-muted-color"
-              variant="body-3-bold"
-            >
+            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
               {{ t('v1.admin.table.title.time') }}
             </FText>
           </label>
@@ -63,11 +55,7 @@ const { createForm, isCreateFormValid, isLoading, isSaving, teamOptions } =
 
         <div class="admin-create-game-form__field">
           <label for="admin-create-team-1">
-            <FText
-              as="span"
-              color="--p-text-muted-color"
-              variant="body-3-bold"
-            >
+            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
               {{ t('v1.admin.table.title.team.1') }}
             </FText>
           </label>
@@ -84,11 +72,7 @@ const { createForm, isCreateFormValid, isLoading, isSaving, teamOptions } =
 
         <div class="admin-create-game-form__field">
           <label for="admin-create-team-2">
-            <FText
-              as="span"
-              color="--p-text-muted-color"
-              variant="body-3-bold"
-            >
+            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
               {{ t('v1.admin.table.title.team.2') }}
             </FText>
           </label>

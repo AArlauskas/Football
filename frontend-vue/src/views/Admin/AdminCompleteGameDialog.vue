@@ -25,11 +25,7 @@ const { completeForm, isCompleteDialogVisible, isCompleteFormValid, isSaving } =
     >
       <div class="admin-complete-game-dialog__field">
         <label for="admin-complete-goals-1">
-          <FText
-            as="span"
-            color="--p-text-muted-color"
-            variant="body-3-bold"
-          >
+          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
             {{ t('v1.admin.table.title.goals.1') }}
           </FText>
         </label>
@@ -43,11 +39,7 @@ const { completeForm, isCompleteDialogVisible, isCompleteFormValid, isSaving } =
 
       <div class="admin-complete-game-dialog__field">
         <label for="admin-complete-goals-2">
-          <FText
-            as="span"
-            color="--p-text-muted-color"
-            variant="body-3-bold"
-          >
+          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
             {{ t('v1.admin.table.title.goals.2') }}
           </FText>
         </label>

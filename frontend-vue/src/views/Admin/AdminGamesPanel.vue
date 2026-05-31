@@ -1,13 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import {
-  Button,
-  Card,
-  Column,
-  DataTable,
-  Select,
-  Tag,
-} from 'primevue';
+import { Button, Card, Column, DataTable, Select, Tag } from 'primevue';
 import { computed } from 'vue';
 
 import FEmptyMessage from '@/components/FEmptyMessage.vue';
@@ -74,11 +67,7 @@ const getStateSeverity = (state: GameStateType) => {
       <div class="admin-games-panel__toolbar">
         <div class="admin-games-panel__field admin-games-panel__filter">
           <label for="admin-state-filter">
-            <FText
-              as="span"
-              color="--p-text-muted-color"
-              variant="body-3-bold"
-            >
+            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
               {{ t('v1.admin.filter.state') }}
             </FText>
           </label>
@@ -336,7 +325,6 @@ const getStateSeverity = (state: GameStateType) => {
       flex-direction: column;
       gap: 4px;
     }
-
   }
 
   .admin-games-panel__game-card-details {
