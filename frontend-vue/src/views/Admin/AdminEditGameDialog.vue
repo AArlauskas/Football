@@ -17,6 +17,10 @@ import { translateTeamName } from '@/lib/teamName';
 import type { GameState as GameStateType } from '@/models';
 import { GameState } from '@/models/game';
 import { useAdminStore } from '@/stores/adminStore';
+import {
+  getNullableInputNumberValue,
+  type InputNumberEvent,
+} from '@/utils/inputNumber';
 
 const { t } = useTranslations();
 const adminStore = useAdminStore();
@@ -40,6 +44,10 @@ const teamOptions = computed(() =>
     value: team.code,
   })),
 );
+
+const setEditGoal = (side: 'goals1' | 'goals2', event: InputNumberEvent) => {
+  editForm.value[side] = getNullableInputNumberValue(event);
+};
 </script>
 
 <template>
@@ -144,6 +152,7 @@ const teamOptions = computed(() =>
             v-model="editForm.goals1"
             :min="0"
             fluid
+            @input="setEditGoal('goals1', $event)"
           />
         </div>
 
@@ -158,6 +167,7 @@ const teamOptions = computed(() =>
             v-model="editForm.goals2"
             :min="0"
             fluid
+            @input="setEditGoal('goals2', $event)"
           />
         </div>
       </template>

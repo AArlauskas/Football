@@ -9,6 +9,11 @@ import { useTranslations } from '@/composables/useTranslations';
 import { RouteName } from '@/enums';
 import { translateTeamName } from '@/lib/teamName';
 import type { GameResult, GameWithGuess } from '@/models';
+import {
+  getInputNumberValue,
+  hasInputNumberValue,
+  type InputNumberEvent,
+} from '@/utils/inputNumber';
 
 const props = defineProps<{
   groups: Array<{
@@ -39,17 +44,28 @@ const hasChanged = (item: GameWithGuess) => {
   const draft = getDraft(item);
 
   return (
-    draft.goals1 !== undefined &&
-    draft.goals2 !== undefined &&
+    hasInputNumberValue(draft.goals1) &&
+    hasInputNumberValue(draft.goals2) &&
     (draft.goals1 !== item.guess?.result?.goals1 ||
       draft.goals2 !== item.guess?.result?.goals2)
   );
 };
 
+const setDraftGoal = (
+  item: GameWithGuess,
+  side: keyof GameResult,
+  event: InputNumberEvent,
+) => {
+  getDraft(item)[side] = getInputNumberValue(event);
+};
+
 const saveGuess = (item: GameWithGuess) => {
   const draft = getDraft(item);
 
-  if (draft.goals1 === undefined || draft.goals2 === undefined) {
+  if (
+    !hasInputNumberValue(draft.goals1) ||
+    !hasInputNumberValue(draft.goals2)
+  ) {
     return;
   }
 
@@ -126,6 +142,7 @@ watch(
                     :max="99"
                     :min="0"
                     :use-grouping="false"
+                    @input="setDraftGoal(item, 'goals1', $event)"
                   />
                   <FText
                     as="span"
@@ -142,6 +159,7 @@ watch(
                     :max="99"
                     :min="0"
                     :use-grouping="false"
+                    @input="setDraftGoal(item, 'goals2', $event)"
                   />
 
                   <Button

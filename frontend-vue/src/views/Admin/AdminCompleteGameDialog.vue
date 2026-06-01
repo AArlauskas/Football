@@ -5,11 +5,22 @@ import { Button, Dialog, InputNumber } from 'primevue';
 import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
 import { useAdminStore } from '@/stores/adminStore';
+import {
+  getNullableInputNumberValue,
+  type InputNumberEvent,
+} from '@/utils/inputNumber';
 
 const { t } = useTranslations();
 const adminStore = useAdminStore();
 const { completeForm, isCompleteDialogVisible, isCompleteFormValid, isSaving } =
   storeToRefs(adminStore);
+
+const setCompleteGoal = (
+  side: 'goals1' | 'goals2',
+  event: InputNumberEvent,
+) => {
+  completeForm.value[side] = getNullableInputNumberValue(event);
+};
 </script>
 
 <template>
@@ -34,6 +45,7 @@ const { completeForm, isCompleteDialogVisible, isCompleteFormValid, isSaving } =
           v-model="completeForm.goals1"
           :min="0"
           fluid
+          @input="setCompleteGoal('goals1', $event)"
         />
       </div>
 
@@ -48,6 +60,7 @@ const { completeForm, isCompleteDialogVisible, isCompleteFormValid, isSaving } =
           v-model="completeForm.goals2"
           :min="0"
           fluid
+          @input="setCompleteGoal('goals2', $event)"
         />
       </div>
 

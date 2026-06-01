@@ -10,6 +10,11 @@ import type { TranslationKey } from '@/i18n';
 import { translateTeamName } from '@/lib/teamName';
 import type { GameResult, GameWithGuess, GuessOutcome } from '@/models';
 import { GameState, GuessOutcome as GuessOutcomeValue } from '@/models/game';
+import {
+  getInputNumberValue,
+  hasInputNumberValue,
+  type InputNumberEvent,
+} from '@/utils/inputNumber';
 
 const props = defineProps<{
   isSaving: boolean;
@@ -38,8 +43,8 @@ const hasResult = computed(
 const hasChanged = computed(
   () =>
     !isStarted.value &&
-    draftGuess.goals1 !== undefined &&
-    draftGuess.goals2 !== undefined &&
+    hasInputNumberValue(draftGuess.goals1) &&
+    hasInputNumberValue(draftGuess.goals2) &&
     (draftGuess.goals1 !== props.item.guess?.result?.goals1 ||
       draftGuess.goals2 !== props.item.guess?.result?.goals2),
 );
@@ -55,12 +60,19 @@ const syncDraftGuess = () => {
   draftGuess.goals2 = props.item.guess?.result?.goals2;
 };
 
+const setDraftGoal = (side: keyof GameResult, event: InputNumberEvent) => {
+  draftGuess[side] = getInputNumberValue(event);
+};
+
 const cancelGuess = () => {
   syncDraftGuess();
 };
 
 const saveGuess = () => {
-  if (draftGuess.goals1 === undefined || draftGuess.goals2 === undefined) {
+  if (
+    !hasInputNumberValue(draftGuess.goals1) ||
+    !hasInputNumberValue(draftGuess.goals2)
+  ) {
     return;
   }
 
@@ -214,6 +226,7 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
               :max="9"
               :min="0"
               :use-grouping="false"
+              @input="setDraftGoal('goals1', $event)"
             />
             <FText as="span" color="--p-text-muted-color" variant="heading-3">
               :
@@ -226,6 +239,7 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
               :max="9"
               :min="0"
               :use-grouping="false"
+              @input="setDraftGoal('goals2', $event)"
             />
           </div>
 
