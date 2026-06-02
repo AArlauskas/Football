@@ -40,7 +40,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${LTU_POSTGRES_PASSWORD:?Set LTU_POSTGRES_PASSWORD in deployment/hostinger/.env}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       TZ: Europe/Vilnius
-      APP_URL: https://ltu.ganayragana.cloud
+      APP_URL: https://lt.kietekai.com
       MATCH_REMINDER_LANGUAGE: lt
       SPRING_MAIL_HOST: ${HOSTINGER_MAIL_HOST:-smtp.hostinger.com}
       SPRING_MAIL_PORT: ${HOSTINGER_MAIL_PORT:-465}
@@ -88,7 +88,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${MKD_POSTGRES_PASSWORD:?Set MKD_POSTGRES_PASSWORD in deployment/hostinger/.env}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       TZ: Europe/Skopje
-      APP_URL: https://mkd.ganayragana.cloud
+      APP_URL: https://mk.kietekai.com
       MATCH_REMINDER_LANGUAGE: en
       SPRING_MAIL_HOST: ${HOSTINGER_MAIL_HOST:-smtp.hostinger.com}
       SPRING_MAIL_PORT: ${HOSTINGER_MAIL_PORT:-465}

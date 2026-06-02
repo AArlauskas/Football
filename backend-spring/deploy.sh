@@ -1,1 +1,1 @@
-scp target/backend-spring-0.0.2-SNAPSHOT.jar root@kietekai.lt:football
+scp target/backend-spring-0.0.2-SNAPSHOT.jar root@kietekai.com:football

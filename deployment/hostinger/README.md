@@ -2,18 +2,18 @@
 
 This deployment runs two isolated Football instances on one Hostinger VPS:
 
-- `ltu.ganayragana.cloud` for Lithuania
-- `mkd.ganayragana.cloud` for North Macedonia
+- `lt.kietekai.com` for Lithuania
+- `mk.kietekai.com` for North Macedonia
 
 Each instance has its own frontend, backend, PostgreSQL container, and database volume. Caddy is the only public entry point and automatically manages HTTPS certificates.
 
 ## 1. DNS
 
-In Hostinger DNS, create these `A` records for `ganayragana.cloud`:
+In Hostinger DNS, create these `A` records for `kietekai.com`:
 
 ```text
-ltu   A   72.62.114.180
-mkd   A   72.62.114.180
+lt   A   72.62.114.180
+mk   A   72.62.114.180
 ```
 
 Wait until both names resolve to the VPS before starting Caddy certificate issuance.
@@ -80,8 +80,8 @@ mkd-backend  MATCH_REMINDER_LANGUAGE=en
 The app URL is also configured per instance and is added to the email body:
 
 ```text
-ltu-backend  APP_URL=https://ltu.ganayragana.cloud
-mkd-backend  APP_URL=https://mkd.ganayragana.cloud
+ltu-backend  APP_URL=https://lt.kietekai.com
+mkd-backend  APP_URL=https://mk.kietekai.com
 ```
 
 The backend timezone is configured per instance with `TZ`. Match reminder checks and displayed email times use this timezone:
@@ -137,10 +137,10 @@ docker compose logs -f caddy
 ## 7. Verify
 
 ```sh
-curl -I https://ltu.ganayragana.cloud
-curl -I https://mkd.ganayragana.cloud
-curl https://ltu.ganayragana.cloud/api/version
-curl https://mkd.ganayragana.cloud/api/version
+curl -I https://lt.kietekai.com
+curl -I https://mk.kietekai.com
+curl https://lt.kietekai.com/api/version
+curl https://mk.kietekai.com/api/version
 ```
 
 Creating users or games in one domain should not affect the other domain.

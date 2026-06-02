@@ -1,4 +1,4 @@
-ltu.ganayragana.cloud {
+lt.kietekai.com {
     handle /api* {
         reverse_proxy ltu-backend:8080
     }
@@ -8,7 +8,7 @@ ltu.ganayragana.cloud {
     }
 }
 
-mkd.ganayragana.cloud {
+mk.kietekai.com {
     handle /api* {
         reverse_proxy mkd-backend:8080
     }
