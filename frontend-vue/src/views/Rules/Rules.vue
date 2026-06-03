@@ -8,22 +8,26 @@ import RulesSection from '@/views/Rules/RulesSection.vue';
 
 const { t } = useTranslations();
 
-const generalRules: TranslationKey[] = ['v1.rule.1', 'v1.rule.2'];
+const generalRules: TranslationKey[] = [
+  'v1.rule.submit.before.kickoff',
+  'v1.rule.predictions.visible.after.kickoff',
+  'v1.rule.playoffs.no.draws',
+];
 const calculationRules: TranslationKey[] = [
-  'v1.rule.3',
-  'v1.rule.4',
-  'v1.rule.5',
-  'v1.rule.6',
-  'v1.rule.7',
-  'v1.rule.8',
-  'v1.rule.9',
-  'v1.rule.10',
+  'v1.rule.correct.exact.score',
+  'v1.rule.unique.exact.score',
+  'v1.rule.unique.match.outcome',
+  'v1.rule.correct.match.outcome',
+  'v1.rule.incorrect.match.outcome',
+  'v1.rule.incorrect.goal',
+  'v1.rule.missing.prediction',
+  'v1.rule.ranking.tiebreaker',
 ];
 const exampleRules: TranslationKey[] = [
-  'v1.rule.11',
-  'v1.rule.12',
-  'v1.rule.13',
-  'v1.rule.14',
+  'v1.rule.example.match.result',
+  'v1.rule.example.exact.score',
+  'v1.rule.example.incorrect.goals',
+  'v1.rule.example.predicted.draw',
 ];
 
 usePageTitle(computed(() => t('v1.rules')));

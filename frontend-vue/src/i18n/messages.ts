@@ -82,30 +82,35 @@ export const messages = {
     'v1.register.terms.required': 'Please accept the fair play agreement',
     'v1.register.title': 'Create your matchday account.',
     'v1.results': 'Results',
-    'v1.rule.1':
-      'Game predictions must be submitted before the start of the match.',
-    'v1.rule.2':
-      'After the start of the game, the guesses of all the participants will be visible.',
-    'v1.rule.3': 'For a correctly guessed result:-3 points.',
-    'v1.rule.4':
-      'For correctly guessing the result when no one else guessed the the result: -7 points.',
-    'v1.rule.5':
-      'For correctly guessing the result when no one else guessed the outcome of the game: -11 points.',
-    'v1.rule.6':
-      'For a predicted outcome of the game (guessing which team will win or guessing a draw): 0 points.',
-    'v1.rule.7': 'For unannounced end of the game: +3 points.',
-    'v1.rule.8': 'For each missed goal: +1 additional point.',
-    'v1.rule.9':
-      'The participant who does not make a guess in time receives the same points as the participant who guessed the worst.',
-    'v1.rule.10':
-      'If several participants have the same number of points, the higher place is taken by the participant who guessed more results.',
-    'v1.rule.11': 'The competition ended with the result 2:1',
-    'v1.rule.12':
-      'The participant who guessed 2:1 gets -3 points (for a correctly result)',
-    'v1.rule.13':
-      'The participant who guessed 3:0 gets +2 points (for two incorrect goals).',
-    'v1.rule.14':
-      'The participant who guessed 1:1 gets +4 points (for one incorrect goal).',
+    'v1.rule.submit.before.kickoff':
+      'Match predictions must be submitted before kick-off.',
+    'v1.rule.predictions.visible.after.kickoff':
+      "After the match starts, all participants' predictions will be visible.",
+    'v1.rule.playoffs.no.draws':
+      'During playoffs, matches cannot end in a draw. The final score is calculated by adding the match result and the penalty shootout score. For example, 1:1 plus penalties 5:4 makes the final score 6:5.',
+    'v1.rule.correct.exact.score':
+      'For correctly predicting the exact score: -3 points.',
+    'v1.rule.unique.exact.score':
+      'For correctly predicting the exact score when no one else predicted the exact score: -7 points.',
+    'v1.rule.unique.match.outcome':
+      'For correctly predicting the exact score when no one else predicted the match outcome: -11 points.',
+    'v1.rule.correct.match.outcome':
+      'For correctly predicting the match outcome (which team wins, or a draw): 0 points.',
+    'v1.rule.incorrect.match.outcome':
+      'For incorrectly predicting the match outcome: +3 points.',
+    'v1.rule.incorrect.goal':
+      'For each incorrectly predicted goal: +1 additional point.',
+    'v1.rule.missing.prediction':
+      'A participant who does not submit a prediction in time receives the same number of points as the worst prediction for that match.',
+    'v1.rule.ranking.tiebreaker':
+      'If multiple participants have the same number of points, the higher place goes to the participant who predicted more exact scores.',
+    'v1.rule.example.match.result': 'The match ended 2:1.',
+    'v1.rule.example.exact.score':
+      'A participant who predicted 2:1 gets -3 points (for predicting the exact score).',
+    'v1.rule.example.incorrect.goals':
+      'A participant who predicted 3:0 gets +2 points (for two incorrectly predicted goals).',
+    'v1.rule.example.predicted.draw':
+      'A participant who predicted 1:1 gets +4 points (for one incorrectly predicted goal).',
     'v1.rules': 'Rules',
     'v1.open.menu': 'Open menu',
     'v1.player': 'Player',
@@ -262,27 +267,32 @@ export const messages = {
       'Prašome sutikti su sąžiningo žaidimo susitarimu',
     'v1.register.title': 'Susikurkite rungtynių paskyrą.',
     'v1.results': 'Rezultatai',
-    'v1.rule.1': 'Varžybų spėjimai turi būti pateikti iki rungtynių pradžios.',
-    'v1.rule.2': 'Prasidėjus varžyboms bus matomi visų dalyvių spėjimai.',
-    'v1.rule.3': 'Už teisingai atspėtą rezultatą: -3 taškai.',
-    'v1.rule.4':
+    'v1.rule.submit.before.kickoff':
+      'Varžybų spėjimai turi būti pateikti iki rungtynių pradžios.',
+    'v1.rule.predictions.visible.after.kickoff':
+      'Prasidėjus varžyboms bus matomi visų dalyvių spėjimai.',
+    'v1.rule.playoffs.no.draws':
+      'Atkrintamosiose varžybose lygiųjų būti negali. Galutinis rezultatas skaičiuojamas sudedant rungtynių rezultatą ir baudinių serijos rezultatą. Pavyzdžiui, 1:1 ir baudinių serija 5:4 reiškia galutinį rezultatą 6:5.',
+    'v1.rule.correct.exact.score': 'Už teisingai atspėtą rezultatą: -3 taškai.',
+    'v1.rule.unique.exact.score':
       'Už teisingai atspėtą rezultatą, kai niekas neatspėjo varžybų rezultato: -7 taškai.',
-    'v1.rule.5':
+    'v1.rule.unique.match.outcome':
       'Už teisingai atspėtą rezultatą, kai niekas neatspėjo varžybų baigties: -11 taškų.',
-    'v1.rule.6':
+    'v1.rule.correct.match.outcome':
       'Už įspėtą varžybų baigtį (atspėta, kuri komanda laimės arba atspėtos lygiosios): 0 taškų.',
-    'v1.rule.7': 'Už neįspėtą varžybų baigtį: +3 taškai.',
-    'v1.rule.8': 'Už kiekvieną neatspėtą įvartį: papildomas +1 taškas.',
-    'v1.rule.9':
+    'v1.rule.incorrect.match.outcome': 'Už neįspėtą varžybų baigtį: +3 taškai.',
+    'v1.rule.incorrect.goal':
+      'Už kiekvieną neatspėtą įvartį: papildomas +1 taškas.',
+    'v1.rule.missing.prediction':
       'Dalyvis, laiku nepateikęs spėjimo gauna tiek pat taškų kaip ir blogiausiai spėjęs dalyvis.',
-    'v1.rule.10':
+    'v1.rule.ranking.tiebreaker':
       'Jeigu keli dalyviai turi tiek pat taškų, aukštesnę vietą užima daugiau rezultatų atspėjęs dalyvis.',
-    'v1.rule.11': 'Varžybos baigėsi rezultatu 2:1',
-    'v1.rule.12':
+    'v1.rule.example.match.result': 'Varžybos baigėsi rezultatu 2:1',
+    'v1.rule.example.exact.score':
       'Dalyvis, spėjęs 2:1 gauna -3 taškus (už įspėtįspėtą rezultatą).',
-    'v1.rule.13':
+    'v1.rule.example.incorrect.goals':
       'Dalyvis, spėjęs 3:0 gauna +2 taškus (už du neįspėtus įvarčius).',
-    'v1.rule.14':
+    'v1.rule.example.predicted.draw':
       'Dalyvis, spėjęs 1:1 gauna +4 taškus (už vieną neįspėtą įvartį).',
     'v1.rules': 'Taisyklės',
     'v1.open.menu': 'Atidaryti meniu',
