@@ -343,6 +343,7 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
   gap: 8px;
   grid-template-columns: minmax(96px, 1fr) auto minmax(96px, 1fr);
   text-align: center;
+  height: 100%;
 }
 
 .games-card__team-button {
@@ -366,7 +367,6 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
 .games-card__guess {
   display: grid;
   gap: 12px;
-  margin-top: auto;
 }
 
 .games-card__guess-title,
