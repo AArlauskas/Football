@@ -307,6 +307,7 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
   display: flex;
   flex-direction: column;
   gap: 12px;
+  height: 100%;
 }
 
 .games-card__time,
@@ -365,6 +366,7 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
 .games-card__guess {
   display: grid;
   gap: 12px;
+  margin-top: auto;
 }
 
 .games-card__guess-title,
