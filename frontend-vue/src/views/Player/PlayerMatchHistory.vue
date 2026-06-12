@@ -15,6 +15,7 @@ defineProps<{
     date: string;
     items: GameWithGuess[];
   }>;
+  hideTitle?: boolean;
 }>();
 
 const router = useRouter();
@@ -76,7 +77,7 @@ const goToTeam = async (teamId: string) => {
 
 <template>
   <section class="player-match-history">
-    <FText as="h2" variant="heading-3">
+    <FText v-if="!hideTitle" as="h2" variant="heading-3">
       {{ t('v1.player.match.history') }}
     </FText>
 

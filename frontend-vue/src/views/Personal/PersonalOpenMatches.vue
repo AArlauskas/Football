@@ -20,6 +20,7 @@ const props = defineProps<{
     date: string;
     items: GameWithGuess[];
   }>;
+  hideTitle?: boolean;
   isSaving: boolean;
 }>();
 
@@ -97,7 +98,7 @@ watch(
 
 <template>
   <section class="personal-open-matches">
-    <FText as="h2" variant="heading-3">
+    <FText v-if="!hideTitle" as="h2" variant="heading-3">
       {{ t('v1.upcoming.games') }}
     </FText>
 

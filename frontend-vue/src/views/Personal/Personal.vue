@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { useSwipe } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, watch } from 'vue';
+import { SelectButton } from 'primevue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 import FPageFeedback from '@/components/FPageFeedback.vue';
 import { usePageTitle } from '@/composables/usePageTitle';
@@ -13,6 +15,13 @@ import PersonalOpenMatches from '@/views/Personal/PersonalOpenMatches.vue';
 import PlayerLoadingState from '@/views/Player/PlayerLoadingState.vue';
 import PlayerMatchHistory from '@/views/Player/PlayerMatchHistory.vue';
 import PlayerProfileCard from '@/views/Player/PlayerProfileCard.vue';
+
+const PersonalTab = {
+  History: 'history',
+  Open: 'open',
+} as const;
+
+type PersonalTabValue = (typeof PersonalTab)[keyof typeof PersonalTab];
 
 const authStore = useAuthStore();
 const personalStore = usePersonalStore();
@@ -28,11 +37,36 @@ const {
   successMessageKey,
 } = storeToRefs(personalStore);
 
+const activeTab = ref<PersonalTabValue>(PersonalTab.Open);
 const pageTitle = computed(() => t('v1.personal'));
+const tabOptions = computed(() => [
+  {
+    label: t('v1.upcoming.games'),
+    value: PersonalTab.Open,
+  },
+  {
+    label: t('v1.player.match.history'),
+    value: PersonalTab.History,
+  },
+]);
+const tabContentRef = ref<HTMLElement | null>(null);
 
 const handleSaveGuess = async (gameId: number, result: GameResult) => {
   await personalStore.saveGuess(gameId, result);
 };
+
+useSwipe(tabContentRef, {
+  onSwipeEnd: (_event, direction) => {
+    if (direction === 'left' && activeTab.value === PersonalTab.Open) {
+      activeTab.value = PersonalTab.History;
+    }
+
+    if (direction === 'right' && activeTab.value === PersonalTab.History) {
+      activeTab.value = PersonalTab.Open;
+    }
+  },
+  threshold: 50,
+});
 
 watch(successMessageKey, (messageKey) => {
   if (!messageKey) {
@@ -62,12 +96,27 @@ usePageTitle(pageTitle);
 
     <template v-else-if="player || authStore.user">
       <PlayerProfileCard :player="player ?? authStore.user!" />
-      <PersonalOpenMatches
-        :groups="openGroups"
-        :is-saving="isSavingGuess"
-        @save-guess="handleSaveGuess"
-      />
-      <PlayerMatchHistory :groups="previousGroups" />
+      <section class="personal-page__matches">
+        <SelectButton
+          v-model="activeTab"
+          :allow-empty="false"
+          class="personal-page__section-switcher"
+          option-label="label"
+          option-value="value"
+          :options="tabOptions"
+        />
+
+        <div ref="tabContentRef" class="personal-page__section-content">
+          <PersonalOpenMatches
+            v-if="activeTab === PersonalTab.Open"
+            :groups="openGroups"
+            hide-title
+            :is-saving="isSavingGuess"
+            @save-guess="handleSaveGuess"
+          />
+          <PlayerMatchHistory v-else :groups="previousGroups" hide-title />
+        </div>
+      </section>
     </template>
   </main>
 </template>
@@ -79,5 +128,20 @@ usePageTitle(pageTitle);
   flex-direction: column;
   gap: 16px;
   margin: 0 auto;
+}
+
+.personal-page__matches {
+  display: grid;
+  gap: 16px;
+}
+
+.personal-page__section-switcher {
+  width: fit-content;
+}
+
+@media (width <= 760px) {
+  .personal-page__section-switcher {
+    width: 100%;
+  }
 }
 </style>
