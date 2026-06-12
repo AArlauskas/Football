@@ -70,7 +70,15 @@ public class Converters {
     }
 
     public static Points points(lt.kietekai.backendspring.storage.models.Points points) {
-        return new Points(points.getTotal(), points.getCorrectAlone(), points.getCorrect()+points.getCorrectAlone(), points.getOutcomes(), points.getIncorrect(), points.getNotGiven(), points.getPlace());
+        int total = points.getTotal();
+        int correctAlone = points.getCorrectAlone();
+        int correctGuesses = points.getCorrect() + correctAlone;
+        int correctOutcomes = points.getOutcomes() + correctGuesses;
+        int incorrect = points.getIncorrect();
+        int notGiven = points.getNotGiven();
+        int place = points.getPlace();
+
+        return new Points(total, correctAlone, correctGuesses, correctOutcomes, incorrect, notGiven, place);
     }
 
     public static UserDetails usersPoints(lt.kietekai.backendspring.storage.models.Points points) {
