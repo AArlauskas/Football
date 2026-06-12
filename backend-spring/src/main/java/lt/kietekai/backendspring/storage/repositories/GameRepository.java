@@ -34,6 +34,9 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Query("select g from Game g where g.finished is not null and g.result1 is not null and g.result2 is not null order by g.gameDate")
     List<Game> getFinishedWithResults();
 
+    @Query("select g from Game g where g.closed is not null and g.finished is null and g.gameDate <= :cutoff order by g.gameDate")
+    List<Game> getClosedUnfinishedStartedBefore(Date cutoff);
+
     @Query("select g from Game g where g.finished is null and g.gameDate > :from and g.gameDate <= :to order by g.gameDate")
     List<Game> getUpcomingForReminders(Date from, Date to);
 }
