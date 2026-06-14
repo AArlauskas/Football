@@ -30,5 +30,12 @@ createApp(App)
         darkModeSelector: '.app-dark',
       },
     },
+    pt: {
+      toast: {
+        root: {
+          style: 'max-width: calc(100vw - 40px);',
+        },
+      },
+    },
   })
   .mount('#app');
