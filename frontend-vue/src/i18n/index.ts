@@ -10,7 +10,7 @@ const isAppLocale = (locale: string | null): locale is AppLocale =>
   locale !== null && locale in messages;
 
 const getInitialLocale = (): AppLocale => {
-  const storedLocale = window.sessionStorage.getItem(LOCALE_STORAGE_KEY);
+  const storedLocale = window.localStorage.getItem(LOCALE_STORAGE_KEY);
 
   return isAppLocale(storedLocale) ? storedLocale : DEFAULT_LOCALE;
 };
@@ -24,7 +24,7 @@ export const i18n = createI18n({
 
 export const setLocale = (locale: AppLocale) => {
   i18n.global.locale.value = locale;
-  window.sessionStorage.setItem(LOCALE_STORAGE_KEY, locale);
+  window.localStorage.setItem(LOCALE_STORAGE_KEY, locale);
 };
 
 export { DEFAULT_LOCALE };

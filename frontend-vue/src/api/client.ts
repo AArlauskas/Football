@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { RoutePath } from '@/enums';
+import { RoutePath, StorePersistentKey } from '@/enums';
 
 const getBaseUrl = () => {
   return '/api';
@@ -9,7 +9,7 @@ const getBaseUrl = () => {
 const AUTH_FAILURE_STATUSES = new Set([401, 403, 503]);
 
 const handleAuthFailure = () => {
-  window.localStorage.clear();
+  window.localStorage.removeItem(StorePersistentKey.Auth);
 
   if (window.location.pathname !== RoutePath.SignIn) {
     window.location.assign(RoutePath.SignIn);
