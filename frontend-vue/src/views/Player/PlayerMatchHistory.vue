@@ -330,21 +330,27 @@ const goToTeam = async (teamId: string) => {
   .player-match-history__match-main {
     gap: 10px;
     grid-template-areas:
-      'team-home score-home separator score-away team-away'
-      'guess guess guess guess guess';
-    grid-template-columns: minmax(0, 1fr) 24px 8px 24px minmax(0, 1fr);
+      'team-home team-home team-home'
+      'score-home separator score-away'
+      'team-away team-away team-away'
+      'guess guess guess';
+    grid-template-columns: minmax(0, 1fr) 8px minmax(0, 1fr);
     text-align: center;
   }
 
-  .player-match-history__score {
-    text-align: center;
+  .player-match-history__score--home {
+    justify-self: end;
+  }
+
+  .player-match-history__score--away {
+    justify-self: start;
   }
 
   .player-match-history__team-button {
     justify-content: center;
 
     :deep(.p-button-label) {
-      white-space: nowrap;
+      white-space: normal;
     }
   }
 

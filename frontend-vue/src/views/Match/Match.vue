@@ -142,7 +142,12 @@ usePageTitle(pageTitle);
                 link
                 @click="goToTeam(game.t1.code)"
               >
-                <FText as="span" clickable variant="heading-3">
+                <FText
+                  as="span"
+                  class="match-page__team-name"
+                  clickable
+                  variant="heading-3"
+                >
                   {{ translateTeamName(game.t1, t) }}
                 </FText>
               </Button>
@@ -154,7 +159,12 @@ usePageTitle(pageTitle);
                 link
                 @click="goToTeam(game.t2.code)"
               >
-                <FText as="span" clickable variant="heading-3">
+                <FText
+                  as="span"
+                  class="match-page__team-name"
+                  clickable
+                  variant="heading-3"
+                >
                   {{ translateTeamName(game.t2, t) }}
                 </FText>
               </Button>
@@ -317,6 +327,7 @@ usePageTitle(pageTitle);
   display: grid;
   align-items: center;
   gap: 16px;
+  grid-template-areas: 'team-home score team-away';
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
 }
 
@@ -326,21 +337,29 @@ usePageTitle(pageTitle);
   color: var(--p-text-color);
 
   :deep(.p-button-label) {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    min-width: 0;
   }
 }
 
+.match-page__team-name {
+  display: block;
+  min-width: 0;
+}
+
 .match-page__team-button--home {
+  grid-area: team-home;
   justify-content: flex-end;
+  text-align: right;
 }
 
 .match-page__team-button--away {
+  grid-area: team-away;
   justify-content: flex-start;
+  text-align: left;
 }
 
 .match-page__score {
+  grid-area: score;
   min-width: 80px;
   white-space: nowrap;
 }
@@ -395,11 +414,21 @@ usePageTitle(pageTitle);
 @media (width <= 760px) {
   .match-page__scoreboard {
     gap: 10px;
-    grid-template-columns: minmax(0, 1fr) 72px minmax(0, 1fr);
+    grid-template-areas:
+      'team-home'
+      'score'
+      'team-away';
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .match-page__team-button {
     justify-content: center;
+    text-align: center;
+  }
+
+  .match-page__team-name {
+    font-size: clamp(1.125rem, 5vw, 1.5rem);
+    line-height: 1.15;
   }
 
   .match-page__score {

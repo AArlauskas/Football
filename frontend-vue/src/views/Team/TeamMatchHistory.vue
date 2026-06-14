@@ -243,15 +243,27 @@ const goToTeam = async (teamId: string) => {
 @media (width <= 760px) {
   .team-match-history__match-main {
     gap: 10px;
-    grid-template-columns: minmax(0, 1fr) 24px 8px 24px minmax(0, 1fr);
+    grid-template-areas:
+      'team-home team-home team-home'
+      'score-home separator score-away'
+      'team-away team-away team-away';
+    grid-template-columns: minmax(0, 1fr) 8px minmax(0, 1fr);
     padding: 12px;
+  }
+
+  .team-match-history__score--home {
+    justify-self: end;
+  }
+
+  .team-match-history__score--away {
+    justify-self: start;
   }
 
   .team-match-history__team-button {
     justify-content: center;
 
     :deep(.p-button-label) {
-      white-space: nowrap;
+      white-space: normal;
     }
   }
 }
