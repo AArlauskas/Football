@@ -31,6 +31,11 @@ createApp(App)
       },
     },
     pt: {
+      card: {
+        body: {
+          style: 'padding: 1.25rem 1rem;',
+        },
+      },
       toast: {
         root: {
           style: 'max-width: calc(100vw - 40px);',
