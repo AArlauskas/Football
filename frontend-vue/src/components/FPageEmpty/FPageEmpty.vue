@@ -137,6 +137,7 @@ onUnmounted(() => {
   <main class="f-page-empty" :class="{ 'f-page-empty--dark': isDark }">
     <FPageTopbar
       v-model:selected-locale="selectedLocale"
+      :current-player-place="currentPlayerPlace"
       :current-points="currentPoints"
       :current-title="currentTitle"
       :is-dark="isDark"

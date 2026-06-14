@@ -10,6 +10,7 @@ import { RoutePath } from '@/enums';
 import type { AppLocale } from '@/i18n';
 
 const props = defineProps<{
+  currentPlayerPlace: number | string;
   currentPoints: number | string;
   currentTitle: string;
   isDark: boolean;
@@ -50,11 +51,20 @@ const selectedLocaleModel = computed({
     </FText>
 
     <div class="f-page-topbar__actions">
-      <Tag
-        class="f-page-topbar__points"
-        icon="pi pi-chart-line"
-        :value="String(currentPoints)"
-      />
+      <div class="f-page-topbar__stats" :aria-label="$t('v1.results')">
+        <Tag
+          class="f-page-topbar__stat"
+          icon="pi pi-trophy"
+          :title="$t('v1.place')"
+          :value="String(currentPlayerPlace)"
+        />
+        <Tag
+          class="f-page-topbar__stat"
+          icon="pi pi-chart-line"
+          :title="$t('v1.points')"
+          :value="String(currentPoints)"
+        />
+      </div>
 
       <Button
         class="f-page-topbar__theme-button"
@@ -144,7 +154,13 @@ const selectedLocaleModel = computed({
   gap: 10px;
 }
 
-.f-page-topbar__points {
+.f-page-topbar__stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.f-page-topbar__stat {
   min-width: 48px;
   justify-content: center;
   padding-inline: 8px;
@@ -188,7 +204,7 @@ const selectedLocaleModel = computed({
     display: none;
   }
 
-  .f-page-topbar__actions > .f-page-topbar__points {
+  .f-page-topbar__actions > .f-page-topbar__stats {
     grid-column: 3;
     grid-row: 1;
     justify-self: end;
