@@ -30,6 +30,9 @@ public class User {
     private String password;
     @Column(nullable = false)
     private String roles;
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean matchReminderDisabled = false;
 
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn

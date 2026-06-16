@@ -59,6 +59,10 @@ public class MatchReminderSender {
     }
 
     private void sendReminderIfNeeded(Game game, User user) {
+        if (user.isMatchReminderDisabled()) {
+            return;
+        }
+
         Optional<Guess> guess = guessRepository.findByUserAndGame(user, game);
         if (guess.isPresent() && guess.get().getResult1() != null && guess.get().getResult2() != null) {
             return;
