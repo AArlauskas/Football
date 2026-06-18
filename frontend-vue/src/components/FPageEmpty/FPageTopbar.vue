@@ -108,7 +108,9 @@ const selectedLocaleModel = computed({
   align-items: center;
   gap: 16px;
   grid-area: topbar;
-  grid-template-columns: var(--f-page-empty-sidebar-width) minmax(0, 1fr);
+  grid-template-columns:
+    var(--f-page-empty-sidebar-width) minmax(0, 1fr)
+    max-content;
   padding: 10px 24px;
   border-bottom: 1px solid var(--f-page-empty-border);
   background: var(--f-page-empty-panel-background);
@@ -133,23 +135,21 @@ const selectedLocaleModel = computed({
 }
 
 .f-page-topbar__title {
-  position: absolute;
-  top: 50%;
-  left: calc(
-    var(--f-page-empty-sidebar-width) +
-      ((100% - var(--f-page-empty-sidebar-width)) / 2)
-  );
-  width: max-content;
-  max-width: min(42vw, 520px);
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  grid-column: 2;
+  justify-self: center;
   text-align: center;
-  transform: translate(-50%, -50%);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .f-page-topbar__actions {
   display: flex;
   min-width: 0;
   align-items: center;
-  grid-column: 2;
+  grid-column: 3;
   justify-content: flex-end;
   gap: 10px;
 }
@@ -184,14 +184,12 @@ const selectedLocaleModel = computed({
   }
 
   .f-page-topbar__title {
-    position: static;
     overflow: hidden;
     width: auto;
     max-width: 100%;
     grid-column: 2;
     grid-row: 1;
     text-overflow: ellipsis;
-    transform: none;
     white-space: nowrap;
   }
 
