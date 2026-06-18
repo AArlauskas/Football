@@ -5,7 +5,6 @@ import lt.kietekai.backendspring.rest.models.Points;
 import lt.kietekai.backendspring.rest.models.UserDetails;
 import lt.kietekai.backendspring.storage.FullUserDetails;
 import lt.kietekai.backendspring.storage.repositories.PointsRepository;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +30,7 @@ public class PointsRest {
 
     @GetMapping("/totals")
     public List<UserDetails> getTotals() {
-        List<lt.kietekai.backendspring.storage.models.Points> points = pointsRepository.findAll(Sort.by(Sort.Order.asc("total"), Sort.Order.desc("correct"), Sort.Order.asc("id")));
+        List<lt.kietekai.backendspring.storage.models.Points> points = pointsRepository.findAllOrderByResultsRank();
         return points.stream()
                 .map(Converters::usersPoints)
                 .collect(Collectors.toList());

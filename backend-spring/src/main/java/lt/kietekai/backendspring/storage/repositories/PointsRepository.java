@@ -4,9 +4,9 @@ import lt.kietekai.backendspring.storage.models.Points;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface PointsRepository extends JpaRepository<Points, Long> {
     @Transactional
@@ -23,7 +23,10 @@ public interface PointsRepository extends JpaRepository<Points, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "update points p set place = (select ss.num from (select id as u_id, row_number()  over (order by total , correct desc, id) as num from points) as ss where ss.u_id=p.id)" , nativeQuery = true)
+    @Query(value = "update points p set place = (select ss.num from (select id as u_id, row_number() over (order by total, (correct + correct_alone) desc, correct_alone desc, (outcomes + correct + correct_alone) desc, id) as num from points) as ss where ss.u_id=p.id)" , nativeQuery = true)
     void recalculatePlaces();
+
+    @Query(value = "select * from points order by total, (correct + correct_alone) desc, correct_alone desc, (outcomes + correct + correct_alone) desc, id", nativeQuery = true)
+    List<Points> findAllOrderByResultsRank();
 
 }
