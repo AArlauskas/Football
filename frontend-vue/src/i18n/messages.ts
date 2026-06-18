@@ -391,7 +391,7 @@ export const messages = {
     'v1.ball.game.best': 'Најдобро',
     'v1.ball.game.kick': 'Удри',
     'v1.ball.game.missed': 'Промашено. Започни одново.',
-    'v1.ball.game.playing': 'Кликни на топката за да ја одржиш во воздух',
+    'v1.ball.game.playing': 'Кликни на топката за да ја шутнеш во воздух',
     'v1.ball.game.ready': 'Започни, па одржувај ја топката во воздух',
     'v1.ball.game.score': 'Резултат',
     'v1.ball.game.start': 'Започни игра',
@@ -476,7 +476,7 @@ export const messages = {
     'v1.rule.example.incorrect.goals':
       'Учесник кој предвидел 3:0 добива +2 поени (за два неточно предвидени гола).',
     'v1.rule.example.predicted.draw':
-      'Учесник кој предвидел 1:1 добива +4 поени (за еден неточно предвиден гол).',
+      'Учесник кој предвидел 1:1 добива +4 поени (за неточно превиден исход +3 и за еден неточно предвиден гол).',
     'v1.rules': 'Правила',
     'v1.open.menu': 'Отвори мени',
     'v1.player': 'Играч',
@@ -523,7 +523,7 @@ export const messages = {
     'v1.team.name.KSA': 'Саудиска Арабија',
     'v1.team.name.MAR': 'Мароко',
     'v1.team.name.MEX': 'Мексико',
-    'v1.team.name.NED': 'Нидерландија',
+    'v1.team.name.NED': 'Холандија',
     'v1.team.name.NOR': 'Норвешка',
     'v1.team.name.NZL': 'Нов Зеланд',
     'v1.team.name.PAN': 'Панама',
