@@ -22,6 +22,7 @@ const isDrawerVisible = ref(false);
 const localeOptions: { label: string; value: AppLocale }[] = [
   { label: 'LT', value: 'lt-LT' },
   { label: 'EN', value: 'en-US' },
+  { label: 'MK', value: 'mk-MK' },
 ];
 
 const routeTitleMap: Partial<Record<string, TranslationKey>> = {
