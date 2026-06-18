@@ -12,6 +12,7 @@ const { isDark, toggleTheme } = useTheme();
 const localeOptions: { label: string; value: AppLocale }[] = [
   { label: 'LT', value: 'lt-LT' },
   { label: 'EN', value: 'en-US' },
+  { label: 'MK', value: 'mk-MK' },
 ];
 const themeButtonLabel = computed(() =>
   isDark.value ? t('v1.light.mode') : t('v1.dark.mode'),
