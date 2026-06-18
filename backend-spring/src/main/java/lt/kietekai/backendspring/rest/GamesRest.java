@@ -86,6 +86,21 @@ public class GamesRest {
             case CLOSED -> {
                 return gameRepository.getClosedGamesWithGuesses(userId);
             }
+            case OVERVIEW -> {
+                Calendar today = Calendar.getInstance();
+                today.set(Calendar.HOUR_OF_DAY, 0);
+                today.set(Calendar.MINUTE, 0);
+                today.set(Calendar.SECOND, 0);
+                today.set(Calendar.MILLISECOND, 0);
+
+                Calendar tomorrow = (Calendar) today.clone();
+                tomorrow.add(Calendar.DATE, 1);
+
+                Calendar recentLimit = Calendar.getInstance();
+                recentLimit.add(Calendar.HOUR, -24);
+
+                return gameRepository.getOverviewGamesWithGuesses(userId, today.getTime(), tomorrow.getTime(), recentLimit.getTime());
+            }
         }
         throw new IllegalArgumentException();
     }

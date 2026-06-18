@@ -119,8 +119,7 @@ const statCards = computed<
 <style scoped lang="scss">
 :deep(.team-profile-card-shell.p-card) {
   overflow: hidden;
-  border: 1px solid
-    color-mix(in srgb, var(--p-primary-color) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--p-primary-color) 18%, transparent);
   background:
     radial-gradient(
       circle at top left,
@@ -159,8 +158,7 @@ const statCards = computed<
 .team-profile-card__flag-fallback {
   display: grid;
   place-items: center;
-  border: 1px solid
-    color-mix(in srgb, var(--p-primary-color) 32%, transparent);
+  border: 1px solid color-mix(in srgb, var(--p-primary-color) 32%, transparent);
   border-radius: 18px;
   background: color-mix(in srgb, var(--p-primary-color) 12%, transparent);
   color: var(--p-primary-color);

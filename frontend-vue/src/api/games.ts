@@ -8,3 +8,11 @@ export const getGamesWithGuesses = async () => {
 
   return response.data;
 };
+
+export const getOverviewGamesWithGuesses = async () => {
+  const response = await apiClient.get<GameWithGuess[]>('/games/guessed', {
+    params: { filter: 'overview' },
+  });
+
+  return response.data;
+};

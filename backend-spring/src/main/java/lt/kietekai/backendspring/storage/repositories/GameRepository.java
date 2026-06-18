@@ -23,6 +23,9 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Query("select new lt.kietekai.backendspring.storage.models.synthetic.GameWithGuess(g, gs) from Game g left join g.guesses gs with(gs.user.id=:userId) where g.gameDate > :limit order by g.gameDate")
     List<GameWithGuess> getFutureGamesWithGuesses(long userId, Date limit);
 
+    @Query("select new lt.kietekai.backendspring.storage.models.synthetic.GameWithGuess(g, gs) from Game g left join g.guesses gs with(gs.user.id=:userId) where g.closed is not null and ((g.gameDate >= :todayStart and g.gameDate < :tomorrowStart) or g.gameDate >= :recentLimit) order by case when g.finished is null then 0 else 1 end, g.gameDate desc")
+    List<GameWithGuess> getOverviewGamesWithGuesses(long userId, Date todayStart, Date tomorrowStart, Date recentLimit);
+
     @Transactional
     @Modifying
     @Query(value = "update Game g set g.closed=current_timestamp where g.gameDate < :cutoff")

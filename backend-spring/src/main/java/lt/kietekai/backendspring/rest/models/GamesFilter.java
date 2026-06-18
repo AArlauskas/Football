@@ -1,7 +1,7 @@
 package lt.kietekai.backendspring.rest.models;
 
 public enum GamesFilter {
-    ALL, TODAY, CLOSED;
+    ALL, TODAY, CLOSED, OVERVIEW;
 
     public static GamesFilter parse(String s) {
         for (GamesFilter f : GamesFilter.values()) {
