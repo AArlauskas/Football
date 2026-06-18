@@ -88,6 +88,8 @@ docker compose up --build
 
 The Vue app is available at `http://localhost:3000`, and the backend API is available at `http://localhost:8080`.
 
+The Docker frontend runs the Vite dev server with `frontend-vue/` mounted into the container, so source changes hot reload automatically. Frontend dependencies are installed into the `frontend-node-modules` Docker volume.
+
 PostgreSQL data is stored in the `postgres-data` Docker volume. To stop the stack and remove the database volume:
 
 ```sh
