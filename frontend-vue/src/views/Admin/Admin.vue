@@ -10,6 +10,8 @@ import AdminCompleteGameDialog from '@/views/Admin/AdminCompleteGameDialog.vue';
 import AdminCreateGameForm from '@/views/Admin/AdminCreateGameForm.vue';
 import AdminEditGameDialog from '@/views/Admin/AdminEditGameDialog.vue';
 import AdminGamesPanel from '@/views/Admin/AdminGamesPanel.vue';
+import AdminResetPasswordDialog from '@/views/Admin/AdminResetPasswordDialog.vue';
+import AdminUsersPanel from '@/views/Admin/AdminUsersPanel.vue';
 
 const { t } = useTranslations();
 const adminStore = useAdminStore();
@@ -32,9 +34,11 @@ usePageTitle(pageTitle);
     <FPageFeedback :error="requestError" :success="successMessage" />
 
     <AdminCreateGameForm />
+    <AdminUsersPanel />
     <AdminGamesPanel />
     <AdminEditGameDialog />
     <AdminCompleteGameDialog />
+    <AdminResetPasswordDialog />
   </main>
 </template>
 

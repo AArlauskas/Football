@@ -8,3 +8,4 @@ export { getPersonalPoints } from '@/api/points';
 export { getResults } from '@/api/results';
 export { getTeamGames, getTeamsStatistics } from '@/api/team';
 export { getGamesWithGuesses, getOverviewGamesWithGuesses } from '@/api/games';
+export { getAdminUsers, resetUserPassword } from '@/api/users';

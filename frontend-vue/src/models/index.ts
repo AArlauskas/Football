@@ -15,4 +15,4 @@ export type {
   TeamsStatistics,
 } from '@/models/game';
 export type { Points } from '@/models/points';
-export type { UserDetails } from '@/models/user';
+export type { UserDetails, UserSummary } from '@/models/user';

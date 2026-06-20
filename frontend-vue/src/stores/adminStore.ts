@@ -2,7 +2,15 @@ import axios from 'axios';
 import { defineStore } from 'pinia';
 import { computed, reactive, ref } from 'vue';
 
-import { addGame, getAdminGames, getTeams, updateGame } from '@/api';
+import {
+  addGame,
+  getAdminGames,
+  getAdminUsers,
+  getTeams,
+  resetUserPassword,
+  updateGame,
+} from '@/api';
+import type { ResetPasswordResponse } from '@/api/users';
 import { StoreId } from '@/enums';
 import type {
   Game,
@@ -10,6 +18,7 @@ import type {
   GameStateFilter as GameStateFilterType,
   GameState as GameStateType,
   Team,
+  UserSummary,
 } from '@/models';
 import { GameState, GameStateFilter } from '@/models/game';
 
@@ -17,6 +26,7 @@ type FormMode = 'create' | 'edit';
 type SuccessMessageKey =
   | 'v1.admin.game.completed'
   | 'v1.admin.game.created'
+  | 'v1.admin.password.reset'
   | 'v1.admin.game.updated';
 
 interface GameForm {
@@ -67,12 +77,17 @@ const stateOrder: Record<GameStateType, number> = {
 export const useAdminStore = defineStore(StoreId.Admin, () => {
   const games = ref<Game[]>([]);
   const teams = ref<Team[]>([]);
+  const users = ref<UserSummary[]>([]);
   const isLoading = ref(false);
   const isSaving = ref(false);
+  const isResettingPassword = ref(false);
   const requestError = ref('');
   const successMessageKey = ref<SuccessMessageKey | null>(null);
   const isCompleteDialogVisible = ref(false);
   const isEditDialogVisible = ref(false);
+  const isResetPasswordDialogVisible = ref(false);
+  const resetPasswordResult = ref<ResetPasswordResponse | null>(null);
+  const selectedUserEmail = ref('');
   const stateFilter = ref<GameStateFilterType>(GameStateFilter.ALL);
   const completeForm = reactive<GameForm>(createInitialForm());
   const createForm = reactive<GameForm>(createInitialForm());
@@ -118,6 +133,9 @@ export const useAdminStore = defineStore(StoreId.Admin, () => {
   const isCreateFormValid = computed(() => isFormValid(createForm, 'create'));
   const isEditFormValid = computed(() => isFormValid(editForm, 'edit'));
   const isCompleteFormValid = computed(() => isFormValid(completeForm, 'edit'));
+  const isResetPasswordFormValid = computed(
+    () => selectedUserEmail.value !== '',
+  );
 
   const resetCreateForm = () => {
     Object.assign(createForm, createInitialForm());
@@ -166,13 +184,15 @@ export const useAdminStore = defineStore(StoreId.Admin, () => {
     requestError.value = '';
 
     try {
-      const [teamsResponse, gamesResponse] = await Promise.all([
+      const [teamsResponse, gamesResponse, usersResponse] = await Promise.all([
         getTeams(),
         getAdminGames(),
+        getAdminUsers(),
       ]);
 
       teams.value = teamsResponse;
       games.value = gamesResponse;
+      users.value = usersResponse;
     } catch (error) {
       requestError.value = formatError(error);
     } finally {
@@ -220,6 +240,18 @@ export const useAdminStore = defineStore(StoreId.Admin, () => {
     isEditDialogVisible.value = false;
   };
 
+  const openResetPasswordDialog = () => {
+    selectedUserEmail.value = '';
+    resetPasswordResult.value = null;
+    isResetPasswordDialogVisible.value = true;
+  };
+
+  const closeResetPasswordDialog = () => {
+    isResetPasswordDialogVisible.value = false;
+    selectedUserEmail.value = '';
+    resetPasswordResult.value = null;
+  };
+
   const saveGame = async () => {
     if (!isEditFormValid.value) {
       return;
@@ -262,9 +294,32 @@ export const useAdminStore = defineStore(StoreId.Admin, () => {
     }
   };
 
+  const submitPasswordReset = async () => {
+    if (!isResetPasswordFormValid.value) {
+      return;
+    }
+
+    isResettingPassword.value = true;
+    requestError.value = '';
+    successMessageKey.value = null;
+    resetPasswordResult.value = null;
+
+    try {
+      resetPasswordResult.value = await resetUserPassword(
+        selectedUserEmail.value,
+      );
+      successMessageKey.value = 'v1.admin.password.reset';
+    } catch (error) {
+      requestError.value = formatError(error);
+    } finally {
+      isResettingPassword.value = false;
+    }
+  };
+
   return {
     closeCompleteDialog,
     closeEditDialog,
+    closeResetPasswordDialog,
     completeForm,
     completeGame,
     createForm,
@@ -277,15 +332,23 @@ export const useAdminStore = defineStore(StoreId.Admin, () => {
     isEditDialogVisible,
     isEditFormValid,
     isLoading,
+    isResetPasswordDialogVisible,
+    isResetPasswordFormValid,
+    isResettingPassword,
     isSaving,
     loadAdminData,
     openCompleteDialog,
     openEditDialog,
+    openResetPasswordDialog,
     requestError,
+    resetPasswordResult,
     saveGame,
+    selectedUserEmail,
     stateFilter,
+    submitPasswordReset,
     successMessageKey,
     teams,
+    users,
     visibleGames,
   };
 });
