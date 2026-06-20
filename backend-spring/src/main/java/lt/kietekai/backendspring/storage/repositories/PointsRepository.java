@@ -23,10 +23,10 @@ public interface PointsRepository extends JpaRepository<Points, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "update points p set place = (select ss.num from (select id as u_id, row_number() over (order by total, (correct + correct_alone) desc, correct_alone desc, (outcomes + correct + correct_alone) desc, id) as num from points) as ss where ss.u_id=p.id)" , nativeQuery = true)
+    @Query(value = "update points p set place = (select ss.num from (select id as u_id, row_number() over (order by total, (correct + correct_alone) desc, outcomes desc, (correct_alone + correct + outcomes) desc, id) as num from points) as ss where ss.u_id=p.id)" , nativeQuery = true)
     void recalculatePlaces();
 
-    @Query(value = "select * from points order by total, (correct + correct_alone) desc, correct_alone desc, (outcomes + correct + correct_alone) desc, id", nativeQuery = true)
+    @Query(value = "select * from points order by total, (correct + correct_alone) desc, outcomes desc, (correct_alone + correct + outcomes) desc, id", nativeQuery = true)
     List<Points> findAllOrderByResultsRank();
 
 }
