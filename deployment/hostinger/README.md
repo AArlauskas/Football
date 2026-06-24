@@ -91,7 +91,7 @@ ltu-backend  TZ=Europe/Vilnius
 mkd-backend  TZ=Europe/Skopje
 ```
 
-Seeded fixture times in `seed-games.csv` are UTC source times. Each backend's `TZ` value controls how those same match instants are stored/displayed for that instance.
+Seeded fixture times come from the FIFA calendar API as UTC source times. Each backend's `TZ` value controls how those same match instants are stored/displayed for that instance.
 
 To use Hostinger mail:
 
