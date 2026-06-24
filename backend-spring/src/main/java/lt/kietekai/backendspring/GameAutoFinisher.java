@@ -26,6 +26,7 @@ public class GameAutoFinisher {
     private static final Logger log = LogManager.getLogger();
     // 45 + 45 + 15 + 5 = 110 minutes (first half + second half + break + approximate extra time)
     private static final int EXPECTED_MATCH_DURATION_MINUTES = 110;
+    private static final int FINISHED_MATCH_STATUS = 0;
 
     private final GameRepository gameRepository;
     private final GamesService gamesService;
@@ -87,8 +88,8 @@ public class GameAutoFinisher {
         }
 
         JsonNode fifaMatch = match.get();
-        game.setResult1(fifaMatch.get("HomeTeamScore").asInt());
-        game.setResult2(fifaMatch.get("AwayTeamScore").asInt());
+        game.setResult1(totalScore(fifaMatch, "HomeTeamScore", "HomeTeamPenaltyScore"));
+        game.setResult2(totalScore(fifaMatch, "AwayTeamScore", "AwayTeamPenaltyScore"));
         gamesService.finishGame(game);
 
         log.info("Finished game {} with result {}-{}", game.getId(), game.getResult1(), game.getResult2());
@@ -111,9 +112,13 @@ public class GameAutoFinisher {
     }
 
     private boolean isFinalWithScore(JsonNode match) {
-        return match.path("MatchStatus").asInt(-1) == 0
+        return match.path("MatchStatus").asInt(-1) == FINISHED_MATCH_STATUS
                 && match.hasNonNull("HomeTeamScore")
                 && match.hasNonNull("AwayTeamScore");
+    }
+
+    private int totalScore(JsonNode match, String regularScoreField, String penaltyScoreField) {
+        return match.get(regularScoreField).asInt() + match.path(penaltyScoreField).asInt(0);
     }
 
     private boolean teamCodeMatches(JsonNode team, String code) {
