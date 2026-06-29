@@ -25,9 +25,14 @@ public class OngoingGamesService {
     private final ScoreCalculator scoreCalculator;
 
     public List<OngoingGame> ongoingGames() {
+        List<lt.kietekai.backendspring.storage.models.Game> games = gameRepository.getOngoingGames();
+        if (games.isEmpty()) {
+            return List.of();
+        }
+
         FifaMatchClient.MatchSnapshot fifaMatches = fifaMatchClient.cachedSnapshot();
 
-        return gameRepository.getOngoingGames().stream()
+        return games.stream()
                 .map(game -> ongoingGame(game, fifaMatches))
                 .collect(Collectors.toList());
     }
