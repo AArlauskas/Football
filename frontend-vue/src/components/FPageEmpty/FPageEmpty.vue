@@ -10,6 +10,7 @@ import { useTheme } from '@/composables/useTheme';
 import { useTranslations } from '@/composables/useTranslations';
 import { Experiment, RouteName, RoutePath } from '@/enums';
 import { setLocale, type AppLocale, type TranslationKey } from '@/i18n';
+import { isStatisticsAvailable } from '@/lib/statistics';
 import { useAuthStore } from '@/stores/authStore';
 
 const authStore = useAuthStore();
@@ -38,6 +39,7 @@ const routeTitleMap: Partial<Record<string, TranslationKey>> = {
   [RouteName.Player]: 'v1.player',
   [RouteName.Results]: 'v1.results',
   [RouteName.Rules]: 'v1.rules',
+  [RouteName.Statistics]: 'v1.statistics',
   [RouteName.Team]: 'v1.team',
   [RouteName.TeamsStatistics]: 'v1.teams.statistics',
 };
@@ -71,6 +73,16 @@ const navigationItems = computed(() => [
     name: RouteName.TeamsStatistics,
     path: RoutePath.TeamsStatistics,
   },
+  ...(isStatisticsAvailable()
+    ? [
+        {
+          icon: 'pi pi-chart-bar',
+          label: 'v1.statistics' as TranslationKey,
+          name: RouteName.Statistics,
+          path: RoutePath.Statistics,
+        },
+      ]
+    : []),
   {
     icon: 'pi pi-user',
     label: 'v1.personal' as TranslationKey,

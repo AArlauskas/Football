@@ -6,6 +6,7 @@ export { addGuess, getPersonalGames, getPersonalUser } from '@/api/personal';
 export { getPlayer, getPlayerGames } from '@/api/player';
 export { getPersonalPoints } from '@/api/points';
 export { getResults } from '@/api/results';
+export { getChampionshipStatistics } from '@/api/statistics';
 export { getTeamGames, getTeamsStatistics } from '@/api/team';
 export {
   getGamesWithGuesses,

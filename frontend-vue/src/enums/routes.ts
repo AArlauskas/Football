@@ -10,6 +10,7 @@ export const RouteName = {
   Results: 'results',
   Rules: 'rules',
   SignIn: 'sign-in',
+  Statistics: 'statistics',
   Team: 'team',
   TeamsStatistics: 'teams-statistics',
 } as const;
@@ -27,6 +28,7 @@ export const RoutePath = {
   Root: '/',
   Rules: '/rules',
   SignIn: '/sign-in',
+  Statistics: '/statistics',
   Team: '/team/:teamId',
   TeamsStatistics: '/teams-statistics',
 } as const;

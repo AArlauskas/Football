@@ -8,6 +8,7 @@ export const StoreId = {
   Personal: 'personal',
   Player: 'player',
   Results: 'results',
+  Statistics: 'statistics',
   Team: 'team',
   TeamsStatistics: 'teams-statistics',
 } as const;

@@ -1,0 +1,321 @@
+<script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { Skeleton } from 'primevue';
+import { computed, onMounted } from 'vue';
+
+import FPageFeedback from '@/components/FPageFeedback.vue';
+import FText from '@/components/FText.vue';
+import { usePageTitle } from '@/composables/usePageTitle';
+import { useTranslations } from '@/composables/useTranslations';
+import type { TranslationKey } from '@/i18n';
+import type {
+  FavoriteScoreStat,
+  GameCounterStat,
+  GamePointsStat,
+  PlayerCounterStat,
+  PlayerPointsStat,
+  TeamCounterStat,
+} from '@/models';
+import { useStatisticsStore } from '@/stores/statisticsStore';
+import StatisticsSection from '@/views/Statistics/StatisticsSection.vue';
+import type {
+  StatisticsColumn,
+  StatisticsRow,
+} from '@/views/Statistics/statisticsSectionTypes';
+
+interface StatisticsSectionConfig {
+  columns: StatisticsColumn[];
+  description: TranslationKey;
+  rows: StatisticsRow[];
+  title: TranslationKey;
+}
+
+const statisticsStore = useStatisticsStore();
+const { t } = useTranslations();
+const { isLoading, requestError, statistics } = storeToRefs(statisticsStore);
+
+const pageTitle = computed(() => t('v1.statistics'));
+
+const fullName = (item: { firstName: string; lastName: string }) =>
+  `${item.firstName} ${item.lastName}`;
+
+const playerPointsRows = (items: PlayerPointsStat[]): StatisticsRow[] =>
+  items.map((item) => ({
+    id: `player-points-${item.userId}`,
+    title: fullName(item),
+    values: {
+      total: item.total,
+    },
+  }));
+
+const playerCounterRows = (key: string, items: PlayerCounterStat[]) =>
+  items.map((item) => ({
+    id: `${key}-${item.userId}`,
+    title: fullName(item),
+    values: {
+      count: item.count,
+      total: item.total,
+    },
+  }));
+
+const teamCounterRows = (key: string, items: TeamCounterStat[]) =>
+  items.map((item) => ({
+    id: `${key}-${item.team}`,
+    title: item.team,
+    values: {
+      count: item.count,
+    },
+  }));
+
+const gamePointsRows = (items: GamePointsStat[]): StatisticsRow[] =>
+  items.map((item) => ({
+    id: `successful-game-${item.gameId}`,
+    title: `${item.team1} - ${item.team2}`,
+    values: {
+      result: item.result,
+      totalPoints: item.totalPoints,
+    },
+  }));
+
+const gameCounterRows = (key: string, items: GameCounterStat[]) =>
+  items.map((item, index) => ({
+    id: `${key}-${index}`,
+    title: `${item.team1} - ${item.team2}`,
+    values: {
+      count: item.count,
+      result: item.result,
+    },
+  }));
+
+const favoriteScoreRows = (items: FavoriteScoreStat[]) =>
+  items.map((item) => ({
+    id: `favorite-score-${item.userId}`,
+    title: fullName(item),
+    values: {
+      count: item.count,
+      score: item.score,
+    },
+  }));
+
+const playerTotalColumns = [
+  { field: 'total', label: 'v1.statistics.column.points' },
+] satisfies StatisticsColumn[];
+
+const playerCountColumns = (countLabel: TranslationKey) =>
+  [
+    { field: 'count', label: countLabel },
+    { field: 'total', label: 'v1.statistics.column.points' },
+  ] satisfies StatisticsColumn[];
+
+const statisticsSections = computed<StatisticsSectionConfig[]>(() => {
+  if (!statistics.value) {
+    return [];
+  }
+
+  return [
+    {
+      columns: playerTotalColumns,
+      description: 'v1.statistics.players.by.points.description',
+      rows: playerPointsRows(statistics.value.playersByPoints),
+      title: 'v1.statistics.players.by.points',
+    },
+    {
+      columns: playerCountColumns('v1.statistics.column.correct.alone'),
+      description: 'v1.statistics.correct.alone.description',
+      rows: playerCounterRows(
+        'correct-alone',
+        statistics.value.correctAloneLeaders,
+      ),
+      title: 'v1.statistics.correct.alone',
+    },
+    {
+      columns: playerCountColumns('v1.statistics.column.missing.guesses'),
+      description: 'v1.statistics.missing.guesses.description',
+      rows: playerCounterRows(
+        'missing-guesses',
+        statistics.value.missingGuessLeaders,
+      ),
+      title: 'v1.statistics.missing.guesses',
+    },
+    {
+      columns: playerCountColumns('v1.statistics.column.incorrect.outcomes'),
+      description: 'v1.statistics.incorrect.outcomes.description',
+      rows: playerCounterRows(
+        'incorrect-outcomes',
+        statistics.value.incorrectOutcomeLeaders,
+      ),
+      title: 'v1.statistics.incorrect.outcomes',
+    },
+    {
+      columns: playerCountColumns('v1.statistics.column.correct.outcomes'),
+      description: 'v1.statistics.correct.outcomes.description',
+      rows: playerCounterRows(
+        'correct-outcomes',
+        statistics.value.correctOutcomeLeaders,
+      ),
+      title: 'v1.statistics.correct.outcomes',
+    },
+    {
+      columns: [{ field: 'count', label: 'v1.statistics.column.goals' }],
+      description: 'v1.statistics.teams.by.goals.description',
+      rows: teamCounterRows('team-goals', statistics.value.teamsByGoals),
+      title: 'v1.statistics.teams.by.goals',
+    },
+    {
+      columns: [
+        { field: 'result', label: 'v1.statistics.column.result' },
+        { field: 'totalPoints', label: 'v1.statistics.column.total.points' },
+      ],
+      description: 'v1.statistics.successful.games.description',
+      rows: gamePointsRows(statistics.value.mostSuccessfulGuessingGames),
+      title: 'v1.statistics.successful.games',
+    },
+    {
+      columns: playerCountColumns('v1.statistics.column.highest.points'),
+      description: 'v1.statistics.highest.single.game.description',
+      rows: playerCounterRows(
+        'highest-single-game',
+        statistics.value.highestSingleGameScores,
+      ),
+      title: 'v1.statistics.highest.single.game',
+    },
+    {
+      columns: [
+        { field: 'result', label: 'v1.statistics.column.result' },
+        { field: 'count', label: 'v1.statistics.column.goals' },
+      ],
+      description: 'v1.statistics.games.by.goals.description',
+      rows: gameCounterRows('game-goals', statistics.value.gamesByGoals),
+      title: 'v1.statistics.games.by.goals',
+    },
+    {
+      columns: playerCountColumns('v1.statistics.column.guessed.goals'),
+      description: 'v1.statistics.players.by.guessed.goals.description',
+      rows: playerCounterRows(
+        'guessed-goals',
+        statistics.value.playersByGuessedGoals,
+      ),
+      title: 'v1.statistics.players.by.guessed.goals',
+    },
+    {
+      columns: playerCountColumns('v1.statistics.column.draws'),
+      description: 'v1.statistics.draw.predictions.description',
+      rows: playerCounterRows('draws', statistics.value.drawPredictionLeaders),
+      title: 'v1.statistics.draw.predictions',
+    },
+    {
+      columns: playerCountColumns('v1.statistics.column.predictions'),
+      description: 'v1.statistics.two.one.predictions.description',
+      rows: playerCounterRows(
+        'two-one',
+        statistics.value.twoOnePredictionLeaders,
+      ),
+      title: 'v1.statistics.two.one.predictions',
+    },
+    {
+      columns: [
+        { field: 'count', label: 'v1.statistics.column.predicted.wins' },
+      ],
+      description: 'v1.statistics.team.believers.description',
+      rows: teamCounterRows('team-believers', statistics.value.teamBelievers),
+      title: 'v1.statistics.team.believers',
+    },
+    {
+      columns: [
+        { field: 'score', label: 'v1.statistics.column.score' },
+        { field: 'count', label: 'v1.statistics.column.predictions' },
+      ],
+      description: 'v1.statistics.signature.scores.description',
+      rows: favoriteScoreRows(statistics.value.personalSignatureScores),
+      title: 'v1.statistics.signature.scores',
+    },
+    {
+      columns: playerCountColumns('v1.statistics.column.reminders'),
+      description: 'v1.statistics.reminders.description',
+      rows: playerCounterRows('reminders', statistics.value.reminderLeaders),
+      title: 'v1.statistics.reminders',
+    },
+    {
+      columns: playerCountColumns('v1.statistics.column.guesses'),
+      description: 'v1.statistics.reminder.guesses.description',
+      rows: playerCounterRows(
+        'reminder-guesses',
+        statistics.value.reminderGuessLeaders,
+      ),
+      title: 'v1.statistics.reminder.guesses',
+    },
+  ];
+});
+
+onMounted(() => {
+  void statisticsStore.loadStatistics();
+});
+
+usePageTitle(pageTitle);
+</script>
+
+<template>
+  <main class="statistics-page">
+    <FPageFeedback :error="requestError" />
+
+    <header class="statistics-page__hero">
+      <FText as="h1" variant="heading-2">
+        {{ t('v1.statistics') }}
+      </FText>
+      <FText as="p" color="--p-text-muted-color" variant="body-1">
+        {{ t('v1.statistics.subtitle') }}
+      </FText>
+    </header>
+
+    <div v-if="isLoading" class="statistics-page__skeleton">
+      <Skeleton v-for="item in 6" :key="item" height="180px" />
+    </div>
+
+    <FText
+      v-else-if="statisticsSections.length === 0"
+      as="p"
+      color="--p-text-muted-color"
+      variant="body-2"
+    >
+      {{ t('v1.statistics.no.data') }}
+    </FText>
+
+    <StatisticsSection
+      v-for="section in statisticsSections"
+      v-else
+      :key="section.title"
+      :columns="section.columns"
+      :description="section.description"
+      :rows="section.rows"
+      :title="section.title"
+    />
+  </main>
+</template>
+
+<style scoped lang="scss">
+.statistics-page {
+  display: flex;
+  width: min(100%, var(--f-page-empty-content-width, 1280px));
+  flex-direction: column;
+  gap: 18px;
+  margin: 0 auto;
+}
+
+.statistics-page__hero {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.statistics-page__skeleton {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (width <= 960px) {
+  .statistics-page__skeleton {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

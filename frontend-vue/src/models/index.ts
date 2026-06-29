@@ -16,4 +16,13 @@ export type {
   TeamsStatistics,
 } from '@/models/game';
 export type { Points } from '@/models/points';
+export type {
+  ChampionshipStatistics,
+  FavoriteScoreStat,
+  GameCounterStat,
+  GamePointsStat,
+  PlayerCounterStat,
+  PlayerPointsStat,
+  TeamCounterStat,
+} from '@/models/statistics';
 export type { UserDetails, UserSummary } from '@/models/user';

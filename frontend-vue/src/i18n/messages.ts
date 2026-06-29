@@ -147,6 +147,75 @@ export const messages = {
     'v1.player.no.matches': 'No matches to show',
     'v1.sign.in.hero.alt': 'Friends playing football together',
     'v1.sign.in.subtitle': 'Welcome back. Enter your details to continue.',
+    'v1.statistics': 'Statistics',
+    'v1.statistics.column.correct.alone': 'Unique exact',
+    'v1.statistics.column.correct.outcomes': 'Correct outcomes',
+    'v1.statistics.column.draws': 'Draws',
+    'v1.statistics.column.goals': 'Goals',
+    'v1.statistics.column.guessed.goals': 'Guessed goals',
+    'v1.statistics.column.guesses': 'Guesses',
+    'v1.statistics.column.highest.points': 'Highest points',
+    'v1.statistics.column.incorrect.outcomes': 'Incorrect outcomes',
+    'v1.statistics.column.missing.guesses': 'Missing guesses',
+    'v1.statistics.column.name': 'Name',
+    'v1.statistics.column.points': 'Points',
+    'v1.statistics.column.predicted.wins': 'Predicted wins',
+    'v1.statistics.column.predictions': 'Predictions',
+    'v1.statistics.column.reminders': 'Reminders',
+    'v1.statistics.column.result': 'Result',
+    'v1.statistics.column.score': 'Score',
+    'v1.statistics.column.total.points': 'Total points',
+    'v1.statistics.correct.alone': 'Solo exact-score heroes',
+    'v1.statistics.correct.alone.description':
+      'Players who most often earned the special -7 or -11 exact-score rewards.',
+    'v1.statistics.correct.outcomes': 'Outcome readers',
+    'v1.statistics.correct.outcomes.description':
+      'Players who most often picked the right winner or draw without the exact score.',
+    'v1.statistics.draw.predictions': 'Draw believers',
+    'v1.statistics.draw.predictions.description':
+      'Players who predicted draws most often.',
+    'v1.statistics.games.by.goals': 'Goal festivals',
+    'v1.statistics.games.by.goals.description':
+      'Finished matches with the most goals on the scoreboard.',
+    'v1.statistics.highest.single.game': 'Biggest single-game pain',
+    'v1.statistics.highest.single.game.description':
+      'The highest point total each player received from one match.',
+    'v1.statistics.incorrect.outcomes': 'Wrong-way specialists',
+    'v1.statistics.incorrect.outcomes.description':
+      'Players with the most incorrect match outcomes.',
+    'v1.statistics.missing.guesses': 'Forgotten predictions',
+    'v1.statistics.missing.guesses.description':
+      'Players who missed the prediction deadline most often.',
+    'v1.statistics.no.data': 'No statistics to show yet.',
+    'v1.statistics.players.by.guessed.goals': 'Goal-hungry predictors',
+    'v1.statistics.players.by.guessed.goals.description':
+      'Players who predicted the highest total number of goals.',
+    'v1.statistics.players.by.points': 'Final leaderboard',
+    'v1.statistics.players.by.points.description':
+      'Players ordered by total points, where fewer points means a better finish.',
+    'v1.statistics.reminder.guesses': 'Reminder recoveries',
+    'v1.statistics.reminder.guesses.description':
+      'Players who received reminders and still submitted predictions for those matches.',
+    'v1.statistics.reminders': 'Most reminded',
+    'v1.statistics.reminders.description':
+      'Players who received the most match reminder emails.',
+    'v1.statistics.signature.scores': 'Signature scorelines',
+    'v1.statistics.signature.scores.description':
+      "Each player's most common prediction.",
+    'v1.statistics.subtitle':
+      'A championship wrap-up with the funniest player, team, match, and reminder patterns.',
+    'v1.statistics.successful.games': 'Matches everyone understood',
+    'v1.statistics.successful.games.description':
+      'Matches where the group collected the fewest points in total.',
+    'v1.statistics.team.believers': 'Team believers',
+    'v1.statistics.team.believers.description':
+      'Teams that players most often predicted to win.',
+    'v1.statistics.teams.by.goals': 'Most attacking teams',
+    'v1.statistics.teams.by.goals.description':
+      'Teams ranked by goals scored in finished matches.',
+    'v1.statistics.two.one.predictions': '2:1 loyalists',
+    'v1.statistics.two.one.predictions.description':
+      'Players who most often predicted the classic 2:1 or 1:2 scoreline.',
     'v1.sucessful.guess.submit': 'Guess submitted successfully',
     'v1.sucessful.register': 'Registration completed successfully',
     'v1.team': 'Team',
@@ -360,6 +429,75 @@ export const messages = {
     'v1.sign.in.hero.alt': 'Draugai kartu žaidžia futbolą',
     'v1.sign.in.subtitle':
       'Sveiki sugrįžę. Įveskite savo duomenis, kad galėtumėte tęsti.',
+    'v1.statistics': 'Statistika',
+    'v1.statistics.column.correct.alone': 'Unikalūs rezultatai',
+    'v1.statistics.column.correct.outcomes': 'Atspėtos baigtys',
+    'v1.statistics.column.draws': 'Lygiosios',
+    'v1.statistics.column.goals': 'Įvarčiai',
+    'v1.statistics.column.guessed.goals': 'Spėti įvarčiai',
+    'v1.statistics.column.guesses': 'Spėjimai',
+    'v1.statistics.column.highest.points': 'Daugiausia taškų',
+    'v1.statistics.column.incorrect.outcomes': 'Neteisingos baigtys',
+    'v1.statistics.column.missing.guesses': 'Nepateikti spėjimai',
+    'v1.statistics.column.name': 'Pavadinimas',
+    'v1.statistics.column.points': 'Taškai',
+    'v1.statistics.column.predicted.wins': 'Spėtos pergalės',
+    'v1.statistics.column.predictions': 'Spėjimai',
+    'v1.statistics.column.reminders': 'Priminimai',
+    'v1.statistics.column.result': 'Rezultatas',
+    'v1.statistics.column.score': 'Spėjimas',
+    'v1.statistics.column.total.points': 'Viso taškų',
+    'v1.statistics.correct.alone': 'Vieniši tikslaus rezultato herojai',
+    'v1.statistics.correct.alone.description':
+      'Žaidėjai, dažniausiai gavę specialius -7 arba -11 taškų apdovanojimus.',
+    'v1.statistics.correct.outcomes': 'Baigčių žinovai',
+    'v1.statistics.correct.outcomes.description':
+      'Žaidėjai, dažniausiai atspėję nugalėtoją arba lygiąsias be tikslaus rezultato.',
+    'v1.statistics.draw.predictions': 'Lygiųjų tikėtojai',
+    'v1.statistics.draw.predictions.description':
+      'Žaidėjai, dažniausiai spėję lygiąsias.',
+    'v1.statistics.games.by.goals': 'Įvarčių šventės',
+    'v1.statistics.games.by.goals.description':
+      'Baigtos varžybos, kuriose buvo įmušta daugiausia įvarčių.',
+    'v1.statistics.highest.single.game': 'Didžiausias vienų varžybų skausmas',
+    'v1.statistics.highest.single.game.description':
+      'Didžiausias taškų skaičius, kurį kiekvienas žaidėjas gavo už vienas varžybas.',
+    'v1.statistics.incorrect.outcomes': 'Krypties nesupratę specialistai',
+    'v1.statistics.incorrect.outcomes.description':
+      'Žaidėjai, turintys daugiausia neteisingų varžybų baigčių.',
+    'v1.statistics.missing.guesses': 'Pamiršti spėjimai',
+    'v1.statistics.missing.guesses.description':
+      'Žaidėjai, dažniausiai praleidę spėjimo terminą.',
+    'v1.statistics.no.data': 'Statistikos kol kas nėra.',
+    'v1.statistics.players.by.guessed.goals': 'Įvarčių mėgėjai',
+    'v1.statistics.players.by.guessed.goals.description':
+      'Žaidėjai, spėjimuose surinkę didžiausią įvarčių kiekį.',
+    'v1.statistics.players.by.points': 'Galutinė lentelė',
+    'v1.statistics.players.by.points.description':
+      'Žaidėjai pagal bendrą taškų skaičių; mažiau taškų reiškia aukštesnę vietą.',
+    'v1.statistics.reminder.guesses': 'Atsigavę po priminimo',
+    'v1.statistics.reminder.guesses.description':
+      'Žaidėjai, kurie gavo priminimus ir vis tiek pateikė spėjimus toms varžyboms.',
+    'v1.statistics.reminders': 'Daugiausia priminti',
+    'v1.statistics.reminders.description':
+      'Žaidėjai, gavę daugiausia varžybų priminimų el. paštu.',
+    'v1.statistics.signature.scores': 'Asmeniniai firminiai rezultatai',
+    'v1.statistics.signature.scores.description':
+      'Dažniausias kiekvieno žaidėjo spėtas rezultatas.',
+    'v1.statistics.subtitle':
+      'Čempionato apžvalga su smagiausiais žaidėjų, komandų, varžybų ir priminimų dėsningumais.',
+    'v1.statistics.successful.games': 'Varžybos, kurias visi suprato',
+    'v1.statistics.successful.games.description':
+      'Varžybos, kuriose grupė bendrai surinko mažiausiai taškų.',
+    'v1.statistics.team.believers': 'Komandų tikėtojai',
+    'v1.statistics.team.believers.description':
+      'Komandos, kurių pergalėmis žaidėjai tikėjo dažniausiai.',
+    'v1.statistics.teams.by.goals': 'Puolančios komandos',
+    'v1.statistics.teams.by.goals.description':
+      'Komandos pagal įmuštus įvarčius baigtose varžybose.',
+    'v1.statistics.two.one.predictions': '2:1 gerbėjai',
+    'v1.statistics.two.one.predictions.description':
+      'Žaidėjai, dažniausiai spėję klasikinį 2:1 arba 1:2 rezultatą.',
     'v1.sucessful.guess.submit': 'Spėjimas pateiktas sėkmingai',
     'v1.sucessful.register': 'Registracija atlikta sėkmingai',
     'v1.team': 'Komanda',
@@ -572,6 +710,75 @@ export const messages = {
     'v1.sign.in.hero.alt': 'Пријатели кои заедно играат фудбал',
     'v1.sign.in.subtitle':
       'Добредојде назад. Внеси ги своите податоци за да продолжиш.',
+    'v1.statistics': 'Статистика',
+    'v1.statistics.column.correct.alone': 'Уникатни точни',
+    'v1.statistics.column.correct.outcomes': 'Точни исходи',
+    'v1.statistics.column.draws': 'Нерешени',
+    'v1.statistics.column.goals': 'Голови',
+    'v1.statistics.column.guessed.goals': 'Предвидени голови',
+    'v1.statistics.column.guesses': 'Предвидувања',
+    'v1.statistics.column.highest.points': 'Најмногу поени',
+    'v1.statistics.column.incorrect.outcomes': 'Неточни исходи',
+    'v1.statistics.column.missing.guesses': 'Пропуштени предвидувања',
+    'v1.statistics.column.name': 'Име',
+    'v1.statistics.column.points': 'Поени',
+    'v1.statistics.column.predicted.wins': 'Предвидени победи',
+    'v1.statistics.column.predictions': 'Предвидувања',
+    'v1.statistics.column.reminders': 'Потсетници',
+    'v1.statistics.column.result': 'Резултат',
+    'v1.statistics.column.score': 'Скор',
+    'v1.statistics.column.total.points': 'Вкупно поени',
+    'v1.statistics.correct.alone': 'Херои со уникатен точен резултат',
+    'v1.statistics.correct.alone.description':
+      'Играчи кои најчесто ги добиле специјалните -7 или -11 награди.',
+    'v1.statistics.correct.outcomes': 'Читачи на исходи',
+    'v1.statistics.correct.outcomes.description':
+      'Играчи кои најчесто го погодиле победникот или нерешениот исход без точен резултат.',
+    'v1.statistics.draw.predictions': 'Верници во нерешено',
+    'v1.statistics.draw.predictions.description':
+      'Играчи кои најчесто предвидувале нерешен резултат.',
+    'v1.statistics.games.by.goals': 'Гол-фестивали',
+    'v1.statistics.games.by.goals.description':
+      'Завршени натпревари со најмногу голови.',
+    'v1.statistics.highest.single.game': 'Најголема болка во еден натпревар',
+    'v1.statistics.highest.single.game.description':
+      'Најмногу поени што секој играч ги добил од еден натпревар.',
+    'v1.statistics.incorrect.outcomes': 'Специјалисти во погрешна насока',
+    'v1.statistics.incorrect.outcomes.description':
+      'Играчи со најмногу неточни исходи на натпревари.',
+    'v1.statistics.missing.guesses': 'Заборавени предвидувања',
+    'v1.statistics.missing.guesses.description':
+      'Играчи кои најчесто го пропуштиле рокот за предвидување.',
+    'v1.statistics.no.data': 'Сè уште нема статистика за приказ.',
+    'v1.statistics.players.by.guessed.goals': 'Предвидувачи гладни за голови',
+    'v1.statistics.players.by.guessed.goals.description':
+      'Играчи кои предвиделе најголем вкупен број голови.',
+    'v1.statistics.players.by.points': 'Финална табела',
+    'v1.statistics.players.by.points.description':
+      'Играчи подредени по вкупни поени; помалку поени значи подобар пласман.',
+    'v1.statistics.reminder.guesses': 'Опоравувања по потсетник',
+    'v1.statistics.reminder.guesses.description':
+      'Играчи кои добиле потсетник и сепак поднеле предвидување за тие натпревари.',
+    'v1.statistics.reminders': 'Најмногу потсетувани',
+    'v1.statistics.reminders.description':
+      'Играчи кои добиле најмногу е-пошта потсетници за натпревари.',
+    'v1.statistics.signature.scores': 'Лични омилени резултати',
+    'v1.statistics.signature.scores.description':
+      'Најчестото предвидување на секој играч.',
+    'v1.statistics.subtitle':
+      'Завршен преглед на првенството со најзабавните шеми кај играчите, тимовите, натпреварите и потсетниците.',
+    'v1.statistics.successful.games': 'Натпревари што сите ги разбраа',
+    'v1.statistics.successful.games.description':
+      'Натпревари каде групата собра најмалку вкупни поени.',
+    'v1.statistics.team.believers': 'Верници во тимови',
+    'v1.statistics.team.believers.description':
+      'Тимови за кои играчите најчесто предвидувале победа.',
+    'v1.statistics.teams.by.goals': 'Најнапаѓачки тимови',
+    'v1.statistics.teams.by.goals.description':
+      'Тимови рангирани по постигнати голови во завршени натпревари.',
+    'v1.statistics.two.one.predictions': 'Љубители на 2:1',
+    'v1.statistics.two.one.predictions.description':
+      'Играчи кои најчесто го предвидувале класичниот резултат 2:1 или 1:2.',
     'v1.sucessful.guess.submit': 'Предвидувањето е успешно поднесено',
     'v1.sucessful.register': 'Регистрацијата е успешно завршена',
     'v1.team': 'Тим',

@@ -46,3 +46,19 @@ select count(1), u.first_name from guess g left join auth_user u on u.id = g.use
 --players that guessed 2:1 the most
 -- Žaidėjai, kurie daugiausia spėjo 2:1
 select count(1), u.first_name from guess g left join auth_user u on u.id = g.user_id where (g.result1 = 1 and g.result2 = 2) or (g.result1 = 2 and g.result2 = 1) group by u.id order by count desc;
+
+--team believers: which team users most often predicted to win
+-- Komandos, kurių pergalėmis žaidėjai tikėjo dažniausiai
+select predicted_winner.name team, count(*) predicted_wins from guess g left join game gm on gm.id = g.game_id left join team predicted_winner on predicted_winner.id = case when g.result1 > g.result2 then gm.team1_id when g.result2 > g.result1 then gm.team2_id end where g.result1 is not null and g.result2 is not null and g.result1 != g.result2 group by predicted_winner.id order by predicted_wins desc;
+
+-- personal signature score: each player's most common prediction
+-- Kiekvieno žaidėjo dažniausias spėjamas rezultatas
+select distinct on (u.id) u.first_name, g.result1 || ':' || g.result2 favorite_score, count(*) count from guess g left join auth_user u on u.id = g.user_id where g.result1 is not null and g.result2 is not null group by u.id, g.result1, g.result2 order by u.id, count(*) desc;
+
+-- people who have received reminders the most
+-- Žaidėjai, kurie gavo daugiausia priminimų
+select u.first_name, count(*) reminders_received from match_reminder mr left join auth_user u on u.id = mr.user_id group by u.id order by reminders_received desc;
+
+-- people who inputed goals after reminders the most
+-- Žaidėjai, kurie dažniausiai pateikė spėjimus po priminimų
+select u.first_name, count(*) guesses_after_reminders from match_reminder mr left join auth_user u on u.id = mr.user_id left join guess g on g.user_id = mr.user_id and g.game_id = mr.game_id where g.result1 is not null and g.result2 is not null group by u.id order by guesses_after_reminders desc;

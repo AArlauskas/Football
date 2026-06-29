@@ -72,6 +72,12 @@ export const router = createRouter({
       path: RoutePath.TeamsStatistics,
     },
     {
+      component: () => import('@/views/Statistics/Statistics.vue'),
+      meta: { requiresAuth: true },
+      name: RouteName.Statistics,
+      path: RoutePath.Statistics,
+    },
+    {
       component: () => import('@/views/Results/Results.vue'),
       meta: { requiresAuth: true },
       name: RouteName.Results,
