@@ -11,6 +11,7 @@ export type {
   GuessPrototype,
   GuessWithUser,
   GuessOutcome,
+  OngoingGame,
   Team,
   TeamsStatistics,
 } from '@/models/game';

@@ -3,7 +3,6 @@ package lt.kietekai.backendspring.storage;
 import lombok.RequiredArgsConstructor;
 import lt.kietekai.backendspring.storage.models.Game;
 import lt.kietekai.backendspring.storage.models.Guess;
-import lt.kietekai.backendspring.storage.models.GuessOutcome;
 import lt.kietekai.backendspring.storage.repositories.GameRepository;
 import lt.kietekai.backendspring.storage.repositories.GuessRepository;
 import lt.kietekai.backendspring.storage.repositories.PointsRepository;
@@ -18,17 +17,7 @@ public class GamesService {
     private final GuessRepository guessRepository;
     private final GameRepository gameRepository;
     private final PointsRepository pointsRepository;
-
-    private static GameOutcome outcomeOf(int r1, int r2) {
-        if (r1 == r2) {
-            return GameOutcome.EQ;
-        }
-        if (r1 > r2) {
-            return GameOutcome.T1;
-        } else {
-            return GameOutcome.T2;
-        }
-    }
+    private final ScoreCalculator scoreCalculator;
 
     public void createMissingGuesses() {
         guessRepository.createMissingGuesses();
@@ -86,51 +75,9 @@ public class GamesService {
                 g.setOutcome(null);
             }
         } else {
-            int countOutcome = 0;
-            int countCorrect = 0;
-            for (Guess g : guesses) {
-                if (g.getResult1() == null || g.getResult2() == null) {
-                    g.setOutcome(GuessOutcome.NOT_GIVEN);
-                    g.setPoints(0);
-                } else if (g.getResult1().equals(game.getResult1()) && g.getResult2().equals(game.getResult2())) {
-                    g.setPoints(-3);
-                    g.setOutcome(GuessOutcome.CORRECT);
-                    countOutcome++;
-                    countCorrect++;
-                } else {
-                    if (outcomeOf(g.getResult1(), g.getResult2()) == outcomeOf(game.getResult1(), game.getResult2())) {
-                        g.setPoints(0);
-                        g.setOutcome(GuessOutcome.OUTCOME_ONLY);
-                        countOutcome++;
-                    } else {
-                        g.setPoints(3);
-                        g.setOutcome(GuessOutcome.OUTCOME_INCORRECT);
-                    }
-                    g.setPoints(g.getPoints() + Math.abs(g.getResult1() - game.getResult1()) + Math.abs(g.getResult2() - game.getResult2()));
-                }
-            }
-            int maxPoints = guesses.stream().filter(g -> g.getOutcome() != GuessOutcome.NOT_GIVEN).map(Guess::getPoints).reduce(0, Integer::max);
-            for (Guess g : guesses) {
-                if (g.getOutcome() == GuessOutcome.NOT_GIVEN) {
-                    g.setPoints(maxPoints);
-                }
-            }
-            if (countCorrect == 1 && countOutcome != 1) {
-                for (Guess g : guesses) {
-                    if (g.getOutcome() == GuessOutcome.CORRECT) {
-                        g.setOutcome(GuessOutcome.CORRECT_ALONE);
-                        g.setPoints(-7);
-                    }
-                }
-            }
-
-            if (countOutcome == 1) {
-                for (Guess g : guesses) {
-                    if (g.getOutcome() == GuessOutcome.CORRECT) {
-                        g.setOutcome(GuessOutcome.CORRECT_ALONE);
-                        g.setPoints(-11);
-                    }
-                }
+            for (ScoreCalculator.ScoredGuess scoredGuess : scoreCalculator.calculate(guesses, game.getResult1(), game.getResult2())) {
+                scoredGuess.guess().setPoints(scoredGuess.points());
+                scoredGuess.guess().setOutcome(scoredGuess.outcome());
             }
         }
         guessRepository.saveAllAndFlush(guesses);
@@ -147,7 +94,4 @@ public class GamesService {
         guessRepository.createMissingGuesses();
     }
 
-    private enum GameOutcome {
-        EQ, T1, T2
-    }
 }

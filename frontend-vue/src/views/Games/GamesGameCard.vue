@@ -4,6 +4,7 @@ import { computed, reactive, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 import FText from '@/components/FText.vue';
+import { useOngoingMatches } from '@/composables/useOngoingMatches';
 import { useTranslations } from '@/composables/useTranslations';
 import { RouteName } from '@/enums';
 import type { TranslationKey } from '@/i18n';
@@ -27,6 +28,13 @@ const emit = defineEmits<{
 
 const router = useRouter();
 const { t } = useTranslations();
+const {
+  getEstimatedGuess,
+  getMatchTime,
+  getVisibleResult,
+  getVisibleScore,
+  hasLiveResult,
+} = useOngoingMatches();
 const draftGuess = reactive<Partial<GameResult>>({});
 
 const isStarted = computed(() => props.item.game.state !== GameState.OPEN);
@@ -35,10 +43,19 @@ const stateLabelMap: Record<GameState, TranslationKey> = {
   [GameState.FINISHED]: 'v1.admin.state.finished',
   [GameState.OPEN]: 'v1.admin.state.open',
 };
+const visibleResult = computed(() => getVisibleResult(props.item.game));
 const hasResult = computed(
   () =>
-    props.item.game.result?.goals1 !== undefined &&
-    props.item.game.result?.goals2 !== undefined,
+    visibleResult.value?.goals1 !== undefined &&
+    visibleResult.value?.goals2 !== undefined,
+);
+const isShowingLiveResult = computed(() => hasLiveResult(props.item.game));
+const estimatedGuess = computed(() => getEstimatedGuess(props.item.game.id));
+const visiblePointsGuess = computed(
+  () => estimatedGuess.value ?? props.item.guess,
+);
+const pointsLabel = computed(() =>
+  estimatedGuess.value ? t('v1.estimated.points') : t('v1.points'),
 );
 const hasChanged = computed(
   () =>
@@ -50,8 +67,8 @@ const hasChanged = computed(
 );
 const shouldShowPoints = computed(
   () =>
-    props.item.guess?.points !== null &&
-    props.item.guess?.points !== undefined &&
+    visiblePointsGuess.value?.points !== null &&
+    visiblePointsGuess.value?.points !== undefined &&
     isStarted.value,
 );
 
@@ -154,6 +171,14 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
           <FText as="span" variant="heading-3">
             {{ item.game.time }}
           </FText>
+          <FText
+            v-if="getMatchTime(item.game)"
+            as="span"
+            class="f-live-score"
+            variant="body-2-bold"
+          >
+            {{ getMatchTime(item.game) }}
+          </FText>
         </button>
 
         <Tag
@@ -177,16 +202,15 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
 
           <button
             class="games-card__score"
-            :class="{ 'games-card__score--clickable': isStarted }"
+            :class="{
+              'games-card__score--clickable': isStarted,
+              'f-live-score': isShowingLiveResult,
+            }"
             type="button"
             @click.stop="goToMatch"
           >
             <FText as="span" variant="heading-3">
-              {{
-                hasResult
-                  ? `${item.game.result?.goals1} : ${item.game.result?.goals2}`
-                  : '- : -'
-              }}
+              {{ hasResult ? getVisibleScore(item.game) : '- : -' }}
             </FText>
           </button>
 
@@ -245,12 +269,12 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
 
           <div v-if="shouldShowPoints" class="games-card__points">
             <FText as="span" variant="body-2">
-              {{ t('v1.points') }}
+              {{ pointsLabel }}
             </FText>
             <Tag
-              :class="getOutcomeClass(item.guess?.outcome)"
-              :severity="getOutcomeSeverity(item.guess?.outcome)"
-              :value="String(item.guess?.points)"
+              :class="getOutcomeClass(visiblePointsGuess?.outcome)"
+              :severity="getOutcomeSeverity(visiblePointsGuess?.outcome)"
+              :value="String(visiblePointsGuess?.points)"
             />
           </div>
 
@@ -321,6 +345,10 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
 }
 
 .games-card__time {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   padding: 0;
 }
 

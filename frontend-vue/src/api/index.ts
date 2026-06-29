@@ -7,5 +7,9 @@ export { getPlayer, getPlayerGames } from '@/api/player';
 export { getPersonalPoints } from '@/api/points';
 export { getResults } from '@/api/results';
 export { getTeamGames, getTeamsStatistics } from '@/api/team';
-export { getGamesWithGuesses, getOverviewGamesWithGuesses } from '@/api/games';
+export {
+  getGamesWithGuesses,
+  getOngoingGames,
+  getOverviewGamesWithGuesses,
+} from '@/api/games';
 export { getAdminUsers, resetUserPassword } from '@/api/users';

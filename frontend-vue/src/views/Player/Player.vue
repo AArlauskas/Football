@@ -4,8 +4,10 @@ import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 import FPageFeedback from '@/components/FPageFeedback.vue';
+import { useOngoingMatchesPolling } from '@/composables/useOngoingMatchesPolling';
 import { usePageTitle } from '@/composables/usePageTitle';
 import { useTranslations } from '@/composables/useTranslations';
+import { useOngoingMatchesStore } from '@/stores/ongoingMatchesStore';
 import { usePlayerStore } from '@/stores/playerStore';
 import PlayerLoadingState from '@/views/Player/PlayerLoadingState.vue';
 import PlayerMatchHistory from '@/views/Player/PlayerMatchHistory.vue';
@@ -13,11 +15,20 @@ import PlayerProfileCard from '@/views/Player/PlayerProfileCard.vue';
 
 const route = useRoute();
 const { t } = useTranslations();
+const ongoingMatchesStore = useOngoingMatchesStore();
 const playerStore = usePlayerStore();
-const { groupedGames, isLoading, player, requestError } =
-  storeToRefs(playerStore);
+const {
+  groupedGames,
+  isLoading: isPlayerLoading,
+  player,
+  requestError,
+} = storeToRefs(playerStore);
+const { isLoading: isOngoingMatchesLoading } = storeToRefs(ongoingMatchesStore);
 
 const playerId = computed(() => Number(route.params.userId));
+const isLoading = computed(
+  () => isPlayerLoading.value || isOngoingMatchesLoading.value,
+);
 const pageTitle = computed(() =>
   player.value
     ? `${player.value.firstName} ${player.value.lastName}`
@@ -39,6 +50,7 @@ watch(
 );
 
 usePageTitle(pageTitle);
+useOngoingMatchesPolling();
 </script>
 
 <template>
@@ -51,7 +63,7 @@ usePageTitle(pageTitle);
 
     <template v-else-if="player">
       <PlayerProfileCard :player="player" />
-      <PlayerMatchHistory :groups="groupedGames" />
+      <PlayerMatchHistory :groups="groupedGames" :player-id="player.id" />
     </template>
   </main>
 </template>

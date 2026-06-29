@@ -76,6 +76,13 @@ export interface GameWithGuess {
   guess: Guess | null;
 }
 
+export interface OngoingGame {
+  currentResult: GameResult | null;
+  estimatedGuesses: GuessWithUser[];
+  game: Game;
+  matchTime: string | null;
+}
+
 export interface GameResults {
   game: Game;
   guess: GuessWithUser[];

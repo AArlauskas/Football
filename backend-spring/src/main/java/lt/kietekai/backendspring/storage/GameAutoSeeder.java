@@ -9,18 +9,16 @@ import lt.kietekai.backendspring.storage.repositories.TeamRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -32,13 +30,10 @@ public class GameAutoSeeder {
 
     private final GameRepository gameRepository;
     private final TeamRepository teamRepository;
-    private final RestTemplateBuilder restTemplateBuilder;
+    private final FifaMatchClient fifaMatchClient;
 
     @Value("${match.seeder.enabled:true}")
     private boolean enabled;
-
-    @Value("${match.seeder.url:https://api.fifa.com/api/v3/calendar/matches?language=en&count=500&idSeason=285023}")
-    private String url;
 
     @PostConstruct
     public void seedOnStartup() {
@@ -52,8 +47,8 @@ public class GameAutoSeeder {
             return;
         }
 
-        JsonNode matches = getMatches();
-        if (matches == null || !matches.isArray()) {
+        List<JsonNode> matches = fifaMatchClient.freshSnapshot().matches();
+        if (matches.isEmpty()) {
             log.warn("Match seeder endpoint did not return a Results array");
             return;
         }
@@ -69,20 +64,6 @@ public class GameAutoSeeder {
         }
 
         log.info("Game auto-seeder created {} games and skipped {}", created, skipped);
-    }
-
-    private JsonNode getMatches() {
-        try {
-            RestTemplate restTemplate = restTemplateBuilder.build();
-            JsonNode response = restTemplate.getForObject(url, JsonNode.class);
-            if (response == null) {
-                return null;
-            }
-            return response.get("Results");
-        } catch (RestClientException e) {
-            log.warn("Failed to fetch match fixtures from {}", url, e);
-            return null;
-        }
     }
 
     private boolean createGameIfMissing(JsonNode match) {

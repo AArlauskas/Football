@@ -6,21 +6,33 @@ import { computed, onMounted, watch } from 'vue';
 import FEmptyMessage from '@/components/FEmptyMessage.vue';
 import FPageFeedback from '@/components/FPageFeedback.vue';
 import FText from '@/components/FText.vue';
+import { useOngoingMatchesPolling } from '@/composables/useOngoingMatchesPolling';
 import { usePageTitle } from '@/composables/usePageTitle';
 import { useToast } from '@/composables/useToast';
 import { useTranslations } from '@/composables/useTranslations';
 import type { TranslationKey } from '@/i18n';
 import type { GameResult } from '@/models';
 import { useGamesStore } from '@/stores/gamesStore';
+import { useOngoingMatchesStore } from '@/stores/ongoingMatchesStore';
 import GamesGameCard from '@/views/Games/GamesGameCard.vue';
 
 const gamesStore = useGamesStore();
+const ongoingMatchesStore = useOngoingMatchesStore();
 const toast = useToast();
 const { t } = useTranslations();
-const { groups, isLoading, isSavingGuess, requestError, successMessageKey } =
-  storeToRefs(gamesStore);
+const {
+  groups,
+  isLoading: isGamesLoading,
+  isSavingGuess,
+  requestError,
+  successMessageKey,
+} = storeToRefs(gamesStore);
+const { isLoading: isOngoingMatchesLoading } = storeToRefs(ongoingMatchesStore);
 
 const pageTitle = computed(() => t('v1.games'));
+const isLoading = computed(
+  () => isGamesLoading.value || isOngoingMatchesLoading.value,
+);
 
 const handleSaveGuess = async (gameId: number, result: GameResult) => {
   await gamesStore.saveGuess(gameId, result);
@@ -91,6 +103,7 @@ onMounted(() => {
 });
 
 usePageTitle(pageTitle);
+useOngoingMatchesPolling();
 </script>
 
 <template>

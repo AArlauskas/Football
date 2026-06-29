@@ -3,6 +3,7 @@ import { Card, Tag } from 'primevue';
 
 import FEmptyMessage from '@/components/FEmptyMessage.vue';
 import FText from '@/components/FText.vue';
+import { useOngoingMatches } from '@/composables/useOngoingMatches';
 import { useTranslations } from '@/composables/useTranslations';
 import type { TranslationKey } from '@/i18n';
 import { translateTeamName } from '@/lib/teamName';
@@ -18,6 +19,8 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useTranslations();
+const { getEstimatedGuess, getMatchTime, getVisibleResult, hasLiveResult } =
+  useOngoingMatches();
 
 const stateLabelMap: Record<GameState, TranslationKey> = {
   [GameState.CLOSED]: 'v1.admin.state.closed',
@@ -41,11 +44,12 @@ const getMatchTitle = (item: GameWithGuess) =>
   `${translateTeamName(item.game.t1, t)} - ${translateTeamName(item.game.t2, t)}`;
 
 const getMatchScore = (item: GameWithGuess) => {
-  if (!item.game.result) {
+  const result = getVisibleResult(item.game);
+  if (!result) {
     return '- : -';
   }
 
-  return `${item.game.result.goals1} : ${item.game.result.goals2}`;
+  return `${result.goals1} : ${result.goals2}`;
 };
 
 const getGuessLabel = (item: GameWithGuess) => {
@@ -56,13 +60,23 @@ const getGuessLabel = (item: GameWithGuess) => {
   return `${item.guess.result.goals1} : ${item.guess.result.goals2}`;
 };
 
+const getVisiblePointsGuess = (item: GameWithGuess) =>
+  getEstimatedGuess(item.game.id) ?? item.guess;
+
+const hasEstimatedPoints = (item: GameWithGuess) =>
+  Boolean(getEstimatedGuess(item.game.id));
+
 const getGuessPoints = (item: GameWithGuess) => {
-  if (item.guess?.points === null || item.guess?.points === undefined) {
+  const guess = getVisiblePointsGuess(item);
+  if (guess?.points === null || guess?.points === undefined) {
     return '';
   }
 
-  return `${item.guess.points > 0 ? '+' : ''}${item.guess.points}`;
+  return `${guess.points > 0 ? '+' : ''}${guess.points}`;
 };
+
+const getPointsLabel = (item: GameWithGuess) =>
+  hasEstimatedPoints(item) ? t('v1.estimated.points') : t('v1.points');
 
 const getOutcomeClass = (outcome?: GuessOutcome | null) => ({
   'overview-recent-matches__points--success':
@@ -95,8 +109,16 @@ const getOutcomeClass = (outcome?: GuessOutcome | null) => ({
           @click="emit('selectMatch', item)"
         >
           <div class="overview-recent-matches__header">
-            <FText as="span" color="--p-text-muted-color" variant="body-3">
-              {{ item.game.date }} · {{ item.game.time }}
+            <FText
+              as="span"
+              class="overview-recent-matches__time"
+              color="--p-text-muted-color"
+              variant="body-3"
+            >
+              <span>{{ item.game.date }} · {{ item.game.time }}</span>
+              <span v-if="getMatchTime(item.game)" class="f-live-score">
+                {{ getMatchTime(item.game) }}
+              </span>
             </FText>
             <Tag
               :severity="getStateSeverity(item.game.state)"
@@ -108,7 +130,13 @@ const getOutcomeClass = (outcome?: GuessOutcome | null) => ({
             <FText as="span" variant="body-2-bold">
               {{ getMatchTitle(item) }}
             </FText>
-            <FText as="span" variant="heading-3">
+            <FText
+              as="span"
+              :class="{
+                'f-live-score': hasLiveResult(item.game),
+              }"
+              variant="heading-3"
+            >
               {{ getMatchScore(item) }}
             </FText>
           </div>
@@ -118,13 +146,19 @@ const getOutcomeClass = (outcome?: GuessOutcome | null) => ({
               {{ t('v1.guess') }}:
               <strong>{{ getGuessLabel(item) }}</strong>
             </FText>
-            <Tag
+            <div
               v-if="getGuessPoints(item)"
               class="overview-recent-matches__points"
-              :class="getOutcomeClass(item.guess?.outcome)"
-              severity="secondary"
-              :value="getGuessPoints(item)"
-            />
+            >
+              <FText as="span" color="--p-text-muted-color" variant="body-3">
+                {{ getPointsLabel(item) }}
+              </FText>
+              <Tag
+                :class="getOutcomeClass(getVisiblePointsGuess(item)?.outcome)"
+                severity="secondary"
+                :value="getGuessPoints(item)"
+              />
+            </div>
           </div>
         </button>
       </div>
@@ -184,9 +218,21 @@ const getOutcomeClass = (outcome?: GuessOutcome | null) => ({
   align-items: flex-start;
 }
 
+.overview-recent-matches__time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .overview-recent-matches__footer {
   padding-top: 8px;
   border-top: 1px solid color-mix(in srgb, var(--p-text-color) 10%, transparent);
+}
+
+.overview-recent-matches__points {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .overview-recent-matches__points--success {
@@ -235,6 +281,10 @@ const getOutcomeClass = (outcome?: GuessOutcome | null) => ({
     gap: 8px;
     grid-template-columns: minmax(0, 1fr) auto;
     padding-top: 6px;
+  }
+
+  .overview-recent-matches__points {
+    justify-self: end;
   }
 
   .overview-recent-matches__footer :deep(.p-tag) {

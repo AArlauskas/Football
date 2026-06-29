@@ -7,33 +7,66 @@ import { useRoute, useRouter } from 'vue-router';
 import FEmptyMessage from '@/components/FEmptyMessage.vue';
 import FPageFeedback from '@/components/FPageFeedback.vue';
 import FText from '@/components/FText.vue';
+import { useOngoingMatches } from '@/composables/useOngoingMatches';
+import { useOngoingMatchesPolling } from '@/composables/useOngoingMatchesPolling';
 import { usePageTitle } from '@/composables/usePageTitle';
 import { useTranslations } from '@/composables/useTranslations';
 import { RouteName } from '@/enums';
 import { translateTeamName } from '@/lib/teamName';
-import type { GameResult, GuessOutcome, GuessWithUser } from '@/models';
+import type { GuessOutcome, GuessWithUser } from '@/models';
 import { GuessOutcome as GuessOutcomeValue } from '@/models/game';
 import { useAuthStore } from '@/stores/authStore';
 import { useMatchStore } from '@/stores/matchStore';
+import { useOngoingMatchesStore } from '@/stores/ongoingMatchesStore';
 
 const authStore = useAuthStore();
 const matchStore = useMatchStore();
+const ongoingMatchesStore = useOngoingMatchesStore();
 const route = useRoute();
 const router = useRouter();
 const { t } = useTranslations();
-const { game, guesses, isLoading, requestError } = storeToRefs(matchStore);
+const {
+  game,
+  guesses,
+  isLoading: isMatchLoading,
+  requestError,
+} = storeToRefs(matchStore);
+const { isLoading: isOngoingMatchesLoading } = storeToRefs(ongoingMatchesStore);
+const {
+  formatResult,
+  getMatchTime,
+  getVisibleGuesses,
+  getVisibleResult,
+  hasEstimatedGuesses,
+  hasLiveResult,
+} = useOngoingMatches();
 
 const gameId = computed(() => Number(route.params.gameId));
+const isLoading = computed(
+  () => isMatchLoading.value || isOngoingMatchesLoading.value,
+);
 const pageTitle = computed(() =>
   game.value
     ? `${translateTeamName(game.value.t1, t)} - ${translateTeamName(game.value.t2, t)}`
     : t('v1.match'),
 );
 
-const formatScore = (result?: GameResult | null) =>
-  result ? `${result.goals1} : ${result.goals2}` : '-';
-
-const formatGuess = (item: GuessWithUser) => formatScore(item.guess?.result);
+const formatGuess = (item: GuessWithUser) => formatResult(item.guess?.result);
+const visibleResult = computed(() =>
+  game.value ? getVisibleResult(game.value) : null,
+);
+const isShowingLiveResult = computed(() =>
+  game.value ? hasLiveResult(game.value) : false,
+);
+const hasLiveEstimates = computed(() =>
+  game.value ? hasEstimatedGuesses(game.value.id) : false,
+);
+const displayedGuesses = computed(() =>
+  game.value ? getVisibleGuesses(game.value.id, guesses.value) : guesses.value,
+);
+const pointsHeader = computed(() =>
+  hasLiveEstimates.value ? t('v1.estimated.points') : t('v1.points'),
+);
 
 const getFullName = (item: GuessWithUser) =>
   `${item.user.firstName} ${item.user.lastName}`;
@@ -109,6 +142,7 @@ watch(
 );
 
 usePageTitle(pageTitle);
+useOngoingMatchesPolling();
 </script>
 
 <template>
@@ -134,6 +168,12 @@ usePageTitle(pageTitle);
             <div class="match-page__meta">
               <Tag :value="game.date" />
               <Tag severity="secondary" :value="game.time" />
+              <Tag
+                v-if="getMatchTime(game)"
+                class="match-page__live-time"
+                severity="success"
+                :value="getMatchTime(game)"
+              />
             </div>
 
             <div class="match-page__scoreboard">
@@ -151,8 +191,13 @@ usePageTitle(pageTitle);
                   {{ translateTeamName(game.t1, t) }}
                 </FText>
               </Button>
-              <FText as="span" class="match-page__score" variant="heading-2">
-                {{ formatScore(game.result) }}
+              <FText
+                as="span"
+                class="match-page__score"
+                :class="{ 'f-live-score': isShowingLiveResult }"
+                variant="heading-2"
+              >
+                {{ formatResult(visibleResult) }}
               </FText>
               <Button
                 class="match-page__team-button match-page__team-button--away"
@@ -175,7 +220,10 @@ usePageTitle(pageTitle);
 
       <Card>
         <template #content>
-          <FEmptyMessage v-if="!guesses.length" message="v1.match.no.guesses" />
+          <FEmptyMessage
+            v-if="!displayedGuesses.length"
+            message="v1.match.no.guesses"
+          />
 
           <template v-else>
             <DataTable
@@ -183,7 +231,7 @@ usePageTitle(pageTitle);
               data-key="user.id"
               :row-class="getRowClass"
               row-hover
-              :value="guesses"
+              :value="displayedGuesses"
             >
               <Column :header="t('v1.full.name')">
                 <template #body="{ data }">
@@ -211,7 +259,7 @@ usePageTitle(pageTitle);
 
               <Column
                 field="guess.points"
-                :header="t('v1.points')"
+                :header="pointsHeader"
                 body-class="match-page__table-center"
                 header-class="match-page__table-center"
                 sortable
@@ -228,7 +276,7 @@ usePageTitle(pageTitle);
 
             <ol class="match-page__list" :aria-label="t('v1.guesses')">
               <li
-                v-for="item in guesses"
+                v-for="item in displayedGuesses"
                 :key="item.user.id"
                 class="match-page__list-item"
               >
@@ -273,7 +321,7 @@ usePageTitle(pageTitle);
                             color="--p-text-muted-color"
                             variant="body-3"
                           >
-                            {{ t('v1.points') }}
+                            {{ pointsHeader }}
                           </FText>
                         </dt>
                         <dd>

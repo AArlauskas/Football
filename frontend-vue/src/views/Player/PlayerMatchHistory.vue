@@ -4,22 +4,26 @@ import { useRouter } from 'vue-router';
 
 import FEmptyMessage from '@/components/FEmptyMessage.vue';
 import FText from '@/components/FText.vue';
+import { useOngoingMatches } from '@/composables/useOngoingMatches';
 import { useTranslations } from '@/composables/useTranslations';
 import { RouteName } from '@/enums';
 import { translateTeamName } from '@/lib/teamName';
-import type { GameWithGuess, GuessOutcome } from '@/models';
+import type { GameWithGuess, Guess, GuessOutcome } from '@/models';
 import { GameState, GuessOutcome as GuessOutcomeValue } from '@/models/game';
 
-defineProps<{
+const props = defineProps<{
   groups: Array<{
     date: string;
     items: GameWithGuess[];
   }>;
   hideTitle?: boolean;
+  playerId?: number;
 }>();
 
 const router = useRouter();
 const { t } = useTranslations();
+const { getEstimatedGuess, getMatchTime, getVisibleResult, hasLiveResult } =
+  useOngoingMatches();
 
 const getOutcomeSeverity = (outcome?: GuessOutcome | null) => {
   if (
@@ -54,6 +58,23 @@ const formatGuess = (item: GameWithGuess) => {
 
   return `${item.guess.result.goals1} : ${item.guess.result.goals2}`;
 };
+
+const getVisibleScore = (item: GameWithGuess, side: 'goals1' | 'goals2') =>
+  getVisibleResult(item.game)?.[side] ?? '-';
+
+const getEstimatedPointsGuess = (item: GameWithGuess) =>
+  getEstimatedGuess(item.game.id, props.playerId);
+
+const getVisiblePointsGuess = (item: GameWithGuess): Guess | null =>
+  getEstimatedPointsGuess(item) ?? item.guess ?? null;
+
+const shouldShowPoints = (item: GameWithGuess) =>
+  getVisiblePointsGuess(item)?.points !== null &&
+  getVisiblePointsGuess(item)?.points !== undefined &&
+  item.game.state !== GameState.OPEN;
+
+const getPointsLabel = (item: GameWithGuess) =>
+  getEstimatedPointsGuess(item) ? t('v1.estimated.points') : t('v1.points');
 
 const isMatchVisitable = (item: GameWithGuess) =>
   item.game.state !== GameState.OPEN;
@@ -106,7 +127,10 @@ const goToTeam = async (teamId: string) => {
                   class="player-match-history__match-time"
                   variant="body-2-bold"
                 >
-                  {{ item.game.time }}
+                  <span>{{ item.game.time }}</span>
+                  <span v-if="getMatchTime(item.game)" class="f-live-score">
+                    {{ getMatchTime(item.game) }}
+                  </span>
                 </FText>
 
                 <div class="player-match-history__match-main">
@@ -122,9 +146,10 @@ const goToTeam = async (teamId: string) => {
                   <FText
                     as="span"
                     class="player-match-history__score player-match-history__score--home"
+                    :class="{ 'f-live-score': hasLiveResult(item.game) }"
                     variant="heading-3"
                   >
-                    {{ item.game.result?.goals1 ?? '-' }}
+                    {{ getVisibleScore(item, 'goals1') }}
                   </FText>
                   <FText
                     as="span"
@@ -137,9 +162,10 @@ const goToTeam = async (teamId: string) => {
                   <FText
                     as="span"
                     class="player-match-history__score player-match-history__score--away"
+                    :class="{ 'f-live-score': hasLiveResult(item.game) }"
                     variant="heading-3"
                   >
-                    {{ item.game.result?.goals2 ?? '-' }}
+                    {{ getVisibleScore(item, 'goals2') }}
                   </FText>
                   <Button
                     class="player-match-history__team-button player-match-history__team-button--away"
@@ -166,16 +192,18 @@ const goToTeam = async (teamId: string) => {
                 </div>
 
                 <div
-                  v-if="item.guess && item.game.state === GameState.FINISHED"
+                  v-if="shouldShowPoints(item)"
                   class="player-match-history__points-row"
-                  :class="getOutcomeClass(item.guess.outcome)"
+                  :class="getOutcomeClass(getVisiblePointsGuess(item)?.outcome)"
                 >
                   <FText as="span" variant="body-2">
-                    {{ t('v1.points') }}
+                    {{ getPointsLabel(item) }}
                   </FText>
                   <Tag
-                    :severity="getOutcomeSeverity(item.guess.outcome)"
-                    :value="String(item.guess.points ?? '-')"
+                    :severity="
+                      getOutcomeSeverity(getVisiblePointsGuess(item)?.outcome)
+                    "
+                    :value="String(getVisiblePointsGuess(item)?.points ?? '-')"
                   />
                 </div>
               </article>
@@ -237,7 +265,11 @@ const goToTeam = async (teamId: string) => {
 }
 
 .player-match-history__match-time {
+  display: inline-flex;
   width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   padding: 10px 12px;
   border: 0;
   border-bottom: var(--f-match-time-border);

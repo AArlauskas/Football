@@ -26,6 +26,7 @@ public class GamesRest {
     private final TeamRepository teamRepository;
     private final GuessRepository guessRepository;
     private final GamesService gamesService;
+    private final OngoingGamesService ongoingGamesService;
 
     @PreAuthorize("hasAuthority('admin')")
     @GetMapping
@@ -51,6 +52,11 @@ public class GamesRest {
                     }
                 })
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/ongoing")
+    public List<OngoingGame> ongoingGames() {
+        return ongoingGamesService.ongoingGames();
     }
 
     @GetMapping("/results")
