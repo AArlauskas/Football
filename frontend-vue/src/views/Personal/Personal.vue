@@ -11,7 +11,6 @@ import { useToast } from '@/composables/useToast';
 import { useTranslations } from '@/composables/useTranslations';
 import type { GameResult } from '@/models';
 import { useAuthStore } from '@/stores/authStore';
-import { useOngoingMatchesStore } from '@/stores/ongoingMatchesStore';
 import { usePersonalStore } from '@/stores/personalStore';
 import PersonalOpenMatches from '@/views/Personal/PersonalOpenMatches.vue';
 import PlayerLoadingState from '@/views/Player/PlayerLoadingState.vue';
@@ -26,12 +25,11 @@ const PersonalTab = {
 type PersonalTabValue = (typeof PersonalTab)[keyof typeof PersonalTab];
 
 const authStore = useAuthStore();
-const ongoingMatchesStore = useOngoingMatchesStore();
 const personalStore = usePersonalStore();
 const toast = useToast();
 const { t } = useTranslations();
 const {
-  isLoading: isPersonalLoading,
+  isLoading,
   isSavingGuess,
   openGroups,
   player,
@@ -39,13 +37,10 @@ const {
   requestError,
   successMessageKey,
 } = storeToRefs(personalStore);
-const { isLoading: isOngoingMatchesLoading } = storeToRefs(ongoingMatchesStore);
 
 const activeTab = ref<PersonalTabValue>(PersonalTab.Open);
 const pageTitle = computed(() => t('v1.personal'));
-const isLoading = computed(
-  () => isPersonalLoading.value || isOngoingMatchesLoading.value,
-);
+
 const tabOptions = computed(() => [
   {
     label: t('v1.upcoming.games'),

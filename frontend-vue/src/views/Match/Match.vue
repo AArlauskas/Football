@@ -17,21 +17,13 @@ import type { GuessOutcome, GuessWithUser } from '@/models';
 import { GuessOutcome as GuessOutcomeValue } from '@/models/game';
 import { useAuthStore } from '@/stores/authStore';
 import { useMatchStore } from '@/stores/matchStore';
-import { useOngoingMatchesStore } from '@/stores/ongoingMatchesStore';
 
 const authStore = useAuthStore();
 const matchStore = useMatchStore();
-const ongoingMatchesStore = useOngoingMatchesStore();
 const route = useRoute();
 const router = useRouter();
 const { t } = useTranslations();
-const {
-  game,
-  guesses,
-  isLoading: isMatchLoading,
-  requestError,
-} = storeToRefs(matchStore);
-const { isLoading: isOngoingMatchesLoading } = storeToRefs(ongoingMatchesStore);
+const { game, guesses, isLoading, requestError } = storeToRefs(matchStore);
 const {
   formatResult,
   getMatchTime,
@@ -42,9 +34,7 @@ const {
 } = useOngoingMatches();
 
 const gameId = computed(() => Number(route.params.gameId));
-const isLoading = computed(
-  () => isMatchLoading.value || isOngoingMatchesLoading.value,
-);
+
 const pageTitle = computed(() =>
   game.value
     ? `${translateTeamName(game.value.t1, t)} - ${translateTeamName(game.value.t2, t)}`

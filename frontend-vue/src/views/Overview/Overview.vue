@@ -13,7 +13,6 @@ import { Experiment, RouteName } from '@/enums';
 import type { TranslationKey } from '@/i18n';
 import type { GameWithGuess, UserDetails } from '@/models';
 import { useAuthStore } from '@/stores/authStore';
-import { useOngoingMatchesStore } from '@/stores/ongoingMatchesStore';
 import { useOverviewStore } from '@/stores/overviewStore';
 import OverviewHero from '@/views/Overview/OverviewHero.vue';
 import OverviewNearbyLeaderboard from '@/views/Overview/OverviewNearbyLeaderboard.vue';
@@ -23,24 +22,13 @@ const LEADERBOARD_WINDOW_SIZE = 5;
 
 const authStore = useAuthStore();
 const overviewStore = useOverviewStore();
-const ongoingMatchesStore = useOngoingMatchesStore();
 const route = useRoute();
 const router = useRouter();
 const { setActive: setOverviewExperimentActive } = useExperiment(
   Experiment.Overview,
 );
 const { t } = useTranslations();
-const {
-  games,
-  isLoading: isOverviewLoading,
-  requestError,
-  results,
-} = storeToRefs(overviewStore);
-const { isLoading: isOngoingMatchesLoading } = storeToRefs(ongoingMatchesStore);
-
-const isLoading = computed(
-  () => isOverviewLoading.value || isOngoingMatchesLoading.value,
-);
+const { games, isLoading, requestError, results } = storeToRefs(overviewStore);
 
 const pageTitle = computed(() => t('v1.overview'));
 const currentUser = computed(() => authStore.user);
