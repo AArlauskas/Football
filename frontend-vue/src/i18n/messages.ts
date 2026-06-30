@@ -89,6 +89,7 @@ export const messages = {
     'v1.register.placeholder.last.name': 'Enter your surname',
     'v1.register.placeholder.password': 'Create a password',
     'v1.register.subtitle': 'Enter your details and you are ready to play.',
+    'v1.search': 'Search',
     'v1.register.terms':
       'I agree to keep predictions fair and submit before kick-off.',
     'v1.register.terms.required': 'Please accept the fair play agreement',
@@ -273,6 +274,8 @@ export const messages = {
     'v1.team.no.matches': 'No matches to show',
     'v1.team.stats': 'Team stats',
     'v1.teams.statistics': 'Teams statistics',
+    'v1.teams.statistics.no.results': 'No teams found',
+    'v1.teams.statistics.search.placeholder': 'Search by Team',
     'v1.team.ties': 'Ties',
     'v1.team.victories': 'Victories',
     'v1.team.wins': 'Wins',
@@ -370,6 +373,7 @@ export const messages = {
     'v1.register.placeholder.password': 'Sukurkite slaptažodį',
     'v1.register.subtitle':
       'Įveskite savo duomenis ir būsite pasiruošę žaisti.',
+    'v1.search': 'Paieška',
     'v1.register.terms':
       'Sutinku spėjimus pateikti sąžiningai ir iki rungtynių pradžios.',
     'v1.register.terms.required':
@@ -555,6 +559,8 @@ export const messages = {
     'v1.team.no.matches': 'Nėra rodomų varžybų',
     'v1.team.stats': 'Komandos statistika',
     'v1.teams.statistics': 'Komandų statistika',
+    'v1.teams.statistics.no.results': 'Komandų nerasta',
+    'v1.teams.statistics.search.placeholder': 'Ieškoti komandos',
     'v1.team.ties': 'Lygiosios',
     'v1.team.victories': 'Pergalės',
     'v1.team.wins': 'Pergalės',
@@ -650,6 +656,7 @@ export const messages = {
     'v1.register.placeholder.last.name': 'Внеси го своето презиме',
     'v1.register.placeholder.password': 'Креирај лозинка',
     'v1.register.subtitle': 'Внеси ги своите податоци и си подготвен да играш.',
+    'v1.search': 'Пребарај',
     'v1.register.terms':
       'Се согласувам да предвидувам фер и да поднесувам пред почетокот на натпреварот.',
     'v1.register.terms.required': 'Прифатете го договорот за фер игра',
@@ -836,6 +843,8 @@ export const messages = {
     'v1.team.no.matches': 'Нема натпревари за приказ',
     'v1.team.stats': 'Статистика на тимот',
     'v1.teams.statistics': 'Статистика на тимовите',
+    'v1.teams.statistics.no.results': 'Не се пронајдени тимови',
+    'v1.teams.statistics.search.placeholder': 'Пребарај тим',
     'v1.team.ties': 'Нерешени',
     'v1.team.victories': 'Победи',
     'v1.team.wins': 'Победи',

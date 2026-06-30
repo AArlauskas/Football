@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { Button, Card, Column, DataTable, Skeleton, Tag } from 'primevue';
-import { computed, onMounted } from 'vue';
+import {
+  Button,
+  Card,
+  Column,
+  DataTable,
+  InputText,
+  Skeleton,
+  Tag,
+} from 'primevue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+import FEmptyMessage from '@/components/FEmptyMessage.vue';
 import FPageFeedback from '@/components/FPageFeedback.vue';
 import FText from '@/components/FText.vue';
 import { usePageTitle } from '@/composables/usePageTitle';
@@ -19,8 +28,29 @@ const { t } = useTranslations();
 const teamsStatisticsStore = useTeamsStatisticsStore();
 const { isLoading, requestError, sortedStatistics } =
   storeToRefs(teamsStatisticsStore);
+const search = ref('');
 
 const pageTitle = computed(() => t('v1.teams.statistics'));
+
+const normalizedSearch = computed(() =>
+  search.value.trim().toLocaleLowerCase(),
+);
+
+const filteredStatistics = computed(() => {
+  if (!normalizedSearch.value) {
+    return sortedStatistics.value;
+  }
+
+  return sortedStatistics.value.filter((item) => {
+    const teamName = getTeamName(item).toLocaleLowerCase();
+    const teamCode = item.team.code.toLocaleLowerCase();
+
+    return (
+      teamName.includes(normalizedSearch.value) ||
+      teamCode.includes(normalizedSearch.value)
+    );
+  });
+});
 
 const getGamesPlayed = (item: TeamsStatistics) =>
   item.won + item.lost + item.ties;
@@ -42,18 +72,33 @@ usePageTitle(pageTitle);
   <main class="teams-statistics-page">
     <FPageFeedback :error="requestError" />
 
-    <Card>
+    <Card class="teams-statistics-page__content-card">
       <template #content>
         <div v-if="isLoading" class="teams-statistics-page__skeleton">
           <Skeleton v-for="item in 8" :key="item" height="40px" />
         </div>
 
+        <div v-if="!isLoading" class="teams-statistics-page__search">
+          <label for="teams-statistics-search">
+            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
+              {{ t('v1.search') }}
+            </FText>
+          </label>
+          <InputText
+            id="teams-statistics-search"
+            v-model="search"
+            fluid
+            type="search"
+            :placeholder="t('v1.teams.statistics.search.placeholder')"
+          />
+        </div>
+
         <DataTable
-          v-else
+          v-if="!isLoading"
           class="teams-statistics-page__table"
           data-key="team.code"
           row-hover
-          :value="sortedStatistics"
+          :value="filteredStatistics"
         >
           <Column :header="t('v1.team')">
             <template #body="{ data }">
@@ -115,12 +160,12 @@ usePageTitle(pageTitle);
         </DataTable>
 
         <ol
-          v-if="!isLoading"
+          v-if="!isLoading && filteredStatistics.length"
           class="teams-statistics-page__list"
           :aria-label="t('v1.teams.statistics')"
         >
           <li
-            v-for="(item, index) in sortedStatistics"
+            v-for="(item, index) in filteredStatistics"
             :key="item.team.code"
             class="teams-statistics-page__list-item"
           >
@@ -227,6 +272,11 @@ usePageTitle(pageTitle);
             </Card>
           </li>
         </ol>
+
+        <FEmptyMessage
+          v-if="!isLoading && filteredStatistics.length === 0"
+          message="v1.teams.statistics.no.results"
+        />
       </template>
     </Card>
   </main>
@@ -245,6 +295,19 @@ usePageTitle(pageTitle);
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.teams-statistics-page__content-card :deep(.p-card-content) {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.teams-statistics-page__search {
+  display: flex;
+  max-width: 360px;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .teams-statistics-page__table {
@@ -297,6 +360,10 @@ usePageTitle(pageTitle);
 }
 
 @media (width <= 760px) {
+  .teams-statistics-page__search {
+    max-width: none;
+  }
+
   .teams-statistics-page__table {
     display: none;
   }
