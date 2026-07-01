@@ -7,6 +7,8 @@ import lt.kietekai.backendspring.storage.FullUserDetails;
 import lt.kietekai.backendspring.storage.models.Game;
 import lt.kietekai.backendspring.storage.repositories.GameRepository;
 import lt.kietekai.backendspring.storage.repositories.GuessRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/guesses")
 @RequiredArgsConstructor
 public class GuessesRest {
+    private static final Logger log = LogManager.getLogger();
+
     private final GameRepository gameRepository;
     private final GuessRepository guessRepository;
 
@@ -31,6 +35,9 @@ public class GuessesRest {
 
         storedGuess.setResult1(guess.result().goals1());
         storedGuess.setResult2(guess.result().goals2());
-        return Converters.guess(guessRepository.save(storedGuess));
+        lt.kietekai.backendspring.storage.models.Guess savedGuess = guessRepository.save(storedGuess);
+        log.info("Saved guess {} for user {} and game {} with result {}-{}",
+                savedGuess.getId(), userDetails.getUser().getId(), game.getId(), savedGuess.getResult1(), savedGuess.getResult2());
+        return Converters.guess(savedGuess);
     }
 }
