@@ -9,11 +9,16 @@ import { usePageTitle } from '@/composables/usePageTitle';
 import { useTranslations } from '@/composables/useTranslations';
 import type { TranslationKey } from '@/i18n';
 import type {
+  DrawAccuracyStat,
   FavoriteScoreStat,
   GameCounterStat,
   GamePointsStat,
+  GameSpreadStat,
+  PlayerAverageStat,
   PlayerCounterStat,
   PlayerPointsStat,
+  PlayerTeamStat,
+  TeamAverageStat,
   TeamCounterStat,
 } from '@/models';
 import { useStatisticsStore } from '@/stores/statisticsStore';
@@ -97,6 +102,62 @@ const favoriteScoreRows = (items: FavoriteScoreStat[]) =>
     },
   }));
 
+const playerAverageRows = (items: PlayerAverageStat[]): StatisticsRow[] =>
+  items.map((item) => ({
+    id: `player-average-${item.userId}`,
+    title: fullName(item),
+    values: {
+      averagePoints: item.averagePoints,
+      guesses: item.guesses,
+      total: item.total,
+    },
+  }));
+
+const gameSpreadRows = (items: GameSpreadStat[]): StatisticsRow[] =>
+  items.map((item, index) => ({
+    id: `game-spread-${index}`,
+    title: `${item.team1} - ${item.team2}`,
+    values: {
+      bestPoints: item.bestPoints,
+      result: item.result,
+      spread: item.spread,
+      worstPoints: item.worstPoints,
+    },
+  }));
+
+const teamAverageRows = (key: string, items: TeamAverageStat[]) =>
+  items.map((item) => ({
+    id: `${key}-${item.team}`,
+    title: item.team,
+    values: {
+      averagePoints: item.averagePoints,
+      games: item.games,
+    },
+  }));
+
+const playerTeamRows = (items: PlayerTeamStat[]) =>
+  items.map((item) => ({
+    id: `favorite-winner-${item.userId}`,
+    title: fullName(item),
+    values: {
+      count: item.count,
+      team: item.team,
+      total: item.total,
+    },
+  }));
+
+const drawAccuracyRows = (items: DrawAccuracyStat[]) =>
+  items.map((item) => ({
+    id: `draw-accuracy-${item.userId}`,
+    title: fullName(item),
+    values: {
+      accuracy: item.accuracy,
+      correctDraws: item.correctDraws,
+      drawPredictions: item.drawPredictions,
+      total: item.total,
+    },
+  }));
+
 const playerTotalColumns = [
   { field: 'total', label: 'v1.statistics.column.points' },
 ] satisfies StatisticsColumn[];
@@ -118,6 +179,19 @@ const statisticsSections = computed<StatisticsSectionConfig[]>(() => {
       description: 'v1.statistics.players.by.points.description',
       rows: playerPointsRows(statistics.value.playersByPoints),
       title: 'v1.statistics.players.by.points',
+    },
+    {
+      columns: [
+        {
+          field: 'averagePoints',
+          label: 'v1.statistics.column.average.points',
+        },
+        { field: 'guesses', label: 'v1.statistics.column.guesses' },
+        { field: 'total', label: 'v1.statistics.column.points' },
+      ],
+      description: 'v1.statistics.best.average.score.description',
+      rows: playerAverageRows(statistics.value.bestAverageScores),
+      title: 'v1.statistics.best.average.score',
     },
     {
       columns: playerCountColumns('v1.statistics.column.correct.alone'),
@@ -163,12 +237,53 @@ const statisticsSections = computed<StatisticsSectionConfig[]>(() => {
     },
     {
       columns: [
+        {
+          field: 'averagePoints',
+          label: 'v1.statistics.column.average.points',
+        },
+        { field: 'games', label: 'v1.statistics.column.games' },
+      ],
+      description: 'v1.statistics.most.predictable.teams.description',
+      rows: teamAverageRows(
+        'predictable-team',
+        statistics.value.mostPredictableTeams,
+      ),
+      title: 'v1.statistics.most.predictable.teams',
+    },
+    {
+      columns: [
+        {
+          field: 'averagePoints',
+          label: 'v1.statistics.column.average.points',
+        },
+        { field: 'games', label: 'v1.statistics.column.games' },
+      ],
+      description: 'v1.statistics.hardest.teams.description',
+      rows: teamAverageRows(
+        'hardest-team',
+        statistics.value.hardestTeamsToPredict,
+      ),
+      title: 'v1.statistics.hardest.teams',
+    },
+    {
+      columns: [
         { field: 'result', label: 'v1.statistics.column.result' },
         { field: 'totalPoints', label: 'v1.statistics.column.total.points' },
       ],
       description: 'v1.statistics.successful.games.description',
       rows: gamePointsRows(statistics.value.mostSuccessfulGuessingGames),
       title: 'v1.statistics.successful.games',
+    },
+    {
+      columns: [
+        { field: 'result', label: 'v1.statistics.column.result' },
+        { field: 'spread', label: 'v1.statistics.column.point.spread' },
+        { field: 'bestPoints', label: 'v1.statistics.column.best.points' },
+        { field: 'worstPoints', label: 'v1.statistics.column.worst.points' },
+      ],
+      description: 'v1.statistics.most.divisive.matches.description',
+      rows: gameSpreadRows(statistics.value.mostDivisiveMatches),
+      title: 'v1.statistics.most.divisive.matches',
     },
     {
       columns: playerCountColumns('v1.statistics.column.highest.points'),
@@ -204,6 +319,23 @@ const statisticsSections = computed<StatisticsSectionConfig[]>(() => {
       title: 'v1.statistics.draw.predictions',
     },
     {
+      columns: [
+        { field: 'accuracy', label: 'v1.statistics.column.draw.accuracy' },
+        {
+          field: 'correctDraws',
+          label: 'v1.statistics.column.correct.draws',
+        },
+        {
+          field: 'drawPredictions',
+          label: 'v1.statistics.column.draw.predictions',
+        },
+        { field: 'total', label: 'v1.statistics.column.points' },
+      ],
+      description: 'v1.statistics.draw.accuracy.description',
+      rows: drawAccuracyRows(statistics.value.drawAccuracyLeaders),
+      title: 'v1.statistics.draw.accuracy',
+    },
+    {
       columns: playerCountColumns('v1.statistics.column.predictions'),
       description: 'v1.statistics.two.one.predictions.description',
       rows: playerCounterRows(
@@ -219,6 +351,16 @@ const statisticsSections = computed<StatisticsSectionConfig[]>(() => {
       description: 'v1.statistics.team.believers.description',
       rows: teamCounterRows('team-believers', statistics.value.teamBelievers),
       title: 'v1.statistics.team.believers',
+    },
+    {
+      columns: [
+        { field: 'team', label: 'v1.statistics.column.team' },
+        { field: 'count', label: 'v1.statistics.column.predicted.wins' },
+        { field: 'total', label: 'v1.statistics.column.points' },
+      ],
+      description: 'v1.statistics.favorite.predicted.winners.description',
+      rows: playerTeamRows(statistics.value.favoritePredictedWinners),
+      title: 'v1.statistics.favorite.predicted.winners',
     },
     {
       columns: [

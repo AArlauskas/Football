@@ -18,7 +18,13 @@ public record ChampionshipStatistics(
         List<TeamCounterStat> teamBelievers,
         List<FavoriteScoreStat> personalSignatureScores,
         List<PlayerCounterStat> reminderLeaders,
-        List<PlayerCounterStat> reminderGuessLeaders
+        List<PlayerCounterStat> reminderGuessLeaders,
+        List<PlayerAverageStat> bestAverageScores,
+        List<GameSpreadStat> mostDivisiveMatches,
+        List<TeamAverageStat> mostPredictableTeams,
+        List<TeamAverageStat> hardestTeamsToPredict,
+        List<PlayerTeamStat> favoritePredictedWinners,
+        List<DrawAccuracyStat> drawAccuracyLeaders
 ) {
     public record PlayerPointsStat(long userId, String firstName, String lastName, int total) {
     }
@@ -36,5 +42,20 @@ public record ChampionshipStatistics(
     }
 
     public record FavoriteScoreStat(long userId, String firstName, String lastName, String score, int count) {
+    }
+
+    public record PlayerAverageStat(long userId, String firstName, String lastName, int total, double averagePoints, int guesses) {
+    }
+
+    public record GameSpreadStat(String team1, String team2, String result, int bestPoints, int worstPoints, int spread) {
+    }
+
+    public record TeamAverageStat(String team, double averagePoints, int games) {
+    }
+
+    public record PlayerTeamStat(long userId, String firstName, String lastName, int total, String team, int count) {
+    }
+
+    public record DrawAccuracyStat(long userId, String firstName, String lastName, int total, int correctDraws, int drawPredictions, double accuracy) {
     }
 }

@@ -60,6 +60,54 @@ public class StatisticsService {
                     rs.getInt("count")
             );
 
+    private static final RowMapper<ChampionshipStatistics.PlayerAverageStat> PLAYER_AVERAGE_MAPPER = (rs, rowNum) ->
+            new ChampionshipStatistics.PlayerAverageStat(
+                    rs.getLong("user_id"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getInt("total"),
+                    rs.getDouble("average_points"),
+                    rs.getInt("guesses")
+            );
+
+    private static final RowMapper<ChampionshipStatistics.GameSpreadStat> GAME_SPREAD_MAPPER = (rs, rowNum) ->
+            new ChampionshipStatistics.GameSpreadStat(
+                    rs.getString("team1"),
+                    rs.getString("team2"),
+                    rs.getString("result"),
+                    rs.getInt("best_points"),
+                    rs.getInt("worst_points"),
+                    rs.getInt("spread")
+            );
+
+    private static final RowMapper<ChampionshipStatistics.TeamAverageStat> TEAM_AVERAGE_MAPPER = (rs, rowNum) ->
+            new ChampionshipStatistics.TeamAverageStat(
+                    rs.getString("team"),
+                    rs.getDouble("average_points"),
+                    rs.getInt("games")
+            );
+
+    private static final RowMapper<ChampionshipStatistics.PlayerTeamStat> PLAYER_TEAM_MAPPER = (rs, rowNum) ->
+            new ChampionshipStatistics.PlayerTeamStat(
+                    rs.getLong("user_id"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getInt("total"),
+                    rs.getString("team"),
+                    rs.getInt("count")
+            );
+
+    private static final RowMapper<ChampionshipStatistics.DrawAccuracyStat> DRAW_ACCURACY_MAPPER = (rs, rowNum) ->
+            new ChampionshipStatistics.DrawAccuracyStat(
+                    rs.getLong("user_id"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getInt("total"),
+                    rs.getInt("correct_draws"),
+                    rs.getInt("draw_predictions"),
+                    rs.getDouble("accuracy")
+            );
+
     public ChampionshipStatistics getStatistics() {
         return new ChampionshipStatistics(
                 playersByPoints(),
@@ -77,7 +125,13 @@ public class StatisticsService {
                 teamBelievers(),
                 personalSignatureScores(),
                 reminderLeaders(),
-                reminderGuessLeaders()
+                reminderGuessLeaders(),
+                bestAverageScores(),
+                mostDivisiveMatches(),
+                mostPredictableTeams(),
+                hardestTeamsToPredict(),
+                favoritePredictedWinners(),
+                drawAccuracyLeaders()
         );
     }
 
@@ -294,5 +348,117 @@ public class StatisticsService {
                 group by u.id, p.total
                 order by count desc, p.total
                 """, PLAYER_COUNTER_MAPPER);
+    }
+
+    private java.util.List<ChampionshipStatistics.PlayerAverageStat> bestAverageScores() {
+        return jdbcTemplate.query("""
+                select u.id user_id,
+                       u.first_name,
+                       u.last_name,
+                       p.total,
+                       round(avg(g.points)::numeric, 2) average_points,
+                       count(*) guesses
+                from guess g
+                left join auth_user u on u.id = g.user_id
+                left join points p on p.id = u.id
+                where g.points is not null
+                  and g.result1 is not null
+                  and g.result2 is not null
+                group by u.id, p.total
+                order by average_points, guesses desc, p.total
+                """, PLAYER_AVERAGE_MAPPER);
+    }
+
+    private java.util.List<ChampionshipStatistics.GameSpreadStat> mostDivisiveMatches() {
+        return jdbcTemplate.query("""
+                select t1.name team1,
+                       t2.name team2,
+                       gm.result1 || ':' || gm.result2 result,
+                       min(g.points) best_points,
+                       max(g.points) worst_points,
+                       max(g.points) - min(g.points) spread
+                from guess g
+                left join game gm on gm.id = g.game_id
+                left join team t1 on t1.id = gm.team1_id
+                left join team t2 on t2.id = gm.team2_id
+                where gm.finished is not null
+                  and g.points is not null
+                  and g.result1 is not null
+                  and g.result2 is not null
+                group by g.game_id, t1.name, t2.name, gm.result1, gm.result2
+                order by spread desc, worst_points desc
+                """, GAME_SPREAD_MAPPER);
+    }
+
+    private java.util.List<ChampionshipStatistics.TeamAverageStat> mostPredictableTeams() {
+        return teamsByAveragePredictionPoints("asc");
+    }
+
+    private java.util.List<ChampionshipStatistics.TeamAverageStat> hardestTeamsToPredict() {
+        return teamsByAveragePredictionPoints("desc");
+    }
+
+    private java.util.List<ChampionshipStatistics.TeamAverageStat> teamsByAveragePredictionPoints(String direction) {
+        return jdbcTemplate.query(String.format("""
+                select t.name team,
+                       round(avg(g.points)::numeric, 2) average_points,
+                       count(distinct gm.id) games
+                from team t
+                left join game gm on t.id in (gm.team1_id, gm.team2_id)
+                left join guess g on g.game_id = gm.id
+                where gm.finished is not null
+                  and g.points is not null
+                  and g.result1 is not null
+                  and g.result2 is not null
+                group by t.id, t.name
+                order by average_points %s, games desc
+                """, direction), TEAM_AVERAGE_MAPPER);
+    }
+
+    private java.util.List<ChampionshipStatistics.PlayerTeamStat> favoritePredictedWinners() {
+        return jdbcTemplate.query("""
+                select distinct on (u.id)
+                       u.id user_id,
+                       u.first_name,
+                       u.last_name,
+                       p.total,
+                       predicted_winner.name team,
+                       count(*) count
+                from guess g
+                left join auth_user u on u.id = g.user_id
+                left join points p on p.id = u.id
+                left join game gm on gm.id = g.game_id
+                left join team predicted_winner on predicted_winner.id = case
+                    when g.result1 > g.result2 then gm.team1_id
+                    when g.result2 > g.result1 then gm.team2_id
+                end
+                where g.result1 is not null
+                  and g.result2 is not null
+                  and g.result1 != g.result2
+                group by u.id, p.total, predicted_winner.id, predicted_winner.name
+                order by u.id, count(*) desc, predicted_winner.name
+                """, PLAYER_TEAM_MAPPER);
+    }
+
+    private java.util.List<ChampionshipStatistics.DrawAccuracyStat> drawAccuracyLeaders() {
+        return jdbcTemplate.query("""
+                select u.id user_id,
+                       u.first_name,
+                       u.last_name,
+                       p.total,
+                       count(*) filter (where gm.result1 = gm.result2) correct_draws,
+                       count(*) draw_predictions,
+                       round(100.0 * count(*) filter (where gm.result1 = gm.result2) / count(*), 2) accuracy
+                from guess g
+                left join auth_user u on u.id = g.user_id
+                left join points p on p.id = u.id
+                left join game gm on gm.id = g.game_id
+                where g.result1 = g.result2
+                  and gm.finished is not null
+                  and gm.result1 is not null
+                  and gm.result2 is not null
+                group by u.id, p.total
+                order by accuracy desc, correct_draws desc, p.total
+                """, DRAW_ACCURACY_MAPPER);
     }
 }

@@ -37,15 +37,52 @@ export interface FavoriteScoreStat {
   userId: number;
 }
 
+export interface PlayerAverageStat extends PlayerPointsStat {
+  averagePoints: number;
+  guesses: number;
+}
+
+export interface GameSpreadStat {
+  bestPoints: number;
+  result: string;
+  spread: number;
+  team1: string;
+  team2: string;
+  worstPoints: number;
+}
+
+export interface TeamAverageStat {
+  averagePoints: number;
+  games: number;
+  team: string;
+}
+
+export interface PlayerTeamStat extends PlayerPointsStat {
+  count: number;
+  team: string;
+}
+
+export interface DrawAccuracyStat extends PlayerPointsStat {
+  accuracy: number;
+  correctDraws: number;
+  drawPredictions: number;
+}
+
 export interface ChampionshipStatistics {
+  bestAverageScores: PlayerAverageStat[];
   correctAloneLeaders: PlayerCounterStat[];
   correctOutcomeLeaders: PlayerCounterStat[];
   drawPredictionLeaders: PlayerCounterStat[];
+  drawAccuracyLeaders: DrawAccuracyStat[];
+  favoritePredictedWinners: PlayerTeamStat[];
   gamesByGoals: GameCounterStat[];
+  hardestTeamsToPredict: TeamAverageStat[];
   highestSingleGameScores: PlayerCounterStat[];
   incorrectOutcomeLeaders: PlayerCounterStat[];
   missingGuessLeaders: PlayerCounterStat[];
+  mostDivisiveMatches: GameSpreadStat[];
   mostSuccessfulGuessingGames: GamePointsStat[];
+  mostPredictableTeams: TeamAverageStat[];
   personalSignatureScores: FavoriteScoreStat[];
   playersByGuessedGoals: PlayerCounterStat[];
   playersByPoints: PlayerPointsStat[];

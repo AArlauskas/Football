@@ -18,11 +18,16 @@ export type {
 export type { Points } from '@/models/points';
 export type {
   ChampionshipStatistics,
+  DrawAccuracyStat,
   FavoriteScoreStat,
   GameCounterStat,
   GamePointsStat,
+  GameSpreadStat,
+  PlayerAverageStat,
   PlayerCounterStat,
   PlayerPointsStat,
+  PlayerTeamStat,
+  TeamAverageStat,
   TeamCounterStat,
 } from '@/models/statistics';
 export type { UserDetails, UserSummary } from '@/models/user';
