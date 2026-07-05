@@ -467,15 +467,17 @@ public class StatisticsService {
 
     private java.util.List<ChampionshipStatistics.OutcomeStat> mostCommonGuessedOutcomes() {
         return jdbcTemplate.query("""
-                select case
-                           when g.result1 > g.result2 then 'team1Win'
-                           when g.result2 > g.result1 then 'team2Win'
-                           else 'draw'
-                       end outcome,
-                       count(*) count
-                from guess g
-                where g.result1 is not null
-                  and g.result2 is not null
+                select outcome, count(*) count
+                from (
+                    select case
+                               when g.result1 > g.result2 then 'team1Win'
+                               when g.result2 > g.result1 then 'team2Win'
+                               else 'draw'
+                           end outcome
+                    from guess g
+                    where g.result1 is not null
+                      and g.result2 is not null
+                ) guessed_outcomes
                 group by outcome
                 order by count desc, outcome
                 """, OUTCOME_MAPPER);
@@ -483,16 +485,18 @@ public class StatisticsService {
 
     private java.util.List<ChampionshipStatistics.OutcomeStat> mostCommonOutcomes() {
         return jdbcTemplate.query("""
-                select case
-                           when g.result1 > g.result2 then 'team1Win'
-                           when g.result2 > g.result1 then 'team2Win'
-                           else 'draw'
-                       end outcome,
-                       count(*) count
-                from game g
-                where g.finished is not null
-                  and g.result1 is not null
-                  and g.result2 is not null
+                select outcome, count(*) count
+                from (
+                    select case
+                               when g.result1 > g.result2 then 'team1Win'
+                               when g.result2 > g.result1 then 'team2Win'
+                               else 'draw'
+                           end outcome
+                    from game g
+                    where g.finished is not null
+                      and g.result1 is not null
+                      and g.result2 is not null
+                ) match_outcomes
                 group by outcome
                 order by count desc, outcome
                 """, OUTCOME_MAPPER);
