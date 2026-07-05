@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { useExperiment } from '@/composables/useExperiment';
 import { Experiment, RouteName, RoutePath } from '@/enums';
 import { isRegistrationOpen } from '@/lib/registration';
+import { isStatisticsAvailable } from '@/lib/statistics';
 import { useAuthStore } from '@/stores/authStore';
 
 const { isActive: isOverviewExperimentActive } = useExperiment(
@@ -73,7 +74,7 @@ export const router = createRouter({
     },
     {
       component: () => import('@/views/Statistics/Statistics.vue'),
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiresStatisticsAvailable: true },
       name: RouteName.Statistics,
       path: RoutePath.Statistics,
     },
@@ -126,5 +127,9 @@ router.beforeEach((to) => {
 
   if (to.meta.requiresRegistrationOpen && !isRegistrationOpen()) {
     return RoutePath.SignIn;
+  }
+
+  if (to.meta.requiresStatisticsAvailable && !isStatisticsAvailable()) {
+    return RoutePath.Root;
   }
 });
