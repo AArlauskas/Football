@@ -23,12 +23,12 @@ export type {
   GameCounterStat,
   GamePointsStat,
   GameSpreadStat,
-  OutcomeStat,
   PlayerAverageStat,
   PlayerCounterStat,
   PlayerPointsStat,
   PlayerTeamStat,
   ReminderStat,
+  ResultStat,
   TeamAverageStat,
   TeamCounterStat,
 } from '@/models/statistics';

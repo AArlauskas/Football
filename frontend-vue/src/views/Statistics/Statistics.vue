@@ -14,12 +14,12 @@ import type {
   GameCounterStat,
   GamePointsStat,
   GameSpreadStat,
-  OutcomeStat,
   PlayerAverageStat,
   PlayerCounterStat,
   PlayerPointsStat,
   PlayerTeamStat,
   ReminderStat,
+  ResultStat,
   TeamAverageStat,
   TeamCounterStat,
 } from '@/models';
@@ -171,10 +171,10 @@ const reminderRows = (items: ReminderStat[]) =>
     },
   }));
 
-const outcomeRows = (key: string, items: OutcomeStat[]): StatisticsRow[] =>
+const resultRows = (key: string, items: ResultStat[]): StatisticsRow[] =>
   items.map((item) => ({
-    id: `${key}-${item.outcome}`,
-    title: t(`v1.statistics.outcome.${item.outcome}` as TranslationKey),
+    id: `${key}-${item.result}`,
+    title: item.result,
     values: {
       count: item.count,
     },
@@ -253,18 +253,18 @@ const statisticsSections = computed<StatisticsSectionConfig[]>(() => {
     },
     {
       columns: [{ field: 'count', label: 'v1.statistics.column.predictions' }],
-      description: 'v1.statistics.common.guessed.outcome.description',
-      rows: outcomeRows(
-        'guessed-outcome',
-        statistics.value.mostCommonGuessedOutcomes,
+      description: 'v1.statistics.common.guessed.result.description',
+      rows: resultRows(
+        'guessed-result',
+        statistics.value.mostCommonGuessedResults,
       ),
-      title: 'v1.statistics.common.guessed.outcome',
+      title: 'v1.statistics.common.guessed.result',
     },
     {
       columns: [{ field: 'count', label: 'v1.statistics.column.games' }],
-      description: 'v1.statistics.common.outcome.description',
-      rows: outcomeRows('outcome', statistics.value.mostCommonOutcomes),
-      title: 'v1.statistics.common.outcome',
+      description: 'v1.statistics.common.result.description',
+      rows: resultRows('result', statistics.value.mostCommonResults),
+      title: 'v1.statistics.common.result',
     },
     {
       columns: [{ field: 'count', label: 'v1.statistics.column.goals' }],

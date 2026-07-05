@@ -118,9 +118,9 @@ public class StatisticsService {
                     rs.getInt("guesses_after_reminders")
             );
 
-    private static final RowMapper<ChampionshipStatistics.OutcomeStat> OUTCOME_MAPPER = (rs, rowNum) ->
-            new ChampionshipStatistics.OutcomeStat(
-                    rs.getString("outcome"),
+    private static final RowMapper<ChampionshipStatistics.ResultStat> RESULT_MAPPER = (rs, rowNum) ->
+            new ChampionshipStatistics.ResultStat(
+                    rs.getString("result"),
                     rs.getInt("count")
             );
 
@@ -146,8 +146,8 @@ public class StatisticsService {
                 hardestTeamsToPredict(),
                 favoritePredictedWinners(),
                 drawAccuracyLeaders(),
-                mostCommonGuessedOutcomes(),
-                mostCommonOutcomes()
+                mostCommonGuessedResults(),
+                mostCommonResults()
         );
     }
 
@@ -465,40 +465,32 @@ public class StatisticsService {
                 """, DRAW_ACCURACY_MAPPER);
     }
 
-    private java.util.List<ChampionshipStatistics.OutcomeStat> mostCommonGuessedOutcomes() {
+    private java.util.List<ChampionshipStatistics.ResultStat> mostCommonGuessedResults() {
         return jdbcTemplate.query("""
-                select outcome, count(*) count
+                select result, count(*) count
                 from (
-                    select case
-                               when g.result1 > g.result2 then 'team1Win'
-                               when g.result2 > g.result1 then 'team2Win'
-                               else 'draw'
-                           end outcome
+                    select greatest(g.result1, g.result2) || ':' || least(g.result1, g.result2) result
                     from guess g
                     where g.result1 is not null
                       and g.result2 is not null
-                ) guessed_outcomes
-                group by outcome
-                order by count desc, outcome
-                """, OUTCOME_MAPPER);
+                ) guessed_results
+                group by result
+                order by count desc, result
+                """, RESULT_MAPPER);
     }
 
-    private java.util.List<ChampionshipStatistics.OutcomeStat> mostCommonOutcomes() {
+    private java.util.List<ChampionshipStatistics.ResultStat> mostCommonResults() {
         return jdbcTemplate.query("""
-                select outcome, count(*) count
+                select result, count(*) count
                 from (
-                    select case
-                               when g.result1 > g.result2 then 'team1Win'
-                               when g.result2 > g.result1 then 'team2Win'
-                               else 'draw'
-                           end outcome
+                    select greatest(g.result1, g.result2) || ':' || least(g.result1, g.result2) result
                     from game g
                     where g.finished is not null
                       and g.result1 is not null
                       and g.result2 is not null
-                ) match_outcomes
-                group by outcome
-                order by count desc, outcome
-                """, OUTCOME_MAPPER);
+                ) match_results
+                group by result
+                order by count desc, result
+                """, RESULT_MAPPER);
     }
 }

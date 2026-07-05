@@ -23,8 +23,8 @@ public record ChampionshipStatistics(
         List<TeamAverageStat> hardestTeamsToPredict,
         List<PlayerTeamStat> favoritePredictedWinners,
         List<DrawAccuracyStat> drawAccuracyLeaders,
-        List<OutcomeStat> mostCommonGuessedOutcomes,
-        List<OutcomeStat> mostCommonOutcomes
+        List<ResultStat> mostCommonGuessedResults,
+        List<ResultStat> mostCommonResults
 ) {
     public record PlayerPointsStat(long userId, String firstName, String lastName, int total) {
     }
@@ -62,6 +62,6 @@ public record ChampionshipStatistics(
     public record ReminderStat(long userId, String firstName, String lastName, int total, int reminders, int guessesAfterReminders) {
     }
 
-    public record OutcomeStat(String outcome, int count) {
+    public record ResultStat(String result, int count) {
     }
 }

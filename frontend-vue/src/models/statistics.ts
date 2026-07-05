@@ -73,9 +73,9 @@ export interface ReminderStat extends PlayerPointsStat {
   reminders: number;
 }
 
-export interface OutcomeStat {
+export interface ResultStat {
   count: number;
-  outcome: string;
+  result: string;
 }
 
 export interface ChampionshipStatistics {
@@ -91,8 +91,8 @@ export interface ChampionshipStatistics {
   incorrectOutcomeLeaders: PlayerCounterStat[];
   missingGuessLeaders: PlayerCounterStat[];
   mostDivisiveMatches: GameSpreadStat[];
-  mostCommonGuessedOutcomes: OutcomeStat[];
-  mostCommonOutcomes: OutcomeStat[];
+  mostCommonGuessedResults: ResultStat[];
+  mostCommonResults: ResultStat[];
   mostSuccessfulGuessingGames: GamePointsStat[];
   personalSignatureScores: FavoriteScoreStat[];
   playersByGuessedGoals: PlayerCounterStat[];
