@@ -108,6 +108,22 @@ public class StatisticsService {
                     rs.getDouble("accuracy")
             );
 
+    private static final RowMapper<ChampionshipStatistics.ReminderStat> REMINDER_MAPPER = (rs, rowNum) ->
+            new ChampionshipStatistics.ReminderStat(
+                    rs.getLong("user_id"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getInt("total"),
+                    rs.getInt("reminders"),
+                    rs.getInt("guesses_after_reminders")
+            );
+
+    private static final RowMapper<ChampionshipStatistics.OutcomeStat> OUTCOME_MAPPER = (rs, rowNum) ->
+            new ChampionshipStatistics.OutcomeStat(
+                    rs.getString("outcome"),
+                    rs.getInt("count")
+            );
+
     public ChampionshipStatistics getStatistics() {
         return new ChampionshipStatistics(
                 playersByPoints(),
@@ -125,13 +141,13 @@ public class StatisticsService {
                 teamBelievers(),
                 personalSignatureScores(),
                 reminderLeaders(),
-                reminderGuessLeaders(),
                 bestAverageScores(),
                 mostDivisiveMatches(),
-                mostPredictableTeams(),
                 hardestTeamsToPredict(),
                 favoritePredictedWinners(),
-                drawAccuracyLeaders()
+                drawAccuracyLeaders(),
+                mostCommonGuessedOutcomes(),
+                mostCommonOutcomes()
         );
     }
 
@@ -325,29 +341,24 @@ public class StatisticsService {
                 """, FAVORITE_SCORE_MAPPER);
     }
 
-    private java.util.List<ChampionshipStatistics.PlayerCounterStat> reminderLeaders() {
+    private java.util.List<ChampionshipStatistics.ReminderStat> reminderLeaders() {
         return jdbcTemplate.query("""
-                select u.id user_id, u.first_name, u.last_name, p.total, count(*) count
-                from match_reminder mr
-                left join auth_user u on u.id = mr.user_id
-                left join points p on p.id = u.id
-                group by u.id, p.total
-                order by count desc, p.total
-                """, PLAYER_COUNTER_MAPPER);
-    }
-
-    private java.util.List<ChampionshipStatistics.PlayerCounterStat> reminderGuessLeaders() {
-        return jdbcTemplate.query("""
-                select u.id user_id, u.first_name, u.last_name, p.total, count(*) count
+                select u.id user_id,
+                       u.first_name,
+                       u.last_name,
+                       p.total,
+                       count(*) reminders,
+                       count(*) filter (
+                           where g.result1 is not null
+                             and g.result2 is not null
+                       ) guesses_after_reminders
                 from match_reminder mr
                 left join auth_user u on u.id = mr.user_id
                 left join points p on p.id = u.id
                 left join guess g on g.user_id = mr.user_id and g.game_id = mr.game_id
-                where g.result1 is not null
-                  and g.result2 is not null
                 group by u.id, p.total
-                order by count desc, p.total
-                """, PLAYER_COUNTER_MAPPER);
+                order by reminders desc, guesses_after_reminders desc, p.total
+                """, REMINDER_MAPPER);
     }
 
     private java.util.List<ChampionshipStatistics.PlayerAverageStat> bestAverageScores() {
@@ -390,16 +401,8 @@ public class StatisticsService {
                 """, GAME_SPREAD_MAPPER);
     }
 
-    private java.util.List<ChampionshipStatistics.TeamAverageStat> mostPredictableTeams() {
-        return teamsByAveragePredictionPoints("asc");
-    }
-
     private java.util.List<ChampionshipStatistics.TeamAverageStat> hardestTeamsToPredict() {
-        return teamsByAveragePredictionPoints("desc");
-    }
-
-    private java.util.List<ChampionshipStatistics.TeamAverageStat> teamsByAveragePredictionPoints(String direction) {
-        return jdbcTemplate.query(String.format("""
+        return jdbcTemplate.query("""
                 select t.name team,
                        round(avg(g.points)::numeric, 2) average_points,
                        count(distinct gm.id) games
@@ -411,8 +414,8 @@ public class StatisticsService {
                   and g.result1 is not null
                   and g.result2 is not null
                 group by t.id, t.name
-                order by average_points %s, games desc
-                """, direction), TEAM_AVERAGE_MAPPER);
+                order by average_points desc, games desc
+                """, TEAM_AVERAGE_MAPPER);
     }
 
     private java.util.List<ChampionshipStatistics.PlayerTeamStat> favoritePredictedWinners() {
@@ -460,5 +463,38 @@ public class StatisticsService {
                 group by u.id, p.total
                 order by accuracy desc, correct_draws desc, p.total
                 """, DRAW_ACCURACY_MAPPER);
+    }
+
+    private java.util.List<ChampionshipStatistics.OutcomeStat> mostCommonGuessedOutcomes() {
+        return jdbcTemplate.query("""
+                select case
+                           when g.result1 > g.result2 then 'team1Win'
+                           when g.result2 > g.result1 then 'team2Win'
+                           else 'draw'
+                       end outcome,
+                       count(*) count
+                from guess g
+                where g.result1 is not null
+                  and g.result2 is not null
+                group by outcome
+                order by count desc, outcome
+                """, OUTCOME_MAPPER);
+    }
+
+    private java.util.List<ChampionshipStatistics.OutcomeStat> mostCommonOutcomes() {
+        return jdbcTemplate.query("""
+                select case
+                           when g.result1 > g.result2 then 'team1Win'
+                           when g.result2 > g.result1 then 'team2Win'
+                           else 'draw'
+                       end outcome,
+                       count(*) count
+                from game g
+                where g.finished is not null
+                  and g.result1 is not null
+                  and g.result2 is not null
+                group by outcome
+                order by count desc, outcome
+                """, OUTCOME_MAPPER);
     }
 }

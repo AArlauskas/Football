@@ -164,6 +164,8 @@ export const messages = {
     'v1.statistics.column.goals': 'Goals',
     'v1.statistics.column.guessed.goals': 'Guessed goals',
     'v1.statistics.column.guesses': 'Guesses',
+    'v1.statistics.column.guesses.after.reminders':
+      'Predictions after reminders',
     'v1.statistics.column.highest.points': 'Highest match points',
     'v1.statistics.column.incorrect.outcomes': 'Incorrect outcomes',
     'v1.statistics.column.missing.guesses': 'Missed predictions',
@@ -178,6 +180,12 @@ export const messages = {
     'v1.statistics.column.team': 'Team',
     'v1.statistics.column.total.points': 'Total points',
     'v1.statistics.column.worst.points': 'Worst points',
+    'v1.statistics.common.guessed.outcome': 'Most commonly guessed outcome',
+    'v1.statistics.common.guessed.outcome.description':
+      'Match outcomes that players predicted most often.',
+    'v1.statistics.common.outcome': 'Most common outcome',
+    'v1.statistics.common.outcome.description':
+      'Finished match outcomes that happened most often.',
     'v1.statistics.correct.alone': 'Unique exact-score predictions',
     'v1.statistics.correct.alone.description':
       'Players with the most exact-score predictions that no one else matched.',
@@ -212,22 +220,19 @@ export const messages = {
     'v1.statistics.most.divisive.matches': 'Most divisive matches',
     'v1.statistics.most.divisive.matches.description':
       'Finished matches with the widest gap between the best and worst prediction scores.',
-    'v1.statistics.most.predictable.teams': 'Most predictable teams',
-    'v1.statistics.most.predictable.teams.description':
-      'Teams whose matches produced the lowest average prediction points.',
     'v1.statistics.no.data': 'No statistics to show yet.',
+    'v1.statistics.outcome.draw': 'Draw',
+    'v1.statistics.outcome.team1Win': 'Team 1 win',
+    'v1.statistics.outcome.team2Win': 'Team 2 win',
     'v1.statistics.players.by.guessed.goals': 'Most goals predicted',
     'v1.statistics.players.by.guessed.goals.description':
       'Players who predicted the highest total number of goals across all submitted predictions.',
     'v1.statistics.players.by.points': 'Overall standings',
     'v1.statistics.players.by.points.description':
       'Players ranked by total points. Lower points mean a better finish.',
-    'v1.statistics.reminder.guesses': 'Predictions after reminders',
-    'v1.statistics.reminder.guesses.description':
-      'Players with the most submitted predictions for matches where they received reminders.',
-    'v1.statistics.reminders': 'Most reminders received',
+    'v1.statistics.reminders': 'Reminder follow-ups',
     'v1.statistics.reminders.description':
-      'Players who received the most match reminder emails.',
+      'Players ranked by reminders received and predictions submitted for those reminded matches.',
     'v1.statistics.signature.scores': 'Most common scorelines',
     'v1.statistics.signature.scores.description':
       "Each player's most frequently predicted scoreline.",
@@ -477,6 +482,7 @@ export const messages = {
     'v1.statistics.column.goals': 'Įvarčiai',
     'v1.statistics.column.guessed.goals': 'Spėti įvarčiai',
     'v1.statistics.column.guesses': 'Spėjimai',
+    'v1.statistics.column.guesses.after.reminders': 'Spėjimai po priminimų',
     'v1.statistics.column.highest.points': 'Daugiausia taškų per varžybas',
     'v1.statistics.column.incorrect.outcomes': 'Neteisingos baigtys',
     'v1.statistics.column.missing.guesses': 'Nepateikti spėjimai',
@@ -491,6 +497,12 @@ export const messages = {
     'v1.statistics.column.team': 'Komanda',
     'v1.statistics.column.total.points': 'Iš viso taškų',
     'v1.statistics.column.worst.points': 'Blogiausi taškai',
+    'v1.statistics.common.guessed.outcome': 'Dažniausiai spėta varžybų baigtis',
+    'v1.statistics.common.guessed.outcome.description':
+      'Varžybų baigtys, kurias žaidėjai spėjo dažniausiai.',
+    'v1.statistics.common.outcome': 'Dažniausia varžybų baigtis',
+    'v1.statistics.common.outcome.description':
+      'Dažniausiai pasitaikiusios baigtų varžybų baigtys.',
     'v1.statistics.correct.alone': 'Unikalūs tikslaus rezultato spėjimai',
     'v1.statistics.correct.alone.description':
       'Žaidėjai, turintys daugiausia tikslaus rezultato spėjimų, kurių niekas kitas neatkartojo.',
@@ -525,22 +537,19 @@ export const messages = {
     'v1.statistics.most.divisive.matches': 'Labiausiai išskyrusios varžybos',
     'v1.statistics.most.divisive.matches.description':
       'Baigtos varžybos su didžiausiu skirtumu tarp geriausio ir blogiausio spėjimo taškų.',
-    'v1.statistics.most.predictable.teams': 'Lengviausiai nuspėjamos komandos',
-    'v1.statistics.most.predictable.teams.description':
-      'Komandos, kurių varžybose žaidėjų spėjimai vidutiniškai surinko mažiausiai taškų.',
     'v1.statistics.no.data': 'Statistikos kol kas nėra.',
+    'v1.statistics.outcome.draw': 'Lygiosios',
+    'v1.statistics.outcome.team1Win': 'Pirmos komandos pergalė',
+    'v1.statistics.outcome.team2Win': 'Antros komandos pergalė',
     'v1.statistics.players.by.guessed.goals': 'Daugiausia spėtų įvarčių',
     'v1.statistics.players.by.guessed.goals.description':
       'Žaidėjai, kurie visuose pateiktuose spėjimuose prognozavo daugiausia įvarčių.',
     'v1.statistics.players.by.points': 'Bendra lentelė',
     'v1.statistics.players.by.points.description':
       'Žaidėjai pagal bendrą taškų skaičių. Mažiau taškų reiškia aukštesnę vietą.',
-    'v1.statistics.reminder.guesses': 'Spėjimai po priminimų',
-    'v1.statistics.reminder.guesses.description':
-      'Žaidėjai, turintys daugiausia pateiktų spėjimų varžyboms, apie kurias gavo priminimus.',
-    'v1.statistics.reminders': 'Daugiausia gautų priminimų',
+    'v1.statistics.reminders': 'Priminimai ir spėjimai po jų',
     'v1.statistics.reminders.description':
-      'Žaidėjai, gavę daugiausia varžybų priminimų el. paštu.',
+      'Žaidėjai pagal gautus priminimus ir pateiktus spėjimus toms primintoms varžyboms.',
     'v1.statistics.signature.scores': 'Dažniausi rezultatai',
     'v1.statistics.signature.scores.description':
       'Dažniausiai kiekvieno žaidėjo spėtas rezultatas.',
@@ -789,6 +798,8 @@ export const messages = {
     'v1.statistics.column.goals': 'Голови',
     'v1.statistics.column.guessed.goals': 'Предвидени голови',
     'v1.statistics.column.guesses': 'Предвидувања',
+    'v1.statistics.column.guesses.after.reminders':
+      'Предвидувања по потсетници',
     'v1.statistics.column.highest.points': 'Најмногу поени од натпревар',
     'v1.statistics.column.incorrect.outcomes': 'Неточни исходи',
     'v1.statistics.column.missing.guesses': 'Пропуштени предвидувања',
@@ -803,6 +814,12 @@ export const messages = {
     'v1.statistics.column.team': 'Тим',
     'v1.statistics.column.total.points': 'Вкупно поени',
     'v1.statistics.column.worst.points': 'Најлоши поени',
+    'v1.statistics.common.guessed.outcome': 'Најчесто предвиден исход',
+    'v1.statistics.common.guessed.outcome.description':
+      'Исходи на натпревари што играчите најчесто ги предвидувале.',
+    'v1.statistics.common.outcome': 'Најчест исход',
+    'v1.statistics.common.outcome.description':
+      'Исходи што најчесто се случиле во завршените натпревари.',
     'v1.statistics.correct.alone': 'Уникатни точни предвидувања',
     'v1.statistics.correct.alone.description':
       'Играчи со најмногу точни резултати што никој друг не ги погодил.',
@@ -837,22 +854,19 @@ export const messages = {
     'v1.statistics.most.divisive.matches': 'Најподелени натпревари',
     'v1.statistics.most.divisive.matches.description':
       'Завршени натпревари со најголема разлика меѓу најдобрите и најлошите поени од предвидувања.',
-    'v1.statistics.most.predictable.teams': 'Најпредвидливи тимови',
-    'v1.statistics.most.predictable.teams.description':
-      'Тимови чии натпревари донеле најнизок просек на поени од предвидувања.',
     'v1.statistics.no.data': 'Сè уште нема статистика за приказ.',
+    'v1.statistics.outcome.draw': 'Нерешено',
+    'v1.statistics.outcome.team1Win': 'Победа на првиот тим',
+    'v1.statistics.outcome.team2Win': 'Победа на вториот тим',
     'v1.statistics.players.by.guessed.goals': 'Најмногу предвидени голови',
     'v1.statistics.players.by.guessed.goals.description':
       'Играчи кои предвиделе најголем вкупен број голови во сите поднесени предвидувања.',
     'v1.statistics.players.by.points': 'Вкупен пласман',
     'v1.statistics.players.by.points.description':
       'Играчи рангирани по вкупни поени. Помалку поени значи подобар пласман.',
-    'v1.statistics.reminder.guesses': 'Предвидувања по потсетници',
-    'v1.statistics.reminder.guesses.description':
-      'Играчи со најмногу поднесени предвидувања за натпревари за кои добиле потсетници.',
-    'v1.statistics.reminders': 'Најмногу добиени потсетници',
+    'v1.statistics.reminders': 'Потсетници и предвидувања по нив',
     'v1.statistics.reminders.description':
-      'Играчи кои добиле најмногу е-пошта потсетници за натпревари.',
+      'Играчи рангирани според добиени потсетници и поднесени предвидувања за тие потсетени натпревари.',
     'v1.statistics.signature.scores': 'Најчести резултати',
     'v1.statistics.signature.scores.description':
       'Најчесто предвидуваниот резултат на секој играч.',

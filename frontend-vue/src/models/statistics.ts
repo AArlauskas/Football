@@ -68,6 +68,16 @@ export interface DrawAccuracyStat extends PlayerPointsStat {
   drawPredictions: number;
 }
 
+export interface ReminderStat extends PlayerPointsStat {
+  guessesAfterReminders: number;
+  reminders: number;
+}
+
+export interface OutcomeStat {
+  count: number;
+  outcome: string;
+}
+
 export interface ChampionshipStatistics {
   bestAverageScores: PlayerAverageStat[];
   correctAloneLeaders: PlayerCounterStat[];
@@ -81,13 +91,13 @@ export interface ChampionshipStatistics {
   incorrectOutcomeLeaders: PlayerCounterStat[];
   missingGuessLeaders: PlayerCounterStat[];
   mostDivisiveMatches: GameSpreadStat[];
+  mostCommonGuessedOutcomes: OutcomeStat[];
+  mostCommonOutcomes: OutcomeStat[];
   mostSuccessfulGuessingGames: GamePointsStat[];
-  mostPredictableTeams: TeamAverageStat[];
   personalSignatureScores: FavoriteScoreStat[];
   playersByGuessedGoals: PlayerCounterStat[];
   playersByPoints: PlayerPointsStat[];
-  reminderGuessLeaders: PlayerCounterStat[];
-  reminderLeaders: PlayerCounterStat[];
+  reminderLeaders: ReminderStat[];
   teamBelievers: TeamCounterStat[];
   teamsByGoals: TeamCounterStat[];
   twoOnePredictionLeaders: PlayerCounterStat[];

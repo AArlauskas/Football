@@ -14,10 +14,12 @@ import type {
   GameCounterStat,
   GamePointsStat,
   GameSpreadStat,
+  OutcomeStat,
   PlayerAverageStat,
   PlayerCounterStat,
   PlayerPointsStat,
   PlayerTeamStat,
+  ReminderStat,
   TeamAverageStat,
   TeamCounterStat,
 } from '@/models';
@@ -158,6 +160,26 @@ const drawAccuracyRows = (items: DrawAccuracyStat[]) =>
     },
   }));
 
+const reminderRows = (items: ReminderStat[]) =>
+  items.map((item) => ({
+    id: `reminders-${item.userId}`,
+    title: fullName(item),
+    values: {
+      guessesAfterReminders: item.guessesAfterReminders,
+      reminders: item.reminders,
+      total: item.total,
+    },
+  }));
+
+const outcomeRows = (key: string, items: OutcomeStat[]): StatisticsRow[] =>
+  items.map((item) => ({
+    id: `${key}-${item.outcome}`,
+    title: t(`v1.statistics.outcome.${item.outcome}` as TranslationKey),
+    values: {
+      count: item.count,
+    },
+  }));
+
 const playerTotalColumns = [
   { field: 'total', label: 'v1.statistics.column.points' },
 ] satisfies StatisticsColumn[];
@@ -230,25 +252,25 @@ const statisticsSections = computed<StatisticsSectionConfig[]>(() => {
       title: 'v1.statistics.correct.outcomes',
     },
     {
+      columns: [{ field: 'count', label: 'v1.statistics.column.predictions' }],
+      description: 'v1.statistics.common.guessed.outcome.description',
+      rows: outcomeRows(
+        'guessed-outcome',
+        statistics.value.mostCommonGuessedOutcomes,
+      ),
+      title: 'v1.statistics.common.guessed.outcome',
+    },
+    {
+      columns: [{ field: 'count', label: 'v1.statistics.column.games' }],
+      description: 'v1.statistics.common.outcome.description',
+      rows: outcomeRows('outcome', statistics.value.mostCommonOutcomes),
+      title: 'v1.statistics.common.outcome',
+    },
+    {
       columns: [{ field: 'count', label: 'v1.statistics.column.goals' }],
       description: 'v1.statistics.teams.by.goals.description',
       rows: teamCounterRows('team-goals', statistics.value.teamsByGoals),
       title: 'v1.statistics.teams.by.goals',
-    },
-    {
-      columns: [
-        {
-          field: 'averagePoints',
-          label: 'v1.statistics.column.average.points',
-        },
-        { field: 'games', label: 'v1.statistics.column.games' },
-      ],
-      description: 'v1.statistics.most.predictable.teams.description',
-      rows: teamAverageRows(
-        'predictable-team',
-        statistics.value.mostPredictableTeams,
-      ),
-      title: 'v1.statistics.most.predictable.teams',
     },
     {
       columns: [
@@ -372,19 +394,17 @@ const statisticsSections = computed<StatisticsSectionConfig[]>(() => {
       title: 'v1.statistics.signature.scores',
     },
     {
-      columns: playerCountColumns('v1.statistics.column.reminders'),
+      columns: [
+        { field: 'reminders', label: 'v1.statistics.column.reminders' },
+        {
+          field: 'guessesAfterReminders',
+          label: 'v1.statistics.column.guesses.after.reminders',
+        },
+        { field: 'total', label: 'v1.statistics.column.points' },
+      ],
       description: 'v1.statistics.reminders.description',
-      rows: playerCounterRows('reminders', statistics.value.reminderLeaders),
+      rows: reminderRows(statistics.value.reminderLeaders),
       title: 'v1.statistics.reminders',
-    },
-    {
-      columns: playerCountColumns('v1.statistics.column.guesses'),
-      description: 'v1.statistics.reminder.guesses.description',
-      rows: playerCounterRows(
-        'reminder-guesses',
-        statistics.value.reminderGuessLeaders,
-      ),
-      title: 'v1.statistics.reminder.guesses',
     },
   ];
 });
