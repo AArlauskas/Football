@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Button, Card } from 'primevue';
+import { Button, Card, Select } from 'primevue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import FEmptyMessage from '@/components/FEmptyMessage.vue';
@@ -9,15 +10,91 @@ import { RouteName } from '@/enums';
 import { translateTeamName } from '@/lib/teamName';
 import type { Game } from '@/models';
 
-defineProps<{
+const TeamMatchHistoryFilter = {
+  ALL: 'all',
+  LOSSES: 'losses',
+  TIES: 'ties',
+  WINS: 'wins',
+} as const;
+
+type TeamMatchHistoryFilterValue =
+  (typeof TeamMatchHistoryFilter)[keyof typeof TeamMatchHistoryFilter];
+
+const props = defineProps<{
   groups: Array<{
     date: string;
     items: Game[];
   }>;
+  teamId: string;
 }>();
 
 const router = useRouter();
 const { t } = useTranslations();
+const activeFilter = ref<TeamMatchHistoryFilterValue>(
+  TeamMatchHistoryFilter.ALL,
+);
+
+const filterOptions = computed(() => [
+  {
+    label: t('v1.team.match.history.filter.all'),
+    value: TeamMatchHistoryFilter.ALL,
+  },
+  {
+    label: t('v1.team.wins'),
+    value: TeamMatchHistoryFilter.WINS,
+  },
+  {
+    label: t('v1.team.ties'),
+    value: TeamMatchHistoryFilter.TIES,
+  },
+  {
+    label: t('v1.team.losses'),
+    value: TeamMatchHistoryFilter.LOSSES,
+  },
+]);
+
+const getGoalDifference = (game: Game) => {
+  if (!game.result) {
+    return null;
+  }
+
+  const isHomeTeam = game.t1.code === props.teamId;
+  const teamGoals = isHomeTeam ? game.result.goals1 : game.result.goals2;
+  const opponentGoals = isHomeTeam ? game.result.goals2 : game.result.goals1;
+
+  return teamGoals - opponentGoals;
+};
+
+const matchesFilter = (game: Game) => {
+  if (activeFilter.value === TeamMatchHistoryFilter.ALL) {
+    return true;
+  }
+
+  const goalDifference = getGoalDifference(game);
+
+  if (goalDifference === null) {
+    return false;
+  }
+
+  if (activeFilter.value === TeamMatchHistoryFilter.WINS) {
+    return goalDifference > 0;
+  }
+
+  if (activeFilter.value === TeamMatchHistoryFilter.LOSSES) {
+    return goalDifference < 0;
+  }
+
+  return goalDifference === 0;
+};
+
+const filteredGroups = computed(() =>
+  props.groups
+    .map((group) => ({
+      ...group,
+      items: group.items.filter(matchesFilter),
+    }))
+    .filter((group) => group.items.length > 0),
+);
 
 const goToMatch = async (gameId: number) => {
   await router.push({ name: RouteName.Match, params: { gameId } });
@@ -30,13 +107,24 @@ const goToTeam = async (teamId: string) => {
 
 <template>
   <section class="team-match-history">
-    <FText as="h2" variant="heading-3">
-      {{ t('v1.team.match.history') }}
-    </FText>
+    <div class="team-match-history__toolbar">
+      <FText as="h2" variant="heading-3">
+        {{ t('v1.team.match.history') }}
+      </FText>
 
-    <div v-if="groups.length" class="team-match-history__list">
+      <Select
+        v-model="activeFilter"
+        :aria-label="t('v1.team.match.history.filter')"
+        class="team-match-history__filter"
+        option-label="label"
+        option-value="value"
+        :options="filterOptions"
+      />
+    </div>
+
+    <div v-if="filteredGroups.length" class="team-match-history__list">
       <section
-        v-for="group in groups"
+        v-for="group in filteredGroups"
         :key="group.date"
         class="team-match-history__group"
       >
@@ -134,6 +222,18 @@ const goToTeam = async (teamId: string) => {
   display: flex;
   flex-direction: column;
   gap: var(--f-space-md);
+
+  &__toolbar {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--f-space-md);
+  }
+
+  &__filter {
+    width: min(100%, 260px);
+  }
 
   &__list {
     display: flex;
@@ -240,6 +340,15 @@ const goToTeam = async (teamId: string) => {
 
 @media (width <= 760px) {
   .team-match-history {
+    &__toolbar {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    &__filter {
+      width: 100%;
+    }
+
     &__match-main {
       gap: var(--f-space-sm);
       grid-template-areas:

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Button, Card } from 'primevue';
+import { Button, Card, Select } from 'primevue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import FEmptyMessage from '@/components/FEmptyMessage.vue';
@@ -10,8 +11,19 @@ import { useTranslations } from '@/composables/useTranslations';
 import { RouteName } from '@/enums';
 import { getOutcomeModifierClass } from '@/lib/outcome';
 import { translateTeamName } from '@/lib/teamName';
-import type { GameWithGuess, Guess } from '@/models';
-import { GameState } from '@/models/game';
+import type { GameWithGuess, Guess, GuessOutcome } from '@/models';
+import { GameState, GuessOutcome as GuessOutcomeValue } from '@/models/game';
+
+const MatchHistoryFilter = {
+  ALL: 'all',
+  CORRECT_GUESS: 'correct_guess',
+  CORRECT_OUTCOME: 'correct_outcome',
+  INCORRECT_OUTCOME: 'incorrect_outcome',
+  NOT_GIVEN: 'not_given',
+} as const;
+
+type MatchHistoryFilterValue =
+  (typeof MatchHistoryFilter)[keyof typeof MatchHistoryFilter];
 
 const props = defineProps<{
   groups: Array<{
@@ -26,6 +38,30 @@ const router = useRouter();
 const { t } = useTranslations();
 const { getEstimatedGuess, getMatchTime, getVisibleResult, hasLiveResult } =
   useOngoingMatches();
+const activeFilter = ref<MatchHistoryFilterValue>(MatchHistoryFilter.ALL);
+
+const filterOptions = computed(() => [
+  {
+    label: t('v1.player.match.history.filter.all'),
+    value: MatchHistoryFilter.ALL,
+  },
+  {
+    label: t('v1.correct.guesses'),
+    value: MatchHistoryFilter.CORRECT_GUESS,
+  },
+  {
+    label: t('v1.correct.outcomes'),
+    value: MatchHistoryFilter.CORRECT_OUTCOME,
+  },
+  {
+    label: t('v1.statistics.column.incorrect.outcomes'),
+    value: MatchHistoryFilter.INCORRECT_OUTCOME,
+  },
+  {
+    label: t('v1.not.given.guess'),
+    value: MatchHistoryFilter.NOT_GIVEN,
+  },
+]);
 
 const formatGuess = (item: GameWithGuess) => {
   if (!item.guess?.result) {
@@ -43,6 +79,41 @@ const getEstimatedPointsGuess = (item: GameWithGuess) =>
 
 const getVisiblePointsGuess = (item: GameWithGuess): Guess | null =>
   getEstimatedPointsGuess(item) ?? item.guess ?? null;
+
+const matchesFilter = (item: GameWithGuess) => {
+  if (activeFilter.value === MatchHistoryFilter.ALL) {
+    return true;
+  }
+
+  const outcome: GuessOutcome | null =
+    getVisiblePointsGuess(item)?.outcome ?? null;
+
+  if (activeFilter.value === MatchHistoryFilter.CORRECT_GUESS) {
+    return (
+      outcome === GuessOutcomeValue.CORRECT ||
+      outcome === GuessOutcomeValue.CORRECT_ALONE
+    );
+  }
+
+  if (activeFilter.value === MatchHistoryFilter.CORRECT_OUTCOME) {
+    return outcome === GuessOutcomeValue.OUTCOME_ONLY;
+  }
+
+  if (activeFilter.value === MatchHistoryFilter.INCORRECT_OUTCOME) {
+    return outcome === GuessOutcomeValue.OUTCOME_INCORRECT;
+  }
+
+  return outcome === GuessOutcomeValue.NOT_GIVEN || !item.guess?.result;
+};
+
+const filteredGroups = computed(() =>
+  props.groups
+    .map((group) => ({
+      ...group,
+      items: group.items.filter(matchesFilter),
+    }))
+    .filter((group) => group.items.length > 0),
+);
 
 const shouldShowPoints = (item: GameWithGuess) =>
   getVisiblePointsGuess(item)?.points !== null &&
@@ -74,13 +145,27 @@ const goToTeam = async (teamId: string) => {
 
 <template>
   <section class="player-match-history">
-    <FText v-if="!hideTitle" as="h2" variant="heading-3">
-      {{ t('v1.player.match.history') }}
-    </FText>
+    <div
+      class="player-match-history__toolbar"
+      :class="{ 'player-match-history__toolbar--without-title': hideTitle }"
+    >
+      <FText v-if="!hideTitle" as="h2" variant="heading-3">
+        {{ t('v1.player.match.history') }}
+      </FText>
 
-    <div v-if="groups.length" class="player-match-history__list">
+      <Select
+        v-model="activeFilter"
+        :aria-label="t('v1.player.match.history.filter')"
+        class="player-match-history__filter"
+        option-label="label"
+        option-value="value"
+        :options="filterOptions"
+      />
+    </div>
+
+    <div v-if="filteredGroups.length" class="player-match-history__list">
       <section
-        v-for="group in groups"
+        v-for="group in filteredGroups"
         :key="group.date"
         class="player-match-history__group"
       >
@@ -203,6 +288,22 @@ const goToTeam = async (teamId: string) => {
   display: flex;
   flex-direction: column;
   gap: var(--f-space-md);
+
+  &__toolbar {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--f-space-md);
+
+    &--without-title {
+      justify-content: flex-end;
+    }
+  }
+
+  &__filter {
+    width: min(100%, 260px);
+  }
 
   &__list {
     display: flex;
@@ -337,6 +438,19 @@ const goToTeam = async (teamId: string) => {
 
 @media (width <= 760px) {
   .player-match-history {
+    &__toolbar {
+      align-items: stretch;
+      flex-direction: column;
+
+      &--without-title {
+        align-items: stretch;
+      }
+    }
+
+    &__filter {
+      width: 100%;
+    }
+
     &__match-main {
       gap: var(--f-space-sm);
       grid-template-areas:

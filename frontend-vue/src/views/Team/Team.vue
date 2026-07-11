@@ -82,7 +82,7 @@ usePageTitle(pageTitle);
 
     <template v-else-if="team">
       <TeamProfileCard :stats="teamStats" :team="team" />
-      <TeamMatchHistory :groups="groupedGames" />
+      <TeamMatchHistory :groups="groupedGames" :team-id="team.code" />
     </template>
   </main>
 </template>
