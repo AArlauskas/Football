@@ -25,14 +25,16 @@ const MatchHistoryFilter = {
 type MatchHistoryFilterValue =
   (typeof MatchHistoryFilter)[keyof typeof MatchHistoryFilter];
 
-const props = defineProps<{
+type Props = {
   groups: Array<{
     date: string;
     items: GameWithGuess[];
   }>;
   hideTitle?: boolean;
   playerId?: number;
-}>();
+};
+
+const props = defineProps<Props>();
 
 const router = useRouter();
 const { t } = useTranslations();

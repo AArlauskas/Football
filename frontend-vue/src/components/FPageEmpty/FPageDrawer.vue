@@ -16,7 +16,7 @@ type NavigationItem = {
   path: (typeof RoutePath)[keyof typeof RoutePath];
 };
 
-const props = defineProps<{
+type Props = {
   currentPlayerName: string;
   currentPlayerPlace: number | string;
   isDark: boolean;
@@ -25,15 +25,19 @@ const props = defineProps<{
   selectedLocale: AppLocale;
   themeLabel: string;
   visible: boolean;
-}>();
+};
 
-const emit = defineEmits<{
+const props = defineProps<Props>();
+
+type Emits = {
   close: [];
   signOut: [];
   toggleTheme: [];
   'update:selectedLocale': [value: AppLocale];
   'update:visible': [value: boolean];
-}>();
+};
+
+const emit = defineEmits<Emits>();
 
 const selectedLocaleModel = computed({
   get: () => props.selectedLocale,

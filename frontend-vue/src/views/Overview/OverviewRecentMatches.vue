@@ -11,14 +11,18 @@ import { translateTeamName } from '@/lib/teamName';
 import type { GameWithGuess } from '@/models';
 import { GameState } from '@/models/game';
 
-defineProps<{
+type Props = {
   games: GameWithGuess[];
-}>();
+};
 
-const emit = defineEmits<{
+defineProps<Props>();
+
+type Emits = {
   makeGuesses: [];
   selectMatch: [item: GameWithGuess];
-}>();
+};
+
+const emit = defineEmits<Emits>();
 
 const { t } = useTranslations();
 const { getEstimatedGuess, getMatchTime, getVisibleResult, hasLiveResult } =

@@ -9,18 +9,17 @@ import { GuessOutcome as GuessOutcomeValue } from '@/models/game';
 type TagSeverity = TagProps['severity'];
 type OutcomeModifier = 'danger' | 'success' | 'warning';
 
-const props = withDefaults(
-  defineProps<{
-    fallbackSeverity?: TagSeverity;
-    outcome: GuessOutcome | null;
-    severity?: TagSeverity;
-    value: string | number;
-  }>(),
-  {
-    fallbackSeverity: 'secondary',
-    severity: undefined,
-  },
-);
+type Props = {
+  fallbackSeverity?: TagSeverity;
+  outcome: GuessOutcome | null;
+  severity?: TagSeverity;
+  value: string | number;
+};
+
+const props = withDefaults(defineProps<Props>(), {
+  fallbackSeverity: 'secondary',
+  severity: undefined,
+});
 
 const modifier = computed<OutcomeModifier | undefined>(() => {
   if (

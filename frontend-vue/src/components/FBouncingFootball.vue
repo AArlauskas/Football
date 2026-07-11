@@ -11,14 +11,13 @@ import {
 
 import { useTranslations } from '@/composables/useTranslations';
 
-const props = withDefaults(
-  defineProps<{
-    containerSelector?: string;
-  }>(),
-  {
-    containerSelector: '[data-football-container="true"]',
-  },
-);
+type Props = {
+  containerSelector?: string;
+};
+
+const props = withDefaults(defineProps<Props>(), {
+  containerSelector: '[data-football-container="true"]',
+});
 
 const { t } = useTranslations();
 

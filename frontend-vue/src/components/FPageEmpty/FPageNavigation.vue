@@ -12,13 +12,17 @@ type NavigationItem = {
   path: (typeof RoutePath)[keyof typeof RoutePath];
 };
 
-defineProps<{
+type Props = {
   items: NavigationItem[];
-}>();
+};
 
-defineEmits<{
+defineProps<Props>();
+
+type Emits = {
   navigate: [];
-}>();
+};
+
+defineEmits<Emits>();
 </script>
 
 <template>

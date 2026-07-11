@@ -4,9 +4,11 @@ import { Message } from 'primevue';
 import { useTranslations } from '@/composables/useTranslations';
 import type { TranslationKey } from '@/i18n';
 
-defineProps<{
+type Props = {
   message: TranslationKey;
-}>();
+};
+
+defineProps<Props>();
 
 const { t } = useTranslations();
 </script>

@@ -14,15 +14,19 @@ type NavigationItem = {
   path: (typeof RoutePath)[keyof typeof RoutePath];
 };
 
-defineProps<{
+type Props = {
   currentPlayerName: string;
   currentPlayerPlace: number | string;
   navigationItems: NavigationItem[];
-}>();
+};
 
-defineEmits<{
+defineProps<Props>();
+
+type Emits = {
   signOut: [];
-}>();
+};
+
+defineEmits<Emits>();
 </script>
 
 <template>

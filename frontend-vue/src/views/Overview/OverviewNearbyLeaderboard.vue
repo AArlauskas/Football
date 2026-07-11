@@ -7,15 +7,19 @@ import { useTranslations } from '@/composables/useTranslations';
 import type { UserDetails } from '@/models';
 import OverviewSummaryCard from '@/views/Overview/OverviewSummaryCard.vue';
 
-defineProps<{
+type Props = {
   currentUserId?: number;
   players: UserDetails[];
-}>();
+};
 
-const emit = defineEmits<{
+defineProps<Props>();
+
+type Emits = {
   openResults: [];
   selectPlayer: [player: UserDetails];
-}>();
+};
+
+const emit = defineEmits<Emits>();
 
 const { t } = useTranslations();
 

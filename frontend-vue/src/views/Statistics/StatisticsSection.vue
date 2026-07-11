@@ -9,12 +9,14 @@ import type {
   StatisticsRow,
 } from '@/views/Statistics/statisticsSectionTypes';
 
-defineProps<{
+type Props = {
   columns: StatisticsColumn[];
   description: TranslationKey;
   rows: StatisticsRow[];
   title: TranslationKey;
-}>();
+};
+
+defineProps<Props>();
 
 const { t } = useTranslations();
 

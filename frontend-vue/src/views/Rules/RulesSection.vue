@@ -6,16 +6,15 @@ import { useTranslations } from '@/composables/useTranslations';
 import type { TranslationKey } from '@/i18n';
 import NumberedRuleCard from '@/views/Rules/NumberedRuleCard.vue';
 
-withDefaults(
-  defineProps<{
-    isWrapped?: boolean;
-    rules: TranslationKey[];
-    title: TranslationKey;
-  }>(),
-  {
-    isWrapped: false,
-  },
-);
+type Props = {
+  isWrapped?: boolean;
+  rules: TranslationKey[];
+  title: TranslationKey;
+};
+
+withDefaults(defineProps<Props>(), {
+  isWrapped: false,
+});
 
 const { t } = useTranslations();
 </script>

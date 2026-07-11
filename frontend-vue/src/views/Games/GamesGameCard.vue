@@ -18,14 +18,18 @@ import {
   type InputNumberEvent,
 } from '@/utils/inputNumber';
 
-const props = defineProps<{
+type Props = {
   isSaving: boolean;
   item: GameWithGuess;
-}>();
+};
 
-const emit = defineEmits<{
+const props = defineProps<Props>();
+
+type Emits = {
   saveGuess: [gameId: number, result: GameResult];
-}>();
+};
+
+const emit = defineEmits<Emits>();
 
 const router = useRouter();
 const { t } = useTranslations();

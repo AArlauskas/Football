@@ -9,7 +9,7 @@ import FText from '@/components/FText.vue';
 import { RoutePath } from '@/enums';
 import type { AppLocale } from '@/i18n';
 
-const props = defineProps<{
+type Props = {
   currentPlayerPlace: number | string;
   currentPoints: number | string;
   currentTitle: string;
@@ -18,13 +18,17 @@ const props = defineProps<{
   logoSrc: string;
   selectedLocale: AppLocale;
   themeLabel: string;
-}>();
+};
 
-const emit = defineEmits<{
+const props = defineProps<Props>();
+
+type Emits = {
   openMenu: [];
   toggleTheme: [];
   'update:selectedLocale': [value: AppLocale];
-}>();
+};
+
+const emit = defineEmits<Emits>();
 
 const selectedLocaleModel = computed({
   get: () => props.selectedLocale,

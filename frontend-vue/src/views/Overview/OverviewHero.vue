@@ -5,7 +5,7 @@ import FText from '@/components/FText.vue';
 import type { TranslationKey } from '@/i18n';
 import OverviewSummaryCard from '@/views/Overview/OverviewSummaryCard.vue';
 
-defineProps<{
+type Props = {
   initials: string;
   name: string;
   summaryCards: Array<{
@@ -13,7 +13,9 @@ defineProps<{
     label: TranslationKey;
     value: number | string;
   }>;
-}>();
+};
+
+defineProps<Props>();
 </script>
 
 <template>

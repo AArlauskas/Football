@@ -3,10 +3,12 @@ import { Message } from 'primevue';
 
 import { useTranslations } from '@/composables/useTranslations';
 
-defineProps<{
+type Props = {
   error?: string;
   success?: string;
-}>();
+};
+
+defineProps<Props>();
 
 const { t } = useTranslations();
 </script>

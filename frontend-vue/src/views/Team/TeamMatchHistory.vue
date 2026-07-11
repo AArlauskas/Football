@@ -20,13 +20,15 @@ const TeamMatchHistoryFilter = {
 type TeamMatchHistoryFilterValue =
   (typeof TeamMatchHistoryFilter)[keyof typeof TeamMatchHistoryFilter];
 
-const props = defineProps<{
+type Props = {
   groups: Array<{
     date: string;
     items: Game[];
   }>;
   teamId: string;
-}>();
+};
+
+const props = defineProps<Props>();
 
 const router = useRouter();
 const { t } = useTranslations();

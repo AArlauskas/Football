@@ -2,7 +2,7 @@
 import FText from '@/components/FText.vue';
 import type { FTextVariant } from '@/types';
 
-type FFormFieldProps = {
+type Props = {
   error?: string;
   inputId?: string;
   label?: string;
@@ -10,7 +10,7 @@ type FFormFieldProps = {
   labelVariant?: FTextVariant;
 };
 
-withDefaults(defineProps<FFormFieldProps>(), {
+withDefaults(defineProps<Props>(), {
   error: undefined,
   inputId: undefined,
   label: undefined,

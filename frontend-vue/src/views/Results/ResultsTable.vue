@@ -6,14 +6,18 @@ import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
 import type { UserDetails } from '@/models';
 
-const props = defineProps<{
+type Props = {
   currentUserId?: number;
   results: UserDetails[];
-}>();
+};
 
-const emit = defineEmits<{
+const props = defineProps<Props>();
+
+type Emits = {
   selectPlayer: [id: number];
-}>();
+};
+
+const emit = defineEmits<Emits>();
 
 const { t } = useTranslations();
 

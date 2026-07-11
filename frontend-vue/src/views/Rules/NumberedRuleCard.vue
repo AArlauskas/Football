@@ -3,10 +3,12 @@ import { Card } from 'primevue';
 
 import FText from '@/components/FText.vue';
 
-defineProps<{
+type Props = {
   number: number;
   text: string;
-}>();
+};
+
+defineProps<Props>();
 </script>
 
 <template>

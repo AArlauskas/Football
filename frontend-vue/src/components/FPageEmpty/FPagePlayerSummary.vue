@@ -2,10 +2,12 @@
 import FBouncingFootball from '@/components/FBouncingFootball.vue';
 import FText from '@/components/FText.vue';
 
-defineProps<{
+type Props = {
   currentPlayerName: string;
   currentPlayerPlace: number | string;
-}>();
+};
+
+defineProps<Props>();
 </script>
 
 <template>

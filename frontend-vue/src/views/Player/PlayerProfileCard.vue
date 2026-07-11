@@ -7,9 +7,11 @@ import { useTranslations } from '@/composables/useTranslations';
 import type { TranslationKey } from '@/i18n';
 import type { UserDetails } from '@/models';
 
-const props = defineProps<{
+type Props = {
   player: UserDetails;
-}>();
+};
+
+const props = defineProps<Props>();
 
 const { t } = useTranslations();
 

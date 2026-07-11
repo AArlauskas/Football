@@ -3,14 +3,14 @@ import { computed } from 'vue';
 
 import type { FTextElement, FTextVariant } from '@/types';
 
-export type FTextProps = {
+type Props = {
   as: FTextElement;
   clickable?: boolean;
   color?: string;
   variant: FTextVariant;
 };
 
-const props = withDefaults(defineProps<FTextProps>(), {
+const props = withDefaults(defineProps<Props>(), {
   clickable: false,
   color: undefined,
 });

@@ -9,7 +9,7 @@ import type { TranslationKey } from '@/i18n';
 import { translateTeamName } from '@/lib/teamName';
 import type { Team } from '@/models';
 
-const props = defineProps<{
+type Props = {
   stats: {
     gamesPlayed: number;
     losses: number;
@@ -17,7 +17,9 @@ const props = defineProps<{
     victories: number;
   };
   team: Team;
-}>();
+};
+
+const props = defineProps<Props>();
 
 const { t } = useTranslations();
 
