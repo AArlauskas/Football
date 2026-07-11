@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import { Card, Tag } from 'primevue';
+import { Button, Card, Tag } from 'primevue';
 
 import FEmptyMessage from '@/components/FEmptyMessage.vue';
+import FOutcomeTag from '@/components/FOutcomeTag.vue';
 import FText from '@/components/FText.vue';
 import { useOngoingMatches } from '@/composables/useOngoingMatches';
 import { useTranslations } from '@/composables/useTranslations';
 import type { TranslationKey } from '@/i18n';
 import { translateTeamName } from '@/lib/teamName';
-import type { GameWithGuess, GuessOutcome } from '@/models';
-import { GameState, GuessOutcome as GuessOutcomeValue } from '@/models/game';
+import type { GameWithGuess } from '@/models';
+import { GameState } from '@/models/game';
 
 defineProps<{
   games: GameWithGuess[];
 }>();
 
 const emit = defineEmits<{
+  makeGuesses: [];
   selectMatch: [item: GameWithGuess];
 }>();
 
@@ -77,30 +79,31 @@ const getGuessPoints = (item: GameWithGuess) => {
 
 const getPointsLabel = (item: GameWithGuess) =>
   hasEstimatedPoints(item) ? t('v1.estimated.points') : t('v1.points');
-
-const getOutcomeClass = (outcome?: GuessOutcome | null) => ({
-  'overview-recent-matches__points--success':
-    outcome === GuessOutcomeValue.CORRECT ||
-    outcome === GuessOutcomeValue.CORRECT_ALONE,
-  'overview-recent-matches__points--warning':
-    outcome === GuessOutcomeValue.OUTCOME_ONLY,
-  'overview-recent-matches__points--danger':
-    outcome === GuessOutcomeValue.OUTCOME_INCORRECT ||
-    outcome === GuessOutcomeValue.NOT_GIVEN,
-});
 </script>
 
 <template>
-  <Card>
+  <Card class="overview-recent-matches">
     <template #title>
       <div class="overview-recent-matches__title">
-        <FText as="span" variant="body-1-bold">
+        <FText
+          as="span"
+          class="overview-recent-matches__title-label"
+          variant="body-1-bold"
+        >
           {{ t('v1.overview.matches') }}
         </FText>
+        <Button
+          class="overview-recent-matches__guess-button"
+          icon="pi pi-calendar"
+          :aria-label="t('v1.games')"
+          severity="secondary"
+          size="small"
+          @click="emit('makeGuesses')"
+        />
       </div>
     </template>
     <template #content>
-      <div v-if="games.length" class="overview-recent-matches">
+      <div v-if="games.length" class="overview-recent-matches__list">
         <button
           v-for="item in games"
           :key="item.game.id"
@@ -144,7 +147,13 @@ const getOutcomeClass = (outcome?: GuessOutcome | null) => ({
           <div class="overview-recent-matches__footer">
             <FText as="span" color="--p-text-muted-color" variant="body-3">
               {{ t('v1.guess') }}:
-              <strong>{{ getGuessLabel(item) }}</strong>
+              <FText
+                as="span"
+                color="--p-text-muted-color"
+                variant="body-3-bold"
+              >
+                {{ getGuessLabel(item) }}
+              </FText>
             </FText>
             <div
               v-if="getGuessPoints(item)"
@@ -153,8 +162,8 @@ const getOutcomeClass = (outcome?: GuessOutcome | null) => ({
               <FText as="span" color="--p-text-muted-color" variant="body-3">
                 {{ getPointsLabel(item) }}
               </FText>
-              <Tag
-                :class="getOutcomeClass(getVisiblePointsGuess(item)?.outcome)"
+              <FOutcomeTag
+                :outcome="getVisiblePointsGuess(item)?.outcome ?? null"
                 severity="secondary"
                 :value="getGuessPoints(item)"
               />
@@ -169,126 +178,130 @@ const getOutcomeClass = (outcome?: GuessOutcome | null) => ({
 </template>
 
 <style scoped lang="scss">
-.overview-recent-matches__title {
-  display: grid;
-  gap: 2px;
-}
-
 .overview-recent-matches {
-  display: grid;
-  gap: 10px;
-}
-
-.overview-recent-matches__card {
-  display: grid;
-  width: 100%;
-  gap: 10px;
-  padding: 12px;
-  border: 1px solid color-mix(in srgb, var(--p-text-color) 10%, transparent);
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--p-surface-card) 82%, transparent);
-  color: inherit;
-  cursor: pointer;
-  font: inherit;
-  text-align: left;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s,
-    transform 0.2s;
-
-  &:hover,
-  &:focus-visible {
-    border-color: var(--p-primary-color);
-    box-shadow: var(--f-card-hover-shadow);
-    transform: translateY(-1px);
+  &__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--f-space-md);
   }
-}
 
-.overview-recent-matches__header,
-.overview-recent-matches__main,
-.overview-recent-matches__footer {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
+  &__title-label {
+    min-width: 0;
+    flex: 1 1 10rem;
+  }
 
-.overview-recent-matches__main {
-  align-items: flex-start;
-}
+  &__guess-button.p-button {
+    flex: 0 0 auto;
+    margin-inline-start: auto;
+  }
 
-.overview-recent-matches__time {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
+  &__list {
+    display: grid;
+    gap: var(--f-space-sm);
+  }
 
-.overview-recent-matches__footer {
-  padding-top: 8px;
-  border-top: 1px solid color-mix(in srgb, var(--p-text-color) 10%, transparent);
-}
+  &__card {
+    display: grid;
+    width: 100%;
+    gap: var(--f-space-sm);
+    padding: var(--f-space-md);
+    border: 1px solid color-mix(in srgb, var(--p-text-color) 10%, transparent);
+    border-radius: var(--f-radius-md);
+    background: color-mix(in srgb, var(--p-surface-card) 82%, transparent);
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s,
+      transform 0.2s;
 
-.overview-recent-matches__points {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+    &:hover,
+    &:focus-visible {
+      border-color: var(--p-primary-color);
+      box-shadow: var(--f-card-hover-shadow);
+      transform: translateY(-1px);
+    }
+  }
 
-.overview-recent-matches__points--success {
-  background: var(--f-outcome-success-background);
-}
+  &__header,
+  &__main,
+  &__footer {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--f-space-md);
+  }
 
-.overview-recent-matches__points--warning {
-  background: var(--f-outcome-warning-background);
-}
+  &__main {
+    align-items: flex-start;
+  }
 
-.overview-recent-matches__points--danger {
-  background: var(--f-outcome-danger-background);
+  &__time {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--f-space-2xs);
+  }
+
+  &__footer {
+    padding-top: var(--f-space-xs);
+    border-top: 1px solid
+      color-mix(in srgb, var(--p-text-color) 10%, transparent);
+  }
+
+  &__points {
+    display: flex;
+    align-items: center;
+    gap: var(--f-space-xs);
+  }
 }
 
 @media (width <= 640px) {
-  .overview-recent-matches__card {
-    gap: 8px;
-    padding: 10px;
-  }
+  .overview-recent-matches {
+    &__card {
+      gap: var(--f-space-xs);
+      padding: var(--f-space-sm);
+    }
 
-  .overview-recent-matches__header {
-    align-items: flex-start;
-    gap: 8px;
-  }
+    &__header {
+      align-items: flex-start;
+      gap: var(--f-space-xs);
 
-  .overview-recent-matches__header :deep(.p-tag) {
-    flex: 0 0 auto;
-  }
+      :deep(.p-tag) {
+        flex: 0 0 auto;
+      }
+    }
 
-  .overview-recent-matches__main {
-    display: grid;
-    align-items: center;
-    gap: 10px;
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
+    &__main {
+      display: grid;
+      align-items: center;
+      gap: var(--f-space-sm);
+      grid-template-columns: minmax(0, 1fr) auto;
 
-  .overview-recent-matches__main :deep(.f-text--heading-3) {
-    font-size: 1.35rem;
-    line-height: 1;
-    white-space: nowrap;
-  }
+      :deep(.f-text--heading-3) {
+        white-space: nowrap;
+      }
+    }
 
-  .overview-recent-matches__footer {
-    display: grid;
-    align-items: center;
-    gap: 8px;
-    grid-template-columns: minmax(0, 1fr) auto;
-    padding-top: 6px;
-  }
+    &__footer {
+      display: grid;
+      align-items: center;
+      gap: var(--f-space-xs);
+      grid-template-columns: minmax(0, 1fr) auto;
+      padding-top: var(--f-space-2xs);
 
-  .overview-recent-matches__points {
-    justify-self: end;
-  }
+      :deep(.p-tag) {
+        justify-self: end;
+      }
+    }
 
-  .overview-recent-matches__footer :deep(.p-tag) {
-    justify-self: end;
+    &__points {
+      justify-self: end;
+    }
   }
 }
 </style>

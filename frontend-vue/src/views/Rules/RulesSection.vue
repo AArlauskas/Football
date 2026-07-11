@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Card, Divider } from 'primevue';
 
+import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
 import type { TranslationKey } from '@/i18n';
 import NumberedRuleCard from '@/views/Rules/NumberedRuleCard.vue';
@@ -21,10 +22,12 @@ const { t } = useTranslations();
 
 <template>
   <Card class="rules-section">
-    <template #title>{{ t(title) }}</template>
+    <template #title>
+      <FText as="h2" variant="heading-3">{{ t(title) }}</FText>
+    </template>
     <template #content>
       <div class="rules-section__content">
-        <Divider />
+        <Divider class="rules-section__divider" />
         <div
           class="rules-section__list"
           :class="{ 'rules-section__list--wrapped': isWrapped }"
@@ -53,26 +56,33 @@ const { t } = useTranslations();
   }
 
   &__content {
-    gap: 8px;
+    gap: var(--f-space-md);
   }
 
   &__list {
-    gap: 12px;
+    gap: var(--f-space-md);
+  }
+
+  &__divider {
+    margin: 0;
   }
 
   &__list--wrapped {
-    flex-flow: row wrap;
-    gap: 16px;
+    display: grid;
+    align-items: stretch;
+    gap: var(--f-space-md);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   &__list--wrapped .rules-section__item {
-    flex: 1 1 calc(50% - 8px);
+    min-width: 0;
+    height: 100%;
   }
 }
 
 @media (width <= 760px) {
-  .rules-section__list--wrapped .rules-section__item {
-    flex-basis: 100%;
+  .rules-section__list--wrapped {
+    grid-template-columns: 1fr;
   }
 }
 </style>

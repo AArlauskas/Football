@@ -4,6 +4,7 @@ import { Button, Card, Column, DataTable, Select, Tag } from 'primevue';
 import { computed } from 'vue';
 
 import FEmptyMessage from '@/components/FEmptyMessage.vue';
+import FFormField from '@/components/FFormField.vue';
 import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
 import { translateTeamName } from '@/lib/teamName';
@@ -58,7 +59,7 @@ const getStateSeverity = (state: GameStateType) => {
 </script>
 
 <template>
-  <Card>
+  <Card class="admin-games-panel">
     <template #title>
       <FText as="h2" variant="heading-3">
         {{ t('v1.admin.manage.games') }}
@@ -66,12 +67,13 @@ const getStateSeverity = (state: GameStateType) => {
     </template>
     <template #content>
       <div class="admin-games-panel__toolbar">
-        <div class="admin-games-panel__field admin-games-panel__filter">
-          <label for="admin-state-filter">
-            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-              {{ t('v1.admin.filter.state') }}
-            </FText>
-          </label>
+        <FFormField
+          class="admin-games-panel__field admin-games-panel__filter"
+          input-id="admin-state-filter"
+          :label="t('v1.admin.filter.state')"
+          label-color="--p-text-muted-color"
+          label-variant="body-3-bold"
+        >
           <Select
             id="admin-state-filter"
             v-model="stateFilter"
@@ -80,7 +82,7 @@ const getStateSeverity = (state: GameStateType) => {
             option-value="value"
             fluid
           />
-        </div>
+        </FFormField>
       </div>
 
       <DataTable
@@ -90,34 +92,42 @@ const getStateSeverity = (state: GameStateType) => {
         row-hover
         :value="visibleGames"
       >
-        <Column
-          field="date"
-          :header="t('v1.admin.table.title.date')"
-          sortable
-        />
-        <Column
-          field="time"
-          :header="t('v1.admin.table.title.time')"
-          sortable
-        />
+        <Column field="date" :header="t('v1.admin.table.title.date')" sortable>
+          <template #body="{ data }">
+            <FText as="span" variant="body-2">{{ data.date }}</FText>
+          </template>
+        </Column>
+        <Column field="time" :header="t('v1.admin.table.title.time')" sortable>
+          <template #body="{ data }">
+            <FText as="span" variant="body-2">{{ data.time }}</FText>
+          </template>
+        </Column>
         <Column :header="t('v1.admin.table.title.team.1')">
           <template #body="{ data }">
-            {{ translateTeamName(data.t1, t) }}
+            <FText as="span" variant="body-2-bold">
+              {{ translateTeamName(data.t1, t) }}
+            </FText>
           </template>
         </Column>
         <Column :header="t('v1.admin.table.title.team.2')">
           <template #body="{ data }">
-            {{ translateTeamName(data.t2, t) }}
+            <FText as="span" variant="body-2-bold">
+              {{ translateTeamName(data.t2, t) }}
+            </FText>
           </template>
         </Column>
         <Column :header="t('v1.admin.table.title.goals.1')">
           <template #body="{ data }">
-            {{ data.result?.goals1 ?? '-' }}
+            <FText as="span" variant="body-2">
+              {{ data.result?.goals1 ?? '-' }}
+            </FText>
           </template>
         </Column>
         <Column :header="t('v1.admin.table.title.goals.2')">
           <template #body="{ data }">
-            {{ data.result?.goals2 ?? '-' }}
+            <FText as="span" variant="body-2">
+              {{ data.result?.goals2 ?? '-' }}
+            </FText>
           </template>
         </Column>
         <Column :header="t('v1.admin.table.title.state')">
@@ -243,121 +253,114 @@ const getStateSeverity = (state: GameStateType) => {
 </template>
 
 <style scoped lang="scss">
-.admin-games-panel__field {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.admin-games-panel__toolbar {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-}
-
-.admin-games-panel__filter {
-  width: min(100%, 240px);
-}
-
-.admin-games-panel__table {
-  overflow: hidden;
-  border: 1px solid var(--p-surface-border);
-  border-radius: var(--p-content-border-radius);
-
-  :deep(.admin-games-panel__actions-column) {
-    width: 96px;
-    text-align: center;
+.admin-games-panel {
+  &__toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--f-space-md);
   }
-}
 
-.admin-games-panel__actions {
-  display: inline-flex;
-  width: 100%;
-  justify-content: flex-end;
-  gap: 4px;
-}
+  &__filter {
+    width: min(100%, 240px);
+  }
 
-.admin-games-panel__game-list {
-  display: none;
+  &__table {
+    overflow: hidden;
+    border: 1px solid var(--p-surface-border);
+    border-radius: var(--p-content-border-radius);
+
+    :deep(.admin-games-panel__actions-column) {
+      width: 96px;
+      text-align: center;
+    }
+  }
+
+  &__actions {
+    display: inline-flex;
+    width: 100%;
+    justify-content: flex-end;
+    gap: var(--f-space-2xs);
+  }
+
+  &__game-list {
+    display: none;
+  }
 }
 
 @media (width <= 760px) {
-  .admin-games-panel__toolbar {
-    justify-content: stretch;
-  }
+  .admin-games-panel {
+    &__toolbar {
+      justify-content: stretch;
+    }
 
-  .admin-games-panel__filter {
-    width: 100%;
-  }
+    &__filter {
+      width: 100%;
+    }
 
-  .admin-games-panel__table {
-    display: none;
-  }
+    &__table {
+      display: none;
+    }
 
-  .admin-games-panel__game-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .admin-games-panel__game-card {
-    overflow: hidden;
-    border: var(--f-card-border);
-  }
-
-  .admin-games-panel__game-card :deep(.p-card-body) {
-    padding: 12px;
-  }
-
-  .admin-games-panel__game-card :deep(.p-card-content) {
-    padding: 0;
-  }
-
-  .admin-games-panel__game-card-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap-reverse;
-
-    div {
+    &__game-list {
       display: flex;
-      min-width: 0;
       flex-direction: column;
-      gap: 4px;
-    }
-  }
-
-  .admin-games-panel__game-card-details {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    margin: 12px 0;
-
-    div {
-      padding: 8px;
-      border-radius: var(--p-content-border-radius);
-      background: var(--p-content-hover-background);
-      text-align: center;
+      gap: var(--f-space-md);
     }
 
-    dt {
-      margin: 0;
+    &__game-card {
+      overflow: hidden;
+      border: var(--f-card-border);
+
+      :deep(.p-card-content) {
+        padding: 0;
+      }
     }
 
-    dd {
-      margin: 4px 0 0;
+    &__game-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--f-space-md);
+      flex-wrap: wrap-reverse;
+
+      div {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        gap: var(--f-space-2xs);
+      }
     }
-  }
 
-  .admin-games-panel__game-card-actions {
-    display: grid;
-    gap: 8px;
-  }
+    &__game-card-details {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--f-space-xs);
+      margin: var(--f-space-md) 0;
 
-  .admin-games-panel__game-card-action {
-    width: 100%;
+      div {
+        padding: var(--f-space-xs);
+        border-radius: var(--p-content-border-radius);
+        background: var(--p-content-hover-background);
+        text-align: center;
+      }
+
+      dt {
+        margin: 0;
+      }
+
+      dd {
+        margin: var(--f-space-2xs) 0 0;
+      }
+    }
+
+    &__game-card-actions {
+      display: grid;
+      gap: var(--f-space-xs);
+    }
+
+    &__game-card-action {
+      width: 100%;
+    }
   }
 }
 </style>

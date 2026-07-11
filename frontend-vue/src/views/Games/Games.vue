@@ -96,28 +96,24 @@ useOngoingMatchesPolling();
 </script>
 
 <template>
-  <main class="games-page">
+  <main class="games">
     <FPageFeedback :error="requestError" />
 
     <template v-if="isLoading">
-      <section class="games-page__loading">
+      <section class="games__loading">
         <Skeleton height="2rem" width="12rem" />
-        <div class="games-page__grid">
+        <div class="games__grid">
           <Skeleton v-for="item in 8" :key="item" height="18rem" />
         </div>
       </section>
     </template>
 
     <template v-else>
-      <div v-if="groups.length" class="games-page__groups">
-        <section
-          v-for="group in groups"
-          :key="group.date"
-          class="games-page__group"
-        >
+      <div v-if="groups.length" class="games__groups">
+        <section v-for="group in groups" :key="group.date" class="games__group">
           <Card>
             <template #title>
-              <div class="games-page__group-title">
+              <div class="games__group-title">
                 <FText
                   v-if="getCalendarLabel(group.date)"
                   as="span"
@@ -132,7 +128,7 @@ useOngoingMatchesPolling();
               </div>
             </template>
             <template #content>
-              <div class="games-page__grid">
+              <div class="games__grid">
                 <GamesGameCard
                   v-for="item in group.items"
                   :key="item.game.id"
@@ -152,45 +148,49 @@ useOngoingMatchesPolling();
 </template>
 
 <style scoped lang="scss">
-.games-page {
+.games {
   display: flex;
   width: min(100%, var(--f-page-empty-content-width, 1280px));
   flex-direction: column;
-  gap: 16px;
+  gap: var(--f-space-md);
   margin: 0 auto;
-}
 
-.games-page__loading,
-.games-page__groups {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+  &__loading,
+  &__groups {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-lg);
+  }
 
-.games-page__group {
-  min-width: 0;
-}
+  &__group {
+    min-width: 0;
+  }
 
-.games-page__group-title {
-  display: grid;
-  gap: 2px;
-}
+  &__group-title {
+    display: grid;
+    gap: var(--f-space-2xs);
+  }
 
-.games-page__grid {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  &__grid {
+    display: grid;
+    gap: var(--f-space-lg);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  }
 }
 
 @media (width <= 960px) {
-  .games-page__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .games {
+    &__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 }
 
 @media (width <= 620px) {
-  .games-page__grid {
-    grid-template-columns: 1fr;
+  .games {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
   }
 }
 </style>

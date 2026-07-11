@@ -102,6 +102,14 @@ const openMatch = async (item: GameWithGuess) => {
   });
 };
 
+const makeGuesses = async () => {
+  await router.push({ name: RouteName.Games });
+};
+
+const openResults = async () => {
+  await router.push({ name: RouteName.Results });
+};
+
 onMounted(() => {
   if (route.query.activate === 'true') {
     setOverviewExperimentActive(true);
@@ -116,13 +124,13 @@ useOngoingMatchesPolling();
 </script>
 
 <template>
-  <main class="overview-page">
+  <main class="overview">
     <FPageFeedback :error="requestError" />
 
     <template v-if="isLoading">
-      <section class="overview-page__loading">
+      <section class="overview__loading">
         <Skeleton height="9rem" />
-        <div class="overview-page__grid">
+        <div class="overview__grid">
           <Skeleton height="18rem" />
           <Skeleton height="18rem" />
         </div>
@@ -136,11 +144,16 @@ useOngoingMatchesPolling();
         :summary-cards="summaryCards"
       />
 
-      <section class="overview-page__grid">
-        <OverviewRecentMatches :games="games" @select-match="openMatch" />
+      <section class="overview__grid">
+        <OverviewRecentMatches
+          :games="games"
+          @make-guesses="makeGuesses"
+          @select-match="openMatch"
+        />
         <OverviewNearbyLeaderboard
           :current-user-id="currentUser?.id"
           :players="nearbyPlayers"
+          @open-results="openResults"
           @select-player="selectPlayer"
         />
       </section>
@@ -149,28 +162,30 @@ useOngoingMatchesPolling();
 </template>
 
 <style scoped lang="scss">
-.overview-page {
+.overview {
   display: flex;
   width: min(100%, var(--f-page-empty-content-width, 1280px));
   flex-direction: column;
-  gap: 16px;
+  gap: var(--f-space-md);
   margin: 0 auto;
-}
 
-.overview-page__loading,
-.overview-page__grid {
-  display: grid;
-  gap: 16px;
-}
+  &__loading,
+  &__grid {
+    display: grid;
+    gap: var(--f-space-md);
+  }
 
-.overview-page__grid {
-  align-items: start;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  &__grid {
+    align-items: start;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
 }
 
 @media (width <= 1060px) {
-  .overview-page__grid {
-    grid-template-columns: 1fr;
+  .overview {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
   }
 }
 </style>

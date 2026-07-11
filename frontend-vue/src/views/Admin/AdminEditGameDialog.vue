@@ -10,7 +10,7 @@ import {
 } from 'primevue';
 import { computed } from 'vue';
 
-import FText from '@/components/FText.vue';
+import FFormField from '@/components/FFormField.vue';
 import { useTranslations } from '@/composables/useTranslations';
 import type { TranslationKey } from '@/i18n';
 import { translateTeamName } from '@/lib/teamName';
@@ -61,12 +61,13 @@ const setEditGoal = (side: 'goals1' | 'goals2', event: InputNumberEvent) => {
       class="admin-edit-game-dialog__form"
       @submit.prevent="adminStore.saveGame"
     >
-      <div class="admin-edit-game-dialog__field">
-        <label for="admin-edit-date">
-          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-            {{ t('v1.admin.table.title.date') }}
-          </FText>
-        </label>
+      <FFormField
+        class="admin-edit-game-dialog__field"
+        input-id="admin-edit-date"
+        :label="t('v1.admin.table.title.date')"
+        label-color="--p-text-muted-color"
+        label-variant="body-3-bold"
+      >
         <DatePicker
           id="admin-edit-date"
           v-model="editForm.date"
@@ -74,28 +75,30 @@ const setEditGoal = (side: 'goals1' | 'goals2', event: InputNumberEvent) => {
           fluid
           show-icon
         />
-      </div>
+      </FFormField>
 
-      <div class="admin-edit-game-dialog__field">
-        <label for="admin-edit-time">
-          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-            {{ t('v1.admin.table.title.time') }}
-          </FText>
-        </label>
+      <FFormField
+        class="admin-edit-game-dialog__field"
+        input-id="admin-edit-time"
+        :label="t('v1.admin.table.title.time')"
+        label-color="--p-text-muted-color"
+        label-variant="body-3-bold"
+      >
         <InputText
           id="admin-edit-time"
           v-model="editForm.time"
           fluid
           type="time"
         />
-      </div>
+      </FFormField>
 
-      <div class="admin-edit-game-dialog__field">
-        <label for="admin-edit-team-1">
-          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-            {{ t('v1.admin.table.title.team.1') }}
-          </FText>
-        </label>
+      <FFormField
+        class="admin-edit-game-dialog__field"
+        input-id="admin-edit-team-1"
+        :label="t('v1.admin.table.title.team.1')"
+        label-color="--p-text-muted-color"
+        label-variant="body-3-bold"
+      >
         <Select
           id="admin-edit-team-1"
           v-model="editForm.t1"
@@ -105,14 +108,15 @@ const setEditGoal = (side: 'goals1' | 'goals2', event: InputNumberEvent) => {
           option-value="value"
           fluid
         />
-      </div>
+      </FFormField>
 
-      <div class="admin-edit-game-dialog__field">
-        <label for="admin-edit-team-2">
-          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-            {{ t('v1.admin.table.title.team.2') }}
-          </FText>
-        </label>
+      <FFormField
+        class="admin-edit-game-dialog__field"
+        input-id="admin-edit-team-2"
+        :label="t('v1.admin.table.title.team.2')"
+        label-color="--p-text-muted-color"
+        label-variant="body-3-bold"
+      >
         <Select
           id="admin-edit-team-2"
           v-model="editForm.t2"
@@ -122,14 +126,15 @@ const setEditGoal = (side: 'goals1' | 'goals2', event: InputNumberEvent) => {
           option-value="value"
           fluid
         />
-      </div>
+      </FFormField>
 
-      <div class="admin-edit-game-dialog__field admin-edit-game-dialog__state">
-        <label for="admin-edit-state">
-          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-            {{ t('v1.admin.table.title.state') }}
-          </FText>
-        </label>
+      <FFormField
+        class="admin-edit-game-dialog__field admin-edit-game-dialog__state"
+        input-id="admin-edit-state"
+        :label="t('v1.admin.table.title.state')"
+        label-color="--p-text-muted-color"
+        label-variant="body-3-bold"
+      >
         <Select
           id="admin-edit-state"
           v-model="editForm.state"
@@ -138,15 +143,16 @@ const setEditGoal = (side: 'goals1' | 'goals2', event: InputNumberEvent) => {
           option-value="value"
           fluid
         />
-      </div>
+      </FFormField>
 
       <template v-if="editForm.state === GameState.FINISHED">
-        <div class="admin-edit-game-dialog__field">
-          <label for="admin-edit-goals-1">
-            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-              {{ t('v1.admin.table.title.goals.1') }}
-            </FText>
-          </label>
+        <FFormField
+          class="admin-edit-game-dialog__field"
+          input-id="admin-edit-goals-1"
+          :label="t('v1.admin.table.title.goals.1')"
+          label-color="--p-text-muted-color"
+          label-variant="body-3-bold"
+        >
           <InputNumber
             id="admin-edit-goals-1"
             v-model="editForm.goals1"
@@ -154,14 +160,15 @@ const setEditGoal = (side: 'goals1' | 'goals2', event: InputNumberEvent) => {
             fluid
             @input="setEditGoal('goals1', $event)"
           />
-        </div>
+        </FFormField>
 
-        <div class="admin-edit-game-dialog__field">
-          <label for="admin-edit-goals-2">
-            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-              {{ t('v1.admin.table.title.goals.2') }}
-            </FText>
-          </label>
+        <FFormField
+          class="admin-edit-game-dialog__field"
+          input-id="admin-edit-goals-2"
+          :label="t('v1.admin.table.title.goals.2')"
+          label-color="--p-text-muted-color"
+          label-variant="body-3-bold"
+        >
           <InputNumber
             id="admin-edit-goals-2"
             v-model="editForm.goals2"
@@ -169,7 +176,7 @@ const setEditGoal = (side: 'goals1' | 'goals2', event: InputNumberEvent) => {
             fluid
             @input="setEditGoal('goals2', $event)"
           />
-        </div>
+        </FFormField>
       </template>
 
       <div class="admin-edit-game-dialog__actions">
@@ -195,43 +202,38 @@ const setEditGoal = (side: 'goals1' | 'goals2', event: InputNumberEvent) => {
 <style scoped lang="scss">
 .admin-edit-game-dialog {
   width: min(840px, calc(100vw - 32px));
-}
 
-.admin-edit-game-dialog__form {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
+  &__form {
+    display: grid;
+    gap: var(--f-space-md);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
-.admin-edit-game-dialog__field {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 6px;
-}
+  &__state {
+    grid-column: 1 / -1;
+  }
 
-.admin-edit-game-dialog__state {
-  grid-column: 1 / -1;
-}
-
-.admin-edit-game-dialog__actions {
-  display: flex;
-  grid-column: 1 / -1;
-  justify-content: flex-end;
-  gap: 8px;
+  &__actions {
+    display: flex;
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+    gap: var(--f-space-xs);
+  }
 }
 
 @media (width <= 760px) {
-  .admin-edit-game-dialog__form {
-    grid-template-columns: 1fr;
-  }
+  .admin-edit-game-dialog {
+    &__form {
+      grid-template-columns: 1fr;
+    }
 
-  .admin-edit-game-dialog__actions {
-    grid-column: auto;
-    flex-direction: column-reverse;
+    &__actions {
+      grid-column: auto;
+      flex-direction: column-reverse;
 
-    :deep(.p-button) {
-      width: 100%;
+      :deep(.p-button) {
+        width: 100%;
+      }
     }
   }
 }

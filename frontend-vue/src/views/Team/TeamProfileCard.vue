@@ -54,9 +54,9 @@ const statCards = computed<
 </script>
 
 <template>
-  <Card class="team-profile-card-shell">
+  <Card class="team-profile-card">
     <template #content>
-      <section class="team-profile-card">
+      <section class="team-profile-card__content">
         <div class="team-profile-card__header">
           <img
             v-if="flagUrl"
@@ -65,7 +65,9 @@ const statCards = computed<
             :src="flagUrl"
           />
           <div v-else class="team-profile-card__flag-fallback">
-            <FText as="span" variant="body-2-bold">{{ team.code }}</FText>
+            <FText as="span" color="--p-primary-color" variant="body-3-bold">
+              {{ team.code }}
+            </FText>
           </div>
 
           <div class="team-profile-card__details">
@@ -117,7 +119,7 @@ const statCards = computed<
 </template>
 
 <style scoped lang="scss">
-:deep(.team-profile-card-shell.p-card) {
+:deep(.team-profile-card.p-card) {
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--p-primary-color) 18%, transparent);
   background:
@@ -131,132 +133,130 @@ const statCards = computed<
 }
 
 .team-profile-card {
-  display: grid;
-  align-items: center;
-  gap: 20px;
-  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.5fr);
-}
+  &__content {
+    display: grid;
+    align-items: center;
+    gap: var(--f-space-lg);
+    grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.5fr);
+  }
 
-.team-profile-card__header {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 14px;
-}
+  &__header {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: var(--f-space-sm);
+  }
 
-.team-profile-card__flag,
-.team-profile-card__flag-fallback {
-  width: 58px;
-  height: 58px;
-  flex: 0 0 auto;
-}
+  &__flag,
+  &__flag-fallback {
+    width: 58px;
+    height: 58px;
+    flex: 0 0 auto;
+  }
 
-.team-profile-card__flag {
-  object-fit: contain;
-}
+  &__flag {
+    object-fit: contain;
+  }
 
-.team-profile-card__flag-fallback {
-  display: grid;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, var(--p-primary-color) 32%, transparent);
-  border-radius: 18px;
-  background: color-mix(in srgb, var(--p-primary-color) 12%, transparent);
-  color: var(--p-primary-color);
-  font-weight: 800;
-}
+  &__flag-fallback {
+    display: grid;
+    place-items: center;
+    border: 1px solid
+      color-mix(in srgb, var(--p-primary-color) 32%, transparent);
+    border-radius: var(--f-radius-xl);
+    background: color-mix(in srgb, var(--p-primary-color) 12%, transparent);
+    color: var(--p-primary-color);
+  }
 
-.team-profile-card__details {
-  min-width: 0;
-}
+  &__details {
+    min-width: 0;
+  }
 
-.team-profile-card__tag {
-  width: fit-content;
-}
+  &__tag {
+    width: fit-content;
+  }
 
-.team-profile-card__name {
-  margin-top: 8px;
-  overflow-wrap: anywhere;
-}
+  &__name {
+    margin-top: var(--f-space-xs);
+    overflow-wrap: anywhere;
+  }
 
-.team-profile-card__stats {
-  display: grid;
-  width: 100%;
-  gap: 10px;
-  grid-template-columns: repeat(4, minmax(120px, 1fr));
-}
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    gap: var(--f-space-sm);
+  }
 
-.team-profile-card__stat {
-  display: grid;
-  min-width: 0;
-  gap: 10px;
-  padding: 12px;
-  border: 1px solid color-mix(in srgb, var(--p-text-color) 10%, transparent);
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--p-surface-card) 82%, transparent);
-  box-shadow: 0 10px 24px
-    color-mix(in srgb, var(--p-text-color) 6%, transparent);
-}
+  &__stat {
+    display: grid;
+    min-width: 0;
+    gap: var(--f-space-sm);
+    padding: var(--f-space-md);
+    border: 1px solid color-mix(in srgb, var(--p-text-color) 10%, transparent);
+    border-radius: var(--f-radius-md);
+    background: color-mix(in srgb, var(--p-surface-card) 82%, transparent);
+    box-shadow: 0 10px 24px
+      color-mix(in srgb, var(--p-text-color) 6%, transparent);
+  }
 
-.team-profile-card__stat-header {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 8px;
-}
+  &__stat-header {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: var(--f-space-xs);
+  }
 
-.team-profile-card__stat-icon {
-  display: inline-grid;
-  width: 22px;
-  height: 22px;
-  flex: 0 0 auto;
-  place-items: center;
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--p-primary-color) 12%, transparent);
-  color: var(--p-primary-color);
+  &__stat-icon {
+    display: inline-grid;
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: var(--f-radius-xs);
+    background: color-mix(in srgb, var(--p-primary-color) 12%, transparent);
+    color: var(--p-primary-color);
 
-  i {
-    font-size: 0.75rem;
+    i {
+      font-size: 0.75rem;
+    }
+  }
+
+  &__stat-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
-.team-profile-card__stat-label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.team-profile-card__stat-value {
-  line-height: 1;
-}
-
 @media (width <= 1040px) {
-  .team-profile-card {
+  .team-profile-card__content {
     grid-template-columns: 1fr;
   }
 }
 
-@media (width <= 560px) {
-  .team-profile-card__header {
-    align-items: flex-start;
-  }
+@media (width <= 760px) {
+  .team-profile-card {
+    &__header {
+      align-items: flex-start;
+    }
 
-  .team-profile-card__flag,
-  .team-profile-card__flag-fallback {
-    width: 50px;
-    height: 50px;
-  }
+    &__flag,
+    &__flag-fallback {
+      width: 50px;
+      height: 50px;
+    }
 
-  .team-profile-card__flag-fallback {
-    border-radius: 16px;
-    font-size: 0.9rem;
-  }
+    &__flag-fallback {
+      border-radius: var(--f-radius-lg);
+    }
 
-  .team-profile-card__name {
-    white-space: normal;
-  }
+    &__name {
+      white-space: normal;
+    }
 
-  .team-profile-card__stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    &__stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 }
 </style>

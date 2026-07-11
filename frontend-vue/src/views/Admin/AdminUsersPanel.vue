@@ -39,7 +39,7 @@ const { isLoading, users } = storeToRefs(adminStore);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--f-space-md);
 }
 
 @media (width <= 760px) {

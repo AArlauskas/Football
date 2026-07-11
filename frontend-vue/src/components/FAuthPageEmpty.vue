@@ -27,8 +27,8 @@ const selectedLocale = computed({
 </script>
 
 <template>
-  <main class="f-page-empty">
-    <div class="f-page-empty__actions">
+  <main class="f-auth-page-empty">
+    <div class="f-auth-page-empty__actions">
       <Button
         :aria-label="themeButtonLabel"
         :icon="isDark ? 'pi pi-sun' : 'pi pi-moon'"
@@ -47,40 +47,40 @@ const selectedLocale = computed({
       />
     </div>
 
-    <div class="f-page-empty__content">
+    <div class="f-auth-page-empty__content">
       <slot />
     </div>
   </main>
 </template>
 
 <style scoped lang="scss">
-.f-page-empty {
+.f-auth-page-empty {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  padding: 32px;
-}
+  padding: calc(var(--f-space-md) * 2);
 
-.f-page-empty__actions {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 8px;
-  justify-content: flex-end;
-}
+  &__actions {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: var(--f-space-xs);
+    justify-content: flex-end;
+  }
 
-.f-page-empty__content {
-  display: flex;
-  width: 100%;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding-top: 24px;
+  &__content {
+    display: flex;
+    width: 100%;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--f-space-xl);
+  }
 }
 
 @media (width <= 560px) {
-  .f-page-empty {
-    padding: 16px;
+  .f-auth-page-empty {
+    padding: var(--f-space-md);
   }
 }
 </style>

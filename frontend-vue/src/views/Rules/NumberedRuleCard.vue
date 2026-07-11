@@ -31,15 +31,15 @@ defineProps<{
 .numbered-rule-card {
   border: var(--f-card-border);
   height: 100%;
+
   :deep(.p-card-body) {
     height: 100%;
-    padding: 16px;
   }
 
   &__content {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: var(--f-space-sm);
   }
 
   &__number {
@@ -49,7 +49,7 @@ defineProps<{
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    border-radius: 999px;
+    border-radius: var(--f-radius-full);
     background: var(--p-primary-color);
   }
 }

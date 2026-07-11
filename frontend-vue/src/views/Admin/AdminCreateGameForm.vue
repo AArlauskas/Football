@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia';
 import { Button, Card, DatePicker, InputText, Select } from 'primevue';
 import { computed } from 'vue';
 
+import FFormField from '@/components/FFormField.vue';
 import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
 import { translateTeamName } from '@/lib/teamName';
@@ -33,12 +34,13 @@ const teamOptions = computed(() =>
         class="admin-create-game-form"
         @submit.prevent="adminStore.createGame"
       >
-        <div class="admin-create-game-form__field">
-          <label for="admin-create-date">
-            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-              {{ t('v1.admin.table.title.date') }}
-            </FText>
-          </label>
+        <FFormField
+          class="admin-create-game-form__field"
+          input-id="admin-create-date"
+          :label="t('v1.admin.table.title.date')"
+          label-color="--p-text-muted-color"
+          label-variant="body-3-bold"
+        >
           <DatePicker
             id="admin-create-date"
             v-model="createForm.date"
@@ -46,28 +48,30 @@ const teamOptions = computed(() =>
             fluid
             show-icon
           />
-        </div>
+        </FFormField>
 
-        <div class="admin-create-game-form__field">
-          <label for="admin-create-time">
-            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-              {{ t('v1.admin.table.title.time') }}
-            </FText>
-          </label>
+        <FFormField
+          class="admin-create-game-form__field"
+          input-id="admin-create-time"
+          :label="t('v1.admin.table.title.time')"
+          label-color="--p-text-muted-color"
+          label-variant="body-3-bold"
+        >
           <InputText
             id="admin-create-time"
             v-model="createForm.time"
             fluid
             type="time"
           />
-        </div>
+        </FFormField>
 
-        <div class="admin-create-game-form__field">
-          <label for="admin-create-team-1">
-            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-              {{ t('v1.admin.table.title.team.1') }}
-            </FText>
-          </label>
+        <FFormField
+          class="admin-create-game-form__field"
+          input-id="admin-create-team-1"
+          :label="t('v1.admin.table.title.team.1')"
+          label-color="--p-text-muted-color"
+          label-variant="body-3-bold"
+        >
           <Select
             id="admin-create-team-1"
             v-model="createForm.t1"
@@ -77,14 +81,15 @@ const teamOptions = computed(() =>
             option-value="value"
             fluid
           />
-        </div>
+        </FFormField>
 
-        <div class="admin-create-game-form__field">
-          <label for="admin-create-team-2">
-            <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-              {{ t('v1.admin.table.title.team.2') }}
-            </FText>
-          </label>
+        <FFormField
+          class="admin-create-game-form__field"
+          input-id="admin-create-team-2"
+          :label="t('v1.admin.table.title.team.2')"
+          label-color="--p-text-muted-color"
+          label-variant="body-3-bold"
+        >
           <Select
             id="admin-create-team-2"
             v-model="createForm.t2"
@@ -94,7 +99,7 @@ const teamOptions = computed(() =>
             option-value="value"
             fluid
           />
-        </div>
+        </FFormField>
 
         <Button
           class="admin-create-game-form__submit"
@@ -113,28 +118,21 @@ const teamOptions = computed(() =>
 .admin-create-game-form {
   display: grid;
   align-items: end;
-  gap: 16px;
+  gap: var(--f-space-md);
   grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
-}
 
-.admin-create-game-form__field {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.admin-create-game-form__submit {
-  white-space: nowrap;
+  &__submit {
+    white-space: nowrap;
+  }
 }
 
 @media (width <= 1040px) {
   .admin-create-game-form {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 
-  .admin-create-game-form__submit {
-    grid-column: 1 / -1;
+    &__submit {
+      grid-column: 1 / -1;
+    }
   }
 }
 

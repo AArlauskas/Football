@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { Button, Dialog, InputNumber } from 'primevue';
 
-import FText from '@/components/FText.vue';
+import FFormField from '@/components/FFormField.vue';
 import { useTranslations } from '@/composables/useTranslations';
 import { useAdminStore } from '@/stores/adminStore';
 import {
@@ -34,12 +34,13 @@ const setCompleteGoal = (
       class="admin-complete-game-dialog__form"
       @submit.prevent="adminStore.completeGame"
     >
-      <div class="admin-complete-game-dialog__field">
-        <label for="admin-complete-goals-1">
-          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-            {{ t('v1.admin.table.title.goals.1') }}
-          </FText>
-        </label>
+      <FFormField
+        class="admin-complete-game-dialog__field"
+        input-id="admin-complete-goals-1"
+        :label="t('v1.admin.table.title.goals.1')"
+        label-color="--p-text-muted-color"
+        label-variant="body-3-bold"
+      >
         <InputNumber
           id="admin-complete-goals-1"
           v-model="completeForm.goals1"
@@ -47,14 +48,15 @@ const setCompleteGoal = (
           fluid
           @input="setCompleteGoal('goals1', $event)"
         />
-      </div>
+      </FFormField>
 
-      <div class="admin-complete-game-dialog__field">
-        <label for="admin-complete-goals-2">
-          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-            {{ t('v1.admin.table.title.goals.2') }}
-          </FText>
-        </label>
+      <FFormField
+        class="admin-complete-game-dialog__field"
+        input-id="admin-complete-goals-2"
+        :label="t('v1.admin.table.title.goals.2')"
+        label-color="--p-text-muted-color"
+        label-variant="body-3-bold"
+      >
         <InputNumber
           id="admin-complete-goals-2"
           v-model="completeForm.goals2"
@@ -62,7 +64,7 @@ const setCompleteGoal = (
           fluid
           @input="setCompleteGoal('goals2', $event)"
         />
-      </div>
+      </FFormField>
 
       <div class="admin-complete-game-dialog__actions">
         <Button
@@ -87,39 +89,34 @@ const setCompleteGoal = (
 <style scoped lang="scss">
 .admin-complete-game-dialog {
   width: min(520px, calc(100vw - 32px));
-}
 
-.admin-complete-game-dialog__form {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
+  &__form {
+    display: grid;
+    gap: var(--f-space-md);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
-.admin-complete-game-dialog__field {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.admin-complete-game-dialog__actions {
-  display: flex;
-  grid-column: 1 / -1;
-  justify-content: flex-end;
-  gap: 8px;
+  &__actions {
+    display: flex;
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+    gap: var(--f-space-xs);
+  }
 }
 
 @media (width <= 760px) {
-  .admin-complete-game-dialog__form {
-    grid-template-columns: 1fr;
-  }
+  .admin-complete-game-dialog {
+    &__form {
+      grid-template-columns: 1fr;
+    }
 
-  .admin-complete-game-dialog__actions {
-    grid-column: auto;
-    flex-direction: column-reverse;
+    &__actions {
+      grid-column: auto;
+      flex-direction: column-reverse;
 
-    :deep(.p-button) {
-      width: 100%;
+      :deep(.p-button) {
+        width: 100%;
+      }
     }
   }
 }

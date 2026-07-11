@@ -43,27 +43,27 @@ defineEmits<{
 .f-page-navigation {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
+  gap: var(--f-space-sm);
 
-.f-page-navigation__link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  color: var(--p-text-muted-color);
-  text-decoration: none;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
-}
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: var(--f-space-md);
+    padding: var(--f-space-sm);
+    border-radius: var(--f-radius-md);
+    color: var(--p-text-muted-color);
+    text-decoration: none;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
 
-.f-page-navigation__link:hover,
-.f-page-navigation__link--active {
-  background: var(--f-page-empty-nav-active-background);
-  color: var(--f-page-empty-nav-active-color);
-  transform: translateX(2px);
+    &:hover,
+    &--active {
+      background: var(--f-page-empty-nav-active-background);
+      color: var(--f-page-empty-nav-active-color);
+      transform: translateX(2px);
+    }
+  }
 }
 </style>

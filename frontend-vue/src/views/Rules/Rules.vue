@@ -49,6 +49,6 @@ usePageTitle(computed(() => t('v1.rules')));
 .rules {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--f-space-xl);
 }
 </style>

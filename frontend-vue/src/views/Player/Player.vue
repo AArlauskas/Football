@@ -45,7 +45,7 @@ useOngoingMatchesPolling();
 </script>
 
 <template>
-  <main class="player-page">
+  <main class="player">
     <FPageFeedback :error="requestError" />
 
     <template v-if="isLoading">
@@ -60,11 +60,11 @@ useOngoingMatchesPolling();
 </template>
 
 <style scoped lang="scss">
-.player-page {
+.player {
   display: flex;
   width: min(100%, var(--f-page-empty-content-width, 1280px));
   flex-direction: column;
-  gap: 16px;
+  gap: var(--f-space-md);
   margin: 0 auto;
 }
 </style>

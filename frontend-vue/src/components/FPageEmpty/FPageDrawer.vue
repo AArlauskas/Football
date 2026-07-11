@@ -51,12 +51,12 @@ const visibleModel = computed({
 </script>
 
 <template>
-  <Drawer v-model:visible="visibleModel" :header="$t('v1.navigation')">
-    <div
-      class="f-page-drawer__content"
-      data-football-container="true"
-      :class="{ 'f-page-drawer__content--dark': isDark }"
-    >
+  <Drawer
+    v-model:visible="visibleModel"
+    class="f-page-drawer"
+    :header="$t('v1.navigation')"
+  >
+    <div class="f-page-drawer__content" data-football-container="true">
       <div class="f-page-drawer__actions">
         <FPagePlayerSummary
           :current-player-name="currentPlayerName"
@@ -99,57 +99,41 @@ const visibleModel = computed({
 </template>
 
 <style scoped lang="scss">
-.f-page-drawer__content {
-  --f-page-empty-border: var(--p-surface-200);
-  --f-page-empty-nav-active-background: color-mix(
-    in srgb,
-    var(--p-primary-100) 92%,
-    transparent
-  );
-  --f-page-empty-nav-active-color: var(--p-primary-700);
+.f-page-drawer {
+  &__content {
+    display: flex;
+    min-height: 100%;
+    position: relative;
+    flex-direction: column;
+    gap: var(--f-space-sm);
+  }
 
-  display: flex;
-  min-height: 100%;
-  position: relative;
-  flex-direction: column;
-  gap: 10px;
-}
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-md);
+    padding-bottom: var(--f-space-md);
+    margin-bottom: var(--f-space-2xs);
+    border-bottom: 1px solid var(--f-page-empty-border);
+  }
 
-.f-page-drawer__content--dark {
-  --f-page-empty-border: var(--p-surface-800);
-  --f-page-empty-nav-active-background: color-mix(
-    in srgb,
-    var(--p-primary-500) 22%,
-    transparent
-  );
-  --f-page-empty-nav-active-color: var(--p-primary-200);
-}
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-md);
+    padding-top: var(--f-space-md);
+    margin-top: auto;
+    border-top: 1px solid var(--f-page-empty-border);
+  }
 
-.f-page-drawer__actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-bottom: 16px;
-  margin-bottom: 6px;
-  border-bottom: 1px solid var(--f-page-empty-border);
-}
+  &__settings {
+    display: flex;
+    align-items: center;
+    gap: var(--f-space-md);
 
-.f-page-drawer__footer {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-top: 16px;
-  margin-top: auto;
-  border-top: 1px solid var(--f-page-empty-border);
-}
-
-.f-page-drawer__settings {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.f-page-drawer__settings :deep(.p-select) {
-  flex: 1;
+    :deep(.p-select) {
+      flex: 1;
+    }
+  }
 }
 </style>

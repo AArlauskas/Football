@@ -53,7 +53,6 @@ export const useTheme = () => {
   };
 
   return {
-    darkModeClass: DARK_MODE_CLASS,
     isDark: readonly(isDark),
     setDarkMode,
     toggleTheme,

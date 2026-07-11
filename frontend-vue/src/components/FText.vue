@@ -45,63 +45,63 @@ const textColor = computed(() => {
   margin: 0;
   color: var(--p-text-color);
   font-family: inherit;
-}
 
-.f-text--heading-1 {
-  font-size: clamp(2.25rem, 6vw, 5rem);
-  font-weight: 800;
-  line-height: 0.95;
-}
+  &--heading-1 {
+    font-size: clamp(2.25rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 0.95;
+  }
 
-.f-text--heading-2 {
-  font-size: 1.75rem;
-  font-weight: 800;
-  line-height: 1.15;
-}
+  &--heading-2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1.15;
+  }
 
-.f-text--heading-3 {
-  font-size: 1.5rem;
-  font-weight: 800;
-  line-height: 1.2;
-}
+  &--heading-3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+  }
 
-.f-text--body-1,
-.f-text--body-1-bold {
-  font-size: 1.125rem;
-  line-height: 1.5;
-}
+  &--body-1,
+  &--body-1-bold {
+    font-size: 1.125rem;
+    line-height: 1.5;
+  }
 
-.f-text--body-2,
-.f-text--body-2-bold {
-  font-size: 1rem;
-  line-height: 1.5;
-}
+  &--body-2,
+  &--body-2-bold {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
 
-.f-text--body-3,
-.f-text--body-3-bold {
-  font-size: 0.85rem;
-  line-height: 1.35;
-}
+  &--body-3,
+  &--body-3-bold {
+    font-size: 0.85rem;
+    line-height: 1.35;
+  }
 
-.f-text--body-1-bold,
-.f-text--body-2-bold,
-.f-text--body-3-bold {
-  font-weight: 700;
-}
+  &--body-1-bold,
+  &--body-2-bold,
+  &--body-3-bold {
+    font-weight: 700;
+  }
 
-.f-text--clickable {
-  cursor: pointer;
-  text-decoration: none;
-  transition:
-    color 0.2s,
-    text-decoration-color 0.2s;
+  &--clickable {
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      color 0.2s,
+      text-decoration-color 0.2s;
 
-  &:hover,
-  &:focus-visible {
-    color: var(--p-primary-hover-color);
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 3px;
+    &:hover,
+    &:focus-visible {
+      color: var(--p-primary-hover-color);
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+    }
   }
 }
 </style>

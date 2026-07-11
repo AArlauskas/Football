@@ -14,6 +14,7 @@ import { z } from 'zod';
 
 import signInHeroUrl from '@/assets/sign-in-hero.png';
 import FAuthPageEmpty from '@/components/FAuthPageEmpty.vue';
+import FFormField from '@/components/FFormField.vue';
 import FText from '@/components/FText.vue';
 import { usePageTitle } from '@/composables/usePageTitle';
 import { useTranslations } from '@/composables/useTranslations';
@@ -96,10 +97,12 @@ usePageTitle(computed(() => t('v1.log.in')));
               {{ requestError }}
             </Message>
 
-            <label class="sign-in__field">
-              <FText as="span" variant="body-2-bold">
-                {{ t('v1.email') }}
-              </FText>
+            <FFormField
+              class="sign-in__field"
+              :error="errors.email"
+              input-id="sign-in-email"
+              :label="t('v1.email')"
+            >
               <InputText
                 id="sign-in-email"
                 v-model="email"
@@ -109,15 +112,14 @@ usePageTitle(computed(() => t('v1.log.in')));
                 type="email"
                 :invalid="Boolean(errors.email)"
               />
-              <small v-if="errors.email" class="sign-in__error-message">
-                {{ errors.email }}
-              </small>
-            </label>
+            </FFormField>
 
-            <label class="sign-in__field">
-              <FText as="span" variant="body-2-bold">
-                {{ t('v1.password') }}
-              </FText>
+            <FFormField
+              class="sign-in__field"
+              :error="errors.password"
+              input-id="sign-in-password"
+              :label="t('v1.password')"
+            >
               <Password
                 v-model="password"
                 input-id="sign-in-password"
@@ -129,10 +131,7 @@ usePageTitle(computed(() => t('v1.log.in')));
                 toggle-mask
                 fluid
               />
-              <small v-if="errors.password" class="sign-in__error-message">
-                {{ errors.password }}
-              </small>
-            </label>
+            </FFormField>
 
             <Button
               type="submit"
@@ -167,7 +166,7 @@ usePageTitle(computed(() => t('v1.log.in')));
   width: min(100%, 1080px);
   grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
   align-items: center;
-  gap: 24px;
+  gap: var(--f-space-xl);
 
   &__hero-image {
     display: block;
@@ -187,26 +186,19 @@ usePageTitle(computed(() => t('v1.log.in')));
   &__title {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--f-space-md);
   }
 
   &__form {
     display: grid;
-    gap: 24px;
+    gap: var(--f-space-xl);
   }
 
   &__field {
-    display: grid;
-    gap: 8px;
-
     :deep(.p-inputtext),
     :deep(.p-password) {
       width: 100%;
     }
-  }
-
-  &__error-message {
-    color: var(--p-red-500);
   }
 }
 

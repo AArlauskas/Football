@@ -20,9 +20,9 @@ import { Card, Skeleton } from 'primevue';
   </Card>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .player-loading-state {
   display: grid;
-  gap: 12px;
+  gap: var(--f-space-md);
 }
 </style>

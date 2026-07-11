@@ -73,7 +73,7 @@ usePageTitle(pageTitle);
 </script>
 
 <template>
-  <main class="team-page">
+  <main class="team">
     <FPageFeedback :error="requestError" />
 
     <template v-if="isLoading">
@@ -88,11 +88,11 @@ usePageTitle(pageTitle);
 </template>
 
 <style scoped lang="scss">
-.team-page {
+.team {
   display: flex;
   width: min(100%, var(--f-page-empty-content-width, 1280px));
   flex-direction: column;
-  gap: 16px;
+  gap: var(--f-space-md);
   margin: 0 auto;
 }
 </style>

@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia';
 import { Button, Dialog, InputText, Select } from 'primevue';
 import { computed } from 'vue';
 
+import FFormField from '@/components/FFormField.vue';
 import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
 import { useAdminStore } from '@/stores/adminStore';
@@ -45,12 +46,13 @@ const copyPassword = async () => {
       class="admin-reset-password-dialog__form"
       @submit.prevent="adminStore.submitPasswordReset"
     >
-      <div class="admin-reset-password-dialog__field">
-        <label for="admin-reset-password-user">
-          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-            {{ t('v1.admin.reset.password.select.user') }}
-          </FText>
-        </label>
+      <FFormField
+        class="admin-reset-password-dialog__field"
+        input-id="admin-reset-password-user"
+        :label="t('v1.admin.reset.password.select.user')"
+        label-color="--p-text-muted-color"
+        label-variant="body-3-bold"
+      >
         <Select
           id="admin-reset-password-user"
           v-model="selectedUserEmail"
@@ -62,17 +64,16 @@ const copyPassword = async () => {
           :options="userOptions"
           :placeholder="t('v1.admin.reset.password.select.user')"
         />
-      </div>
+      </FFormField>
 
-      <div
+      <FFormField
         v-if="resetPasswordResult"
         class="admin-reset-password-dialog__field"
+        input-id="admin-reset-password-result"
+        :label="t('v1.admin.reset.password.generated')"
+        label-color="--p-text-muted-color"
+        label-variant="body-3-bold"
       >
-        <label for="admin-reset-password-result">
-          <FText as="span" color="--p-text-muted-color" variant="body-3-bold">
-            {{ t('v1.admin.reset.password.generated') }}
-          </FText>
-        </label>
         <div class="admin-reset-password-dialog__password">
           <InputText
             id="admin-reset-password-result"
@@ -95,7 +96,7 @@ const copyPassword = async () => {
             })
           }}
         </FText>
-      </div>
+      </FFormField>
 
       <div class="admin-reset-password-dialog__actions">
         <Button
@@ -120,41 +121,38 @@ const copyPassword = async () => {
 <style scoped lang="scss">
 .admin-reset-password-dialog {
   width: min(560px, calc(100vw - 32px));
-}
 
-.admin-reset-password-dialog__form,
-.admin-reset-password-dialog__field {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-md);
+  }
 
-.admin-reset-password-dialog__form {
-  gap: 16px;
-}
+  &__password {
+    display: grid;
+    gap: var(--f-space-xs);
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
 
-.admin-reset-password-dialog__password {
-  display: grid;
-  gap: 8px;
-  grid-template-columns: minmax(0, 1fr) auto;
-}
-
-.admin-reset-password-dialog__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--f-space-xs);
+  }
 }
 
 @media (width <= 760px) {
-  .admin-reset-password-dialog__password {
-    grid-template-columns: 1fr;
-  }
+  .admin-reset-password-dialog {
+    &__password {
+      grid-template-columns: 1fr;
+    }
 
-  .admin-reset-password-dialog__actions {
-    flex-direction: column-reverse;
+    &__actions {
+      flex-direction: column-reverse;
 
-    :deep(.p-button) {
-      width: 100%;
+      :deep(.p-button) {
+        width: 100%;
+      }
     }
   }
 }

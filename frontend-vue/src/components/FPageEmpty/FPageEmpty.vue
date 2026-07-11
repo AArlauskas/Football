@@ -162,7 +162,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <main class="f-page-empty" :class="{ 'f-page-empty--dark': isDark }">
+  <main class="f-page-empty">
     <FPageTopbar
       v-model:selected-locale="selectedLocale"
       :current-player-place="currentPlayerPlace"
@@ -205,32 +205,8 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .f-page-empty {
-  --f-page-empty-background:
-    radial-gradient(
-      circle at top left,
-      color-mix(in srgb, var(--p-primary-400) 24%, transparent),
-      transparent 34rem
-    ),
-    var(--p-surface-100);
-  --f-page-empty-border: var(--p-surface-200);
   --f-page-empty-content-width: 1280px;
   --f-page-empty-logo-height: 36px;
-  --f-page-empty-nav-active-background: color-mix(
-    in srgb,
-    var(--p-primary-100) 92%,
-    transparent
-  );
-  --f-page-empty-nav-active-color: var(--p-primary-700);
-  --f-page-empty-panel-background: color-mix(
-    in srgb,
-    var(--p-surface-0) 82%,
-    transparent
-  );
-  --f-page-empty-sidebar-background: color-mix(
-    in srgb,
-    var(--p-surface-0) 74%,
-    transparent
-  );
   --f-page-empty-sidebar-width: 280px;
   --f-page-empty-topbar-height: 64px;
 
@@ -243,42 +219,15 @@ onUnmounted(() => {
   grid-template-rows: auto minmax(0, 1fr);
   background: var(--f-page-empty-background);
   color: var(--p-text-color);
-}
 
-.f-page-empty--dark {
-  --f-page-empty-background:
-    radial-gradient(
-      circle at top left,
-      color-mix(in srgb, var(--p-primary-color) 30%, transparent),
-      transparent 34rem
-    ),
-    var(--p-surface-950);
-  --f-page-empty-border: var(--p-surface-800);
-  --f-page-empty-nav-active-background: color-mix(
-    in srgb,
-    var(--p-primary-500) 22%,
-    transparent
-  );
-  --f-page-empty-nav-active-color: var(--p-primary-200);
-  --f-page-empty-panel-background: color-mix(
-    in srgb,
-    var(--p-surface-900) 82%,
-    transparent
-  );
-  --f-page-empty-sidebar-background: color-mix(
-    in srgb,
-    var(--p-surface-900) 74%,
-    transparent
-  );
-}
-
-.f-page-empty__body {
-  grid-area: content;
-  width: min(100%, var(--f-page-empty-content-width));
-  min-width: 0;
-  padding: 48px 24px;
-  margin: 0 auto;
-  box-sizing: border-box;
+  &__body {
+    grid-area: content;
+    width: min(100%, var(--f-page-empty-content-width));
+    min-width: 0;
+    padding: calc(var(--f-space-xl) * 2) var(--f-space-xl);
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
 }
 
 @media (width <= 920px) {
@@ -290,11 +239,11 @@ onUnmounted(() => {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-  }
 
-  .f-page-empty__body {
-    width: 100%;
-    padding: 24px 16px;
+    &__body {
+      width: 100%;
+      padding: var(--f-space-xl) var(--f-space-md);
+    }
   }
 }
 </style>

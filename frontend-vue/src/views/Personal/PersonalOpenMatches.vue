@@ -109,13 +109,15 @@ watch(
         class="personal-open-matches__group"
       >
         <Card>
-          <template #title>{{ group.date }}</template>
+          <template #title>
+            <FText as="span" variant="body-1-bold">{{ group.date }}</FText>
+          </template>
           <template #content>
             <div class="personal-open-matches__day-games">
               <article
                 v-for="item in group.items"
                 :key="item.game.id"
-                class="personal-open-matches__match-card"
+                class="personal-open-matches__match-card f-card-surface"
               >
                 <FText
                   as="span"
@@ -197,114 +199,112 @@ watch(
 .personal-open-matches {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
+  gap: var(--f-space-md);
 
-.personal-open-matches__list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.personal-open-matches__day-games {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.personal-open-matches__match-card {
-  display: grid;
-  overflow: hidden;
-  border: var(--f-card-border);
-  border-radius: var(--f-card-radius);
-  background: var(--p-surface-card);
-  box-shadow: var(--f-card-shadow);
-}
-
-.personal-open-matches__match-time {
-  width: 100%;
-  padding: 10px 12px;
-  border-bottom: var(--f-match-time-border);
-  background: var(--f-match-time-background);
-  text-align: center;
-}
-
-.personal-open-matches__match-main {
-  display: grid;
-  align-items: center;
-  gap: 12px;
-  grid-template-areas: 'team-home guess-home separator guess-away team-away';
-  grid-template-columns: minmax(0, 1fr) 72px 12px 72px minmax(0, 1fr);
-  padding: 14px 12px;
-  text-align: center;
-}
-
-.personal-open-matches__team-button {
-  min-width: 0;
-  padding: 0;
-  color: var(--p-text-color);
-
-  :deep(.p-button-label) {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-lg);
   }
-}
 
-.personal-open-matches__team-button--home {
-  grid-area: team-home;
-}
+  &__day-games {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-xl);
+  }
 
-.personal-open-matches__team-button--away {
-  grid-area: team-away;
-}
+  &__match-card {
+    display: grid;
+    overflow: hidden;
+  }
 
-.personal-open-matches__score-input--home {
-  grid-area: guess-home;
-}
-
-.personal-open-matches__score-input--away {
-  grid-area: guess-away;
-}
-
-.personal-open-matches__score-separator {
-  grid-area: separator;
-}
-
-.personal-open-matches__score-input {
-  min-width: 0;
-
-  :deep(.personal-open-matches__score-input-field) {
+  &__match-time {
     width: 100%;
+    padding: var(--f-space-sm) var(--f-space-md);
+    border-bottom: var(--f-match-time-border);
+    background: var(--f-match-time-background);
     text-align: center;
   }
-}
 
-.personal-open-matches__save-button {
-  width: 100%;
-  border-radius: 0;
+  &__match-main {
+    display: grid;
+    align-items: center;
+    gap: var(--f-space-md);
+    grid-template-areas: 'team-home guess-home separator guess-away team-away';
+    grid-template-columns: minmax(0, 1fr) 72px 12px 72px minmax(0, 1fr);
+    padding: var(--f-space-sm) var(--f-space-md);
+    text-align: center;
+  }
+
+  &__team-button {
+    min-width: 0;
+    padding: 0;
+    color: var(--p-text-color);
+
+    &--home {
+      grid-area: team-home;
+    }
+
+    &--away {
+      grid-area: team-away;
+    }
+
+    :deep(.p-button-label) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__score-input {
+    min-width: 0;
+
+    &--home {
+      grid-area: guess-home;
+    }
+
+    &--away {
+      grid-area: guess-away;
+    }
+
+    :deep(.personal-open-matches__score-input-field) {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  &__score-separator {
+    grid-area: separator;
+  }
+
+  &__save-button {
+    width: 100%;
+    border-radius: 0;
+  }
 }
 
 @media (width <= 760px) {
-  .personal-open-matches__match-main {
-    gap: 12px 8px;
-    grid-template-areas:
-      'team-home team-home team-home team-away team-away'
-      '. guess-home separator guess-away .';
-    grid-template-columns: minmax(0, 1fr) 56px 8px 56px minmax(0, 1fr);
-    padding: 12px;
-  }
+  .personal-open-matches {
+    &__match-main {
+      gap: var(--f-space-md) var(--f-space-xs);
+      grid-template-areas:
+        'team-home team-home team-home team-away team-away'
+        '. guess-home separator guess-away .';
+      grid-template-columns: minmax(0, 1fr) 56px 8px 56px minmax(0, 1fr);
+      padding: var(--f-space-md);
+    }
 
-  .personal-open-matches__team-button {
-    justify-content: center;
-  }
+    &__team-button {
+      justify-content: center;
 
-  .personal-open-matches__team-button :deep(.p-button-label) {
-    white-space: normal;
-  }
+      :deep(.p-button-label) {
+        white-space: normal;
+      }
+    }
 
-  .personal-open-matches__score-input {
-    width: 56px;
+    &__score-input {
+      width: 56px;
+    }
   }
 }
 </style>

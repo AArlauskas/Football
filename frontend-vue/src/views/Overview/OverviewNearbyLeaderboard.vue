@@ -13,6 +13,7 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
+  openResults: [];
   selectPlayer: [player: UserDetails];
 }>();
 
@@ -23,16 +24,28 @@ const getFullName = (player: UserDetails) =>
 </script>
 
 <template>
-  <Card>
+  <Card class="overview-nearby-leaderboard">
     <template #title>
       <div class="overview-nearby-leaderboard__title">
-        <FText as="span" variant="body-1-bold">
+        <FText
+          as="span"
+          class="overview-nearby-leaderboard__title-label"
+          variant="body-1-bold"
+        >
           {{ t('v1.overview.around.you') }}
         </FText>
+        <Button
+          class="overview-nearby-leaderboard__results-button"
+          icon="pi pi-trophy"
+          :aria-label="t('v1.results')"
+          severity="secondary"
+          size="small"
+          @click="emit('openResults')"
+        />
       </div>
     </template>
     <template #content>
-      <ol v-if="players.length" class="overview-nearby-leaderboard">
+      <ol v-if="players.length" class="overview-nearby-leaderboard__list">
         <li
           v-for="player in players"
           :key="player.id"
@@ -81,96 +94,113 @@ const getFullName = (player: UserDetails) =>
 </template>
 
 <style scoped lang="scss">
-.overview-nearby-leaderboard__title {
-  display: grid;
-  gap: 2px;
-}
-
 .overview-nearby-leaderboard {
-  display: grid;
-  gap: 8px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.overview-nearby-leaderboard__row {
-  display: grid;
-  min-width: 0;
-  align-items: center;
-  gap: 10px;
-  grid-template-columns: auto minmax(0, 1fr);
-  padding: 10px;
-  border-radius: 14px;
-  background: var(--p-content-hover-background);
-}
-
-.overview-nearby-leaderboard__row--current {
-  background: var(--f-current-background);
-}
-
-.overview-nearby-leaderboard__place {
-  width: 36px;
-  height: 36px;
-  font-weight: 700;
-}
-
-.overview-nearby-leaderboard__details {
-  display: grid;
-  min-width: 0;
-  align-items: center;
-  gap: 10px;
-  grid-template-columns: minmax(0, 1fr) auto;
-}
-
-.overview-nearby-leaderboard__player-button {
-  justify-self: start;
-  min-width: 0;
-  max-width: 100%;
-  padding: 0;
-  color: var(--p-text-color);
-  text-align: left;
-
-  :deep(.p-button-label) {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  &__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--f-space-md);
   }
-}
 
-.overview-nearby-leaderboard__stats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 10px;
+  &__title-label {
+    min-width: 0;
+    flex: 1 1 10rem;
+  }
+
+  &__results-button.p-button {
+    flex: 0 0 auto;
+    margin-inline-start: auto;
+  }
+
+  &__list {
+    display: grid;
+    gap: var(--f-space-xs);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  &__row {
+    display: grid;
+    min-width: 0;
+    align-items: center;
+    gap: var(--f-space-sm);
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: var(--f-space-sm);
+    border-radius: var(--f-radius-md);
+    background: var(--p-content-hover-background);
+
+    &--current {
+      background: var(--f-current-background);
+    }
+  }
+
+  &__place {
+    width: 36px;
+    height: 36px;
+    font-weight: 700;
+  }
+
+  &__details {
+    display: grid;
+    min-width: 0;
+    align-items: center;
+    gap: var(--f-space-sm);
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  &__player-button {
+    justify-self: start;
+    min-width: 0;
+    max-width: 100%;
+    padding: 0;
+    color: var(--p-text-color);
+    text-align: left;
+
+    :deep(.p-button-label) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--f-space-sm);
+  }
 }
 
 @media (width <= 640px) {
-  .overview-nearby-leaderboard__row {
-    align-items: flex-start;
-    gap: 10px;
-  }
+  .overview-nearby-leaderboard {
+    &__row {
+      align-items: flex-start;
+      gap: var(--f-space-sm);
+    }
 
-  .overview-nearby-leaderboard__player-button {
-    width: 100%;
-    justify-content: flex-start;
-    align-self: center;
-  }
+    &__player-button {
+      width: 100%;
+      justify-content: flex-start;
+      align-self: center;
+    }
 
-  .overview-nearby-leaderboard__place {
-    width: 34px;
-    height: 34px;
-  }
+    &__place {
+      width: 34px;
+      height: 34px;
+    }
 
-  .overview-nearby-leaderboard__details {
-    display: contents;
-  }
+    &__details {
+      display: contents;
+    }
 
-  .overview-nearby-leaderboard__stats {
-    grid-column: 1 / -1;
-    width: 100%;
-    justify-content: flex-start;
-    gap: 8px;
+    &__stats {
+      grid-column: 1 / -1;
+      width: 100%;
+      justify-content: flex-start;
+      gap: var(--f-space-xs);
+    }
   }
 }
 </style>

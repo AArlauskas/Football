@@ -15,6 +15,6 @@ const rows = 8;
 .results-table-skeleton {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--f-space-xs);
 }
 </style>

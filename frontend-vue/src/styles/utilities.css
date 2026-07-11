@@ -1,0 +1,31 @@
+.f-card-surface,
+.f-card-surface.p-card {
+  border: var(--f-card-border);
+  border-radius: var(--f-card-radius);
+  background: var(--p-surface-card);
+  box-shadow: var(--f-card-shadow);
+}
+
+.f-outcome--success {
+  --f-outcome-background: var(--f-outcome-success-background);
+
+  background: var(--f-outcome-background);
+}
+
+.f-outcome--warning {
+  --f-outcome-background: var(--f-outcome-warning-background);
+
+  background: var(--f-outcome-background);
+}
+
+.f-outcome--danger {
+  --f-outcome-background: var(--f-outcome-danger-background);
+
+  background: var(--f-outcome-background);
+}
+
+.f-live-score,
+.f-live-score.f-text,
+.f-live-score .f-text {
+  color: var(--p-primary-color);
+}

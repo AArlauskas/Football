@@ -3,14 +3,15 @@ import { Button, Card, Divider, InputNumber, Tag } from 'primevue';
 import { computed, reactive, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
+import FOutcomeTag from '@/components/FOutcomeTag.vue';
 import FText from '@/components/FText.vue';
 import { useOngoingMatches } from '@/composables/useOngoingMatches';
 import { useTranslations } from '@/composables/useTranslations';
 import { RouteName } from '@/enums';
 import type { TranslationKey } from '@/i18n';
 import { translateTeamName } from '@/lib/teamName';
-import type { GameResult, GameWithGuess, GuessOutcome } from '@/models';
-import { GameState, GuessOutcome as GuessOutcomeValue } from '@/models/game';
+import type { GameResult, GameWithGuess } from '@/models';
+import { GameState, GuessOutcome } from '@/models/game';
 import {
   getInputNumberValue,
   hasInputNumberValue,
@@ -99,31 +100,6 @@ const saveGuess = () => {
   });
 };
 
-const getOutcomeSeverity = (outcome?: GuessOutcome | null) => {
-  if (
-    outcome === GuessOutcomeValue.CORRECT ||
-    outcome === GuessOutcomeValue.CORRECT_ALONE
-  ) {
-    return 'success';
-  }
-
-  if (outcome === GuessOutcomeValue.OUTCOME_ONLY) {
-    return 'warn';
-  }
-
-  return 'danger';
-};
-
-const getOutcomeClass = (outcome?: GuessOutcome | null) => ({
-  'games-card__points--success':
-    outcome === GuessOutcomeValue.CORRECT ||
-    outcome === GuessOutcomeValue.CORRECT_ALONE,
-  'games-card__points--warning': outcome === GuessOutcomeValue.OUTCOME_ONLY,
-  'games-card__points--danger':
-    outcome === GuessOutcomeValue.OUTCOME_INCORRECT ||
-    outcome === GuessOutcomeValue.NOT_GIVEN,
-});
-
 const getStateSeverity = (state: GameState) => {
   if (state === GameState.OPEN) {
     return 'success';
@@ -156,15 +132,15 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
 
 <template>
   <Card
-    class="games-card"
-    :class="{ 'games-card--clickable': isStarted }"
+    class="games-game-card f-card-surface"
+    :class="{ 'games-game-card--clickable': isStarted }"
     @click="goToMatch"
   >
     <template #content>
-      <div class="games-card__content">
+      <div class="games-game-card__content">
         <button
-          class="games-card__time"
-          :class="{ 'games-card__time--clickable': isStarted }"
+          class="games-game-card__time"
+          :class="{ 'games-game-card__time--clickable': isStarted }"
           type="button"
           @click.stop="goToMatch"
         >
@@ -182,16 +158,16 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
         </button>
 
         <Tag
-          class="games-card__state"
+          class="games-game-card__state"
           :severity="getStateSeverity(item.game.state)"
           :value="t(stateLabelMap[item.game.state])"
         />
 
-        <Divider class="games-card__divider" />
+        <Divider class="games-game-card__divider" />
 
-        <div class="games-card__teams">
+        <div class="games-game-card__teams">
           <Button
-            class="games-card__team-button"
+            class="games-game-card__team-button"
             link
             @click.stop="goToTeam(item.game.t1.code)"
           >
@@ -201,9 +177,9 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
           </Button>
 
           <button
-            class="games-card__score"
+            class="games-game-card__score"
             :class="{
-              'games-card__score--clickable': isStarted,
+              'games-game-card__score--clickable': isStarted,
               'f-live-score': isShowingLiveResult,
             }"
             type="button"
@@ -215,7 +191,7 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
           </button>
 
           <Button
-            class="games-card__team-button"
+            class="games-game-card__team-button"
             link
             @click.stop="goToTeam(item.game.t2.code)"
           >
@@ -225,28 +201,32 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
           </Button>
         </div>
 
-        <section class="games-card__guess" @click.stop>
-          <FText as="span" class="games-card__guess-title" variant="body-2">
+        <section class="games-game-card__guess" @click.stop>
+          <FText
+            as="span"
+            class="games-game-card__guess-title"
+            variant="body-2"
+          >
             {{ t('v1.guess') }}
           </FText>
-          <Divider class="games-card__divider" />
+          <Divider class="games-game-card__divider" />
 
           <FText
-            v-if="item.guess?.outcome === GuessOutcomeValue.NOT_GIVEN"
+            v-if="item.guess?.outcome === GuessOutcome.NOT_GIVEN"
             as="span"
-            class="games-card__not-given"
+            class="games-game-card__not-given"
             color="--p-text-muted-color"
             variant="body-2"
           >
             {{ t('v1.not.given.guess') }}
           </FText>
 
-          <div v-else class="games-card__guess-inputs">
+          <div v-else class="games-game-card__guess-inputs">
             <InputNumber
               v-model="draftGuess.goals1"
-              class="games-card__guess-input"
+              class="games-game-card__guess-input"
               :disabled="isStarted"
-              input-class="games-card__guess-input-field"
+              input-class="games-game-card__guess-input-field"
               :max="9"
               :min="0"
               :use-grouping="false"
@@ -257,9 +237,9 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
             </FText>
             <InputNumber
               v-model="draftGuess.goals2"
-              class="games-card__guess-input"
+              class="games-game-card__guess-input"
               :disabled="isStarted"
-              input-class="games-card__guess-input-field"
+              input-class="games-game-card__guess-input-field"
               :max="9"
               :min="0"
               :use-grouping="false"
@@ -267,18 +247,18 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
             />
           </div>
 
-          <div v-if="shouldShowPoints" class="games-card__points">
+          <div v-if="shouldShowPoints" class="games-game-card__points">
             <FText as="span" variant="body-2">
               {{ pointsLabel }}
             </FText>
-            <Tag
-              :class="getOutcomeClass(visiblePointsGuess?.outcome)"
-              :severity="getOutcomeSeverity(visiblePointsGuess?.outcome)"
+            <FOutcomeTag
+              fallback-severity="danger"
+              :outcome="visiblePointsGuess?.outcome ?? null"
               :value="String(visiblePointsGuess?.points)"
             />
           </div>
 
-          <div v-else-if="hasChanged" class="games-card__actions">
+          <div v-else-if="hasChanged" class="games-game-card__actions">
             <Button
               :disabled="isSaving"
               :label="t('v1.cancel')"
@@ -298,13 +278,9 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
 </template>
 
 <style scoped lang="scss">
-.games-card {
+.games-game-card {
   height: 100%;
   overflow: hidden;
-  border: var(--f-card-border);
-  border-radius: var(--f-card-radius);
-  background: var(--p-surface-card);
-  box-shadow: var(--f-card-shadow);
   transition:
     border-color 0.2s,
     box-shadow 0.2s,
@@ -314,146 +290,138 @@ watch(() => props.item.guess, syncDraftGuess, { immediate: true });
   :deep(.p-card-content) {
     height: 100%;
   }
-}
 
-.games-card--clickable {
-  cursor: pointer;
+  &--clickable {
+    cursor: pointer;
 
-  &:hover,
-  &:focus-within {
-    border-color: var(--p-primary-color);
-    box-shadow: var(--f-card-hover-shadow);
-    transform: translateY(-1px);
+    &:hover,
+    &:focus-within {
+      border-color: var(--p-primary-color);
+      box-shadow: var(--f-card-hover-shadow);
+      transform: translateY(-1px);
+    }
   }
-}
 
-.games-card__content {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  height: 100%;
-}
-
-.games-card__time,
-.games-card__score {
-  border: 0;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.games-card__time {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 0;
-}
-
-.games-card__state {
-  justify-self: center;
-}
-
-.games-card__time--clickable,
-.games-card__score--clickable {
-  cursor: pointer;
-}
-
-.games-card__divider {
-  margin: 0;
-}
-
-.games-card__teams {
-  display: grid;
-  align-items: center;
-  gap: 8px;
-  grid-template-columns: minmax(96px, 1fr) auto minmax(96px, 1fr);
-  text-align: center;
-  height: 100%;
-}
-
-.games-card__team-button {
-  justify-content: center;
-  min-width: 0;
-  padding: 0;
-  color: var(--p-text-color);
-  text-align: center;
-
-  :deep(.p-button-label) {
-    overflow: visible;
-    white-space: normal;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-md);
+    height: 100%;
   }
-}
 
-.games-card__score {
-  min-height: 36px;
-  padding: 0;
-}
+  &__time,
+  &__score {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: center;
+    white-space: nowrap;
+  }
 
-.games-card__guess {
-  display: grid;
-  gap: 12px;
-}
+  &__time {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--f-space-2xs);
+    padding: 0;
+  }
 
-.games-card__guess-title,
-.games-card__not-given {
-  text-align: center;
-}
+  &__state {
+    justify-self: center;
+  }
 
-.games-card__not-given {
-  padding-block: 10px;
-}
+  &__time,
+  &__score {
+    &--clickable {
+      cursor: pointer;
+    }
+  }
 
-.games-card__guess-inputs {
-  display: grid;
-  align-items: center;
-  gap: 8px;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-}
+  &__divider {
+    margin: 0;
+  }
 
-.games-card__guess-input {
-  min-width: 0;
+  &__teams {
+    display: grid;
+    align-items: center;
+    gap: var(--f-space-xs);
+    grid-template-columns: minmax(96px, 1fr) auto minmax(96px, 1fr);
+    text-align: center;
+    height: 100%;
+  }
 
-  :deep(.games-card__guess-input-field) {
-    width: 100%;
+  &__team-button {
+    justify-content: center;
+    min-width: 0;
+    padding: 0;
+    color: var(--p-text-color);
+    text-align: center;
+
+    :deep(.p-button-label) {
+      overflow: visible;
+      white-space: normal;
+    }
+  }
+
+  &__score {
+    min-height: 36px;
+    padding: 0;
+  }
+
+  &__guess {
+    display: grid;
+    gap: var(--f-space-md);
+  }
+
+  &__guess-title,
+  &__not-given {
     text-align: center;
   }
-}
 
-.games-card__points {
-  display: grid;
-  gap: 8px;
-  justify-items: center;
-  padding-top: 2px;
-}
+  &__not-given {
+    padding-block: var(--f-space-sm);
+  }
 
-.games-card__points--success {
-  background: var(--f-outcome-success-background);
-}
+  &__guess-inputs {
+    display: grid;
+    align-items: center;
+    gap: var(--f-space-xs);
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
 
-.games-card__points--warning {
-  background: var(--f-outcome-warning-background);
-}
+  &__guess-input {
+    min-width: 0;
 
-.games-card__points--danger {
-  background: var(--f-outcome-danger-background);
-}
+    :deep(.games-game-card__guess-input-field) {
+      width: 100%;
+      text-align: center;
+    }
+  }
 
-.games-card__actions {
-  display: grid;
-  gap: 12px;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  &__points {
+    display: grid;
+    gap: var(--f-space-xs);
+    justify-items: center;
+    padding-top: var(--f-space-2xs);
+  }
+
+  &__actions {
+    display: grid;
+    gap: var(--f-space-md);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
 }
 
 @media (width <= 560px) {
-  .games-card__teams {
-    grid-template-columns: minmax(0, 1fr);
-  }
+  .games-game-card {
+    &__teams {
+      grid-template-columns: minmax(0, 1fr);
+    }
 
-  .games-card__team-button {
-    justify-content: center;
+    &__team-button {
+      justify-content: center;
+    }
   }
 }
 </style>

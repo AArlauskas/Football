@@ -36,31 +36,31 @@ defineProps<{
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: 6px;
-  padding-inline: 14px;
-}
+  gap: var(--f-space-2xs);
+  padding-inline: var(--f-space-sm);
 
-.f-page-player-summary__heading {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-}
+  &__heading {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+  }
 
-.f-page-player-summary__name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+  &__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
-.f-page-player-summary__football {
-  align-self: flex-start;
-  margin-left: 0;
-}
+  &__football {
+    align-self: flex-start;
+    margin-left: 0;
+  }
 
-.f-page-player-summary__place {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
+  &__place {
+    display: flex;
+    align-items: center;
+    gap: var(--f-space-2xs);
+    white-space: nowrap;
+  }
 }
 </style>

@@ -40,7 +40,11 @@ const getValue = (row: StatisticsRow, field: string) =>
         row-hover
         :value="rows"
       >
-        <Column :header="t('v1.statistics.column.name')" field="title" />
+        <Column :header="t('v1.statistics.column.name')" field="title">
+          <template #body="{ data }">
+            <FText as="span" variant="body-2-bold">{{ data.title }}</FText>
+          </template>
+        </Column>
 
         <Column
           v-for="column in columns"
@@ -52,7 +56,9 @@ const getValue = (row: StatisticsRow, field: string) =>
           sortable
         >
           <template #body="{ data }">
-            {{ getValue(data, column.field) }}
+            <FText as="span" variant="body-2">
+              {{ getValue(data, column.field) }}
+            </FText>
           </template>
         </Column>
       </DataTable>
@@ -109,101 +115,99 @@ const getValue = (row: StatisticsRow, field: string) =>
 <style scoped lang="scss">
 .statistics-section {
   overflow: hidden;
-}
 
-.statistics-section__header {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 18px;
-}
-
-.statistics-section__table {
-  overflow: hidden;
-  border: 1px solid var(--p-surface-border);
-  border-radius: var(--p-content-border-radius);
-
-  :deep(.statistics-section__number) {
-    width: 152px;
-    text-align: center;
-    white-space: nowrap;
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-2xs);
+    margin-bottom: var(--f-space-lg);
   }
 
-  :deep(.statistics-section__number .p-column-header-content) {
-    justify-content: center;
-  }
-}
+  &__table {
+    overflow: hidden;
+    border: 1px solid var(--p-surface-border);
+    border-radius: var(--p-content-border-radius);
 
-.statistics-section__list {
-  display: none;
+    :deep(.statistics-section__number) {
+      width: 152px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    :deep(.statistics-section__number .p-column-header-content) {
+      justify-content: center;
+    }
+  }
+
+  &__list {
+    display: none;
+  }
 }
 
 @media (width <= 760px) {
-  .statistics-section__table {
-    display: none;
-  }
+  .statistics-section {
+    &__table {
+      display: none;
+    }
 
-  .statistics-section__list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--f-space-md);
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
 
-  .statistics-section__card {
-    border: var(--f-card-border);
-  }
+    &__card {
+      border: var(--f-card-border);
 
-  .statistics-section__card :deep(.p-card-body) {
-    padding: 12px;
-  }
+      :deep(.p-card-content) {
+        padding: 0;
+      }
+    }
 
-  .statistics-section__card :deep(.p-card-content) {
-    padding: 0;
-  }
+    &__card-header {
+      display: flex;
+      align-items: center;
+      gap: var(--f-space-sm);
+      min-width: 0;
+    }
 
-  .statistics-section__card-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 0;
-  }
+    &__rank {
+      flex: 0 0 36px;
+      width: 36px;
+      height: 36px;
+      font-weight: 700;
+    }
 
-  .statistics-section__rank {
-    flex: 0 0 36px;
-    width: 36px;
-    height: 36px;
-    font-weight: 700;
-  }
+    &__stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--f-space-xs);
+      margin: var(--f-space-md) 0 0;
+    }
 
-  .statistics-section__stats {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    margin: 12px 0 0;
-  }
+    &__stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-width: 0;
+      padding: var(--f-space-xs);
+      border-radius: var(--p-content-border-radius);
+      background: var(--p-content-hover-background);
+      text-align: center;
 
-  .statistics-section__stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 0;
-    padding: 8px;
-    border-radius: var(--p-content-border-radius);
-    background: var(--p-content-hover-background);
-    text-align: center;
-  }
+      dt,
+      dd {
+        margin: 0;
+      }
 
-  .statistics-section__stat dt,
-  .statistics-section__stat dd {
-    margin: 0;
-  }
-
-  .statistics-section__stat dd {
-    margin-top: 4px;
+      dd {
+        margin-top: var(--f-space-2xs);
+      }
+    }
   }
 }
 </style>

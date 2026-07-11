@@ -30,7 +30,7 @@ usePageTitle(pageTitle);
 </script>
 
 <template>
-  <main class="admin-page">
+  <main class="admin">
     <FPageFeedback :error="requestError" :success="successMessage" />
 
     <AdminCreateGameForm />
@@ -43,11 +43,11 @@ usePageTitle(pageTitle);
 </template>
 
 <style scoped lang="scss">
-.admin-page {
+.admin {
   display: flex;
   width: min(100%, var(--f-page-empty-content-width, 1280px));
   flex-direction: column;
-  gap: 16px;
+  gap: var(--f-space-md);
   margin: 0 auto;
 }
 </style>

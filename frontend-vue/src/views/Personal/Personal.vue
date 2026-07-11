@@ -90,7 +90,7 @@ useOngoingMatchesPolling();
 </script>
 
 <template>
-  <main class="personal-page">
+  <main class="personal">
     <FPageFeedback :error="requestError" />
 
     <template v-if="isLoading">
@@ -99,17 +99,17 @@ useOngoingMatchesPolling();
 
     <template v-else-if="player || authStore.user">
       <PlayerProfileCard :player="player ?? authStore.user!" />
-      <section class="personal-page__matches">
+      <section class="personal__matches">
         <SelectButton
           v-model="activeTab"
           :allow-empty="false"
-          class="personal-page__section-switcher"
+          class="personal__section-switcher"
           option-label="label"
           option-value="value"
           :options="tabOptions"
         />
 
-        <div ref="tabContentRef" class="personal-page__section-content">
+        <div ref="tabContentRef" class="personal__section-content">
           <PersonalOpenMatches
             v-if="activeTab === PersonalTab.Open"
             :groups="openGroups"
@@ -125,26 +125,28 @@ useOngoingMatchesPolling();
 </template>
 
 <style scoped lang="scss">
-.personal-page {
+.personal {
   display: flex;
   width: min(100%, var(--f-page-empty-content-width, 1280px));
   flex-direction: column;
-  gap: 16px;
+  gap: var(--f-space-md);
   margin: 0 auto;
-}
 
-.personal-page__matches {
-  display: grid;
-  gap: 16px;
-}
+  &__matches {
+    display: grid;
+    gap: var(--f-space-md);
+  }
 
-.personal-page__section-switcher {
-  width: fit-content;
+  &__section-switcher {
+    width: fit-content;
+  }
 }
 
 @media (width <= 760px) {
-  .personal-page__section-switcher {
-    width: 100%;
+  .personal {
+    &__section-switcher {
+      width: 100%;
+    }
   }
 }
 </style>

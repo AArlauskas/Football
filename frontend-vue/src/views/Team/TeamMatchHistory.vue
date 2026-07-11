@@ -41,13 +41,15 @@ const goToTeam = async (teamId: string) => {
         class="team-match-history__group"
       >
         <Card>
-          <template #title>{{ group.date }}</template>
+          <template #title>
+            <FText as="span" variant="body-1-bold">{{ group.date }}</FText>
+          </template>
           <template #content>
             <div class="team-match-history__day-games">
               <article
                 v-for="game in group.items"
                 :key="game.id"
-                class="team-match-history__match-card"
+                class="team-match-history__match-card f-card-surface"
               >
                 <button
                   class="team-match-history__match-time"
@@ -131,139 +133,139 @@ const goToTeam = async (teamId: string) => {
 .team-match-history {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
+  gap: var(--f-space-md);
 
-.team-match-history__list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.team-match-history__group {
-  min-width: 0;
-}
-
-.team-match-history__day-games {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.team-match-history__match-card {
-  display: grid;
-  overflow: hidden;
-  border: var(--f-card-border);
-  border-radius: var(--f-card-radius);
-  background: var(--p-surface-card);
-  box-shadow: var(--f-card-shadow);
-}
-
-.team-match-history__match-time {
-  width: 100%;
-  padding: 10px 12px;
-  border: 0;
-  border-bottom: var(--f-match-time-border);
-  background: var(--f-match-time-background);
-  cursor: pointer;
-  font: inherit;
-  text-align: center;
-}
-
-.team-match-history__match-main {
-  display: grid;
-  align-items: center;
-  gap: 12px;
-  grid-template-areas: 'team-home score-home separator score-away team-away';
-  grid-template-columns: minmax(0, 1fr) 32px 12px 32px minmax(0, 1fr);
-  padding: 14px 12px;
-  text-align: center;
-}
-
-.team-match-history__score {
-  display: block;
-}
-
-.team-match-history__score--home {
-  grid-area: score-home;
-}
-
-.team-match-history__score--away {
-  grid-area: score-away;
-}
-
-.team-match-history__score-separator {
-  grid-area: separator;
-}
-
-.team-match-history__team-button--home {
-  grid-area: team-home;
-}
-
-.team-match-history__team-button--away {
-  grid-area: team-away;
-}
-
-.team-match-history__team-button {
-  min-width: 0;
-  padding: 0;
-  color: var(--p-text-color);
-
-  :deep(.p-button-label) {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-lg);
   }
-}
 
-.team-match-history__details-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 10px 12px;
-  border: 0;
-  border-top: 1px solid var(--p-primary-color);
-  border-radius: 0;
-  background: var(--p-primary-color);
-  cursor: pointer;
-  font: inherit;
-  transition:
-    background-color 0.2s,
-    border-color 0.2s;
+  &__group {
+    min-width: 0;
+  }
 
-  &:hover,
-  &:focus-visible {
-    border-top-color: var(--p-primary-hover-color);
-    background: var(--p-primary-hover-color);
+  &__day-games {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-xl);
+  }
+
+  &__match-card {
+    display: grid;
+    overflow: hidden;
+  }
+
+  &__match-time {
+    width: 100%;
+    padding: var(--f-space-sm) var(--f-space-md);
+    border: 0;
+    border-bottom: var(--f-match-time-border);
+    background: var(--f-match-time-background);
+    cursor: pointer;
+    font: inherit;
+    text-align: center;
+  }
+
+  &__match-main {
+    display: grid;
+    align-items: center;
+    gap: var(--f-space-md);
+    grid-template-areas: 'team-home score-home separator score-away team-away';
+    grid-template-columns: minmax(0, 1fr) 32px 12px 32px minmax(0, 1fr);
+    padding: var(--f-space-sm) var(--f-space-md);
+    text-align: center;
+  }
+
+  &__score {
+    display: block;
+
+    &--home {
+      grid-area: score-home;
+    }
+
+    &--away {
+      grid-area: score-away;
+    }
+  }
+
+  &__score-separator {
+    grid-area: separator;
+  }
+
+  &__team-button {
+    min-width: 0;
+    padding: 0;
+    color: var(--p-text-color);
+
+    &--home {
+      grid-area: team-home;
+    }
+
+    &--away {
+      grid-area: team-away;
+    }
+
+    :deep(.p-button-label) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__details-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--f-space-xs);
+    width: 100%;
+    padding: var(--f-space-sm) var(--f-space-md);
+    border: 0;
+    border-top: 1px solid var(--p-primary-color);
+    border-radius: 0;
+    background: var(--p-primary-color);
+    cursor: pointer;
+    font: inherit;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s;
+
+    &:hover,
+    &:focus-visible {
+      border-top-color: var(--p-primary-hover-color);
+      background: var(--p-primary-hover-color);
+    }
   }
 }
 
 @media (width <= 760px) {
-  .team-match-history__match-main {
-    gap: 10px;
-    grid-template-areas:
-      'team-home team-home team-home'
-      'score-home separator score-away'
-      'team-away team-away team-away';
-    grid-template-columns: minmax(0, 1fr) 8px minmax(0, 1fr);
-    padding: 12px;
-  }
+  .team-match-history {
+    &__match-main {
+      gap: var(--f-space-sm);
+      grid-template-areas:
+        'team-home team-home team-home'
+        'score-home separator score-away'
+        'team-away team-away team-away';
+      grid-template-columns: minmax(0, 1fr) 8px minmax(0, 1fr);
+      padding: var(--f-space-md);
+    }
 
-  .team-match-history__score--home {
-    justify-self: end;
-  }
+    &__score {
+      &--home {
+        justify-self: end;
+      }
 
-  .team-match-history__score--away {
-    justify-self: start;
-  }
+      &--away {
+        justify-self: start;
+      }
+    }
 
-  .team-match-history__team-button {
-    justify-content: center;
+    &__team-button {
+      justify-content: center;
 
-    :deep(.p-button-label) {
-      white-space: normal;
+      :deep(.p-button-label) {
+        white-space: normal;
+      }
     }
   }
 }

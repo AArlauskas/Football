@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { Button, Card, Tag } from 'primevue';
+import { Button, Card } from 'primevue';
 import { useRouter } from 'vue-router';
 
 import FEmptyMessage from '@/components/FEmptyMessage.vue';
+import FOutcomeTag from '@/components/FOutcomeTag.vue';
 import FText from '@/components/FText.vue';
 import { useOngoingMatches } from '@/composables/useOngoingMatches';
 import { useTranslations } from '@/composables/useTranslations';
 import { RouteName } from '@/enums';
+import { getOutcomeModifierClass } from '@/lib/outcome';
 import { translateTeamName } from '@/lib/teamName';
-import type { GameWithGuess, Guess, GuessOutcome } from '@/models';
-import { GameState, GuessOutcome as GuessOutcomeValue } from '@/models/game';
+import type { GameWithGuess, Guess } from '@/models';
+import { GameState } from '@/models/game';
 
 const props = defineProps<{
   groups: Array<{
@@ -24,32 +26,6 @@ const router = useRouter();
 const { t } = useTranslations();
 const { getEstimatedGuess, getMatchTime, getVisibleResult, hasLiveResult } =
   useOngoingMatches();
-
-const getOutcomeSeverity = (outcome?: GuessOutcome | null) => {
-  if (
-    outcome === GuessOutcomeValue.CORRECT ||
-    outcome === GuessOutcomeValue.CORRECT_ALONE
-  ) {
-    return 'success';
-  }
-
-  if (outcome === GuessOutcomeValue.OUTCOME_ONLY) {
-    return 'warn';
-  }
-
-  return 'danger';
-};
-
-const getOutcomeClass = (outcome?: GuessOutcome | null) => ({
-  'player-match-history__points-row--success':
-    outcome === GuessOutcomeValue.CORRECT ||
-    outcome === GuessOutcomeValue.CORRECT_ALONE,
-  'player-match-history__points-row--warning':
-    outcome === GuessOutcomeValue.OUTCOME_ONLY,
-  'player-match-history__points-row--danger':
-    outcome === GuessOutcomeValue.OUTCOME_INCORRECT ||
-    outcome === GuessOutcomeValue.NOT_GIVEN,
-});
 
 const formatGuess = (item: GameWithGuess) => {
   if (!item.guess?.result) {
@@ -109,13 +85,15 @@ const goToTeam = async (teamId: string) => {
         class="player-match-history__group"
       >
         <Card>
-          <template #title>{{ group.date }}</template>
+          <template #title>
+            <FText as="span" variant="body-1-bold">{{ group.date }}</FText>
+          </template>
           <template #content>
             <div class="player-match-history__day-games">
               <article
                 v-for="item in group.items"
                 :key="item.game.id"
-                class="player-match-history__match-card"
+                class="player-match-history__match-card f-card-surface"
                 :class="{
                   'player-match-history__match-card--clickable':
                     isMatchVisitable(item),
@@ -194,15 +172,18 @@ const goToTeam = async (teamId: string) => {
                 <div
                   v-if="shouldShowPoints(item)"
                   class="player-match-history__points-row"
-                  :class="getOutcomeClass(getVisiblePointsGuess(item)?.outcome)"
+                  :class="
+                    getOutcomeModifierClass(
+                      getVisiblePointsGuess(item)?.outcome,
+                    )
+                  "
                 >
                   <FText as="span" variant="body-2">
                     {{ getPointsLabel(item) }}
                   </FText>
-                  <Tag
-                    :severity="
-                      getOutcomeSeverity(getVisiblePointsGuess(item)?.outcome)
-                    "
+                  <FOutcomeTag
+                    fallback-severity="danger"
+                    :outcome="getVisiblePointsGuess(item)?.outcome ?? null"
                     :value="String(getVisiblePointsGuess(item)?.points ?? '-')"
                   />
                 </div>
@@ -221,173 +202,173 @@ const goToTeam = async (teamId: string) => {
 .player-match-history {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
+  gap: var(--f-space-md);
 
-.player-match-history__list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.player-match-history__group {
-  min-width: 0;
-}
-
-.player-match-history__day-games {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.player-match-history__match-card {
-  display: grid;
-  overflow: hidden;
-  border: var(--f-card-border);
-  border-radius: var(--f-card-radius);
-  background: var(--p-surface-card);
-  box-shadow: var(--f-card-shadow);
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s,
-    transform 0.2s;
-}
-
-.player-match-history__match-card--clickable {
-  cursor: pointer;
-
-  &:hover,
-  &:focus-within {
-    border-color: var(--p-primary-color);
-    box-shadow: var(--f-card-hover-shadow);
-    transform: translateY(-1px);
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-lg);
   }
-}
 
-.player-match-history__match-time {
-  display: inline-flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 10px 12px;
-  border: 0;
-  border-bottom: var(--f-match-time-border);
-  background: var(--f-match-time-background);
-  text-align: center;
-}
+  &__group {
+    min-width: 0;
+  }
 
-.player-match-history__match-main {
-  display: grid;
-  align-items: center;
-  gap: 12px;
-  grid-template-areas:
-    'team-home score-home separator score-away team-away'
-    'guess guess guess guess guess';
-  grid-template-columns: minmax(0, 1fr) 32px 12px 32px minmax(0, 1fr);
-  padding-top: 12px;
-  text-align: center;
-}
+  &__day-games {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-xl);
+  }
 
-.player-match-history__score {
-  display: block;
-}
-
-.player-match-history__score--home {
-  grid-area: score-home;
-}
-
-.player-match-history__score--away {
-  grid-area: score-away;
-}
-
-.player-match-history__score-separator {
-  grid-area: separator;
-}
-
-.player-match-history__team-button--home {
-  grid-area: team-home;
-}
-
-.player-match-history__team-button--away {
-  grid-area: team-away;
-}
-
-.player-match-history__team-button {
-  min-width: 0;
-  padding: 0;
-  color: var(--p-text-color);
-
-  :deep(.p-button-label) {
+  &__match-card {
+    display: grid;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s,
+      transform 0.2s;
 
-.player-match-history__guess-score {
-  display: grid;
-  grid-area: guess;
-  gap: 4px;
-  padding: 10px;
-  border-radius: var(--p-content-border-radius);
-  background: var(--p-content-hover-background);
-}
+    &--clickable {
+      cursor: pointer;
 
-.player-match-history__points-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 10px 12px;
-  border: 0;
-  border-top: 1px solid var(--p-surface-border);
-  background: var(--p-content-hover-background);
-}
-
-.player-match-history__points-row--success {
-  background: var(--f-outcome-success-background);
-}
-
-.player-match-history__points-row--warning {
-  background: var(--f-outcome-warning-background);
-}
-
-.player-match-history__points-row--danger {
-  background: var(--f-outcome-danger-background);
-}
-
-@media (width <= 760px) {
-  .player-match-history__match-main {
-    gap: 10px;
-    grid-template-areas:
-      'team-home team-home team-home'
-      'score-home separator score-away'
-      'team-away team-away team-away'
-      'guess guess guess';
-    grid-template-columns: minmax(0, 1fr) 8px minmax(0, 1fr);
-    text-align: center;
-  }
-
-  .player-match-history__score--home {
-    justify-self: end;
-  }
-
-  .player-match-history__score--away {
-    justify-self: start;
-  }
-
-  .player-match-history__team-button {
-    justify-content: center;
-
-    :deep(.p-button-label) {
-      white-space: normal;
+      &:hover,
+      &:focus-within {
+        border-color: var(--p-primary-color);
+        box-shadow: var(--f-card-hover-shadow);
+        transform: translateY(-1px);
+      }
     }
   }
 
-  .player-match-history__guess-score {
+  &__match-time {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: var(--f-space-2xs);
+    padding: var(--f-space-sm) var(--f-space-md);
+    border: 0;
+    border-bottom: var(--f-match-time-border);
+    background: var(--f-match-time-background);
     text-align: center;
+  }
+
+  &__match-main {
+    display: grid;
+    align-items: center;
+    gap: var(--f-space-md);
+    grid-template-areas:
+      'team-home score-home separator score-away team-away'
+      'guess guess guess guess guess';
+    grid-template-columns: minmax(0, 1fr) 32px 12px 32px minmax(0, 1fr);
+    padding-top: var(--f-space-md);
+    text-align: center;
+  }
+
+  &__score {
+    display: block;
+
+    &--home {
+      grid-area: score-home;
+    }
+
+    &--away {
+      grid-area: score-away;
+    }
+  }
+
+  &__score-separator {
+    grid-area: separator;
+  }
+
+  &__team-button {
+    min-width: 0;
+    padding: 0;
+    color: var(--p-text-color);
+
+    &--home {
+      grid-area: team-home;
+    }
+
+    &--away {
+      grid-area: team-away;
+    }
+
+    :deep(.p-button-label) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__guess-score {
+    display: grid;
+    grid-area: guess;
+    gap: var(--f-space-2xs);
+    padding: var(--f-space-sm);
+    border-radius: var(--p-content-border-radius);
+    background: var(--p-content-hover-background);
+  }
+
+  &__points-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--f-space-xs);
+    width: 100%;
+    padding: var(--f-space-sm) var(--f-space-md);
+    border: 0;
+    border-top: 1px solid var(--p-surface-border);
+    background: var(--p-content-hover-background);
+
+    &:has(.f-outcome-tag--success) {
+      background: var(--f-outcome-success-background);
+    }
+
+    &:has(.f-outcome-tag--warning) {
+      background: var(--f-outcome-warning-background);
+    }
+
+    &:has(.f-outcome-tag--danger) {
+      background: var(--f-outcome-danger-background);
+    }
+  }
+}
+
+@media (width <= 760px) {
+  .player-match-history {
+    &__match-main {
+      gap: var(--f-space-sm);
+      grid-template-areas:
+        'team-home team-home team-home'
+        'score-home separator score-away'
+        'team-away team-away team-away'
+        'guess guess guess';
+      grid-template-columns: minmax(0, 1fr) 8px minmax(0, 1fr);
+      text-align: center;
+    }
+
+    &__score {
+      &--home {
+        justify-self: end;
+      }
+
+      &--away {
+        justify-self: start;
+      }
+    }
+
+    &__team-button {
+      justify-content: center;
+
+      :deep(.p-button-label) {
+        white-space: normal;
+      }
+    }
+
+    &__guess-score {
+      text-align: center;
+    }
   }
 }
 </style>

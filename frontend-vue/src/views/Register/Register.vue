@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import { z } from 'zod';
 
 import FAuthPageEmpty from '@/components/FAuthPageEmpty.vue';
+import FFormField from '@/components/FFormField.vue';
 import FText from '@/components/FText.vue';
 import { usePageTitle } from '@/composables/usePageTitle';
 import { useTranslations } from '@/composables/useTranslations';
@@ -131,10 +132,12 @@ usePageTitle(computed(() => t('v1.register')));
             </Message>
 
             <div class="register__field-grid">
-              <label class="register__field">
-                <FText as="span" variant="body-2-bold">
-                  {{ t('v1.first.name') }}
-                </FText>
+              <FFormField
+                class="register__field"
+                :error="errors.firstName"
+                input-id="register-first-name"
+                :label="t('v1.first.name')"
+              >
                 <InputText
                   id="register-first-name"
                   v-model="firstName"
@@ -143,15 +146,14 @@ usePageTitle(computed(() => t('v1.register')));
                   :placeholder="t('v1.register.placeholder.first.name')"
                   :invalid="Boolean(errors.firstName)"
                 />
-                <small v-if="errors.firstName" class="register__error-message">
-                  {{ errors.firstName }}
-                </small>
-              </label>
+              </FFormField>
 
-              <label class="register__field">
-                <FText as="span" variant="body-2-bold">
-                  {{ t('v1.last.name') }}
-                </FText>
+              <FFormField
+                class="register__field"
+                :error="errors.lastName"
+                input-id="register-last-name"
+                :label="t('v1.last.name')"
+              >
                 <InputText
                   id="register-last-name"
                   v-model="lastName"
@@ -160,16 +162,15 @@ usePageTitle(computed(() => t('v1.register')));
                   :placeholder="t('v1.register.placeholder.last.name')"
                   :invalid="Boolean(errors.lastName)"
                 />
-                <small v-if="errors.lastName" class="register__error-message">
-                  {{ errors.lastName }}
-                </small>
-              </label>
+              </FFormField>
             </div>
 
-            <label class="register__field">
-              <FText as="span" variant="body-2-bold">
-                {{ t('v1.email') }}
-              </FText>
+            <FFormField
+              class="register__field"
+              :error="errors.email"
+              input-id="register-email"
+              :label="t('v1.email')"
+            >
               <InputText
                 id="register-email"
                 v-model="email"
@@ -179,15 +180,14 @@ usePageTitle(computed(() => t('v1.register')));
                 :placeholder="t('v1.register.placeholder.email')"
                 :invalid="Boolean(errors.email)"
               />
-              <small v-if="errors.email" class="register__error-message">
-                {{ errors.email }}
-              </small>
-            </label>
+            </FFormField>
 
-            <label class="register__field">
-              <FText as="span" variant="body-2-bold">
-                {{ t('v1.password') }}
-              </FText>
+            <FFormField
+              class="register__field"
+              :error="errors.password"
+              input-id="register-password"
+              :label="t('v1.password')"
+            >
               <Password
                 v-model="password"
                 input-id="register-password"
@@ -198,15 +198,14 @@ usePageTitle(computed(() => t('v1.register')));
                 toggle-mask
                 fluid
               />
-              <small v-if="errors.password" class="register__error-message">
-                {{ errors.password }}
-              </small>
-            </label>
+            </FFormField>
 
-            <label class="register__field">
-              <FText as="span" variant="body-2-bold">
-                {{ t('v1.confirm.password') }}
-              </FText>
+            <FFormField
+              class="register__field"
+              :error="errors.confirmPassword"
+              input-id="register-confirm-password"
+              :label="t('v1.confirm.password')"
+            >
               <Password
                 v-model="confirmPassword"
                 input-id="register-confirm-password"
@@ -218,28 +217,19 @@ usePageTitle(computed(() => t('v1.register')));
                 toggle-mask
                 fluid
               />
-              <small
-                v-if="errors.confirmPassword"
-                class="register__error-message"
-              >
-                {{ errors.confirmPassword }}
-              </small>
-            </label>
+            </FFormField>
 
-            <div class="register__field">
-              <label class="register__inline-field">
+            <FFormField class="register__field" :error="errors.termsAccepted">
+              <label
+                class="register__label register__label--inline"
+                for="terms"
+              >
                 <Checkbox v-model="termsAccepted" input-id="terms" binary />
                 <FText as="span" variant="body-2">
                   {{ t('v1.register.terms') }}
                 </FText>
               </label>
-              <small
-                v-if="errors.termsAccepted"
-                class="register__error-message"
-              >
-                {{ errors.termsAccepted }}
-              </small>
-            </div>
+            </FFormField>
 
             <Button
               type="submit"
@@ -263,31 +253,28 @@ usePageTitle(computed(() => t('v1.register')));
   }
 
   &__back-button {
-    margin-bottom: 8px;
+    margin-bottom: var(--f-space-xs);
   }
 
   &__title {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--f-space-md);
   }
 
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: var(--f-space-xl);
   }
 
   &__field-grid {
     display: flex;
-    gap: 16px;
+    gap: var(--f-space-md);
   }
 
   &__field {
-    display: flex;
     flex: 1;
-    flex-direction: column;
-    gap: 8px;
 
     :deep(.p-inputtext),
     :deep(.p-password) {
@@ -295,14 +282,10 @@ usePageTitle(computed(() => t('v1.register')));
     }
   }
 
-  &__inline-field {
+  &__label--inline {
     display: flex;
     align-items: flex-start;
-    gap: 8px;
-  }
-
-  &__error-message {
-    color: var(--p-red-500);
+    gap: var(--f-space-xs);
   }
 }
 

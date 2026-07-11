@@ -20,10 +20,10 @@ import { Card, Skeleton } from 'primevue';
   </Card>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .team-loading-state {
   display: grid;
   justify-items: center;
-  gap: 12px;
+  gap: var(--f-space-md);
 }
 </style>

@@ -39,7 +39,7 @@ usePageTitle(pageTitle);
 </script>
 
 <template>
-  <main class="results-page">
+  <main class="results">
     <FPageFeedback :error="requestError" />
 
     <Card>
@@ -57,11 +57,11 @@ usePageTitle(pageTitle);
 </template>
 
 <style scoped lang="scss">
-.results-page {
+.results {
   display: flex;
   width: min(100%, var(--f-page-empty-content-width, 1280px));
   flex-direction: column;
-  gap: 16px;
+  gap: var(--f-space-md);
   margin: 0 auto;
 }
 </style>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Button, Card, Column, DataTable, Tag } from 'primevue';
+import { Card, Column, DataTable, Tag } from 'primevue';
+import type { DataTableRowClickEvent } from 'primevue/datatable';
 
 import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
@@ -20,8 +21,13 @@ const getFullName = (player: UserDetails) =>
   `${player.firstName} ${player.lastName}`;
 
 const getRowClass = (player: UserDetails) => ({
+  'results-table__row': true,
   'results-table__row--current': player.id === props.currentUserId,
 });
+
+const handleRowClick = (event: DataTableRowClickEvent<UserDetails>) => {
+  emit('selectPlayer', event.data.id);
+};
 </script>
 
 <template>
@@ -31,6 +37,7 @@ const getRowClass = (player: UserDetails) => ({
     :row-class="getRowClass"
     row-hover
     :value="results"
+    @row-click="handleRowClick"
   >
     <Column
       :header="t('v1.place')"
@@ -38,21 +45,22 @@ const getRowClass = (player: UserDetails) => ({
       header-class="results-table__place"
     >
       <template #body="{ data }">
-        {{ data.points.place }}
+        <FText as="span" variant="body-2">
+          {{ data.points.place }}
+        </FText>
       </template>
     </Column>
 
     <Column :header="t('v1.full.name')">
       <template #body="{ data }">
-        <Button
-          class="results-table__player-button"
-          link
-          @click="emit('selectPlayer', data.id)"
+        <FText
+          class="results-table__player-name"
+          as="span"
+          clickable
+          variant="body-2-bold"
         >
-          <FText as="span" clickable variant="body-2-bold">
-            {{ getFullName(data) }}
-          </FText>
-        </Button>
+          {{ getFullName(data) }}
+        </FText>
       </template>
     </Column>
 
@@ -62,52 +70,72 @@ const getRowClass = (player: UserDetails) => ({
       body-class="results-table__number"
       header-class="results-table__number"
       sortable
-    />
+    >
+      <template #body="{ data }">
+        <FText as="span" variant="body-2">{{ data.points.total }}</FText>
+      </template>
+    </Column>
     <Column
       field="points.correctGuesses"
       :header="t('v1.correct.guesses')"
       body-class="results-table__number"
       header-class="results-table__number"
       sortable
-    />
+    >
+      <template #body="{ data }">
+        <FText as="span" variant="body-2">
+          {{ data.points.correctGuesses }}
+        </FText>
+      </template>
+    </Column>
     <Column
       field="points.correctOutcomes"
       :header="t('v1.correct.outcomes')"
       body-class="results-table__number"
       header-class="results-table__number"
       sortable
-    />
+    >
+      <template #body="{ data }">
+        <FText as="span" variant="body-2">
+          {{ data.points.correctOutcomes }}
+        </FText>
+      </template>
+    </Column>
   </DataTable>
 
-  <ol class="results-list" :aria-label="t('v1.results')">
-    <li v-for="player in results" :key="player.id" class="results-list__item">
+  <ol class="results-table__list" :aria-label="t('v1.results')">
+    <li v-for="player in results" :key="player.id" class="results-table__item">
       <Card
-        class="results-list__card"
+        class="results-table__card"
         :class="{
-          'results-list__card--current': player.id === currentUserId,
+          'results-table__card--current': player.id === currentUserId,
         }"
+        role="link"
+        tabindex="0"
+        :aria-label="getFullName(player)"
+        @click="emit('selectPlayer', player.id)"
+        @keydown.enter="emit('selectPlayer', player.id)"
       >
         <template #content>
-          <div class="results-list__header">
+          <div class="results-table__header">
             <Tag
-              class="results-list__place"
+              class="results-table__place"
               :value="player.points.place"
               rounded
             />
 
-            <Button
-              class="results-list__player-button"
-              link
-              @click="emit('selectPlayer', player.id)"
+            <FText
+              class="results-table__player-name"
+              as="span"
+              clickable
+              variant="body-2-bold"
             >
-              <FText as="span" clickable variant="body-2-bold">
-                {{ getFullName(player) }}
-              </FText>
-            </Button>
+              {{ getFullName(player) }}
+            </FText>
           </div>
 
-          <dl class="results-list__stats">
-            <div class="results-list__stat">
+          <dl class="results-table__stats">
+            <div class="results-table__stat">
               <dt>
                 <FText as="span" color="--p-text-muted-color" variant="body-3">
                   {{ t('v1.points') }}
@@ -120,7 +148,7 @@ const getRowClass = (player: UserDetails) => ({
               </dd>
             </div>
 
-            <div class="results-list__stat">
+            <div class="results-table__stat">
               <dt>
                 <FText as="span" color="--p-text-muted-color" variant="body-3">
                   {{ t('v1.correct.guesses') }}
@@ -133,7 +161,7 @@ const getRowClass = (player: UserDetails) => ({
               </dd>
             </div>
 
-            <div class="results-list__stat">
+            <div class="results-table__stat">
               <dt>
                 <FText as="span" color="--p-text-muted-color" variant="body-3">
                   {{ t('v1.correct.outcomes') }}
@@ -174,108 +202,110 @@ const getRowClass = (player: UserDetails) => ({
     justify-content: center;
   }
 
-  :deep(.results-table__player-button) {
-    padding: 0;
-    color: var(--p-text-color);
+  :deep(.results-table__row) {
+    cursor: pointer;
   }
 
   :deep(.results-table__row--current > td) {
     background: var(--f-current-background);
   }
-}
 
-.results-list {
-  display: none;
+  &__list {
+    display: none;
+  }
 }
 
 @media (width <= 760px) {
   .results-table {
     display: none;
-  }
 
-  .results-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .results-list__item {
-    min-width: 0;
-  }
-
-  .results-list__card {
-    overflow: hidden;
-    border: var(--f-card-border);
-  }
-
-  .results-list__card--current {
-    :deep(.p-card-body) {
-      background: var(--f-current-background);
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--f-space-md);
+      padding: 0;
+      margin: 0;
+      list-style: none;
     }
-  }
 
-  .results-list__card :deep(.p-card-body) {
-    padding: 12px;
-  }
+    &__item {
+      min-width: 0;
+    }
 
-  .results-list__card :deep(.p-card-content) {
-    padding: 0;
-  }
+    &__card {
+      overflow: hidden;
+      border: var(--f-card-border);
+      cursor: pointer;
+      transition:
+        border-color 0.2s,
+        box-shadow 0.2s,
+        transform 0.2s;
 
-  .results-list__header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 0;
-  }
+      &:hover,
+      &:focus-visible {
+        border-color: var(--p-primary-color);
+        box-shadow: var(--f-card-hover-shadow);
+        transform: translateY(-1px);
+      }
 
-  .results-list__place {
-    flex: 0 0 36px;
-    width: 36px;
-    height: 36px;
-    font-weight: 700;
-  }
+      &--current {
+        :deep(.p-card-body) {
+          background: var(--f-current-background);
+        }
+      }
 
-  .results-list__player-button {
-    min-width: 0;
-    padding: 0;
-    color: var(--p-text-color);
+      :deep(.p-card-content) {
+        padding: 0;
+      }
+    }
 
-    :deep(.p-button-label) {
+    &__header {
+      display: flex;
+      align-items: center;
+      gap: var(--f-space-sm);
+      min-width: 0;
+    }
+
+    &__place {
+      flex: 0 0 36px;
+      width: 36px;
+      height: 36px;
+      font-weight: 700;
+    }
+
+    &__player-name {
+      min-width: 0;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-  }
 
-  .results-list__stats {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-    margin: 12px 0 0;
-  }
+    &__stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--f-space-xs);
+      margin: var(--f-space-md) 0 0;
+    }
 
-  .results-list__stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 0;
-    padding: 8px;
-    border-radius: var(--p-content-border-radius);
-    background: var(--p-content-hover-background);
-    text-align: center;
-  }
+    &__stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-width: 0;
+      padding: var(--f-space-xs);
+      border-radius: var(--p-content-border-radius);
+      background: var(--p-content-hover-background);
+      text-align: center;
 
-  .results-list__stat dt {
-    margin: 0;
-  }
+      dt {
+        margin: 0;
+      }
 
-  .results-list__stat dd {
-    margin: 4px 0 0;
+      dd {
+        margin: var(--f-space-2xs) 0 0;
+      }
+    }
   }
 }
 </style>

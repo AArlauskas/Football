@@ -1,0 +1,57 @@
+:root {
+  --f-page-empty-background:
+    radial-gradient(
+      circle at top left,
+      color-mix(in srgb, var(--p-primary-400) 24%, transparent),
+      transparent 34rem
+    ),
+    var(--p-surface-100);
+  --f-page-empty-border: var(--p-surface-200);
+  --f-page-empty-nav-active-background: color-mix(
+    in srgb,
+    var(--p-primary-100) 92%,
+    transparent
+  );
+  --f-page-empty-nav-active-color: var(--p-primary-700);
+  --f-page-empty-panel-background: color-mix(
+    in srgb,
+    var(--p-surface-0) 82%,
+    transparent
+  );
+  --f-page-empty-sidebar-background: color-mix(
+    in srgb,
+    var(--p-surface-0) 74%,
+    transparent
+  );
+}
+
+.app-dark {
+  --f-page-empty-background:
+    radial-gradient(
+      circle at top left,
+      color-mix(in srgb, var(--p-primary-color) 30%, transparent),
+      transparent 34rem
+    ),
+    var(--p-surface-950);
+  --f-page-empty-border: var(--p-surface-800);
+  --f-page-empty-nav-active-background: color-mix(
+    in srgb,
+    var(--p-primary-500) 22%,
+    transparent
+  );
+  --f-page-empty-nav-active-color: var(--p-primary-200);
+  --f-page-empty-panel-background: color-mix(
+    in srgb,
+    var(--p-surface-900) 82%,
+    transparent
+  );
+  --f-page-empty-sidebar-background: color-mix(
+    in srgb,
+    var(--p-surface-900) 74%,
+    transparent
+  );
+}
+
+.app-dark body {
+  background: var(--p-surface-950);
+}

@@ -496,39 +496,39 @@ onUnmounted(() => {
   justify-content: center;
   padding: 0;
   border: 0;
-  margin-left: 8px;
+  margin-left: var(--f-space-xs);
   appearance: none;
   background: transparent;
   cursor: grab;
   touch-action: none;
-}
 
-.f-bouncing-football--idle-jump {
-  animation: f-bouncing-football-idle-jump 0.52s ease-out;
-}
+  &--idle-jump {
+    animation: f-bouncing-football-idle-jump 0.52s ease-out;
+  }
 
-.f-bouncing-football--in-play {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  width: 54px;
-  height: 54px;
-  margin-left: 0;
-  will-change: transform;
-}
+  &--in-play {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 54px;
+    height: 54px;
+    margin-left: 0;
+    will-change: transform;
+  }
 
-.f-bouncing-football--dragging {
-  z-index: 3;
-  cursor: grabbing;
-}
+  &--dragging {
+    z-index: 3;
+    cursor: grabbing;
+  }
 
-.f-bouncing-football__image {
-  display: block;
-  width: 38px;
-  height: 38px;
-  pointer-events: none;
-  user-select: none;
+  &__image {
+    display: block;
+    width: 38px;
+    height: 38px;
+    pointer-events: none;
+    user-select: none;
+  }
 }
 
 @keyframes f-bouncing-football-idle-jump {

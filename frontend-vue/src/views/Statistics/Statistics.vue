@@ -417,10 +417,10 @@ usePageTitle(pageTitle);
 </script>
 
 <template>
-  <main class="statistics-page">
+  <main class="statistics">
     <FPageFeedback :error="requestError" />
 
-    <header class="statistics-page__hero">
+    <header class="statistics__hero">
       <FText as="h1" variant="heading-2">
         {{ t('v1.statistics') }}
       </FText>
@@ -429,7 +429,7 @@ usePageTitle(pageTitle);
       </FText>
     </header>
 
-    <div v-if="isLoading" class="statistics-page__skeleton">
+    <div v-if="isLoading" class="statistics__skeleton">
       <Skeleton v-for="item in 6" :key="item" height="180px" />
     </div>
 
@@ -455,29 +455,31 @@ usePageTitle(pageTitle);
 </template>
 
 <style scoped lang="scss">
-.statistics-page {
+.statistics {
   display: flex;
   width: min(100%, var(--f-page-empty-content-width, 1280px));
   flex-direction: column;
-  gap: 18px;
+  gap: var(--f-space-lg);
   margin: 0 auto;
-}
 
-.statistics-page__hero {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+  &__hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--f-space-xs);
+  }
 
-.statistics-page__skeleton {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  &__skeleton {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--f-space-md);
+  }
 }
 
 @media (width <= 960px) {
-  .statistics-page__skeleton {
-    grid-template-columns: 1fr;
+  .statistics {
+    &__skeleton {
+      grid-template-columns: 1fr;
+    }
   }
 }
 </style>

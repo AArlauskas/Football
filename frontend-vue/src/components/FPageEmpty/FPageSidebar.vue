@@ -58,19 +58,19 @@ defineEmits<{
   height: calc(100vh - var(--f-page-empty-topbar-height));
   flex-direction: column;
   grid-area: sidebar;
-  gap: 12px;
+  gap: var(--f-space-md);
   overflow: hidden;
-  padding: 24px;
+  padding: var(--f-space-xl);
   border-right: 1px solid var(--f-page-empty-border);
   background: var(--f-page-empty-sidebar-background);
-}
 
-.f-page-sidebar__player-divider {
-  margin-block: 2px 6px;
-}
+  &__player-divider {
+    margin-block: var(--f-space-2xs) var(--f-space-2xs);
+  }
 
-.f-page-sidebar__sign-out {
-  margin-top: auto;
+  &__sign-out {
+    margin-top: auto;
+  }
 }
 
 @media (width <= 920px) {

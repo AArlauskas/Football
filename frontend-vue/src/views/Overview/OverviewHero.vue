@@ -22,7 +22,13 @@ defineProps<{
       <section class="overview-hero__content">
         <div class="overview-hero__header">
           <div class="overview-hero__avatar" aria-hidden="true">
-            {{ initials }}
+            <FText
+              as="span"
+              color="--p-primary-contrast-color"
+              variant="body-2-bold"
+            >
+              {{ initials }}
+            </FText>
           </div>
 
           <div class="overview-hero__copy">
@@ -49,91 +55,88 @@ defineProps<{
 <style scoped lang="scss">
 .overview-hero {
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--p-primary-color) 18%, transparent);
-}
 
-.overview-hero :deep(.p-card-body) {
-  padding: 14px 16px;
-  background:
-    radial-gradient(
-      circle at top left,
-      color-mix(in srgb, var(--p-primary-color) 16%, transparent),
-      transparent 34%
-    ),
-    var(--p-surface-card);
-}
+  :deep(.p-card-body) {
+    background:
+      radial-gradient(
+        circle at top left,
+        color-mix(in srgb, var(--p-primary-color) 16%, transparent),
+        transparent 34%
+      ),
+      var(--p-surface-card);
+  }
 
-.overview-hero__content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--f-space-md);
+  }
 
-.overview-hero__header {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 12px;
-}
+  &__header {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: var(--f-space-md);
+  }
 
-.overview-hero__avatar {
-  display: grid;
-  width: 46px;
-  height: 46px;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, var(--p-primary-color) 32%, transparent);
-  border-radius: 14px;
-  background: linear-gradient(
-    135deg,
-    var(--p-primary-500),
-    var(--p-primary-700)
-  );
-  color: var(--p-primary-contrast-color);
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  box-shadow: 0 8px 18px
-    color-mix(in srgb, var(--p-primary-color) 22%, transparent);
-}
+  &__avatar {
+    display: grid;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid
+      color-mix(in srgb, var(--p-primary-color) 32%, transparent);
+    border-radius: var(--f-radius-md);
+    background: linear-gradient(
+      135deg,
+      var(--p-primary-500),
+      var(--p-primary-700)
+    );
+    color: var(--p-primary-contrast-color);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    box-shadow: 0 8px 18px
+      color-mix(in srgb, var(--p-primary-color) 22%, transparent);
+  }
 
-.overview-hero__copy {
-  display: grid;
-  min-width: 0;
-}
+  &__copy {
+    display: grid;
+    min-width: 0;
+  }
 
-.overview-hero__title {
-  overflow-wrap: anywhere;
-  font-size: clamp(1.35rem, 2vw, 1.75rem);
-}
+  &__title {
+    overflow-wrap: anywhere;
+  }
 
-.overview-hero__summary {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-left: auto;
-  justify-content: flex-end;
+  &__summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--f-space-xs);
+    margin-left: auto;
+    justify-content: flex-end;
+  }
 }
 
 @media (width <= 640px) {
-  .overview-hero__content {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+  .overview-hero {
+    &__content {
+      align-items: flex-start;
+      flex-direction: column;
+    }
 
-  .overview-hero__avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 16px;
-    font-size: 1.05rem;
-  }
+    &__avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--f-radius-lg);
+    }
 
-  .overview-hero__summary {
-    width: 100%;
-    margin-left: 0;
-    justify-content: flex-start;
+    &__summary {
+      width: 100%;
+      margin-left: 0;
+      justify-content: flex-start;
+    }
   }
 }
 </style>

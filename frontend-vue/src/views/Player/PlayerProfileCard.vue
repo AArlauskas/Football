@@ -59,12 +59,18 @@ const statCards = computed<
 </script>
 
 <template>
-  <Card class="player-profile-card-shell">
+  <Card class="player-profile-card">
     <template #content>
-      <section class="player-profile-card">
+      <section class="player-profile-card__content">
         <div class="player-profile-card__header">
           <div class="player-profile-card__avatar" aria-hidden="true">
-            {{ playerInitials }}
+            <FText
+              as="span"
+              color="--p-primary-contrast-color"
+              variant="body-1-bold"
+            >
+              {{ playerInitials }}
+            </FText>
           </div>
 
           <div class="player-profile-card__details">
@@ -120,7 +126,7 @@ const statCards = computed<
 </template>
 
 <style scoped lang="scss">
-:deep(.player-profile-card-shell.p-card) {
+:deep(.player-profile-card.p-card) {
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--p-primary-color) 18%, transparent);
   background:
@@ -134,128 +140,126 @@ const statCards = computed<
 }
 
 .player-profile-card {
-  display: grid;
-  align-items: center;
-  gap: 20px;
-  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.5fr);
-}
+  &__content {
+    display: grid;
+    align-items: center;
+    gap: var(--f-space-lg);
+    grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.5fr);
+  }
 
-.player-profile-card__header {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 14px;
-}
+  &__header {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: var(--f-space-sm);
+  }
 
-.player-profile-card__avatar {
-  display: grid;
-  width: 58px;
-  height: 58px;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, var(--p-primary-color) 32%, transparent);
-  border-radius: 18px;
-  background: linear-gradient(
-    135deg,
-    var(--p-primary-500),
-    var(--p-primary-700)
-  );
-  color: var(--p-primary-contrast-color);
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  box-shadow: 0 12px 28px
-    color-mix(in srgb, var(--p-primary-color) 26%, transparent);
-}
+  &__avatar {
+    display: grid;
+    width: 58px;
+    height: 58px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid
+      color-mix(in srgb, var(--p-primary-color) 32%, transparent);
+    border-radius: var(--f-radius-xl);
+    background: linear-gradient(
+      135deg,
+      var(--p-primary-500),
+      var(--p-primary-700)
+    );
+    color: var(--p-primary-contrast-color);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    box-shadow: 0 12px 28px
+      color-mix(in srgb, var(--p-primary-color) 26%, transparent);
+  }
 
-.player-profile-card__details {
-  min-width: 0;
-}
+  &__details {
+    min-width: 0;
+  }
 
-.player-profile-card__tag {
-  width: fit-content;
-}
+  &__tag {
+    width: fit-content;
+  }
 
-.player-profile-card__name {
-  margin-top: 8px;
-  overflow-wrap: anywhere;
-}
+  &__name {
+    margin-top: var(--f-space-xs);
+    overflow-wrap: anywhere;
+  }
 
-.player-profile-card__stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(120px, 1fr));
-  gap: 10px;
-}
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(120px, 1fr));
+    gap: var(--f-space-sm);
+  }
 
-.player-profile-card__stat {
-  display: grid;
-  min-width: 0;
-  gap: 10px;
-  padding: 12px;
-  border: 1px solid color-mix(in srgb, var(--p-text-color) 10%, transparent);
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--p-surface-card) 82%, transparent);
-  box-shadow: 0 10px 24px
-    color-mix(in srgb, var(--p-text-color) 6%, transparent);
-}
+  &__stat {
+    display: grid;
+    min-width: 0;
+    gap: var(--f-space-sm);
+    padding: var(--f-space-md);
+    border: 1px solid color-mix(in srgb, var(--p-text-color) 10%, transparent);
+    border-radius: var(--f-radius-md);
+    background: color-mix(in srgb, var(--p-surface-card) 82%, transparent);
+    box-shadow: 0 10px 24px
+      color-mix(in srgb, var(--p-text-color) 6%, transparent);
+  }
 
-.player-profile-card__stat-header {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 8px;
-}
+  &__stat-header {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: var(--f-space-xs);
+  }
 
-.player-profile-card__stat-icon {
-  display: inline-grid;
-  width: 22px;
-  height: 22px;
-  flex: 0 0 auto;
-  place-items: center;
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--p-primary-color) 12%, transparent);
-  color: var(--p-primary-color);
+  &__stat-icon {
+    display: inline-grid;
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: var(--f-radius-xs);
+    background: color-mix(in srgb, var(--p-primary-color) 12%, transparent);
+    color: var(--p-primary-color);
 
-  i {
-    font-size: 0.75rem;
+    i {
+      font-size: 0.75rem;
+    }
+  }
+
+  &__stat-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
-.player-profile-card__stat-label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.player-profile-card__stat-value {
-  line-height: 1;
-}
-
 @media (width <= 1040px) {
-  .player-profile-card {
+  .player-profile-card__content {
     grid-template-columns: 1fr;
   }
 }
 
 @media (width <= 760px) {
-  .player-profile-card__header {
-    align-items: center;
-  }
+  .player-profile-card {
+    &__header {
+      align-items: center;
+    }
 
-  .player-profile-card__avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 16px;
-    font-size: 1.05rem;
-  }
+    &__avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--f-radius-lg);
+    }
 
-  .player-profile-card__name {
-    white-space: normal;
-  }
+    &__name {
+      white-space: normal;
+    }
 
-  .player-profile-card__stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    &__stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 }
 </style>

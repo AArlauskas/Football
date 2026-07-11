@@ -22,7 +22,7 @@ const { t } = useTranslations();
     <FText as="span" color="--p-text-muted-color" variant="body-3">
       {{ t(label) }}
     </FText>
-    <FText as="span" variant="heading-3">
+    <FText as="span" variant="body-2-bold">
       {{ value }}
     </FText>
   </div>
@@ -33,30 +33,25 @@ const { t } = useTranslations();
   display: inline-flex;
   min-height: 32px;
   align-items: center;
-  gap: 6px;
-  padding: 5px 9px;
+  gap: var(--f-space-2xs);
+  padding: var(--f-space-2xs) var(--f-space-xs);
   border: 1px solid color-mix(in srgb, var(--p-text-color) 10%, transparent);
-  border-radius: 999px;
+  border-radius: var(--f-radius-full);
   background: color-mix(in srgb, var(--p-surface-card) 82%, transparent);
   white-space: nowrap;
-}
 
-.overview-summary-card__icon {
-  display: inline-grid;
-  width: 18px;
-  height: 18px;
-  place-items: center;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--p-primary-color) 12%, transparent);
-  color: var(--p-primary-color);
+  &__icon {
+    display: inline-grid;
+    width: 18px;
+    height: 18px;
+    place-items: center;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--p-primary-color) 12%, transparent);
+    color: var(--p-primary-color);
 
-  i {
-    font-size: 0.65rem;
+    i {
+      font-size: 0.65rem;
+    }
   }
-}
-
-.overview-summary-card :deep(.f-text--heading-3) {
-  font-size: 1rem;
-  line-height: 1;
 }
 </style>
