@@ -226,7 +226,6 @@ const statCards = computed<
   &__stat-label {
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
   }
 }
 

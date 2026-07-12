@@ -33,7 +33,7 @@ const { t } = useTranslations();
   display: inline-flex;
   min-height: 32px;
   align-items: center;
-  gap: var(--f-space-2xs);
+  gap: var(--f-space-xs);
   padding: var(--f-space-2xs) var(--f-space-xs);
   border: 1px solid color-mix(in srgb, var(--p-text-color) 10%, transparent);
   border-radius: var(--f-radius-full);

@@ -252,7 +252,7 @@ const getPointsLabel = (item: GameWithGuess) =>
   }
 
   &__footer {
-    padding-top: var(--f-space-xs);
+    padding-top: var(--f-space-sm);
     border-top: 1px solid
       color-mix(in srgb, var(--p-text-color) 10%, transparent);
   }
