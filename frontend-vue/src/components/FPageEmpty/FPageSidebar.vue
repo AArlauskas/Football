@@ -4,14 +4,14 @@ import Divider from 'primevue/divider';
 
 import FPageNavigation from '@/components/FPageEmpty/FPageNavigation.vue';
 import FPagePlayerSummary from '@/components/FPageEmpty/FPagePlayerSummary.vue';
-import type { RouteName, RoutePath } from '@/enums';
+import type { RouteName } from '@/enums';
 import type { TranslationKey } from '@/i18n';
 
 type NavigationItem = {
   icon: string;
   label: TranslationKey;
   name: (typeof RouteName)[keyof typeof RouteName];
-  path: (typeof RoutePath)[keyof typeof RoutePath];
+  path: string;
 };
 
 type Props = {

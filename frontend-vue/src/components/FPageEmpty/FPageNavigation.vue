@@ -2,14 +2,14 @@
 import { RouterLink } from 'vue-router';
 
 import FText from '@/components/FText.vue';
-import type { RouteName, RoutePath } from '@/enums';
+import type { RouteName } from '@/enums';
 import type { TranslationKey } from '@/i18n';
 
 type NavigationItem = {
   icon: string;
   label: TranslationKey;
   name: (typeof RouteName)[keyof typeof RouteName];
-  path: (typeof RoutePath)[keyof typeof RoutePath];
+  path: string;
 };
 
 type Props = {
@@ -53,7 +53,7 @@ defineEmits<Emits>();
     display: flex;
     align-items: center;
     gap: var(--f-space-md);
-    padding: var(--f-space-sm);
+    padding: var(--f-space-xs);
     border-radius: var(--f-radius-md);
     color: var(--p-text-muted-color);
     text-decoration: none;

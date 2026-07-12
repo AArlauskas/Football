@@ -5,7 +5,6 @@ export const StoreId = {
   Match: 'match',
   OngoingMatches: 'ongoing-matches',
   Overview: 'overview',
-  Personal: 'personal',
   Player: 'player',
   Results: 'results',
   Statistics: 'statistics',

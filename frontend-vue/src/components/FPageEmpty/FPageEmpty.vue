@@ -5,10 +5,9 @@ import { useRoute, useRouter } from 'vue-router';
 import FPageDrawer from '@/components/FPageEmpty/FPageDrawer.vue';
 import FPageSidebar from '@/components/FPageEmpty/FPageSidebar.vue';
 import FPageTopbar from '@/components/FPageEmpty/FPageTopbar.vue';
-import { useExperiment } from '@/composables/useExperiment';
 import { useTheme } from '@/composables/useTheme';
 import { useTranslations } from '@/composables/useTranslations';
-import { Experiment, RouteName, RoutePath } from '@/enums';
+import { RouteName, RoutePath } from '@/enums';
 import { setLocale, type AppLocale, type TranslationKey } from '@/i18n';
 import { isStatisticsAvailable } from '@/lib/statistics';
 import { useAuthStore } from '@/stores/authStore';
@@ -16,9 +15,6 @@ import { useAuthStore } from '@/stores/authStore';
 const authStore = useAuthStore();
 const route = useRoute();
 const router = useRouter();
-const { isActive: isOverviewExperimentActive } = useExperiment(
-  Experiment.Overview,
-);
 const { locale, t } = useTranslations();
 const { isDark, toggleTheme } = useTheme();
 
@@ -35,7 +31,6 @@ const routeTitleMap: Partial<Record<string, TranslationKey>> = {
   [RouteName.Games]: 'v1.games',
   [RouteName.Match]: 'v1.match',
   [RouteName.Overview]: 'v1.overview',
-  [RouteName.Personal]: 'v1.personal',
   [RouteName.Player]: 'v1.player',
   [RouteName.Results]: 'v1.results',
   [RouteName.Rules]: 'v1.rules',
@@ -45,16 +40,12 @@ const routeTitleMap: Partial<Record<string, TranslationKey>> = {
 };
 
 const navigationItems = computed(() => [
-  ...(isOverviewExperimentActive.value
-    ? [
-        {
-          icon: 'pi pi-home',
-          label: 'v1.overview' as TranslationKey,
-          name: RouteName.Overview,
-          path: RoutePath.Overview,
-        },
-      ]
-    : []),
+  {
+    icon: 'pi pi-home',
+    label: 'v1.overview' as TranslationKey,
+    name: RouteName.Overview,
+    path: RoutePath.Overview,
+  },
   {
     icon: 'pi pi-calendar',
     label: 'v1.games' as TranslationKey,
@@ -66,6 +57,12 @@ const navigationItems = computed(() => [
     label: 'v1.results' as TranslationKey,
     name: RouteName.Results,
     path: RoutePath.Results,
+  },
+  {
+    icon: 'pi pi-user',
+    label: 'v1.personal' as TranslationKey,
+    name: RouteName.Player,
+    path: RoutePath.Player.replace(':userId', String(authStore.user?.id ?? '')),
   },
   {
     icon: 'pi pi-table',
@@ -83,12 +80,6 @@ const navigationItems = computed(() => [
         },
       ]
     : []),
-  {
-    icon: 'pi pi-user',
-    label: 'v1.personal' as TranslationKey,
-    name: RouteName.Personal,
-    path: RoutePath.Personal,
-  },
   {
     icon: 'pi pi-list-check',
     label: 'v1.rules' as TranslationKey,

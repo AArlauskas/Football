@@ -75,12 +75,6 @@ const goToTeam = async (teamId: string) => {
 };
 
 const goToPlayer = async (item: GuessWithUser) => {
-  if (isCurrentUser(item)) {
-    await router.push({ name: RouteName.Personal });
-
-    return;
-  }
-
   await router.push({
     name: RouteName.Player,
     params: { userId: item.user.id },

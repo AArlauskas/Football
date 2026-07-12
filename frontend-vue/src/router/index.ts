@@ -1,28 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import { useExperiment } from '@/composables/useExperiment';
-import { Experiment, RouteName, RoutePath } from '@/enums';
+import { RouteName, RoutePath } from '@/enums';
 import { isRegistrationOpen } from '@/lib/registration';
 import { isStatisticsAvailable } from '@/lib/statistics';
 import { useAuthStore } from '@/stores/authStore';
-
-const { isActive: isOverviewExperimentActive } = useExperiment(
-  Experiment.Overview,
-);
-
-const getMainRoutePath = () =>
-  isOverviewExperimentActive.value ? RoutePath.Overview : RoutePath.Games;
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: RoutePath.Root,
-      redirect: getMainRoutePath,
+      redirect: RoutePath.Overview,
     },
     {
       path: RoutePath.Home,
-      redirect: getMainRoutePath,
+      redirect: RoutePath.Overview,
     },
     {
       component: () => import('@/views/Overview/Overview.vue'),
@@ -49,10 +41,14 @@ export const router = createRouter({
       path: RoutePath.Match,
     },
     {
-      component: () => import('@/views/Personal/Personal.vue'),
-      meta: { requiresAuth: true },
-      name: RouteName.Personal,
-      path: RoutePath.Personal,
+      path: '/personal',
+      redirect: () => {
+        const userId = useAuthStore().user?.id;
+
+        return userId
+          ? { name: RouteName.Player, params: { userId } }
+          : RoutePath.SignIn;
+      },
     },
     {
       component: () => import('@/views/Player/Player.vue'),

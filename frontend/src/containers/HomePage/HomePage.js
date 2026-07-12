@@ -4,7 +4,7 @@ import React from "react";
 import MatchesByDate from "../../components/MatchesByDate/MatchesByDate";
 import "./styles.css";
 import TopBar from "../../components/TopBar/TopBar";
-import { addGuess, getTodayGames } from "../../api/Api";
+import { addGuess, getUpcomingClosedGames } from "../../api/Api";
 import CustomSnackbar from "../../components/CustomSnackbar/CustomSnackbar";
 import { IS_STATISTICS_ENABLED } from "../../constants";
 
@@ -40,7 +40,7 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    getTodayGames()
+    getUpcomingClosedGames()
       .then((response) => {
         const { transformedMatches } = transformMatches(response.data);
         const dates = sortMatchDates(transformedMatches);

@@ -34,8 +34,8 @@ const Axios = axios.create({
 export const getAllGames = () =>
   Axios.get("/games/", { params: { filter: "all" } });
 
-export const getTodayGames = () =>
-  Axios.get("/games/guessed", { params: { filter: "today" } });
+export const getUpcomingClosedGames = () =>
+  Axios.get("/games/guessed", { params: { filter: "upcoming-closed" } });
 
 export const getAllPersonalGames = () =>
   Axios.get("/games/guessed", { params: { filter: "all" } });

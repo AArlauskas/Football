@@ -2,14 +2,13 @@
 import { storeToRefs } from 'pinia';
 import { Skeleton } from 'primevue';
 import { computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 import FPageFeedback from '@/components/FPageFeedback.vue';
-import { useExperiment } from '@/composables/useExperiment';
 import { useOngoingMatchesPolling } from '@/composables/useOngoingMatchesPolling';
 import { usePageTitle } from '@/composables/usePageTitle';
 import { useTranslations } from '@/composables/useTranslations';
-import { Experiment, RouteName } from '@/enums';
+import { RouteName } from '@/enums';
 import type { TranslationKey } from '@/i18n';
 import type { GameWithGuess, UserDetails } from '@/models';
 import { useAuthStore } from '@/stores/authStore';
@@ -22,11 +21,7 @@ const LEADERBOARD_WINDOW_SIZE = 5;
 
 const authStore = useAuthStore();
 const overviewStore = useOverviewStore();
-const route = useRoute();
 const router = useRouter();
-const { setActive: setOverviewExperimentActive } = useExperiment(
-  Experiment.Overview,
-);
 const { t } = useTranslations();
 const { games, isLoading, requestError, results } = storeToRefs(overviewStore);
 
@@ -86,12 +81,6 @@ const summaryCards = computed<
 ]);
 
 const selectPlayer = async (player: UserDetails) => {
-  if (player.id === currentUser.value?.id) {
-    await router.push({ name: RouteName.Personal });
-
-    return;
-  }
-
   await router.push({ name: RouteName.Player, params: { userId: player.id } });
 };
 
@@ -111,10 +100,6 @@ const openResults = async () => {
 };
 
 onMounted(() => {
-  if (route.query.activate === 'true') {
-    setOverviewExperimentActive(true);
-  }
-
   void authStore.refreshPersonalPoints();
   void overviewStore.loadOverview();
 });

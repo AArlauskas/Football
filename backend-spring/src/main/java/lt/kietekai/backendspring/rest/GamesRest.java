@@ -81,16 +81,8 @@ public class GamesRest {
             case ALL -> {
                 return gameRepository.getAllGamesWithGuesses(userId);
             }
-            case TODAY -> {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.HOUR_OF_DAY, 0);
-                cal.set(Calendar.MINUTE, 0);
-                cal.set(Calendar.SECOND, 0);
-                cal.set(Calendar.MILLISECOND, 0);
-                return gameRepository.getFutureGamesWithGuesses(userId, cal.getTime());
-            }
-            case CLOSED -> {
-                return gameRepository.getClosedGamesWithGuesses(userId);
+            case UPCOMING_CLOSED -> {
+                return gameRepository.getUpcomingClosedGamesWithGuesses(userId);
             }
             case OVERVIEW -> {
                 Calendar today = Calendar.getInstance();

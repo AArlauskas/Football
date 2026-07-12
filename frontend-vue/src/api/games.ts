@@ -1,9 +1,20 @@
 import { apiClient } from '@/api/client';
-import type { GameWithGuess, OngoingGame } from '@/models';
+import type {
+  GameWithGuess,
+  Guess,
+  GuessPrototype,
+  OngoingGame,
+} from '@/models';
+
+export const addGuess = async (guess: GuessPrototype) => {
+  const response = await apiClient.post<Guess>('/guesses', guess);
+
+  return response.data;
+};
 
 export const getGamesWithGuesses = async () => {
   const response = await apiClient.get<GameWithGuess[]>('/games/guessed', {
-    params: { filter: 'today' },
+    params: { filter: 'upcoming-closed' },
   });
 
   return response.data;

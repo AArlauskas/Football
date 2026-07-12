@@ -1,11 +1,19 @@
 package lt.kietekai.backendspring.rest.models;
 
 public enum GamesFilter {
-    ALL, TODAY, CLOSED, OVERVIEW;
+    ALL("all"),
+    UPCOMING_CLOSED("upcoming-closed"),
+    OVERVIEW("overview");
 
-    public static GamesFilter parse(String s) {
+    private final String value;
+
+    GamesFilter(String value) {
+        this.value = value;
+    }
+
+    public static GamesFilter parse(String value) {
         for (GamesFilter f : GamesFilter.values()) {
-            if (f.name().equalsIgnoreCase(s)) {
+            if (f.value.equalsIgnoreCase(value)) {
                 return f;
             }
         }

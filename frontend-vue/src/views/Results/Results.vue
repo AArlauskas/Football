@@ -22,12 +22,6 @@ const { isLoading, requestError, results } = storeToRefs(resultsStore);
 const pageTitle = computed(() => t('v1.results'));
 
 const handlePlayerSelect = async (id: number) => {
-  if (id === authStore.user?.id) {
-    await router.push({ name: RouteName.Personal });
-
-    return;
-  }
-
   await router.push({ name: RouteName.Player, params: { userId: id } });
 };
 
