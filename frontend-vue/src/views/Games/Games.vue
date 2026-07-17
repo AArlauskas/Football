@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia';
 import { Card, Skeleton } from 'primevue';
 import { computed, onMounted, watch } from 'vue';
 
+import FChampionshipSummary from '@/components/FChampionshipSummary.vue';
 import FEmptyMessage from '@/components/FEmptyMessage.vue';
 import FPageFeedback from '@/components/FPageFeedback.vue';
 import FText from '@/components/FText.vue';
@@ -11,6 +12,7 @@ import { usePageTitle } from '@/composables/usePageTitle';
 import { useToast } from '@/composables/useToast';
 import { useTranslations } from '@/composables/useTranslations';
 import type { TranslationKey } from '@/i18n';
+import { isStatisticsDatePassed } from '@/lib/statistics';
 import type { GameResult } from '@/models';
 import { useGamesStore } from '@/stores/gamesStore';
 import GamesGameCard from '@/views/Games/GamesGameCard.vue';
@@ -22,6 +24,10 @@ const { groups, isLoading, isSavingGuess, requestError, successMessageKey } =
   storeToRefs(gamesStore);
 
 const pageTitle = computed(() => t('v1.games'));
+
+const showChampionshipSummary = computed(
+  () => groups.value.length === 0 && isStatisticsDatePassed(),
+);
 
 const handleSaveGuess = async (gameId: number, result: GameResult) => {
   await gamesStore.saveGuess(gameId, result);
@@ -141,6 +147,8 @@ useOngoingMatchesPolling();
           </Card>
         </section>
       </div>
+
+      <FChampionshipSummary v-else-if="showChampionshipSummary" />
 
       <FEmptyMessage v-else message="v1.personal.no.upcoming.matches" />
     </template>
