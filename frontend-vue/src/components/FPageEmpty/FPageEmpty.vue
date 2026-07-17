@@ -5,20 +5,28 @@ import { useRoute, useRouter } from 'vue-router';
 import FPageDrawer from '@/components/FPageEmpty/FPageDrawer.vue';
 import FPageSidebar from '@/components/FPageEmpty/FPageSidebar.vue';
 import FPageTopbar from '@/components/FPageEmpty/FPageTopbar.vue';
+import { useExperiment } from '@/composables/useExperiment';
 import { useTheme } from '@/composables/useTheme';
 import { useTranslations } from '@/composables/useTranslations';
-import { RouteName, RoutePath } from '@/enums';
+import { Experiment, RouteName, RoutePath } from '@/enums';
 import { setLocale, type AppLocale, type TranslationKey } from '@/i18n';
-import { isStatisticsAvailable } from '@/lib/statistics';
+import { isStatisticsDatePassed } from '@/lib/statistics';
 import { useAuthStore } from '@/stores/authStore';
 
 const authStore = useAuthStore();
 const route = useRoute();
 const router = useRouter();
+const { isActive: isStatisticsExperimentActive } = useExperiment(
+  Experiment.Statistics,
+);
 const { locale, t } = useTranslations();
 const { isDark, toggleTheme } = useTheme();
 
 const isDrawerVisible = ref(false);
+
+const isStatisticsAvailable = computed(
+  () => isStatisticsDatePassed() || isStatisticsExperimentActive.value,
+);
 
 const localeOptions: { label: string; value: AppLocale }[] = [
   { label: 'LT', value: 'lt-LT' },
@@ -70,7 +78,7 @@ const navigationItems = computed(() => [
     name: RouteName.TeamsStatistics,
     path: RoutePath.TeamsStatistics,
   },
-  ...(isStatisticsAvailable()
+  ...(isStatisticsAvailable.value
     ? [
         {
           icon: 'pi pi-chart-bar',

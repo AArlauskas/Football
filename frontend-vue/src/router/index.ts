@@ -1,9 +1,20 @@
+import { computed } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
-import { RouteName, RoutePath } from '@/enums';
+import { useExperiment } from '@/composables/useExperiment';
+import { Experiment, RouteName, RoutePath } from '@/enums';
 import { isRegistrationOpen } from '@/lib/registration';
-import { isStatisticsAvailable } from '@/lib/statistics';
+import { isStatisticsDatePassed } from '@/lib/statistics';
 import { useAuthStore } from '@/stores/authStore';
+
+const {
+  isActive: isStatisticsExperimentActive,
+  setActive: setStatisticsExperimentActive,
+} = useExperiment(Experiment.Statistics);
+
+const isStatisticsAvailable = computed(
+  () => isStatisticsDatePassed() || isStatisticsExperimentActive.value,
+);
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -125,7 +136,13 @@ router.beforeEach((to) => {
     return RoutePath.SignIn;
   }
 
-  if (to.meta.requiresStatisticsAvailable && !isStatisticsAvailable()) {
-    return RoutePath.Root;
+  if (to.meta.requiresStatisticsAvailable) {
+    if (to.query.activate === 'true') {
+      setStatisticsExperimentActive(true);
+    }
+
+    if (!isStatisticsAvailable.value) {
+      return RoutePath.Root;
+    }
   }
 });
