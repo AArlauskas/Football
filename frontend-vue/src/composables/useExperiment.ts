@@ -4,10 +4,12 @@ import { Experiment } from '@/enums';
 
 const experimentStorageKeyMap: Record<Experiment, string> = {
   [Experiment.Overview]: 'overview-experiment-active',
+  [Experiment.Statistics]: 'statistics-experiment-active',
 };
 
 const activeExperiments = ref<Record<Experiment, boolean>>({
   [Experiment.Overview]: false,
+  [Experiment.Statistics]: false,
 });
 
 let isInitialized = false;
