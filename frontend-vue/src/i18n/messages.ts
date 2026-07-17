@@ -57,6 +57,9 @@ export const messages = {
     'v1.full.name': 'Full name',
     'v1.dark.mode': 'Dark mode',
     'v1.games': 'Upcoming games',
+    'v1.games.championship.finished':
+      'You finished in {place} place with {points} points. Check out the championship stats!',
+    'v1.games.championship.finished.title': 'Thanks for playing!',
     'v1.general.error': 'An error occured, please try again later',
     'v1.guess': 'Guess',
     'v1.guesses': 'Guesses',
@@ -373,6 +376,9 @@ export const messages = {
     'v1.full.name': 'Vardas Pavardė',
     'v1.dark.mode': 'Tamsus režimas',
     'v1.games': 'Ateinančios varžybos',
+    'v1.games.championship.finished':
+      'Užėmei {place} vietą ir surinkai {points} taškų. Peržiūrėk čempionato statistiką!',
+    'v1.games.championship.finished.title': 'Ačiū, kad žaidei!',
     'v1.general.error': 'Įvyko klaida, prašome pabandyti vėliau',
     'v1.guess': 'Spėjimas',
     'v1.guesses': 'Spėjimai',
@@ -691,6 +697,9 @@ export const messages = {
     'v1.full.name': 'Целосно име',
     'v1.dark.mode': 'Темен режим',
     'v1.games': 'Претстојни натпревари',
+    'v1.games.championship.finished':
+      'Заврши на {place}. место со {points} поени. Погледни ја статистиката од првенството!',
+    'v1.games.championship.finished.title': 'Фала што играше!',
     'v1.general.error': 'Се појави грешка, обидете се повторно подоцна',
     'v1.guess': 'Предвидување',
     'v1.guesses': 'Предвидувања',

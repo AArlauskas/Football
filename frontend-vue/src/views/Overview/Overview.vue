@@ -4,12 +4,14 @@ import { Skeleton } from 'primevue';
 import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
+import FChampionshipSummary from '@/components/FChampionshipSummary.vue';
 import FPageFeedback from '@/components/FPageFeedback.vue';
 import { useOngoingMatchesPolling } from '@/composables/useOngoingMatchesPolling';
 import { usePageTitle } from '@/composables/usePageTitle';
 import { useTranslations } from '@/composables/useTranslations';
 import { RouteName } from '@/enums';
 import type { TranslationKey } from '@/i18n';
+import { isStatisticsDatePassed } from '@/lib/statistics';
 import type { GameWithGuess, UserDetails } from '@/models';
 import { useAuthStore } from '@/stores/authStore';
 import { useOverviewStore } from '@/stores/overviewStore';
@@ -26,6 +28,7 @@ const { t } = useTranslations();
 const { games, isLoading, requestError, results } = storeToRefs(overviewStore);
 
 const pageTitle = computed(() => t('v1.overview'));
+const showChampionshipSummary = computed(() => isStatisticsDatePassed());
 const currentUser = computed(() => authStore.user);
 const currentUserName = computed(() => {
   if (!currentUser.value) {
@@ -128,6 +131,8 @@ useOngoingMatchesPolling();
         :name="currentUserName"
         :summary-cards="summaryCards"
       />
+
+      <FChampionshipSummary v-if="showChampionshipSummary" />
 
       <section class="overview__grid">
         <OverviewRecentMatches
