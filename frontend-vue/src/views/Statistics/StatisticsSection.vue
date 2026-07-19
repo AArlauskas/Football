@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Card, Column, DataTable, Tag } from 'primevue';
+import { ref, useId } from 'vue';
 
 import FText from '@/components/FText.vue';
 import { useTranslations } from '@/composables/useTranslations';
@@ -19,6 +20,8 @@ type Props = {
 defineProps<Props>();
 
 const { t } = useTranslations();
+const contentId = `statistics-section-${useId()}`;
+const isExpanded = ref(false);
 
 const getValue = (row: StatisticsRow, field: string) =>
   row.values[field] ?? '-';
@@ -28,88 +31,105 @@ const getValue = (row: StatisticsRow, field: string) =>
   <Card class="statistics-section">
     <template #content>
       <header class="statistics-section__header">
-        <FText as="h2" variant="heading-3">
-          {{ t(title) }}
-        </FText>
-        <FText as="p" color="--p-text-muted-color" variant="body-2">
-          {{ t(description) }}
-        </FText>
+        <button
+          class="statistics-section__toggle"
+          :aria-controls="contentId"
+          :aria-expanded="isExpanded"
+          type="button"
+          @click="isExpanded = !isExpanded"
+        >
+          <span class="statistics-section__heading">
+            <FText as="span" role="heading" aria-level="2" variant="heading-3">
+              {{ t(title) }}
+            </FText>
+            <FText as="span" color="--p-text-muted-color" variant="body-2">
+              {{ t(description) }}
+            </FText>
+          </span>
+          <i
+            aria-hidden="true"
+            class="pi statistics-section__chevron"
+            :class="isExpanded ? 'pi-chevron-up' : 'pi-chevron-down'"
+          />
+        </button>
       </header>
 
-      <DataTable
-        class="statistics-section__table"
-        data-key="id"
-        row-hover
-        :value="rows"
-      >
-        <Column :header="t('v1.statistics.column.name')" field="title">
-          <template #body="{ data }">
-            <FText as="span" variant="body-2-bold">{{ data.title }}</FText>
-          </template>
-        </Column>
-
-        <Column
-          v-for="column in columns"
-          :key="column.field"
-          body-class="statistics-section__number"
-          :field="`values.${column.field}`"
-          header-class="statistics-section__number"
-          :header="t(column.label)"
-          sortable
+      <div v-show="isExpanded" :id="contentId">
+        <DataTable
+          class="statistics-section__table"
+          data-key="id"
+          row-hover
+          :value="rows"
         >
-          <template #body="{ data }">
-            <FText as="span" variant="body-2">
-              {{ getValue(data, column.field) }}
-            </FText>
-          </template>
-        </Column>
-      </DataTable>
-
-      <ol class="statistics-section__list" :aria-label="t(title)">
-        <li
-          v-for="(row, index) in rows"
-          :key="row.id"
-          class="statistics-section__item"
-        >
-          <Card class="statistics-section__card">
-            <template #content>
-              <div class="statistics-section__card-header">
-                <Tag
-                  class="statistics-section__rank"
-                  rounded
-                  :value="index + 1"
-                />
-                <FText as="span" variant="body-2-bold">
-                  {{ row.title }}
-                </FText>
-              </div>
-
-              <dl class="statistics-section__stats">
-                <div
-                  v-for="column in columns"
-                  :key="column.field"
-                  class="statistics-section__stat"
-                >
-                  <dt>
-                    <FText
-                      as="span"
-                      color="--p-text-muted-color"
-                      variant="body-3"
-                    >
-                      {{ t(column.label) }}
-                    </FText>
-                  </dt>
-                  <dd>
-                    <FText as="span" variant="body-2-bold">
-                      {{ getValue(row, column.field) }}
-                    </FText>
-                  </dd>
-                </div>
-              </dl>
+          <Column :header="t('v1.statistics.column.name')" field="title">
+            <template #body="{ data }">
+              <FText as="span" variant="body-2-bold">{{ data.title }}</FText>
             </template>
-          </Card>
-        </li>
-      </ol>
+          </Column>
+
+          <Column
+            v-for="column in columns"
+            :key="column.field"
+            body-class="statistics-section__number"
+            :field="`values.${column.field}`"
+            header-class="statistics-section__number"
+            :header="t(column.label)"
+            sortable
+          >
+            <template #body="{ data }">
+              <FText as="span" variant="body-2">
+                {{ getValue(data, column.field) }}
+              </FText>
+            </template>
+          </Column>
+        </DataTable>
+
+        <ol class="statistics-section__list" :aria-label="t(title)">
+          <li
+            v-for="(row, index) in rows"
+            :key="row.id"
+            class="statistics-section__item"
+          >
+            <Card class="statistics-section__card">
+              <template #content>
+                <div class="statistics-section__card-header">
+                  <Tag
+                    class="statistics-section__rank"
+                    rounded
+                    :value="index + 1"
+                  />
+                  <FText as="span" variant="body-2-bold">
+                    {{ row.title }}
+                  </FText>
+                </div>
+
+                <dl class="statistics-section__stats">
+                  <div
+                    v-for="column in columns"
+                    :key="column.field"
+                    class="statistics-section__stat"
+                  >
+                    <dt>
+                      <FText
+                        as="span"
+                        color="--p-text-muted-color"
+                        variant="body-3"
+                      >
+                        {{ t(column.label) }}
+                      </FText>
+                    </dt>
+                    <dd>
+                      <FText as="span" variant="body-2-bold">
+                        {{ getValue(row, column.field) }}
+                      </FText>
+                    </dd>
+                  </div>
+                </dl>
+              </template>
+            </Card>
+          </li>
+        </ol>
+      </div>
     </template>
   </Card>
 </template>
@@ -119,14 +139,38 @@ const getValue = (row: StatisticsRow, field: string) =>
   overflow: hidden;
 
   &__header {
+    display: block;
+  }
+
+  &__toggle {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--f-space-md);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+  }
+
+  &__heading {
     display: flex;
     flex-direction: column;
     gap: var(--f-space-2xs);
-    margin-bottom: var(--f-space-lg);
+  }
+
+  &__chevron {
+    flex: 0 0 auto;
+    font-size: 1rem;
   }
 
   &__table {
     overflow: hidden;
+    margin-top: var(--f-space-lg);
     border: 1px solid var(--p-surface-border);
     border-radius: var(--p-content-border-radius);
 
@@ -157,7 +201,7 @@ const getValue = (row: StatisticsRow, field: string) =>
       flex-direction: column;
       gap: var(--f-space-md);
       padding: 0;
-      margin: 0;
+      margin: var(--f-space-lg) 0 0;
       list-style: none;
     }
 
