@@ -1,4 +1,4 @@
-// import { definePreset } from '@primeuix/themes';
+import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import '@fontsource-variable/inter/index.css';
 import { createPinia } from 'pinia';
@@ -19,38 +19,38 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 initializeTheme();
 
-// const LightBluePreset = definePreset(Aura, {
-//   primitive: {
-//     green: {
-//       50: '{blue.50}',
-//       100: '{blue.100}',
-//       200: '{blue.200}',
-//       300: '{blue.300}',
-//       400: '{blue.400}',
-//       500: '{blue.500}',
-//       600: '{blue.600}',
-//       700: '{blue.700}',
-//       800: '{blue.800}',
-//       900: '{blue.900}',
-//       950: '{blue.950}',
-//     },
-//   },
-//   semantic: {
-//     primary: {
-//       50: '{blue.50}',
-//       100: '{blue.100}',
-//       200: '{blue.200}',
-//       300: '{blue.300}',
-//       400: '{blue.400}',
-//       500: '{blue.500}',
-//       600: '{blue.600}',
-//       700: '{blue.700}',
-//       800: '{blue.800}',
-//       900: '{blue.900}',
-//       950: '{blue.950}',
-//     },
-//   },
-// });
+const CustomColorsPreset = definePreset(Aura, {
+  primitive: {
+    green: {
+      50: '{pink.50}',
+      100: '{pink.100}',
+      200: '{pink.200}',
+      300: '{pink.300}',
+      400: '{pink.400}',
+      500: '{pink.500}',
+      600: '{pink.600}',
+      700: '{pink.700}',
+      800: '{pink.800}',
+      900: '{pink.900}',
+      950: '{pink.950}',
+    },
+  },
+  semantic: {
+    primary: {
+      50: '{pink.50}',
+      100: '{pink.100}',
+      200: '{pink.200}',
+      300: '{pink.300}',
+      400: '{pink.400}',
+      500: '{pink.500}',
+      600: '{pink.600}',
+      700: '{pink.700}',
+      800: '{pink.800}',
+      900: '{pink.900}',
+      950: '{pink.950}',
+    },
+  },
+});
 
 createApp(App)
   .use(pinia)
@@ -59,7 +59,7 @@ createApp(App)
   .use(ToastService)
   .use(PrimeVue, {
     theme: {
-      preset: Aura,
+      preset: CustomColorsPreset,
       options: {
         darkModeSelector: '.app-dark',
       },
